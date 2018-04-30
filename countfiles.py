@@ -12,8 +12,6 @@ scan recursively through the subdirectories.
 import os
 import argparse
 
-from pprint import pprint
-
 
 def get_file_extension(file_path: str) -> str:
     filename_parts = file_path.split('.')
@@ -22,8 +20,6 @@ def get_file_extension(file_path: str) -> str:
     else:
         extension = filename_parts[-1]
     return extension
-
-
 
 
 class WordCounter:
@@ -56,14 +52,12 @@ class WordCounter:
             return
 
         max_word_width = 0
-        max_freq_width = 0
         total_occurences = 0
         for word, freq in data:
             total_occurences += freq
             word_w = len(word)
             if word_w > max_word_width:
                 max_word_width = word_w
-
 
         if max_word_width < 11:
             max_word_width = 11
@@ -88,6 +82,11 @@ class WordCounter:
         print(line)
         print(sep + "\n")
 
+    def show_total(self):
+        total = 0
+        for _, freq in self.counters.items():
+            total += freq
+        print(f"Total number of files in selected directory: {total}.\n")
 
 
 if __name__ == "__main__":  
@@ -101,9 +100,14 @@ if __name__ == "__main__":
     parser.add_argument('-nr',
                         action='store_true',
                         help="Don't recurse through subdirectories")
-    
+
+    parser.add_argument('-nt',
+                        action='store_true',
+                        help="Don't show the table, only the total number of files")
+
     args = parser.parse_args()
     recursive = not args.nr
+    show_table = not args.nt
     
     fc = WordCounter()
         
@@ -116,12 +120,11 @@ if __name__ == "__main__":
     
                             
     if recursive:  
-        print(f'Recursively counting all files in{loc_text}.\n')
+        print(f'\nRecursively counting all files in{loc_text}.\n')
         for root, dirs, files in os.walk(location):
             for f in files:
                 extension = get_file_extension(f)   
                 fc.count_word(extension)
-        
     else: 
         print(f'\nCounting files in{loc_text}.\n')
         for f in os.listdir(location):
@@ -130,10 +133,7 @@ if __name__ == "__main__":
                 extension = get_file_extension(f)
                 fc.count_word(extension)
 
-
-    fc.show_2columns(fc.sort_by_frequency())
-    #print("FREQ:")
-    #pprint(fc.sort_by_frequency())
-
-    #print("--------\n\nALPHA:")
-    #print(fc.sort_by_word())
+    if show_table:
+        fc.show_2columns(fc.sort_by_frequency())
+    else:
+        fc.show_total()
