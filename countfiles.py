@@ -10,6 +10,7 @@ directory.
 """
 import os
 import argparse
+import collections
 
 
 def get_file_extension(file_path: str) -> str:
@@ -39,11 +40,10 @@ class WordCounter:
         return sorted_counters
 
     def sort_by_word(self):
-        sorted_counters = [(word, self.counters[word])
-                           for word in sorted(self.counters,
-                                              key=self.counters.get,
-                                              reverse=True)]
+        ordered = collections.OrderedDict(sorted(self.counters.items()))
+        sorted_counters = ordered.items()
         return sorted_counters
+
 
     def show_2columns(self, data):
         if len(data) == 0:
@@ -105,14 +105,20 @@ if __name__ == "__main__":
         action='store_true',
         help="Don't show the table, only the total number of files")
 
+    parser.add_argument('-alpha',
+        action='store_true',
+        help="Sort the table alphabetically, by file extension.")
+
     parser.add_argument('-a',
         action='store_true',
         help="Include hidden files and directories (with filenames starting with '.')")
+
 
     args = parser.parse_args()
     recursive = not args.nr
     include_hidden = args.a
     show_table = not args.nt
+    sort_alpha = args.alpha
 
     
     fc = WordCounter()
@@ -152,6 +158,9 @@ if __name__ == "__main__":
 
 
     if show_table:
-        fc.show_2columns(fc.sort_by_frequency())
+        if sort_alpha:
+            fc.show_2columns(fc.sort_by_word())
+        else:
+            fc.show_2columns(fc.sort_by_frequency())
     else:
         fc.show_total()

@@ -14,6 +14,10 @@ that argument empty and it will scan the current working directory.
 The optional `-nr` (i.e., "no recursion") switch argument tells the
 application not to scan recursively through the subdirectories.
 
+By default, the table will be sorted by the file extension frequency. If you
+prefer alphabetically sorted results, you just need to add the `-alpha`
+argument.
+
 Similarly, the optional `-nt` (i.e., "no table") switch tells the application
 not to show a table listing all the found file extensions and their respective
 frequencies, so that it will only display the total number of files.
@@ -21,6 +25,7 @@ frequencies, so that it will only display the total number of files.
 By default, it will ignore files and directories that are supposed to be
 hidden (with names starting with '.', but you can add the `-a` optional
 switch argument to make it count all files.
+
 
 
 ## Examples of usage:
@@ -55,9 +60,9 @@ Count all files in a given directory with recursion, but don't display a table, 
 `countfiles.py -nt ~/Documents`
 
 
-Count all files in a given directory without recursing through subdirectories:
+Count all files in a given directory without recursing through subdirectories, and sort the table alphabetically:
 
-`countfiles.py -nr ~/Documents`
+`countfiles.py -nr -alpha ~/Documents`
 
 Count all files in a given directory without recursing through subdirectories, including hidden files, and only displaying the total number of files (no table):
 
