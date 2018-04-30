@@ -13,32 +13,32 @@ that it will only display the total number of files.
 
 ## Examples of usage:
 
-- Count all files in current working directory and all of its subdirectories:
+Count all files in current working directory and all of its subdirectories:
 
 `countfiles.py`
 
 
-- Get a little help about how to use this application:
+Get a little help about how to use this application:
 
 `countfiles.py -h`
 `countfiles.py --help`
 
 
-- Count all files in current working directory without recursing through subdirectories:
+Count all files in current working directory without recursing through subdirectories:
 
 `countfiles.py -nr`
 
 
-- Count all files in a given directory with recursion:
+Count all files in a given directory with recursion:
 
 `countfiles.py ~/Documents`
 
 
-- Count all files in a given directory with recursion, but don't display a table, only the total number of files:
+Count all files in a given directory with recursion, but don't display a table, only the total number of files:
 
 `countfiles.py ~/Documents`
 
 
-- Count all files in a given directory without recursing through subdirectories:
+Count all files in a given directory without recursing through subdirectories:
 
 `countfiles.py -nr ~/Documents`
