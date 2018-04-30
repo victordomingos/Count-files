@@ -6,6 +6,8 @@ and will display a table showing the frequency for each file extension (e.g.:
 .txt, .py, .html, .css) and the total number of files found. Any hidden files
 or folders (those with names starting with '.') are ignored by default.
 
+![Count-files screenshot](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
+
 Optionally, you can pass it a path to the directory to scan. If you or leave
 that argument empty and it will scan the current working directory.
 
