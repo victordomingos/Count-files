@@ -54,7 +54,7 @@ To run this application, you just need to have a working Python 3.6+ instalation
 
 The main file should have the execution permission bit set (`chmod +x`on Unix-like systems) and should be in a directory listed in the PATH environment variable (usually Python's `site-packages`).
 
-I agree there should be a more straight-forward instalation process. While that doesn't happen, please feel free to take a look at the next section and consider contributing to this project.
+I agree there should be a more straight-forward instalation process. While that doesn't happen, please feel free to take a look at the next section and maybe consider contributing to this project.
 
 ## Did you find a bug or do you have a suggestion?
 
