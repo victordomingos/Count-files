@@ -4,8 +4,7 @@
 A little CLI utility written in Python to help you count files, grouped by
 extension, in a directory. You can either pass it the path to the directory to
 scan, or leave that argument empty and it will scan the current working
-directory. The -nr (i.e., "no recursion") switch tells the application not to
-scan recursively through the subdirectories.
+directory.
 
 © 2018 Victor Domingos, Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 """
@@ -90,24 +89,31 @@ class WordCounter:
 
 
 if __name__ == "__main__":  
-    parser = argparse.ArgumentParser(description='\nRecursively count all files in a directory, grouped by file extension.')
+    parser = argparse.ArgumentParser(
+        description='\nRecursively count all files in a directory, grouped by file extension.')
     
     parser.add_argument('path',
-                        nargs='?',
-                        default=os.getcwd(),
-                        help='The path to the folder containing the files to be counted.')
+        nargs='?',
+        default=os.getcwd(),
+        help='The path to the folder containing the files to be counted.')
 
     parser.add_argument('-nr',
-                        action='store_true',
-                        help="Don't recurse through subdirectories")
+        action='store_true',
+        help="Don't recurse through subdirectories")
 
     parser.add_argument('-nt',
-                        action='store_true',
-                        help="Don't show the table, only the total number of files")
+        action='store_true',
+        help="Don't show the table, only the total number of files")
+
+    parser.add_argument('-a',
+        action='store_true',
+        help="Include hidden files and directories (with filenames starting with '.')")
 
     args = parser.parse_args()
     recursive = not args.nr
+    include_hidden = args.a
     show_table = not args.nt
+
     
     fc = WordCounter()
         
@@ -117,21 +123,29 @@ if __name__ == "__main__":
     else:
         location = os.path.expanduser(args.path)
         loc_text = ':\n' + location
-    
-                            
+
+
     if recursive:  
         print(f'\nRecursively counting all files in{loc_text}.\n')
         for root, dirs, files in os.walk(location):
             for f in files:
-                extension = get_file_extension(f)   
+                if not include_hidden:
+                    if f.startswith('.') or ('/.' in root):
+                        continue
+
+                extension = get_file_extension(f)
                 fc.count_word(extension)
     else: 
         print(f'\nCounting files in{loc_text}.\n')
         for f in os.listdir(location):
+            if not include_hidden:
+                if f.startswith('.') or ('/.' in location):
+                    continue
             # Skip directories:
             if os.path.isfile(os.path.join(location, f)):
                 extension = get_file_extension(f)
                 fc.count_word(extension)
+
 
     if show_table:
         fc.show_2columns(fc.sort_by_frequency())
