@@ -119,14 +119,18 @@ if __name__ == "__main__":
         
     if os.path.abspath(args.path) == os.getcwd():
         location = os.getcwd()
-        loc_text = ' current directory'
+        loc_text = ' the current directory'
     else:
         location = os.path.expanduser(args.path)
         loc_text = ':\n' + location
 
+    if include_hidden:
+        hidden_msg = "including hidden files and directories,"
+    else:
+        hidden_msg = "ignoring hidden files and directories,"
 
     if recursive:  
-        print(f'\nRecursively counting all files in{loc_text}.\n')
+        print(f'\nRecursively counting all files, {hidden_msg} in{loc_text}.\n')
         for root, dirs, files in os.walk(location):
             for f in files:
                 if not include_hidden:
@@ -136,7 +140,7 @@ if __name__ == "__main__":
                 extension = get_file_extension(f)
                 fc.count_word(extension)
     else: 
-        print(f'\nCounting files in{loc_text}.\n')
+        print(f'\nCounting files, {hidden_msg} in{loc_text}.\n')
         for f in os.listdir(location):
             if not include_hidden:
                 if f.startswith('.') or ('/.' in location):
