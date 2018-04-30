@@ -58,4 +58,4 @@ I agree there should be a more straight-forward instalation process. While that 
 
 ## Did you find a bug or do you have a suggestion?
 
-Please let me know, by opening a new issue.
+Please let me know, by opening a new issue or a pull request.
