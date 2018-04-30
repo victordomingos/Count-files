@@ -1,8 +1,10 @@
 # Count Files
 A little CLI utility written in Python to help you count files, grouped by
-extension, in a directory. You can either pass it the path to the directory to
+extension, in a directory.
+
+You can either pass it the path to the directory to
 scan, or leave that argument empty and it will scan the current working
-directory. The -nr (i.e., "no recursion") switch tells the application not to
+directory. The `-nr` (i.e., "no recursion") switch tells the application not to
 scan recursively through the subdirectories.
 
 
