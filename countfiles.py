@@ -1,4 +1,14 @@
 #!/usr/bin/env python3
+# encoding: utf-8
+"""
+A little CLI utility written in Python to help you count files, grouped by
+extension, in a directory. You can either pass it the path to the directory to
+scan, or leave that argument empty and it will scan the current working
+directory. The -nr (i.e., "no recursion") switch tells the application not to
+scan recursively through the subdirectories.
+
+© 2018 Victor Domingos, Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+"""
 import os
 import argparse
 
@@ -26,7 +36,7 @@ class WordCounter:
 
        
 if __name__ == "__main__":  
-    parser = argparse.ArgumentParser(description='\nRecursively count all files in a directory, by file extension.')
+    parser = argparse.ArgumentParser(description='\nRecursively count all files in a directory, grouped by file extension.')
     
     parser.add_argument('path',
                         type=str,
