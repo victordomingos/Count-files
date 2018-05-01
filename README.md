@@ -8,8 +8,7 @@ or folders (those with names starting with '.') are ignored by default.
 
 ![Count-files screenshot](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
 
-Optionally, you can pass it a path to the directory to scan. If you or leave
-that argument empty and it will scan the current working directory.
+Optionally, you can pass it a path to the directory to scan. If you prefer, you can leave that argument empty, and it will scan the current working directory.
 
 The optional `-nr` (i.e., "no recursion") switch argument tells the
 application not to scan recursively through the subdirectories.
