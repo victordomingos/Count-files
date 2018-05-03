@@ -1,0 +1,21 @@
+
+
+Version history:
+================
+
+
+---
+v.1.1 - 03/05/2018
+ * Option to sort the table alphabetically (by default, the table will be sorted by frequency).
+ * Added the missing license file.
+
+---
+v.1.0 - 01/05/2018 - First release!
+ * Accepts CLI arguments.
+ * If no path is passed in the arguments, it will scan the current working directory.
+ * Shows a table listing all found file extensions and their frequencies, and the total number of files.
+ * Counts files recursively through subdirectories, grouping them by file extension.
+ * Option to include hidden files (disabled by default).
+ * Option to disable recursion (recursion enabled by default).
+ * Option do disable table display (table enabled by default).
+ * Option to sort the table alphabetically (by default, the table is sorted by frequency).
