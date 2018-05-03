@@ -12,6 +12,8 @@ import os
 import argparse
 import collections
 
+from pathlib import Path
+
 
 def get_file_extension(file_path: str) -> str:
     filename_parts = file_path.split('.')
@@ -87,6 +89,32 @@ class WordCounter:
             total += freq
         print(f"Total number of files in selected directory: {total}.\n")
 
+    def get_files_by_extension(self, args_path: str, args_fe: str):
+        """This is like calling Path.glob() with '**' added in front of the given pattern
+        The '**' pattern means 'this directory and all subdirectories, recursively'.
+        In other words, it enables recursive globbing.
+        (including folder name or filename with dot)
+        :param args_path: path to file, args.path
+        :param args_fe: file extension, args.fe
+        :return:
+
+        Special thanks to Natalia Bondarenko (github.com/NataliaBondarenko),
+        who suggested this feature and submited an initial implementation.
+        """
+        print('path: ', os.path.expanduser(args_path))
+        print('extension: ', args_fe)
+
+        files = sorted(Path(os.path.expanduser(args_path)).rglob(f"*.{args_fe}"))
+
+        print('number of files: ', len(files))
+
+        if files:
+            for f in files:
+                print('path: ', f)
+                print('size: ', f.stat().st_size)
+                print('text: ', f.read_text()[0:200].replace('\n', ' '))
+        return
+
 
 if __name__ == "__main__":  
     parser = argparse.ArgumentParser(
@@ -113,6 +141,8 @@ if __name__ == "__main__":
         action='store_true',
         help="Include hidden files and directories (with filenames starting with '.')")
 
+    parser.add_argument('-fe', required=False, choices=('py', 'html'),
+                        type=str, help='find files by extension')
 
     args = parser.parse_args()
     recursive = not args.nr
@@ -164,3 +194,6 @@ if __name__ == "__main__":
             fc.show_2columns(fc.sort_by_frequency())
     else:
         fc.show_total()
+
+    if args.fe:
+       fc.get_files_by_extension(args.path, args.fe)

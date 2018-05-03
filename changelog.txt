@@ -5,6 +5,12 @@ Version history:
 
 
 ---
+v.1.2 - 05/05/2018
+ * Option to search for files that have a certain extension (.html, .py, .css). #TODO
+ * Option to display a short preview for each found file, when using the new
+   search by file extension feature. #TODO
+
+---
 v.1.1 - 03/05/2018
  * Option to sort the table alphabetically (by default, the table will be sorted by frequency).
  * Added the missing license file.
