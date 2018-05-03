@@ -16,6 +16,7 @@ from pathlib import Path
 
 
 def get_file_extension(file_path: str) -> str:
+    """ Extract only the file extension from a given path. """
     filename_parts = file_path.split('.')
     if len(filename_parts) == 1:
         extension = '[no extension]'
@@ -46,8 +47,8 @@ class WordCounter:
         sorted_counters = ordered.items()
         return sorted_counters
 
-
-    def show_2columns(self, data):
+    @staticmethod
+    def show_2columns(data):
         if len(data) == 0:
             print("Oops! We have no data to show...\n")
             return
@@ -89,31 +90,45 @@ class WordCounter:
             total += freq
         print(f"Total number of files in selected directory: {total}.\n")
 
-    def get_files_by_extension(self, args_path: str, args_fe: str):
-        """This is like calling Path.glob() with '**' added in front of the given pattern
-        The '**' pattern means 'this directory and all subdirectories, recursively'.
-        In other words, it enables recursive globbing.
-        (including folder name or filename with dot)
-        :param args_path: path to file, args.path
-        :param args_fe: file extension, args.fe
-        :return:
+    @staticmethod
+    def get_files_by_extension(location: str, extension: str, preview=False):
+        """ Search recursively (in the folder indicated by ``location`) for files
+        that have the given extension in their filename.
 
         Special thanks to Natalia Bondarenko (github.com/NataliaBondarenko),
         who suggested this feature and submited an initial implementation.
         """
-        print('path: ', os.path.expanduser(args_path))
-        print('extension: ', args_fe)
+        files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
 
-        files = sorted(Path(os.path.expanduser(args_path)).rglob(f"*.{args_fe}"))
+        print(f'\nRecursively searching for .{extension} files in{location}.\n')
 
-        print('number of files: ', len(files))
+        print(files, type(files))
 
         if files:
+            total_size = 0
+            min = 0
+            max = 0
             for f in files:
-                print('path: ', f)
-                print('size: ', f.stat().st_size)
-                print('text: ', f.read_text()[0:200].replace('\n', ' '))
-        return
+                size = f.stat().st_size
+                total_size += size
+                if size > max:
+                    max = size
+                if size > 0:
+                    if size < min:
+                        min = size
+
+                print(f'{f} ({f.stat().st_size}B)')
+                if preview:
+                    print('-------------------------')
+                    print(f.read_text()[0:390].replace('\n', ' '))
+                    print("-------------------------\n")
+
+            print(f"----\nFound {len(files)} .{extension} files.")
+            print(f"Total combined size: {total_size} bytes.")
+            print(f"Average file size: {int(total_size / len(files))} bytes (max: {max}B/ min:{min}B).\n")
+
+        else:
+            print(f"No files with the extension '{extension}' were fount in the specified directory.\n")
 
 
 if __name__ == "__main__":  
@@ -141,24 +156,37 @@ if __name__ == "__main__":
         action='store_true',
         help="Include hidden files and directories (with filenames starting with '.')")
 
-    parser.add_argument('-fe', required=False, choices=('py', 'html'),
-                        type=str, help='find files by extension')
+    parser.add_argument('--preview',
+        action='store_true',
+        help="Display a short preview of text files (only applies when using -fe)")
+
+    parser.add_argument('-fe',
+        required=False,
+        type=str,
+        help='Search files by extension')
 
     args = parser.parse_args()
     recursive = not args.nr
     include_hidden = args.a
     show_table = not args.nt
     sort_alpha = args.alpha
+    search_by_extension = True if args.fe else False
 
-    
+
     fc = WordCounter()
-        
+
+
     if os.path.abspath(args.path) == os.getcwd():
         location = os.getcwd()
         loc_text = ' the current directory'
     else:
         location = os.path.expanduser(args.path)
         loc_text = ':\n' + location
+
+    if search_by_extension:
+        fc.get_files_by_extension(location, args.fe, preview=args.preview)
+        exit()
+
 
     if include_hidden:
         hidden_msg = "including hidden files and directories,"
@@ -194,6 +222,3 @@ if __name__ == "__main__":
             fc.show_2columns(fc.sort_by_frequency())
     else:
         fc.show_total()
-
-    if args.fe:
-       fc.get_files_by_extension(args.path, args.fe)
