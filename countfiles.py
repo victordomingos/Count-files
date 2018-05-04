@@ -9,9 +9,9 @@ directory.
 © 2018 Victor Domingos, Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 """
 import os
-import argparse
-import collections
 
+from argparse import ArgumentParser
+from collections import OrderedDict
 from pathlib import Path
 
 
@@ -23,6 +23,19 @@ def get_file_extension(file_path: str) -> str:
     else:
         extension = filename_parts[-1]
     return extension
+
+def human_mem_size(num: int, suffix='B') -> str:
+    """ Return a human readable memory size in a string.
+
+    Initially written by fred Cirera, modified and shared by Sridhar Ratnakumar
+    (https://stackoverflow.com/a/1094933/6167478), edited by Victor Domingos.
+    """
+    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+        if abs(num) < 1024.0:
+            return f"{num:3.1f}{unit}{suffix}"
+        num = num / 1024.0
+
+    return "%.1f%s%s" % (num, 'Yi', suffix)
 
 
 class WordCounter:
@@ -43,7 +56,7 @@ class WordCounter:
         return sorted_counters
 
     def sort_by_word(self):
-        ordered = collections.OrderedDict(sorted(self.counters.items()))
+        ordered = OrderedDict(sorted(self.counters.items()))
         sorted_counters = ordered.items()
         return sorted_counters
 
@@ -102,67 +115,55 @@ class WordCounter:
 
         print(f'\nRecursively searching for .{extension} files in{location}.\n')
 
-        print(files, type(files))
-
         if files:
-            total_size = 0
-            min = 0
-            max = 0
+            sizes = []
             for f in files:
-                size = f.stat().st_size
-                total_size += size
-                if size > max:
-                    max = size
-                if size > 0:
-                    if size < min:
-                        min = size
+                sizes.append(f.stat().st_size)
 
-                print(f'{f} ({f.stat().st_size}B)')
+                print(f'{f} ({human_mem_size(f.stat().st_size)})')
                 if preview:
                     print('-------------------------')
                     print(f.read_text()[0:390].replace('\n', ' '))
                     print("-------------------------\n")
 
+            total_size = sum(sizes)
+            h_total_size = human_mem_size(total_size)
+            avg_size = human_mem_size(int(total_size / len(files)))
+
+            h_max = human_mem_size(max(sizes))
+            h_min = human_mem_size(min(sizes))
+
             print(f"----\nFound {len(files)} .{extension} files.")
-            print(f"Total combined size: {total_size} bytes.")
-            print(f"Average file size: {int(total_size / len(files))} bytes (max: {max}B/ min:{min}B).\n")
+            print(f"Total combined size: {h_total_size}.")
+            print(f"Average file size: {avg_size} (max: {h_max}, min:{h_min}).\n")
 
         else:
             print(f"No files with the extension '{extension}' were fount in the specified directory.\n")
 
 
 if __name__ == "__main__":  
-    parser = argparse.ArgumentParser(
+    parser = ArgumentParser(
         description='\nRecursively count all files in a directory, grouped by file extension.')
     
-    parser.add_argument('path',
-        nargs='?',
-        default=os.getcwd(),
+    parser.add_argument('path', nargs='?', default=os.getcwd(),
         help='The path to the folder containing the files to be counted.')
 
-    parser.add_argument('-nr',
-        action='store_true',
+    parser.add_argument('-nr', action='store_true',
         help="Don't recurse through subdirectories")
 
-    parser.add_argument('-nt',
-        action='store_true',
+    parser.add_argument('-nt', action='store_true',
         help="Don't show the table, only the total number of files")
 
-    parser.add_argument('-alpha',
-        action='store_true',
+    parser.add_argument('-alpha', action='store_true',
         help="Sort the table alphabetically, by file extension.")
 
-    parser.add_argument('-a',
-        action='store_true',
+    parser.add_argument('-a', action='store_true',
         help="Include hidden files and directories (with filenames starting with '.')")
 
-    parser.add_argument('--preview',
-        action='store_true',
+    parser.add_argument('--preview', action='store_true',
         help="Display a short preview of text files (only applies when using -fe)")
 
-    parser.add_argument('-fe',
-        required=False,
-        type=str,
+    parser.add_argument('-fe', required=False, type=str,
         help='Search files by extension')
 
     args = parser.parse_args()
@@ -183,11 +184,12 @@ if __name__ == "__main__":
         location = os.path.expanduser(args.path)
         loc_text = ':\n' + location
 
+    # Either search and list files by extension...
     if search_by_extension:
         fc.get_files_by_extension(location, args.fe, preview=args.preview)
         exit()
 
-
+    # ...or do other stuff.
     if include_hidden:
         hidden_msg = "including hidden files and directories,"
     else:
