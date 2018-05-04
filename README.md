@@ -10,21 +10,25 @@ or folders (those with names starting with '.') are ignored by default.
 
 Optionally, you can pass it a path to the directory to scan. If you prefer, you can leave that argument empty, and it will scan the current working directory.
 
-The optional `-nr` (i.e., "no recursion") switch argument tells the
+The optional `-nr` or `--no-recursion` switch argument tells the
 application not to scan recursively through the subdirectories.
 
 By default, the table will be sorted by the file extension frequency. If you
-prefer alphabetically sorted results, you just need to add the `-alpha`
+prefer alphabetically sorted results, you just need to add the `-alpha` or `--sort-alpha` 
 argument.
 
-Similarly, the optional `-nt` (i.e., "no table") switch tells the application
+Similarly, the optional `-nt` or `--no-table` switch tells the application
 not to show a table listing all the found file extensions and their respective
 frequencies, so that it will only display the total number of files.
 
 By default, it will ignore files and directories that are supposed to be
-hidden (with names starting with '.', but you can add the `-a` optional
+hidden (with names starting with '.', but you can add the `-a` or `--all` optional
 switch argument to make it count all files.
 
+This utility can also be used to search for files that have a certain file extension
+(using `-fe` or `--file-extension`) and, optionally, display a short preview (`-p`or 
+`--preview`) for text files. The size of the preview text sample can optionally be
+customized by using the `-ps` or `--preview-size` argument followed by an integer number.
 
 
 ## Examples of usage:
@@ -39,14 +43,17 @@ Count all files in current working directory and all of its subdirectories, igno
 
 `countfiles.py`
 
+
 Count all files in current working directory and all of its subdirectories, including hidden files and hidden subdirectories:
 
 `countfiles.py -a`
+`countfiles.py --all`
 
 
 Count all files in current working directory, ignoring hidden files and hidden subdirectories, and without recursing through subdirectories:
 
 `countfiles.py -nr`
+`countfiles.py --no-recursion`
 
 
 Count all files in a given directory with recursion:
@@ -57,15 +64,31 @@ Count all files in a given directory with recursion:
 Count all files in a given directory with recursion, but don't display a table, only the total number of files:
 
 `countfiles.py -nt ~/Documents`
+`countfiles.py -no-table ~/Documents`
 
 
 Count all files in a given directory without recursing through subdirectories, and sort the table alphabetically:
 
 `countfiles.py -nr -alpha ~/Documents`
+`countfiles.py --no-recursion --sort-alpha ~/Documents`
+
 
 Count all files in a given directory without recursing through subdirectories, including hidden files, and only displaying the total number of files (no table):
 
 `countfiles.py -nr -nt -a ~/Documents`
+`countfiles.py --no-recursion -no-table --all ~/Documents`
+
+
+Search recursively for any files that have a `.css` extension, in a given directory:
+
+`countfiles.py -fe css ~/Documents`
+`countfiles.py --file-extension css ~/Documents`
+
+
+Search recursively for any files that have a `.py` extension, in a given directory, and display a 500 characters preview for each one:
+
+`countfiles.py -fe py -p -ps 500 ~/Documents`
+`countfiles.py --file-extension ~/Documents -preview --preview-size 500 ~/Documents`
 
 
 ## Dependencies:

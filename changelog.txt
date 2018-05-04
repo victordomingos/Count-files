@@ -5,21 +5,29 @@ Version history:
 
 
 ---
-v.1.2 - 05/05/2018
- * Option to search for files that have a certain extension (.html, .py, .css). #TODO
+v.1.2 - 04/05/2018
+(Special thanks to Natalia Bondarenko, Fred Cirera and Sridhar Ratnakumar)
+ * Option to search for files that have a certain extension (.html, .py, .css),
+   listing their paths and sizes, and a summary in the end with some basic,
+   human readable, file statistics.
  * Option to display a short preview for each found file, when using the new
-   search by file extension feature. #TODO
+   search by file extension feature.
+ * Option to specify the number of characters to be displayed when using the
+   new file preview feature.
+ * Reordered and added long version to CLI arguments.
 
 ---
 v.1.1 - 03/05/2018
- * Option to sort the table alphabetically (by default, the table will be sorted by frequency).
+ * Option to sort the table alphabetically (by default, the table will be sorted by
+   frequency).
  * Added the missing license file.
 
 ---
 v.1.0 - 01/05/2018 - First release!
  * Accepts CLI arguments.
  * If no path is passed in the arguments, it will scan the current working directory.
- * Shows a table listing all found file extensions and their frequencies, and the total number of files.
+ * Shows a table listing all found file extensions and their frequencies, and the total
+   number of files.
  * Counts files recursively through subdirectories, grouping them by file extension.
  * Option to include hidden files (disabled by default).
  * Option to disable recursion (recursion enabled by default).

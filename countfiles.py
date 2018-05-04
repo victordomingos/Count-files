@@ -19,20 +19,20 @@ def get_file_extension(file_path: str) -> str:
     """ Extract only the file extension from a given path. """
     filename_parts = file_path.split('.')
     if len(filename_parts) == 1:
-        extension = '[no extension]'
+        return '[no extension]'
     else:
-        extension = filename_parts[-1]
-    return extension
+        return filename_parts[-1]
+
 
 def human_mem_size(num: int, suffix='B') -> str:
     """ Return a human readable memory size in a string.
 
-    Initially written by fred Cirera, modified and shared by Sridhar Ratnakumar
+    Initially written by Fred Cirera, modified and shared by Sridhar Ratnakumar
     (https://stackoverflow.com/a/1094933/6167478), edited by Victor Domingos.
     """
-    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+    for unit in ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi']:
         if abs(num) < 1024.0:
-            return f"{num:3.1f}{unit}{suffix}"
+            return f"{num:3.1f} {unit}{suffix}"
         num = num / 1024.0
 
     return "%.1f%s%s" % (num, 'Yi', suffix)
@@ -42,11 +42,11 @@ class WordCounter:
     def __init__(self):
         self.counters = dict()
 
-    def count_word(self, word:str):
+    def count_word(self, word: str):
         if word in self.counters.keys():
             self.counters[word] += 1
         else:
-            self.counters[word] = 1           
+            self.counters[word] = 1
 
     def sort_by_frequency(self):
         sorted_counters = [(word, self.counters[word])
@@ -66,25 +66,20 @@ class WordCounter:
             print("Oops! We have no data to show...\n")
             return
 
-        max_word_width = 0
+        max_word_width = 9  # default value, the minimum EXTENSION col. width
         total_occurences = 0
         for word, freq in data:
             total_occurences += freq
-            word_w = len(word)
-            if word_w > max_word_width:
-                max_word_width = word_w
-
-        if max_word_width < 11:
-            max_word_width = 11
+            max_word_width = max(len(word), max_word_width)
 
         total_occurences_width = len(str(total_occurences))
         if total_occurences_width < 5:
             total_occurences_width = 5
 
         header = f" {'EXTENSION'.ljust(max_word_width)} | {'FREQ.'.ljust(total_occurences_width)} "
-        sep_left = (max_word_width+2) * '-'
+        sep_left = (max_word_width + 2) * '-'
         sep_center = "+"
-        sep_right = (total_occurences_width+2) * '-'
+        sep_right = (total_occurences_width + 2) * '-'
         sep = sep_left + sep_center + sep_right
         print(header)
         print(sep)
@@ -104,9 +99,10 @@ class WordCounter:
         print(f"Total number of files in selected directory: {total}.\n")
 
     @staticmethod
-    def get_files_by_extension(location: str, extension: str, preview=False):
+    def get_files_by_extension(location: str, extension: str, preview=False, preview_size=395):
         """ Search recursively (in the folder indicated by ``location`) for files
-        that have the given extension in their filename.
+        that have the given extension in their filename and optionally display
+        a preview of the file.
 
         Special thanks to Natalia Bondarenko (github.com/NataliaBondarenko),
         who suggested this feature and submited an initial implementation.
@@ -122,9 +118,9 @@ class WordCounter:
 
                 print(f'{f} ({human_mem_size(f.stat().st_size)})')
                 if preview:
-                    print('-------------------------')
-                    print(f.read_text()[0:390].replace('\n', ' '))
-                    print("-------------------------\n")
+                    print('–––––––––––––––––––––––––––––––––––')
+                    print(f.read_text(errors="replace")[0:preview_size].replace('\n', ' '))
+                    print("–––––––––––––––––––––––––––––––––––\n")
 
             total_size = sum(sizes)
             h_total_size = human_mem_size(total_size)
@@ -135,47 +131,57 @@ class WordCounter:
 
             print(f"----\nFound {len(files)} .{extension} files.")
             print(f"Total combined size: {h_total_size}.")
-            print(f"Average file size: {avg_size} (max: {h_max}, min:{h_min}).\n")
+            print(f"Average file size: {avg_size} (max: {h_max}, min: {h_min}).\n")
 
         else:
-            print(f"No files with the extension '{extension}' were fount in the specified directory.\n")
+            print(f"No files with the extension '{extension}' were found in the specified directory.\n")
 
 
-if __name__ == "__main__":  
+if __name__ == "__main__":
     parser = ArgumentParser(
-        description='\nRecursively count all files in a directory, grouped by file extension.')
-    
-    parser.add_argument('path', nargs='?', default=os.getcwd(),
-        help='The path to the folder containing the files to be counted.')
+        description="Count files, grouped by extension, in a directory. By "
+                    "default, it will count files recursively in current "
+                    "working directory and all of its subdirectories, and "
+                    "will display a table showing the frequency for each file "
+                    "extension (e.g.: .txt, .py, .html, .css) and the total "
+                    "number of files found. Any hidden files or folders "
+                    "(those with names starting with '.') are ignored by "
+                    "default.")
 
-    parser.add_argument('-nr', action='store_true',
-        help="Don't recurse through subdirectories")
+    parser.add_argument('path', nargs="?", default=os.getcwd(),
+                        help='The path to the folder containing the files to be counted.')
 
-    parser.add_argument('-nt', action='store_true',
-        help="Don't show the table, only the total number of files")
+    parser.add_argument('-a', '--all', action='store_true',
+                        help="Include hidden files and directories (names starting with '.')")
 
-    parser.add_argument('-alpha', action='store_true',
-        help="Sort the table alphabetically, by file extension.")
+    parser.add_argument('-alpha', '--sort-alpha', action='store_true',
+                        help="Sort the table alphabetically, by file extension.")
 
-    parser.add_argument('-a', action='store_true',
-        help="Include hidden files and directories (with filenames starting with '.')")
+    parser.add_argument('-nr', "--no-recursion", action='store_true',
+                        help="Don't recurse through subdirectories")
 
-    parser.add_argument('--preview', action='store_true',
-        help="Display a short preview of text files (only applies when using -fe)")
+    parser.add_argument('-nt', '--no-table', action='store_true',
+                        help="Don't show the table, only the total number of files")
 
-    parser.add_argument('-fe', required=False, type=str,
-        help='Search files by extension')
+    parser.add_argument('-fe', '--file-extension', required=False, type=str,
+                        help='Search files by file extension')
+
+    parser.add_argument('-p', '--preview', action='store_true',
+                        help="Display a short preview (only available for text files when "
+                             "using '-fe' or '--file_extension')")
+
+    parser.add_argument('-ps', '--preview-size', required=False, type=int, default=390,
+                        help="Specify the number of characters to be displayed from each "
+                             "found file when using '-p' or '--preview')")
 
     args = parser.parse_args()
-    recursive = not args.nr
-    include_hidden = args.a
-    show_table = not args.nt
-    sort_alpha = args.alpha
-    search_by_extension = True if args.fe else False
-
+    recursive = not args.no_recursion
+    include_hidden = args.all
+    show_table = not args.no_table
+    sort_alpha = args.sort_alpha
+    search_by_extension = True if args.file_extension else False
 
     fc = WordCounter()
-
 
     if os.path.abspath(args.path) == os.getcwd():
         location = os.getcwd()
@@ -186,7 +192,9 @@ if __name__ == "__main__":
 
     # Either search and list files by extension...
     if search_by_extension:
-        fc.get_files_by_extension(location, args.fe, preview=args.preview)
+        fc.get_files_by_extension(location, args.file_extension,
+                                  preview=args.preview,
+                                  preview_size=args.preview_size)
         exit()
 
     # ...or do other stuff.
@@ -195,7 +203,7 @@ if __name__ == "__main__":
     else:
         hidden_msg = "ignoring hidden files and directories,"
 
-    if recursive:  
+    if recursive:
         print(f'\nRecursively counting all files, {hidden_msg} in{loc_text}.\n')
         for root, dirs, files in os.walk(location):
             for f in files:
@@ -205,7 +213,7 @@ if __name__ == "__main__":
 
                 extension = get_file_extension(f)
                 fc.count_word(extension)
-    else: 
+    else:
         print(f'\nCounting files, {hidden_msg} in{loc_text}.\n')
         for f in os.listdir(location):
             if not include_hidden:
@@ -215,7 +223,6 @@ if __name__ == "__main__":
             if os.path.isfile(os.path.join(location, f)):
                 extension = get_file_extension(f)
                 fc.count_word(extension)
-
 
     if show_table:
         if sort_alpha:
