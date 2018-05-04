@@ -129,9 +129,9 @@ class WordCounter:
             h_max = human_mem_size(max(sizes))
             h_min = human_mem_size(min(sizes))
 
-            print(f"----\nFound {len(files)} .{extension} files.")
-            print(f"Total combined size: {h_total_size}.")
-            print(f"Average file size: {avg_size} (max: {h_max}, min: {h_min}).\n")
+            print(f"\n   Found {len(files)} .{extension} files.")
+            print(f"   Total combined size: {h_total_size}.")
+            print(f"   Average file size: {avg_size} (max: {h_max}, min: {h_min}).\n")
 
         else:
             print(f"No files with the extension '{extension}' were found in the specified directory.\n")
