@@ -35,7 +35,7 @@ customized by using the `-ps` or `--preview-size` argument followed by an intege
 
 Get a little help about how to use this application:
 
-`countfiles.py -h`
+`countfiles.py -h`  
 `countfiles.py --help`
 
 
@@ -46,13 +46,13 @@ Count all files in current working directory and all of its subdirectories, igno
 
 Count all files in current working directory and all of its subdirectories, including hidden files and hidden subdirectories:
 
-`countfiles.py -a`
+`countfiles.py -a`  
 `countfiles.py --all`
 
 
 Count all files in current working directory, ignoring hidden files and hidden subdirectories, and without recursing through subdirectories:
 
-`countfiles.py -nr`
+`countfiles.py -nr`  
 `countfiles.py --no-recursion`
 
 
@@ -63,31 +63,31 @@ Count all files in a given directory with recursion:
 
 Count all files in a given directory with recursion, but don't display a table, only the total number of files:
 
-`countfiles.py -nt ~/Documents`
+`countfiles.py -nt ~/Documents`  
 `countfiles.py -no-table ~/Documents`
 
 
 Count all files in a given directory without recursing through subdirectories, and sort the table alphabetically:
 
-`countfiles.py -nr -alpha ~/Documents`
+`countfiles.py -nr -alpha ~/Documents`  
 `countfiles.py --no-recursion --sort-alpha ~/Documents`
 
 
 Count all files in a given directory without recursing through subdirectories, including hidden files, and only displaying the total number of files (no table):
 
-`countfiles.py -nr -nt -a ~/Documents`
+`countfiles.py -nr -nt -a ~/Documents`  
 `countfiles.py --no-recursion -no-table --all ~/Documents`
 
 
 Search recursively for any files that have a `.css` extension, in a given directory:
 
-`countfiles.py -fe css ~/Documents`
+`countfiles.py -fe css ~/Documents`  
 `countfiles.py --file-extension css ~/Documents`
 
 
 Search recursively for any files that have a `.py` extension, in a given directory, and display a 500 characters preview for each one:
 
-`countfiles.py -fe py -p -ps 500 ~/Documents`
+`countfiles.py -fe py -p -ps 500 ~/Documents`  
 `countfiles.py --file-extension ~/Documents -preview --preview-size 500 ~/Documents`
 
 
