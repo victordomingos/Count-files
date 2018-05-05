@@ -88,7 +88,7 @@ Search recursively for any files that have a `.css` extension, in a given direct
 Search recursively for any files that have a `.py` extension, in a given directory, and display a 500 characters preview for each one:
 
 `countfiles.py -fe py -p -ps 500 ~/Documents`   
-`countfiles.py --file-extension -preview --preview-size 500 ~/Documents`
+`countfiles.py --file-extension py -preview --preview-size 500 ~/Documents`
 
 
 ## Dependencies:
