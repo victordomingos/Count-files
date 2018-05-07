@@ -82,7 +82,6 @@ def main_flow(args: Type[argparse_namespace_object]):
                                               preview=args.preview,
                                               preview_size=args.preview_size)
         return len_files
-        exit()
 
     # ...or do other stuff.
     if include_hidden:

@@ -10,10 +10,8 @@ class WordCounter:
         self.counters = dict()
 
     def count_word(self, word: str):
-        if word in self.counters.keys():
-            self.counters[word] += 1
-        else:
-            self.counters[word] = 1
+        """ Add a new word or increment the counter for an existing one. """
+        self.counters[word] = self.counters.get(word, 0) + 1
 
     def sort_by_frequency(self):
         sorted_counters = [(word, self.counters[word])
@@ -103,5 +101,4 @@ class WordCounter:
 
         else:
             print(f"No files with the extension '{extension}' were found in the specified directory.\n")
-            # len([]) == 0
-            return len(files)
+            return 0

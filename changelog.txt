@@ -5,6 +5,16 @@ Version history:
 
 
 ---
+v.1.4 -
+ * countfiles.py:
+    - Simplified `count_word()`;
+    - Removed unused `import datetime`;
+    - Removed unused `exit()`.
+ * word_counter.py:
+    - Replaced `return len(files)` with `return 0` (if no files were found).
+ * Added `utils/__init__.py`.
+
+---
 v.1.3 - 07/05/2018
 (Contributed by Natalia Bondarenko)
  * Added .gitignore.
