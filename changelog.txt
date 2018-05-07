@@ -9,14 +9,14 @@ v.1.3 - 07/05/2018
 (Contributed by Natalia Bondarenko)
  * Added .gitignore.
  * Unit tests:
-    - dataset for tests, test cases for ArgumentParser, WordCounter, some functions (positive testing);
+    - dataset for tests, test cases for `ArgumentParser`, `WordCounter`, some functions (positive testing);
     - added return statement in some functions for testing purposes.
  * Utils:
-    - transfer functions that do not belong to any class in utils (def get_file_extension and def human_mem_size);
-    - added decorator to intercept KeyboardInterrupt and common Exceptions;
-    - class WordCounter moved to separate file.
- * To run the main program thread, the function def main_flow(args) was created.
- * Added some Type hints.
+    - transfer functions that do not belong to any class in utils (`get_file_extension` and `human_mem_size`);
+    - added decorator to intercept `KeyboardInterrupt` and common Exceptions;
+    - class `WordCounter` moved to separate file.
+ * To run the main program thread, the function `main_flow(args)` was created.
+ * Added some type hints.
 
 ---
 v.1.2 - 04/05/2018
