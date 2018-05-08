@@ -1,29 +1,22 @@
-from collections import OrderedDict
+from collections import OrderedDict, Counter
 from pathlib import Path
-import datetime
 import os
 from utils.file_handlers import human_mem_size
 
 
 class WordCounter:
     def __init__(self):
-        self.counters = dict()
+        self.counters = Counter()
 
     def count_word(self, word: str):
         """ Add a new word or increment the counter for an existing one. """
-        self.counters[word] = self.counters.get(word, 0) + 1
+        self.counters[word] += 1
 
     def sort_by_frequency(self):
-        sorted_counters = [(word, self.counters[word])
-                           for word in sorted(self.counters,
-                                              key=self.counters.get,
-                                              reverse=True)]
-        return sorted_counters
+        return self.counters.most_common()
 
     def sort_by_word(self):
-        ordered = OrderedDict(sorted(self.counters.items()))
-        sorted_counters = ordered.items()
-        return sorted_counters
+        return sorted(self.counters.items())
 
     @staticmethod
     def show_2columns(data):
@@ -58,9 +51,7 @@ class WordCounter:
         print(sep + "\n")
 
     def show_total(self) -> int:
-        total = 0
-        for _, freq in self.counters.items():
-            total += freq
+        total = sum(self.counters.values())
         print(f"Total number of files in selected directory: {total}.\n")
         return total
 
