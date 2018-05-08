@@ -8,11 +8,14 @@ directory.
 © 2018 Victor Domingos, Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 """
 import os
+
 from argparse import ArgumentParser, Namespace
+from typing import Type, TypeVar
+
 from utils.file_handlers import get_file_extension
 from utils.decorators import exceptions_decorator
 from word_counter import WordCounter
-from typing import Type, TypeVar
+
 
 
 parser = ArgumentParser(
