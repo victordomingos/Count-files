@@ -7,7 +7,7 @@ Version history:
 ---
 v.1.4 -
  * countfiles.py:
-    - Changed the counter data structure in ``ord_counter.py`from a dictionary
+    - Changed the counter data structure in ``word_counter.py`from a dictionary
       to a `collections.Counter()`, which allowed to simplify a few functions:
       `count_word()`, `sort_by_frequency()`, `sort_by_word()`, `show_total()`;
     - Removed unused `import datetime`;
