@@ -79,6 +79,10 @@ def main_flow(args: Type[argparse_namespace_object]):
         location = os.path.expanduser(args.path)
         loc_text = ':\n' + location
 
+    if os.path.exists(location) is False:
+        print(f'The path {location} does not exist or there is a typo in it.')
+        return
+
     # Either search and list files by extension...
     if search_by_extension:
         len_files = fc.get_files_by_extension(location, args.file_extension,
