@@ -58,16 +58,19 @@ class WordCounter:
         return total
 
     @staticmethod
-    def get_files_by_extension(location: str, extension: str, preview=False, preview_size=395) -> int:
+    def get_files_by_extension(location: str, extension: str, preview=False, preview_size=395, recursion=False) -> int:
         """ Search recursively (in the folder indicated by ``location`) for files
         that have the given extension in their filename and optionally display
         a preview of the file.
         Special thanks to Natalia Bondarenko (github.com/NataliaBondarenko),
         who suggested this feature and submited an initial implementation.
         """
-        files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
-
-        print(f'\nRecursively searching for .{extension} files in{location}.\n')
+        if recursion:
+            files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
+            print(f'\nRecursively searching for .{extension} files in {location}.\n')
+        else:
+            files = sorted(Path(os.path.expanduser(location)).glob(f"*.{extension}"))
+            print(f'\nSearching for .{extension} files in {location}.\n')
 
         if files:
             sizes = []

@@ -87,7 +87,8 @@ def main_flow(args: Type[argparse_namespace_object]):
     if search_by_extension:
         len_files = fc.get_files_by_extension(location, args.file_extension,
                                               preview=args.preview,
-                                              preview_size=args.preview_size)
+                                              preview_size=args.preview_size,
+                                              recursion=recursive)
         return len_files
 
     # ...or do other stuff.
@@ -97,7 +98,7 @@ def main_flow(args: Type[argparse_namespace_object]):
         hidden_msg = "ignoring hidden files and directories,"
 
     if recursive:
-        print(f'\nRecursively counting all files, {hidden_msg} in{loc_text}.\n')
+        print(f'\nRecursively counting all files, {hidden_msg} in {loc_text}.\n')
         for root, dirs, files in os.walk(location):
             for f in files:
                 if not include_hidden:
@@ -107,7 +108,7 @@ def main_flow(args: Type[argparse_namespace_object]):
                 extension = get_file_extension(f)
                 fc.count_word(extension)
     else:
-        print(f'\nCounting files, {hidden_msg} in{loc_text}.\n')
+        print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')
         for f in os.listdir(location):
             if not include_hidden:
                 if f.startswith('.') or ('/.' in location):
