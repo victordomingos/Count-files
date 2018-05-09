@@ -4,7 +4,7 @@ from collections import Counter
 from pathlib import Path
 
 from utils.file_handlers import human_mem_size
-
+from utils.file_preview import generate_preview
 
 class WordCounter:
     def __init__(self):
@@ -45,8 +45,8 @@ class WordCounter:
         print(sep)
 
         for word, freq in data:
-            line = f" {word.ljust(max_word_width)} | {str(freq).rjust(total_occurences_width)} "
-            print(line)
+            print(f" {word.ljust(max_word_width)} | {str(freq).rjust(total_occurences_width)} ")
+
         print(sep)
         line = f" {'TOTAL:'.ljust(max_word_width)} | {str(total_occurences).rjust(total_occurences_width)} "
         print(line)
@@ -80,7 +80,7 @@ class WordCounter:
                 print(f'{f} ({human_mem_size(f.stat().st_size)})')
                 if preview:
                     print('–––––––––––––––––––––––––––––––––––')
-                    print(f.read_text(errors="replace")[0:preview_size].replace('\n', ' '))
+                    print(generate_preview(str(f), max_size=preview_size))
                     print("–––––––––––––––––––––––––––––––––––\n")
 
             total_size = sum(sizes)
