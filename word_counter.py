@@ -58,7 +58,7 @@ class WordCounter:
         return total
 
     @staticmethod
-    def get_files_by_extension(location: str, extension: str, preview=False, preview_size=395, recursion=False) -> int:
+    def get_files_by_extension(location: str, extension: str, preview=False, preview_size=395, recursion=True) -> int:
         """ Search recursively (in the folder indicated by ``location`) for files
         that have the given extension in their filename and optionally display
         a preview of the file.
