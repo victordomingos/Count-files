@@ -1,37 +1,34 @@
+import os
 import puremagic
-#import fleep
+import itertools
+
+
 from pathlib import Path
 
-import os
-
-TEXTFILES = [ "txt", "md", "htm", "html", "py", "js", "json"]
 
 def generate_preview(filepath: str, max_size=390) -> str:
     """ Detect filetype and generate a human readable text preview """
-    #ftypes = magic_file(filepath)
-    extension = os.path.splitext(filepath)[1][1:]
+    f = Path(os.path.expanduser(filepath))
+    filetype = ""
+    excerpt = ""
 
-    if extension in TEXTFILES:
-        f = Path(os.path.expanduser(filepath))
-        preview = f.read_text(errors="replace")[0:max_size].replace('\n', ' ')
-        return preview
-    else:
-        # Testing fleep...
-        #with open(filepath, "rb") as file:
-        #    info = fleep.get(file.read(128))
+    # TODO: Check if there is a specific file preview method
 
-        #return info.mime[0]  # prints ['image/png']
 
-        ext = puremagic.from_file(filepath)
+    # If no specific previewers were found, use the generic text/bytes preview:
+    try:
         mf = puremagic.magic_file(filepath)
-        print("PMagic ext:", ext)
-        print("PMagic magicfile:", mf)
+        if mf:
+            filetype = " ".join(str(i) for i in next(itertools.chain(mf)))
+            filetype += "\n"
+    except Exception as e:
+        print(e)
+        filetype = ""
 
+    try:
+        excerpt = f.read_text(errors="replace")[0:max_size].replace('\n', ' ')
+    except Exception as e:
+        print(e)
+        excerpt = f.read_bytes()[0:max_size]
 
-
-
-
-
-
-
-
+    return f"{filetype}{excerpt}"
