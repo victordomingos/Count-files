@@ -17,6 +17,7 @@ v.1.4 -
     - Removed unused `import datetime`.
  * Added `utils/__init__.py`.
  * Added the ability to show previews both for text and binary files.
+ * Simplified `get_file_extension()`.
 
 ---
 v.1.3 - 07/05/2018

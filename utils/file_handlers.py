@@ -1,10 +1,14 @@
+import os
+
 def get_file_extension(file_path: str) -> str:
-    """ Extract only the file extension from a given path. """
-    filename_parts = file_path.split('.')
-    if len(filename_parts) == 1:
-        return '[no extension]'
+    """ Extract only the file extension from a given path.
+        If the file name does not have an extension, return '[no extension]'.
+    """
+    extension = os.path.splitext(file_path)[1]
+    if extension:
+        return extension
     else:
-        return filename_parts[-1]
+        return '[no extension]'
 
 
 def human_mem_size(num: int, suffix='B') -> str:
