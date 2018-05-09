@@ -7,7 +7,13 @@ from pathlib import Path
 
 
 def generate_preview(filepath: str, max_size=390) -> str:
-    """ Detect filetype and generate a human readable text preview """
+    """ Detect filetype and generate a human readable text preview
+
+    Detects filetype and returns a string if there is a compatible text
+    preview method available. For text files, the preview will be the first
+    `max_size` characters. For other file types, a selection of their
+    metadata could be shown.
+    """
     f = Path(os.path.expanduser(filepath))
     filetype = ""
     excerpt = ""
