@@ -11,7 +11,7 @@ def generate_preview(filepath: str, max_size=390) -> str:
     f = Path(os.path.expanduser(filepath))
     filetype = ""
     excerpt = ""
-    
+
     # TODO: Check if there is a specific file preview method
 
 
