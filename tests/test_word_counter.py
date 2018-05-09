@@ -25,7 +25,7 @@ class TestWordCounter(unittest.TestCase):
         :return: conformity to number of .py files
         """
         self.assertEqual(self.counter.get_files_by_extension(location=self.get_locations('data_for_tests'),
-                                                             extension='py'), 1)
+                                                             extension='py', recursion=True), 1)
 
     def test_get_files_by_extension(self):
         """
@@ -40,7 +40,7 @@ class TestWordCounter(unittest.TestCase):
         extensions = {'py': 0, 'json': 1, 'woff': 12}
         for k, v in extensions.items():
             with self.subTest(k=k, v=v):
-                self.assertEqual(self.counter.get_files_by_extension(location=location, extension=k), v)
+                self.assertEqual(self.counter.get_files_by_extension(location=location, extension=k, recursion=True), v)
 
     def test_show_total(self):
         """
