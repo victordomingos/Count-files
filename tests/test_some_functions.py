@@ -5,7 +5,7 @@ from utils.file_handlers import get_file_extension
 class TestSomeFunctions(unittest.TestCase):
 
     def setUp(self):
-        self.extensions_dict = {'file.py': 'py', 'file.png': 'png', '.gitignore': 'gitignore', 'file': '[no extension]'}
+        self.extensions_dict = {'file.py': 'py', 'file.png': 'png', '.gitignore': '[no extension]', 'file': '[no extension]'}
 
     def test_get_file_extension(self):
         for k, v in self.extensions_dict.items():

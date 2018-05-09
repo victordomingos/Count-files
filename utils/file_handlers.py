@@ -4,7 +4,7 @@ def get_file_extension(file_path: str) -> str:
     """ Extract only the file extension from a given path.
         If the file name does not have an extension, return '[no extension]'.
     """
-    extension = os.path.splitext(file_path)[1]
+    extension = os.path.splitext(file_path)[1][1:]
     if extension:
         return extension
     else:
