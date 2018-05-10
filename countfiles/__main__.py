@@ -107,14 +107,15 @@ def main_flow(args: Type[argparse_namespace_object]):
                 fc.count_word(extension)
     else:
         print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')
-        for f in os.listdir(location):
-            if not include_hidden:
-                if f.startswith('.') or ('/.' in location):
-                    continue
-            # Skip directories:
-            if os.path.isfile(os.path.join(location, f)):
-                extension = get_file_extension(f)
-                fc.count_word(extension)
+
+        with os.scandir(location) as directory:
+            for f in directory:
+                if not include_hidden:
+                    if f.name.startswith('.') or ('/.' in location):
+                        continue
+                # Skip directories:
+                if os.path.isfile(os.path.join(location, f)):
+                    fc.count_word(get_file_extension(f.name))
 
     if show_table:
         if sort_alpha:
