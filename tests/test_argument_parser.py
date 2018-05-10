@@ -1,7 +1,6 @@
 import unittest
 import os
-from countfiles import parser, main_flow
-from argparse import ArgumentError
+from countfiles.countfiles import parser, main_flow
 
 
 class TestArgumentParser(unittest.TestCase):

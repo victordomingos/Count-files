@@ -1,6 +1,6 @@
 import unittest
 import os
-from word_counter import WordCounter
+from countfiles.word_counter import WordCounter
 
 
 class TestWordCounter(unittest.TestCase):

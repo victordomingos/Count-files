@@ -1,5 +1,5 @@
 import unittest
-from utils.file_handlers import get_file_extension
+from countfiles.utils.file_handlers import get_file_extension
 
 
 class TestSomeFunctions(unittest.TestCase):

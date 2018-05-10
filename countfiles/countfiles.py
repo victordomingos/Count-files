@@ -12,9 +12,8 @@ import os
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar
 
-from utils.file_handlers import get_file_extension
-from utils.decorators import exceptions_decorator
-from word_counter import WordCounter
+from countfiles.utils.file_handlers import get_file_extension
+from countfiles.word_counter import WordCounter
 
 
 

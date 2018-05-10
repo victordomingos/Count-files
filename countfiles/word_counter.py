@@ -3,8 +3,8 @@ import os
 from collections import Counter
 from pathlib import Path
 
-from utils.file_handlers import human_mem_size
-from utils.file_preview import generate_preview
+from countfiles.utils.file_handlers import human_mem_size
+from countfiles.utils.file_preview import generate_preview
 
 class WordCounter:
     def __init__(self):
