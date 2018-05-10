@@ -27,7 +27,7 @@ class TestArgumentParser(unittest.TestCase):
         Equivalent to "python __main__.py ~/.../tests/data_for_tests -a -nt"
         :return:
         """
-        self.assertEqual(main_flow(args=self.parser.parse_args([self.get_locations('data_for_tests'), '-a', '-nt'])), 622)
+        self.assertEqual(main_flow(args=self.parser.parse_args([self.get_locations('data_for_tests'), '-a', '-nt'])), 45)
 
     def test_countfiles_nt_fe_woff(self):
         """
@@ -35,7 +35,7 @@ class TestArgumentParser(unittest.TestCase):
         :return:
         """
         self.assertEqual(main_flow(args=self.parser.parse_args(
-            [self.get_locations('data_for_tests', 'django_staticfiles_for_test'), '-nt', '-fe', 'woff'])), 12)
+            [self.get_locations('data_for_tests', 'django_staticfiles_for_test'), '-nt', '-fe', 'woff'])), 6)
 
     def test_countfiles_fe(self):
         """
@@ -44,7 +44,7 @@ class TestArgumentParser(unittest.TestCase):
         :return:
         """
         location = self.get_locations('data_for_tests', 'django_staticfiles_for_test')
-        extensions = {'py': 0, 'json': 1, 'woff': 12}
+        extensions = {'py': 0, 'json': 1, 'woff': 6}
         for k, v in extensions.items():
             with self.subTest(k=k, v=v):
                 args = self.parser.parse_args([location, '-fe', f'{k}'])

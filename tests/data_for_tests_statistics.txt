@@ -1,37 +1,34 @@
 Dataset statistics for tests (assert())
-2018-05-06 10:44:55.841054: For now /tests/data_for_tests doesn't contain hidden files and hidden subdirectories.
-2018-05-06 10:44:55.841054: But running with "python countfiles.py --all" return all files.
+2018-05-10: For now /tests/data_for_tests doesn't contain hidden files and hidden subdirectories.
+Correct counting hidden files and directories not available now
 
+Recursively counting all files in:
+/tests/data_for_tests. 2018-05-10
 
-Recursively counting all files, ignoring hidden files and directories, in:
-/tests/data_for_tests. 2018-05-06 10:28:26.152401
-
- EXTENSION      | FREQ.
+EXTENSION      | FREQ.
 ----------------+-------
- gz             |   288
- js             |   174
- css            |    57
- svg            |    44
- woff           |    12
- txt            |    10
- png            |     8
- eot            |     6
- ttf            |     6
- md             |     5
- woff2          |     4
- [no extension] |     2
- ico            |     2
+ gz             |    16
+ woff           |     6
+ js             |     4
+ css            |     4
+ txt            |     4
+ svg            |     4
+ md             |     3
  html           |     1
+ [no extension] |     1
  py             |     1
  json           |     1
- 2c54f4e1ca1c   |     1
 ----------------+-------
- TOTAL:         |   622
+ TOTAL:         |    45
 ----------------+-------
 
-Counting files, ignoring hidden files and directories, in:
-/tests/data_for_tests. 2018-05-06 10:36:10.404818
+Counting files in:
+/tests/data_for_tests. 2018-05-10
 
+html_file_for_tests.html
+md_file_for_tests.md
+no_extension
+py_file_for tests.py
  EXTENSION      | FREQ.
 ----------------+-------
  html           |     1

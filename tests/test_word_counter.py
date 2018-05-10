@@ -37,7 +37,7 @@ class TestWordCounter(unittest.TestCase):
         :return: conformity to extensions[value]
         """
         location = self.get_locations('data_for_tests', 'django_staticfiles_for_test')
-        extensions = {'py': 0, 'json': 1, 'woff': 12}
+        extensions = {'py': 0, 'json': 1, 'woff': 6}
         for k, v in extensions.items():
             with self.subTest(k=k, v=v):
                 self.assertEqual(self.counter.get_files_by_extension(location=location, extension=k, recursion=True), v)
