@@ -1,6 +1,6 @@
 import unittest
 import os
-from countfiles.countfiles import parser, main_flow
+from countfiles.__main__ import parser, main_flow
 
 
 class TestArgumentParser(unittest.TestCase):
@@ -17,21 +17,21 @@ class TestArgumentParser(unittest.TestCase):
 
     def test_countfiles_fe_py(self):
         """
-        Equivalent to "python countfiles.py ~/.../tests/data_for_tests -fe py"
+        Equivalent to "python __main__.py ~/.../tests/data_for_tests -fe py"
         :return:
         """
         self.assertEqual(main_flow(args=self.parser.parse_args([self.get_locations('data_for_tests'), '-fe', 'py'])), 1)
 
     def test_countfiles_all_nt(self):
         """
-        Equivalent to "python countfiles.py ~/.../tests/data_for_tests -a -nt"
+        Equivalent to "python __main__.py ~/.../tests/data_for_tests -a -nt"
         :return:
         """
         self.assertEqual(main_flow(args=self.parser.parse_args([self.get_locations('data_for_tests'), '-a', '-nt'])), 622)
 
     def test_countfiles_nt_fe_woff(self):
         """
-        Equivalent to "python countfiles.py ~/.../tests/data_for_tests/django_staticfiles_for_test -nt -fe woff"
+        Equivalent to "python __main__.py ~/.../tests/data_for_tests/django_staticfiles_for_test -nt -fe woff"
         :return:
         """
         self.assertEqual(main_flow(args=self.parser.parse_args(
@@ -40,7 +40,7 @@ class TestArgumentParser(unittest.TestCase):
     def test_countfiles_fe(self):
         """
         Equivalent to
-        "python countfiles.py ~/.../tests/data_for_tests/django_staticfiles_for_test -fe {extension}"
+        "python __main__.py ~/.../tests/data_for_tests/django_staticfiles_for_test -fe {extension}"
         :return:
         """
         location = self.get_locations('data_for_tests', 'django_staticfiles_for_test')

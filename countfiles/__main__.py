@@ -12,9 +12,8 @@ import os
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar
 
-from countfiles.utils.file_handlers import get_file_extension
-from countfiles.word_counter import WordCounter
-
+from .utils.file_handlers import get_file_extension
+from .utils.word_counter import WordCounter
 
 
 parser = ArgumentParser(
