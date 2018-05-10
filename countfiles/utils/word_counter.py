@@ -72,7 +72,10 @@ class WordCounter:
             files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
         else:
             print(f'\nSearching for .{extension} files in {location}.\n')
-            files = sorted(Path(os.path.expanduser(location)).glob(f"*.{extension}"))
+            if extension == '.':
+                files = get_files_without_extension_path(location)
+            else:
+                files = sorted(Path(os.path.expanduser(location)).glob(f"*.{extension}"))
 
         if files:
             sizes = []
