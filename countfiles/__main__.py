@@ -102,10 +102,9 @@ def main_flow(args: Type[argparse_namespace_object]):
                 dirs[:] = [d for d in dirs if not d.startswith('.')]
                 files = [f for f in files if not f.startswith('.')]
             for f in files:
-                extension = get_file_extension(f)
-                fc.count_word(extension)
+                fc.count_word(get_file_extension(f))
     else:
-        if '/.' in location and not include_hidden:
+        if not include_hidden and '/.' in location:
             print(f'\nNot counting any files, because {loc_text[2:]} is hidden.')
             return
         else:
