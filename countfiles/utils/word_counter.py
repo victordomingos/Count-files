@@ -66,11 +66,11 @@ class WordCounter:
         who suggested this feature and submited an initial implementation.
         """
         if recursion:
-            files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
             print(f'\nRecursively searching for .{extension} files in {location}.\n')
+            files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
         else:
-            files = sorted(Path(os.path.expanduser(location)).glob(f"*.{extension}"))
             print(f'\nSearching for .{extension} files in {location}.\n')
+            files = sorted(Path(os.path.expanduser(location)).glob(f"*.{extension}"))
 
         if files:
             sizes = []
