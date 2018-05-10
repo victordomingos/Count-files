@@ -21,6 +21,7 @@ v.1.4 -
  * Added `requirements.txt`.
  * Changed expected behaviour in test for ".gitignore" (it is considered a
    hidden file with no extension).
+ * Moved all code files into their own folder.
 
 ---
 v.1.3 - 07/05/2018
