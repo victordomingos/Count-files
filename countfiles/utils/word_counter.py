@@ -68,14 +68,11 @@ class WordCounter:
         """
         print(extension)
         if recursion:
-            files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
             print(f'\nRecursively searching for .{extension} files in {location}.\n')
+            files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
         else:
-            if extension == '.':
-                files = get_files_without_extension_path(location)
-            else:
-                files = sorted(Path(os.path.expanduser(location)).glob(f"*.{extension}"))
             print(f'\nSearching for .{extension} files in {location}.\n')
+            files = sorted(Path(os.path.expanduser(location)).glob(f"*.{extension}"))
 
         if files:
             sizes = []

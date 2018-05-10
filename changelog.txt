@@ -6,12 +6,13 @@ Version history:
 
 ---
 v.1.4 -
- * countfiles.py:
+ * countfiles.py (renamed to __main__.py):
     - Changed the counter data structure in ``word_counter.py`from a dictionary
       to a `collections.Counter()`, which allowed to simplify a few functions:
       `count_word()`, `sort_by_frequency()`, `sort_by_word()`, `show_total()`;
     - Removed unused `import datetime`;
     - Removed unused `exit()`.
+    - File and directory exclusion was rewritten.
  * word_counter.py:
     - Replaced `return len(files)` with `return 0` (if no files were found);
     - Removed unused `import datetime`.

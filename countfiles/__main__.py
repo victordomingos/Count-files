@@ -12,8 +12,8 @@ import os
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar
 
-from .utils.file_handlers import get_file_extension
-from .utils.word_counter import WordCounter
+from countfiles.utils.file_handlers import get_file_extension
+from countfiles.utils.word_counter import WordCounter
 
 
 parser = ArgumentParser(
@@ -98,24 +98,23 @@ def main_flow(args: Type[argparse_namespace_object]):
     if recursive:
         print(f'\nRecursively counting all files, {hidden_msg} in {loc_text}.\n')
         for root, dirs, files in os.walk(location):
+            if not include_hidden:
+                dirs[:] = [d for d in dirs if not d.startswith('.')]
+                files = [f for f in files if not f.startswith('.')]
             for f in files:
-                if not include_hidden:
-                    if f.startswith('.') or ('/.' in root):
-                        continue
-
-                extension = get_file_extension(f)
-                fc.count_word(extension)
+                fc.count_word(get_file_extension(f))
     else:
-        print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')
-
-        with os.scandir(location) as directory:
-            for f in directory:
-                if not include_hidden:
-                    if f.name.startswith('.') or ('/.' in location):
+        if not include_hidden and '/.' in location:
+            print(f'\nNot counting any files, because {loc_text[2:]} is hidden.')
+            return
+        else:
+            print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')
+            with os.scandir(location) as directory:
+                for f in directory:
+                    if not include_hidden and f.name.startswith('.'):
                         continue
-                # Skip directories:
-                if os.path.isfile(os.path.join(location, f)):
-                    fc.count_word(get_file_extension(f.name))
+                    if f.is_file():  # Skip directories
+                        fc.count_word(get_file_extension(f.name))
 
     if show_table:
         if sort_alpha:
