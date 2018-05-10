@@ -1,6 +1,7 @@
 import datetime
-from functools import wraps
 import traceback
+
+from functools import wraps
 
 
 def exceptions_decorator(func, logger=None):

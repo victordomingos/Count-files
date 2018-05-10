@@ -2,7 +2,6 @@ import os
 import puremagic
 import itertools
 
-
 from pathlib import Path
 
 
