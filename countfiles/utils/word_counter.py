@@ -60,29 +60,33 @@ class WordCounter:
 
     @staticmethod
     def get_files_by_extension(location: str, extension: str, preview=False, preview_size=395, recursion=True) -> int:
-        """ Search recursively (in the folder indicated by ``location`) for files
-        that have the given extension in their filename and optionally display
+        """ Search for files that have the given extension in their filename and optionally display
         a preview of the file.
+
         Special thanks to Natalia Bondarenko (github.com/NataliaBondarenko),
         who suggested this feature and submited an initial implementation.
         """
-        print(extension)
         if recursion:
-            print(f'\nRecursively searching for .{extension} files in {location}.\n')
+            if extension == '.':
+                print(f'\nRecursively searching for files without extension in {location}.\n')
+            else:
+                print(f'\nRecursively searching for .{extension} files in {location}.\n')
             files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
         else:
-            print(f'\nSearching for .{extension} files in {location}.\n')
             if extension == '.':
+                print(f'\nSearching for files without extension in {location}.\n')
                 files = get_files_without_extension_path(location)
             else:
+                print(f'\nSearching for .{extension} files in {location}.\n')
                 files = sorted(Path(os.path.expanduser(location)).glob(f"*.{extension}"))
 
         if files:
             sizes = []
             for f in files:
-                sizes.append(f.stat().st_size)
+                file_size = f.stat().st_size
+                sizes.append(file_size)
 
-                print(f'{f} ({human_mem_size(f.stat().st_size)})')
+                print(f'{f} ({human_mem_size(file_size)})')
                 if preview:
                     print('–––––––––––––––––––––––––––––––––––')
                     print(generate_preview(str(f), max_size=preview_size))
@@ -101,5 +105,8 @@ class WordCounter:
             return len(files)
 
         else:
-            print(f"No files with the extension '{extension}' were found in the specified directory.\n")
+            if extension == '.':
+                print(f"No files without extension were found in the specified directory.\n")
+            else:
+                print(f"No files with the extension '{extension}' were found in the specified directory.\n")
             return 0

@@ -26,8 +26,9 @@ def human_mem_size(num: int, suffix='B') -> str:
 
 
 def get_files_without_extension_path(path):
-    """
-    Don't recurse through subdirectories.
+    """ Find all files in a ginven directory that have no extension
+
+    This function does not recurse through subdirectories.
     Files without extension are those that do not have a suffix or start from a dot.
     PurePath.suffix return the file extension of the final component, if any.
     Path inherits this method.
@@ -40,13 +41,15 @@ def get_files_without_extension_path(path):
     list example for win: return list with objects <class 'pathlib.WindowsPath'>
     [WindowsPath('C:/.../.gitignore'),
     WindowsPath('C:/.../Pipfile')]
+
+    Special thanks to Natalia Bondarenko (github.com/NataliaBondarenko),
+    who submited the initial implementation.
     """
     result = []
     for p in Path(path).iterdir():
         if p.is_file():
             if '.' not in p.suffix:
                 result.append(p)
-    print(result)
     return result
 
 
