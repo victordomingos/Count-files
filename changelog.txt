@@ -23,6 +23,8 @@ v.1.4 -
  * Changed expected behaviour in test for ".gitignore" (it is considered a
    hidden file with no extension).
  * Moved all code files into their own folder.
+ * Added a function to test if file has extension.
+
 
 ---
 v.1.3 - 07/05/2018

@@ -12,6 +12,14 @@ def get_file_extension(file_path: str) -> str:
         return '[no extension]'
 
 
+def has_extension(path) -> bool:
+    """ Check if a filename has an extension """
+    if not os.path.splitext(path)[1]:
+        return False
+    else:
+        return True
+
+
 def human_mem_size(num: int, suffix='B') -> str:
     """ Return a human readable memory size in a string.
     Initially written by Fred Cirera, modified and shared by Sridhar Ratnakumar
@@ -25,11 +33,17 @@ def human_mem_size(num: int, suffix='B') -> str:
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 
-def get_files_without_extension_path(path):
-    """ Find all files in a ginven directory that have no extension
+def is_hidden(path):
+    """ Check if the given path is hidden """
+    #TODO
+    pass
 
-    This function does not recurse through subdirectories.
-    Files without extension are those that do not have a suffix or start from a dot.
+
+def get_files_without_extension(path, recursive=False):
+    """ Find all files in a given directory that have no extension
+
+    By default, this function does not recurse through subdirectories.
+
     PurePath.suffix return the file extension of the final component, if any.
     Path inherits this method.
     Behavior:
@@ -45,12 +59,12 @@ def get_files_without_extension_path(path):
     Special thanks to Natalia Bondarenko (github.com/NataliaBondarenko),
     who submited the initial implementation.
     """
-    result = []
-    for p in Path(path).iterdir():
-        if p.is_file():
-            if '.' not in p.suffix:
-                result.append(p)
-    return result
+    if recursive:
+        return [f for f in Path(os.path.expanduser(path)).rglob("*")
+                if f.is_file() and not has_extension(f)]
+    else:
+        return [f for f in Path(path).iterdir()
+                if f.is_file() and not has_extension(f)]
 
 
 def get_files_without_extension_scandir(path):

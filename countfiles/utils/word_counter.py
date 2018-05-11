@@ -3,9 +3,9 @@ import os
 from collections import Counter
 from pathlib import Path
 
-from ..utils.file_handlers import human_mem_size
-from ..utils.file_preview import generate_preview
-from countfiles.utils.file_handlers import get_files_without_extension_path
+from countfiles.utils.file_handlers import human_mem_size
+from countfiles.utils.file_preview import generate_preview
+from countfiles.utils.file_handlers import get_files_without_extension, has_extension
 
 class WordCounter:
     def __init__(self):
@@ -69,13 +69,14 @@ class WordCounter:
         if recursion:
             if extension == '.':
                 print(f'\nRecursively searching for files without extension in {location}.\n')
+                files = get_files_without_extension(location, recursive=True)
             else:
                 print(f'\nRecursively searching for .{extension} files in {location}.\n')
-            files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
+                files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
         else:
             if extension == '.':
                 print(f'\nSearching for files without extension in {location}.\n')
-                files = get_files_without_extension_path(location)
+                files = get_files_without_extension(location, recursive=False)
             else:
                 print(f'\nSearching for .{extension} files in {location}.\n')
                 files = sorted(Path(os.path.expanduser(location)).glob(f"*.{extension}"))
