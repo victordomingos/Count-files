@@ -85,8 +85,8 @@ class WordCounter:
             for f in files:
                 file_size = f.stat().st_size
                 sizes.append(file_size)
-
-                print(f'{f} ({human_mem_size(file_size)})')
+                filepath = str(f).strip("\r")
+                print(f'{filepath} ({human_mem_size(file_size)})')
                 if preview:
                     print('–––––––––––––––––––––––––––––––––––')
                     print(generate_preview(str(f), max_size=preview_size))
@@ -99,7 +99,10 @@ class WordCounter:
             h_max = human_mem_size(max(sizes))
             h_min = human_mem_size(min(sizes))
 
-            print(f"\n   Found {len(files)} .{extension} files.")
+            if extension == '.':
+                print(f"\n   Found {len(files)} files without extension.")
+            else:
+                print(f"\n   Found {len(files)} .{extension} files.")
             print(f"   Total combined size: {h_total_size}.")
             print(f"   Average file size: {avg_size} (max: {h_max}, min: {h_min}).\n")
             return len(files)
