@@ -5,6 +5,7 @@ from pathlib import Path
 
 from ..utils.file_handlers import human_mem_size
 from ..utils.file_preview import generate_preview
+from countfiles.utils.file_handlers import get_files_without_extension_path
 
 class WordCounter:
     def __init__(self):
@@ -65,12 +66,16 @@ class WordCounter:
         Special thanks to Natalia Bondarenko (github.com/NataliaBondarenko),
         who suggested this feature and submited an initial implementation.
         """
+        print(extension)
         if recursion:
             print(f'\nRecursively searching for .{extension} files in {location}.\n')
             files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
         else:
             print(f'\nSearching for .{extension} files in {location}.\n')
-            files = sorted(Path(os.path.expanduser(location)).glob(f"*.{extension}"))
+            if extension == '.':
+                files = get_files_without_extension_path(location)
+            else:
+                files = sorted(Path(os.path.expanduser(location)).glob(f"*.{extension}"))
 
         if files:
             sizes = []
