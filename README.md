@@ -98,7 +98,9 @@ Search recursively for any files that don't have any extension, in a given direc
 
 ## Dependencies:
 
-To run this application, you just need to have a working Python 3.6+ instalation. No further dependencies.
+To run this application, you just need to have a working Python 3.6+ instalation. We try to keep the external dependencies at a minimum, in order to keep compatibility with different plataformas, including Pythonista on iOS. At this moment, we require:
+
+- puremagic==1.4
 
 The main file should have the execution permission bit set (`chmod +x`on Unix-like systems) and should be in a directory listed in the PATH environment variable (usually Python's `site-packages`).
 
