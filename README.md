@@ -90,6 +90,11 @@ Search recursively for any files that have a `.py` extension, in a given directo
 `countfiles.py -fe py -p -ps 500 ~/Documents`   
 `countfiles.py --file-extension py --preview --preview-size 500 ~/Documents`
 
+Search recursively for any files that don't have any extension, in a given directory:
+
+`countfiles.py -fe .  ~/Documents`
+`countfiles.py --file-extension . ~/Documents`
+
 
 ## Dependencies:
 
