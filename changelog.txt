@@ -23,7 +23,20 @@ v.1.4 -
  * Changed expected behaviour in test for ".gitignore" (it is considered a
    hidden file with no extension).
  * Moved all code files into their own folder.
- * Added a function to test if file has extension.
+ * Added a function to check if file has extension.
+ * Reduced number of test files.
+ * New tests for functions in test_some_functions.py:
+    - added def test_has_extension();
+    - added def test_get_files_without_extension() and def test_get_files_without_extension_recursive().
+ * Changed asserts in test functions according to new dataset.
+ * `test_get_files_by_extension()` and `test_get_files_by_extension_nr()` in
+   `test_word_counter.py` - updated for check "no extension" search.
+ * Added `ArgumentParser` test related for `-fe` .:
+    - `test_countfiles_fe_dot()` in `test_argument_parser.py`.
+ * Added 1 test for hidden files:
+    - `test_for_hidden()` in `test_argument_parser.py`;
+    - TODO: add 1 hidden file and check it on Unix.
+ * Updated `tests/data_for_tests_statistics.txt`.
 
 
 ---
