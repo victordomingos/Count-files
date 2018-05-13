@@ -98,7 +98,7 @@ Search recursively for any files that don't have any extension, in a given direc
 
 ## Dependencies:
 
-To run this application, you just need to have a working Python 3.6+ instalation. We try to keep the external dependencies at a minimum, in order to keep compatibility with different plataformas, including Pythonista on iOS. At this moment, we require:
+To run this application, you need to have a working Python 3.6+ instalation. We try to keep the external dependencies at a minimum, in order to keep compatibility with different plataforms, including Pythonista on iOS. At this moment, we require:
 
 - puremagic==1.4
 
