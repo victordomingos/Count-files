@@ -5,7 +5,7 @@ from pathlib import Path
 
 from countfiles.utils.file_handlers import human_mem_size
 from countfiles.utils.file_preview import generate_preview
-from countfiles.utils.file_handlers import get_files_without_extension, has_extension
+from countfiles.utils.file_handlers import get_files_without_extension, is_hidden
 
 class WordCounter:
     def __init__(self):
@@ -59,7 +59,8 @@ class WordCounter:
         return total
 
     @staticmethod
-    def get_files_by_extension(location: str, extension: str, preview=False, preview_size=395, recursion=True) -> int:
+    def get_files_by_extension(location: str, extension: str, preview=False, preview_size=395,
+                               recursion=True, include_hidden=False) -> int:
         """ Search for files that have the given extension in their filename and optionally display
         a preview of the file.
 
@@ -69,17 +70,32 @@ class WordCounter:
         if recursion:
             if extension == '.':
                 print(f'\nRecursively searching for files without extension in {location}.\n')
-                files = get_files_without_extension(location, recursive=True)
+                files = get_files_without_extension(location, recursive=True, include_hidden=include_hidden)
             else:
                 print(f'\nRecursively searching for .{extension} files in {location}.\n')
-                files = sorted(Path(os.path.expanduser(location)).rglob(f"*.{extension}"))
+                if include_hidden:
+                    files = sorted([f for f
+                                    in Path(os.path.expanduser(location)).rglob(f"*.{extension}")
+                                    if f.is_file()])
+                else:
+                    files = sorted([f for f
+                                    in Path(os.path.expanduser(location)).rglob(f"*.{extension}")
+                                    if f.is_file() and not is_hidden(f)])
+
         else:
             if extension == '.':
                 print(f'\nSearching for files without extension in {location}.\n')
-                files = get_files_without_extension(location, recursive=False)
+                files = get_files_without_extension(location, recursive=False, include_hidden=include_hidden)
             else:
                 print(f'\nSearching for .{extension} files in {location}.\n')
-                files = sorted(Path(os.path.expanduser(location)).glob(f"*.{extension}"))
+                if include_hidden:
+                    files = sorted([f for f
+                                    in Path(os.path.expanduser(location)).glob(f"*.{extension}")
+                                    if f.is_file()])
+                else:
+                    files = sorted([f for f
+                                    in Path(os.path.expanduser(location)).glob(f"*.{extension}")
+                                    if f.is_file() and not is_hidden(f)])
 
         if files:
             sizes = []

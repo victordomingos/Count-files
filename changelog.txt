@@ -36,7 +36,10 @@ v.1.4 -
  * Added 1 test for hidden files:
     - `test_for_hidden()` in `test_argument_parser.py`;
     - TODO: add 1 hidden file and check it on Unix.
+
  * Updated `tests/data_for_tests_statistics.txt`.
+ * Added preliminary version of `is_hidden()` and change code to reference this function.
+    - TODO: there seems to be a test failing, probably related to this.
 
 
 ---

@@ -12,7 +12,7 @@ import os
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar
 
-from countfiles.utils.file_handlers import get_file_extension
+from countfiles.utils.file_handlers import get_file_extension, is_hidden
 from countfiles.utils.word_counter import WordCounter
 
 
@@ -42,7 +42,8 @@ parser.add_argument('-nt', '--no-table', action='store_true',
                     help="Don't show the table, only the total number of files")
 
 parser.add_argument('-fe', '--file-extension', required=False, type=str,
-                    help='Search files by file extension')
+                    help="Search files by file extension (use a single dot '.' to search for "
+                         "files without any extension)")
 
 parser.add_argument('-p', '--preview', action='store_true',
                     help="Display a short preview (only available for text files when "
@@ -86,7 +87,8 @@ def main_flow(args: Type[argparse_namespace_object]):
         len_files = fc.get_files_by_extension(location, args.file_extension,
                                               preview=args.preview,
                                               preview_size=args.preview_size,
-                                              recursion=recursive)
+                                              recursion=recursive,
+                                              include_hidden=include_hidden)
         return len_files
 
     # ...or do other stuff.
@@ -99,8 +101,8 @@ def main_flow(args: Type[argparse_namespace_object]):
         print(f'\nRecursively counting all files, {hidden_msg} in {loc_text}.\n')
         for root, dirs, files in os.walk(location):
             if not include_hidden:
-                dirs[:] = [d for d in dirs if not d.startswith('.')]
-                files = [f for f in files if not f.startswith('.')]
+                dirs[:] = [d for d in dirs if not is_hidden(d)]
+                files = [f for f in files if not is_hidden(f)]
             for f in files:
                 fc.count_word(get_file_extension(f))
     else:
@@ -111,7 +113,7 @@ def main_flow(args: Type[argparse_namespace_object]):
             print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')
             with os.scandir(location) as directory:
                 for f in directory:
-                    if not include_hidden and f.name.startswith('.'):
+                    if not include_hidden and is_hidden(f):
                         continue
                     if f.is_file():  # Skip directories
                         fc.count_word(get_file_extension(f.name))

@@ -1,8 +1,12 @@
 import os
 from pathlib import Path
 
+try:
+    import ctypes
+except:
+    pass
 
-def get_file_extension(file_path: str) -> str:
+def get_file_extension(filepath: str) -> str:
     """Extract only the file extension from a given path.
 
     If the file name does not have an extension, return '[no extension]'.
@@ -10,21 +14,21 @@ def get_file_extension(file_path: str) -> str:
     select2.3805311d5fc1.css.gz -> gz, .gitignore -> [no extension]
     Pipfile -> [no extension], .hidden_file.txt -> txt
     """
-    extension = os.path.splitext(file_path)[1][1:]
+    extension = os.path.splitext(filepath)[1][1:]
     if extension:
         return extension
     else:
         return '[no extension]'
 
 
-def has_extension(path) -> bool:
+def has_extension(filepath) -> bool:
     """Check if a filename has an extension.
 
     Behavior:
     select2.3805311d5fc1.css.gz -> True, .gitignore -> False
     Pipfile -> False, .hidden_file.txt -> True
     """
-    if not os.path.splitext(path)[1]:
+    if not os.path.splitext(filepath)[1]:
         return False
     else:
         return True
@@ -44,13 +48,28 @@ def human_mem_size(num: int, suffix='B') -> str:
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 
-def is_hidden(path):
-    """ Check if the given path is hidden """
-    #TODO
-    pass
+def _has_hidden_attribute(filepath):
+    """
+    Adapted from Jason R. Coombs (https://stackoverflow.com/a/6365265/6167478)
+    """
+    try:
+        attrs = ctypes.windll.kernel32.GetFileAttributesW(unicode(filepath))
+        assert attrs != -1
+        result = bool(attrs & 2)
+    except (AttributeError, AssertionError):
+        result = False
+    return result
 
 
-def get_files_without_extension(path: str, recursive=False):
+def is_hidden(filepath: str) -> bool:
+    """ Check if the given path (file or directory) is hidden """
+    # TODO: adapt this for both windows and Unix.
+    # TODO: adapt for Pythonista/iOS and test.
+    name = os.path.basename(os.path.abspath(filepath))
+    return name.startswith('.') or _has_hidden_attribute(filepath)
+
+
+def get_files_without_extension(path: str, recursive=False, include_hidden=True):
     """Find all files in a given directory that have no extension.
 
     By default, this function does not recurse through subdirectories.
@@ -64,8 +83,16 @@ def get_files_without_extension(path: str, recursive=False):
     who submited the initial implementation.
     """
     if recursive:
-        return [f for f in Path(os.path.expanduser(path)).rglob("*")
-                if f.is_file() and not has_extension(f)]
+        if include_hidden:
+            return [f for f in Path(os.path.expanduser(path)).rglob("*")
+                    if f.is_file() and not has_extension(f)]
+        else:
+            return [f for f in Path(os.path.expanduser(path)).rglob("*")
+                    if f.is_file() and not is_hidden(f) and not has_extension(f)]
     else:
-        return [f for f in Path(path).iterdir()
-                if f.is_file() and not has_extension(f)]
+        if include_hidden:
+            return [f for f in Path(path).iterdir()
+                    if f.is_file() and not has_extension(f)]
+        else:
+            return [f for f in Path(path).iterdir()
+                    if f.is_file() and not is_hidden(f) and not has_extension(f)]
