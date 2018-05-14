@@ -55,8 +55,7 @@ def _has_hidden_attribute(filepath):
     Adapted from Jason R. Coombs (https://stackoverflow.com/a/6365265/6167478)
     """
     try:
-        # unresolved reference 'unicode'?
-        attrs = ctypes.windll.kernel32.GetFileAttributesW(unicode(filepath))
+        attrs = ctypes.windll.kernel32.GetFileAttributesW(filepath)
         assert attrs != -1
         result = bool(attrs & 2)
     except (AttributeError, AssertionError):
@@ -101,7 +100,7 @@ def get_files_without_extension(path: str, recursive=False, include_hidden=True)
                     if f.is_file() and not is_hidden(f) and not has_extension(f)]
 
 
-def is_hidden_file_or_dir(platform_name: str, path: str) -> bool:
+def is_hidden_file_or_dir(platform_name: str, filepath: str) -> bool:
     """The function determines whether the file or folder is hidden.
 
     Windows: testing the FILE_ATTRIBUTE_HIDDEN for file or folder
@@ -112,13 +111,14 @@ def is_hidden_file_or_dir(platform_name: str, path: str) -> bool:
     For Windows def is_hidden_file_or_dir('~/path/to/file.txt')
     checking only file. For checking folder - def is_hidden_file_or_dir('~/path/to_folder')
     :param platform_name: result of a 'sys.platform' parameter call
-    :param path: ~/path/to/file.txt or ~/path/to_folder
+    :param filepath: ~/path/to/file.txt or ~/path/to_folder
     :return: True if hidden or False if not
     """
+    filepath = os.path.normpath(filepath)
     if platform_name.startswith('win'):
-        return bool(os.stat(path).st_file_attributes & stat.FILE_ATTRIBUTE_HIDDEN)
+        return bool(os.stat(filepath).st_file_attributes & stat.FILE_ATTRIBUTE_HIDDEN)
     elif platform_name.startswith('linux'):
-        return bool('\.' in path or '/.' in path)
+        return bool('/.' in filepath)
 
 
 # TODO: add checking for hidden folder in Windows to skip it.
@@ -143,7 +143,6 @@ def non_recursive_search(location: str, platform_name: str, hidden: bool) -> Lis
 def recursive_search(location: str, platform_name: str, hidden: bool) -> List[str]:
     """Recursive search for files in folder and subfolders.
 
-    parts[2] - list with filenames, parts[0] - ~/path/to/file
     :param location: ~/path/to_folder
     :param platform_name: result of a 'sys.platform' parameter call
     :param hidden: False -> exclude hidden, True -> include hidden, counting all files
@@ -151,13 +150,13 @@ def recursive_search(location: str, platform_name: str, hidden: bool) -> List[st
     """
     if hidden:
         result = []
-        for parts in os.walk(location):
-            result.extend(parts[2])
+        for root, dirs, files in os.walk(location):
+            result.extend(files)
     else:
         result = []
-        for parts in os.walk(location):
-            result.extend([file for file in parts[2]
-                           if not is_hidden_file_or_dir(platform_name, os.path.join(parts[0], file))])
+        for root, dirs, files in os.walk(location):
+            result.extend([f for f in files
+                           if not is_hidden_file_or_dir(platform_name, os.path.join(root, f))])
     return result
 
 
