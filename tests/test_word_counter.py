@@ -10,8 +10,8 @@ class TestWordCounter(unittest.TestCase):
         self.counter = WordCounter()
 
     def get_locations(self, *args):
-        print('LOCATION: ', os.path.join(os.path.dirname(__file__), *args))
-        return os.path.join(os.path.dirname(__file__), *args)
+        print('LOCATION: ', os.path.normpath(os.path.join(os.path.dirname(__file__), *args)))
+        return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
 
     # 2018-05-12: ignoring hidden files and directories - not implemented for def get_files_by_extension
     # and not covered by tests for this function

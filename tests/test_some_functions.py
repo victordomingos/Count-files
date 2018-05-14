@@ -13,8 +13,8 @@ class TestSomeFunctions(unittest.TestCase):
                                 '.hidden.file.txt': ('txt', True), 'select2.3805311d5fc1.css.gz': ('gz', True)}
 
     def get_locations(self, *args):
-        print('LOCATION: ', os.path.join(os.path.dirname(__file__), *args))
-        return os.path.join(os.path.dirname(__file__), *args)
+        print('LOCATION: ', os.path.normpath(os.path.join(os.path.dirname(__file__), *args)))
+        return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
 
     def test_get_file_extension(self):
         """Testing def get_file_extension.
