@@ -1,0 +1,87 @@
+WINDOWS:
+2018-05-14
+Recursively counting all files, ignoring hidden files, in :
+/tests/test_hidden_windows.
+
+ EXTENSION | FREQ.
+-----------+-------
+ txt       |     1
+ py        |     1
+ xlsx      |     1
+-----------+-------
+ TOTAL:    |     3
+-----------+-------
+
+Recursively counting all files, including hidden files, in :
+/tests/test_hidden_windows.
+
+ EXTENSION | FREQ.
+-----------+-------
+ txt       |     2
+ py        |     2
+ xlsx      |     2
+-----------+-------
+ TOTAL:    |     6
+-----------+-------
+
+Counting files, ignoring hidden files, in :
+C:\Users\Net/Count-files/tests/test_hidden_windows.
+
+ EXTENSION | FREQ.
+-----------+-------
+ txt       |     1
+-----------+-------
+ TOTAL:    |     1
+-----------+-------
+
+Counting files, including hidden files, in :
+C:\Users\Net/Count-files/tests/test_hidden_windows.
+
+ EXTENSION | FREQ.
+-----------+-------
+ txt       |     2
+-----------+-------
+ TOTAL:    |     2
+-----------+-------
+
+LINUX:
+2018-05-14
+Recursively counting all files, ignoring hidden files and directories, in :
+/tests/test_hidden_linux.
+
+ EXTENSION | FREQ.
+-----------+-------
+ txt       |     2
+-----------+-------
+ TOTAL:    |     2
+-----------+-------
+
+Recursively counting all files, including hidden files and directories, in :
+/tests/test_hidden_linux.
+
+ EXTENSION      | FREQ.
+----------------+-------
+ [no extension] |     3
+ txt            |     3
+----------------+-------
+ TOTAL:         |     6
+
+Counting files, ignoring hidden files and directories, in :
+/tests/test_hidden_linux.
+
+ EXTENSION | FREQ.
+-----------+-------
+ txt       |     1
+-----------+-------
+ TOTAL:    |     1
+-----------+-------
+
+Counting files, including hidden files and directories, in :
+C:\Users\Net/Count-files/tests/test_hidden_linux.
+
+ EXTENSION      | FREQ.
+----------------+-------
+ [no extension] |     1
+ txt            |     1
+----------------+-------
+ TOTAL:         |     2
