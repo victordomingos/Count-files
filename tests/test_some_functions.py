@@ -1,7 +1,8 @@
 import unittest
 import os
-from countfiles.utils.file_handlers import get_file_extension, has_extension
-from countfiles.utils.file_handlers import get_files_without_extension
+import sys
+from countfiles.utils.file_handlers import get_file_extension, has_extension,\
+    get_files_without_extension, non_recursive_search, recursive_search
 
 
 class TestSomeFunctions(unittest.TestCase):
@@ -12,8 +13,8 @@ class TestSomeFunctions(unittest.TestCase):
                                 '.hidden.file.txt': ('txt', True), 'select2.3805311d5fc1.css.gz': ('gz', True)}
 
     def get_locations(self, *args):
-        print('LOCATION: ', os.path.join(os.path.dirname(__file__), *args))
-        return os.path.join(os.path.dirname(__file__), *args)
+        print('LOCATION: ', os.path.normpath(os.path.join(os.path.dirname(__file__), *args)))
+        return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
 
     def test_get_file_extension(self):
         """Testing def get_file_extension.
@@ -61,6 +62,37 @@ class TestSomeFunctions(unittest.TestCase):
         result = get_files_without_extension(path=self.get_locations('data_for_tests'), recursive=True)
         self.assertEqual(len(result), 2)
 
+    # only hidden files, hidden folders are not processed in def non_recursive_search for Windows
+    @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
+    def test_non_recursive_search_win(self):
+        result_false = non_recursive_search(self.get_locations('test_hidden_windows'), platform_name='win', hidden=False)
+        result_true = non_recursive_search(self.get_locations('test_hidden_windows'), platform_name='win', hidden=True)
+        self.assertEqual(len(result_false), 1)
+        self.assertEqual(len(result_true), 2)
+
+    # only hidden files, hidden folders are not processed in def recursive_search for Windows
+    @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
+    def test_recursive_search_win(self):
+        result_false = recursive_search(self.get_locations('test_hidden_windows'), platform_name='win', hidden=False)
+        result_true = recursive_search(self.get_locations('test_hidden_windows'), platform_name='win', hidden=True)
+        self.assertEqual(len(result_false), 3)
+        self.assertEqual(len(result_true), 6)
+
+    # hidden files and folders
+    @unittest.skipUnless(sys.platform.startswith('linux'), 'for Linux')
+    def test_non_recursive_search_linux(self):
+        result_false = non_recursive_search(self.get_locations('test_hidden_linux'), platform_name='linux', hidden=False)
+        result_true = non_recursive_search(self.get_locations('test_hidden_linux'), platform_name='linux', hidden=True)
+        self.assertEqual(len(result_false), 1)
+        self.assertEqual(len(result_true), 2)
+
+    # hidden files and folders
+    @unittest.skipUnless(sys.platform.startswith('linux'), 'for Linux')
+    def test_recursive_search_linux(self):
+        result_false = recursive_search(self.get_locations('test_hidden_linux'), platform_name='linux', hidden=False)
+        result_true = recursive_search(self.get_locations('test_hidden_linux'), platform_name='linux', hidden=True)
+        self.assertEqual(len(result_false), 2)
+        self.assertEqual(len(result_true), 6)
 
 # from root directory:
 
@@ -70,8 +102,8 @@ class TestSomeFunctions(unittest.TestCase):
 # run all tests for class TestSomeFunctions
 # python -m unittest tests.test_some_functions.TestSomeFunctions
 
-# run test for def test_get_file_extension in class TestSomeFunctions
-# python -m unittest tests.test_some_functions.TestSomeFunctions.test_has_extension
+# run test for def test_non_recursive_search in class TestSomeFunctions
+# python -m unittest tests.test_some_functions.TestSomeFunctions.test_non_recursive_search
 
 # or run file in PyCharm
 

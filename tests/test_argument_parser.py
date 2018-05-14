@@ -11,8 +11,8 @@ class TestArgumentParser(unittest.TestCase):
         self.parser = parser
 
     def get_locations(self, *args):
-        print('LOCATION: ', os.path.join(os.path.dirname(__file__), *args))
-        return os.path.join(os.path.dirname(__file__), *args)
+        print('LOCATION: ', os.path.normpath(os.path.join(os.path.dirname(__file__), *args)))
+        return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
 
     # 2018-05-12: ignoring hidden files and directories - not implemented for Windows
     # python __main__.py ~/.../tests/data_for_tests -a -nt and
