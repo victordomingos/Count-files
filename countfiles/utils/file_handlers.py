@@ -119,7 +119,8 @@ def is_hidden_file_or_dir(platform_name: str, filepath: str) -> bool:
         return bool(os.stat(filepath).st_file_attributes & stat.FILE_ATTRIBUTE_HIDDEN)
     elif platform_name.startswith('linux'):
         return bool('/.' in filepath)
-
+    elif platform_name.startswith('darwin'):
+        return bool('/.' in filepath)
 
 # TODO: add checking for hidden folder in Windows to skip it.
 def non_recursive_search(location: str, platform_name: str, hidden: bool) -> List[str]:
