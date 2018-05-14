@@ -8,12 +8,14 @@ directory.
 © 2018 Victor Domingos, Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 """
 import os
+import sys
 
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar
 
 from countfiles.utils.file_handlers import get_file_extension, is_hidden
 from countfiles.utils.word_counter import WordCounter
+from countfiles.utils.file_handlers import recursive_search, non_recursive_search, is_hidden_file_or_dir
 
 
 parser = ArgumentParser(
@@ -59,8 +61,8 @@ argparse_namespace_object = TypeVar('argparse_namespace_object', bound=Namespace
 
 # @exceptions_decorator
 def main_flow(args: Type[argparse_namespace_object]):
-    """
-    Main application function
+    """Main application function.
+
     :param args: object <class 'argparse.Namespace'>
     :return:
     """
@@ -69,6 +71,7 @@ def main_flow(args: Type[argparse_namespace_object]):
     show_table = not args.no_table
     sort_alpha = args.sort_alpha
     search_by_extension = True if args.file_extension else False
+    platform_name = sys.platform
     fc = WordCounter()
 
     if os.path.abspath(args.path) == os.getcwd():
@@ -80,6 +83,10 @@ def main_flow(args: Type[argparse_namespace_object]):
 
     if not os.path.exists(location):
         print(f'The path {location} does not exist, or there may be a typo in it.')
+        return
+
+    if not include_hidden and is_hidden_file_or_dir(platform_name, location):
+        print(f'\nNot counting any files, because {loc_text[2:]} is hidden.')
         return
 
     # Either search and list files by extension...
@@ -99,24 +106,29 @@ def main_flow(args: Type[argparse_namespace_object]):
 
     if recursive:
         print(f'\nRecursively counting all files, {hidden_msg} in {loc_text}.\n')
-        for root, dirs, files in os.walk(location):
-            if not include_hidden:
-                dirs[:] = [d for d in dirs if not is_hidden(d)]
-                files = [f for f in files if not is_hidden(f)]
-            for f in files:
-                fc.count_word(get_file_extension(f))
+        files = recursive_search(location, platform_name, hidden=include_hidden)
+        #for root, dirs, files in os.walk(location):
+            #if not include_hidden:
+                #dirs[:] = [d for d in dirs if not is_hidden(d)]
+                #files = [f for f in files if not is_hidden(f)]
+        #for f in files:
+            #fc.count_word(get_file_extension(f))
     else:
-        if not include_hidden and '/.' in location:
-            print(f'\nNot counting any files, because {loc_text[2:]} is hidden.')
-            return
-        else:
-            print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')
-            with os.scandir(location) as directory:
-                for f in directory:
-                    if not include_hidden and is_hidden(f):
-                        continue
-                    if f.is_file():  # Skip directories
-                        fc.count_word(get_file_extension(f.name))
+        #if not include_hidden and '/.' in location:
+            #print(f'\nNot counting any files, because {loc_text[2:]} is hidden.')
+            #return
+        #else:
+        print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')
+            #with os.scandir(location) as directory:
+                #for f in directory:
+                    #if not include_hidden and is_hidden(f):
+                        #continue
+                    #if f.is_file():  # Skip directories
+                        #fc.count_word(get_file_extension(f.name))
+        files = non_recursive_search(location, platform_name, hidden=include_hidden)
+
+    for f in files:
+        fc.count_word(get_file_extension(f))
 
     if show_table:
         if sort_alpha:
