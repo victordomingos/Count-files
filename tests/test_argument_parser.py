@@ -83,7 +83,7 @@ class TestArgumentParser(unittest.TestCase):
             [self.get_locations('data_for_tests'), '-fe', '.'])), 2)
 
     # TODO: add 1 hidden file and check it on Unix
-    @unittest.skipIf(sys.platform.startswith("win"), "not for Windows")
+    #@unittest.skipIf(sys.platform.startswith("win"), "not for Windows")
     def test_for_hidden(self):
         """Testing def main_flow.
 
@@ -93,9 +93,9 @@ class TestArgumentParser(unittest.TestCase):
         :return:
         """
         self.assertEqual(main_flow(args=self.parser.parse_args(
-            [self.get_locations('data_for_tests'), '-nr'])), 0)
+            [self.get_locations('test_hidden_linux'), '-nr', '-nt'])), 1)
         self.assertEqual(main_flow(args=self.parser.parse_args(
-            [self.get_locations('data_for_tests'), '-nr', '-a'])), 1)
+            [self.get_locations('test_hidden_linux'), '-nr', '-nt', '-a'])), 2)
 
 # from root directory:
 
@@ -105,8 +105,8 @@ class TestArgumentParser(unittest.TestCase):
 # run all tests for class TestArgumentParser
 # python -m unittest tests.test_argument_parser.TestArgumentParser
 
-# run test for def test_countfiles_fe in class TestArgumentParser
-# python -m unittest tests.test_argument_parser.TestArgumentParser.test_countfiles_fe
+# run test for def test_for_hidden in class TestArgumentParser
+# python -m unittest tests.test_argument_parser.TestArgumentParser.test_for_hidden
 
 # or run file in PyCharm
 
