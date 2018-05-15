@@ -3,15 +3,15 @@
 import unittest
 import os
 import sys
-from countfiles.utils.file_handlers import get_file_extension, has_extension,\
+from countfiles.utils.file_handlers import get_file_extension, \
     get_files_without_extension, non_recursive_search, recursive_search
 
 
 class TestSomeFunctions(unittest.TestCase):
 
     def setUp(self):
-        self.extensions_dict = {'file.py': ('py', True), '.gitignore': ('[no extension]', False),
-                                'file': ('[no extension]', False), '.hidden_file.txt': ('txt', True),
+        self.extensions_dict = {'file.py': ('py', True), '.gitignore': ('', False),
+                                'file': ('', False), '.hidden_file.txt': ('txt', True),
                                 '.hidden.file.txt': ('txt', True), 'select2.3805311d5fc1.css.gz': ('gz', True)}
 
     def get_locations(self, *args):
@@ -30,16 +30,6 @@ class TestSomeFunctions(unittest.TestCase):
             with self.subTest(k=k, v=v):
                 self.assertEqual(get_file_extension(k), v[0])
 
-    def test_has_extension(self):
-        """Testing def has_extension.
-
-        Expected behavior:
-        Check if a filename has an extension, return bool.
-        :return:
-        """
-        for k, v in self.extensions_dict.items():
-            with self.subTest(k=k, v=v):
-                self.assertEqual(has_extension(self.get_locations('data_for_tests', k)), v[1])
 
     # Return len==1 [WindowsPath('C:/../tests/data_for_tests/no_extension')]
     def test_get_files_without_extension(self):

@@ -10,32 +10,20 @@ try:
 except:
     pass
 
+
 def get_file_extension(filepath: str) -> str:
     """Extract only the file extension from a given path.
 
-    If the file name does not have an extension, return '[no extension]'.
+    If the file name does not have an extension, return '' (empty string).
     Behavior:
-    select2.3805311d5fc1.css.gz -> gz, .gitignore -> [no extension]
-    Pipfile -> [no extension], .hidden_file.txt -> txt
+    select2.3805311d5fc1.css.gz -> gz, .gitignore -> ''
+    Pipfile -> '', .hidden_file.txt -> txt
     """
     extension = os.path.splitext(filepath)[1][1:]
     if extension:
         return extension
     else:
-        return '[no extension]'
-
-
-def has_extension(filepath) -> bool:
-    """Check if a filename has an extension.
-
-    Behavior:
-    select2.3805311d5fc1.css.gz -> True, .gitignore -> False
-    Pipfile -> False, .hidden_file.txt -> True
-    """
-    if not os.path.splitext(filepath)[1]:
-        return False
-    else:
-        return True
+        return ''
 
 
 def human_mem_size(num: int, suffix='B') -> str:
@@ -89,17 +77,17 @@ def get_files_without_extension(path: str, recursive=False, include_hidden=True)
     if recursive:
         if include_hidden:
             return [f for f in Path(os.path.expanduser(path)).rglob("*")
-                    if f.is_file() and not has_extension(f)]
+                    if f.is_file() and not get_file_extension(f)]
         else:
             return [f for f in Path(os.path.expanduser(path)).rglob("*")
-                    if f.is_file() and not is_hidden(f) and not has_extension(f)]
+                    if f.is_file() and not is_hidden(f) and not get_file_extension(f)]
     else:
         if include_hidden:
             return [f for f in Path(path).iterdir()
-                    if f.is_file() and not has_extension(f)]
+                    if f.is_file() and not get_file_extension(f)]
         else:
             return [f for f in Path(path).iterdir()
-                    if f.is_file() and not is_hidden(f) and not has_extension(f)]
+                    if f.is_file() and not is_hidden(f) and not get_file_extension(f)]
 
 
 def is_hidden_file_or_dir(platform_name: str, filepath: str) -> bool:
@@ -123,6 +111,7 @@ def is_hidden_file_or_dir(platform_name: str, filepath: str) -> bool:
         return bool('/.' in filepath)
     elif platform_name.startswith('darwin'):
         return bool('/.' in filepath)
+
 
 # TODO: add checking for hidden folder in Windows to skip it.
 def non_recursive_search(location: str, platform_name: str, hidden: bool) -> List[str]:
