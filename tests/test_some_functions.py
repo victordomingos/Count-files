@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import unittest
 import os
 import sys
@@ -79,7 +81,7 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(len(result_true), 6)
 
     # hidden files and folders
-    @unittest.skipUnless(sys.platform.startswith('linux'), 'for Linux')
+    @unittest.skipUnless(sys.platform.startswith('linux') or sys.platform.startswith('darwin'), 'for Linux/macOS')
     def test_non_recursive_search_linux(self):
         result_false = non_recursive_search(self.get_locations('test_hidden_linux'), platform_name='linux', hidden=False)
         result_true = non_recursive_search(self.get_locations('test_hidden_linux'), platform_name='linux', hidden=True)
@@ -87,12 +89,13 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(len(result_true), 2)
 
     # hidden files and folders
-    @unittest.skipUnless(sys.platform.startswith('linux'), 'for Linux')
+    @unittest.skipUnless(sys.platform.startswith('linux') or sys.platform.startswith('darwin'), 'for Linux/macOS')
     def test_recursive_search_linux(self):
         result_false = recursive_search(self.get_locations('test_hidden_linux'), platform_name='linux', hidden=False)
         result_true = recursive_search(self.get_locations('test_hidden_linux'), platform_name='linux', hidden=True)
         self.assertEqual(len(result_false), 2)
         self.assertEqual(len(result_true), 6)
+
 
 # from root directory:
 
