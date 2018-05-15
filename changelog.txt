@@ -26,7 +26,6 @@ v.1.4 -
  * Added a function to check if file has extension.
  * Reduced number of test files.
  * New tests for functions in test_some_functions.py:
-    - added def test_has_extension();
     - added def test_get_files_without_extension() and def test_get_files_without_extension_recursive().
  * Changed asserts in test functions according to new dataset.
  * `test_get_files_by_extension()` and `test_get_files_by_extension_nr()` in

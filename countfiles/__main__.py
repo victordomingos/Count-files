@@ -109,10 +109,12 @@ def main_flow(args: Type[argparse_namespace_object]):
 
     if recursive:
         print(f'\nRecursively counting all files, {hidden_msg} in {loc_text}.\n')
-        files = recursive_search(location, platform_name, hidden=include_hidden)
+        files = recursive_search(location, platform_name,
+                                 include_hidden=include_hidden)
     else:
         print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')
-        files = non_recursive_search(location, platform_name, hidden=include_hidden)
+        files = non_recursive_search(location, platform_name,
+                                     include_hidden=include_hidden)
 
     for f in files:
         extension = get_file_extension(f)

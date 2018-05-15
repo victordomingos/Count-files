@@ -53,6 +53,7 @@ def _has_hidden_attribute(filepath):
     return result
 
 
+#TODO: Are we ready to we remove this function and start using is_hidden_file_or_dir() instead?
 def is_hidden(filepath: str) -> bool:
     """ Check if the given path (file or directory) is hidden """
     # TODO: adapt this for both windows and Unix.
@@ -114,17 +115,17 @@ def is_hidden_file_or_dir(platform_name: str, filepath: str) -> bool:
 
 
 # TODO: add checking for hidden folder in Windows to skip it.
-def non_recursive_search(location: str, platform_name: str, hidden: bool) -> List[str]:
+def non_recursive_search(location: str, platform_name: str, include_hidden: bool) -> List[str]:
     """Non recursive search for files in folder.
 
     :param location: ~/path/to_folder
     :param platform_name: result of a 'sys.platform' parameter call
-    :param hidden: False -> exclude hidden, True -> include hidden, counting all files
+    :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
     :return: list with filenames
     """
     with os.scandir(location) as directory:
         # if True return all files
-        if hidden:
+        if include_hidden:
             result = [f for f in directory if f.is_file()]
         else:
             result = [f for f in directory if f.is_file()
@@ -132,15 +133,15 @@ def non_recursive_search(location: str, platform_name: str, hidden: bool) -> Lis
     return result
 
 
-def recursive_search(location: str, platform_name: str, hidden: bool) -> List[str]:
+def recursive_search(location: str, platform_name: str, include_hidden: bool) -> List[str]:
     """Recursive search for files in folder and subfolders.
 
     :param location: ~/path/to_folder
     :param platform_name: result of a 'sys.platform' parameter call
-    :param hidden: False -> exclude hidden, True -> include hidden, counting all files
+    :param include_idden: False -> exclude hidden, True -> include hidden, counting all files
     :return: list with filenames
     """
-    if hidden:
+    if include_hidden:
         result = []
         for root, dirs, files in os.walk(location):
             result.extend(files)
