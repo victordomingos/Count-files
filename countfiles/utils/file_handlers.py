@@ -41,36 +41,6 @@ def human_mem_size(num: int, suffix='B') -> str:
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 
-def _has_hidden_attribute(filepath):
-    """
-    Adapted from Jason R. Coombs and Ben Hoyt (https://stackoverflow.com/a/6365265/6167478)
-    """
-    """
-    try:
-        attrs = ctypes.windll.kernel32.GetFileAttributesW(filepath)
-        assert attrs != -1
-        result = bool(attrs & 2)
-    except (AttributeError, AssertionError):
-        result = False
-    return result
-    """
-    #TODO: test if this alternative version works as expected on Windows
-    try:
-        return bool(os.stat(filepath).st_file_attributes & stat.FILE_ATTRIBUTE_HIDDEN)
-    except Exception as e:
-        print(e) # TODO: clean up this after debugging
-        return False
-
-
-#TODO: Are we ready to we remove this function and start using is_hidden_file_or_dir() instead?
-def is_hidden(filepath: str) -> bool:
-    """ Check if the given path (file or directory) is hidden """
-    # TODO: adapt this for both windows and Unix.
-    # TODO: adapt for Pythonista/iOS and test.
-    name = os.path.basename(os.path.abspath(filepath))
-    return name.startswith('.') or _has_hidden_attribute(filepath)
-
-
 def get_files_without_extension(path: str, recursive=False, include_hidden=True):
     """Find all files in a given directory that have no extension.
 
