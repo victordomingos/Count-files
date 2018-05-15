@@ -7,7 +7,7 @@ from pathlib import Path
 
 from countfiles.utils.file_handlers import human_mem_size
 from countfiles.utils.file_preview import generate_preview
-from countfiles.utils.file_handlers import get_files_without_extension, is_hidden
+from countfiles.utils.file_handlers import get_files_without_extension, is_hidden_file_or_dir
 
 class WordCounter:
     def __init__(self):
@@ -82,7 +82,7 @@ class WordCounter:
                 else:
                     files = sorted([f for f
                                     in Path(os.path.expanduser(location)).rglob(f"*.{extension}")
-                                    if f.is_file() and not is_hidden(f)])
+                                    if f.is_file() and not is_hidden_file_or_dir(f)])
 
         else:
             if extension == '.':
@@ -97,7 +97,7 @@ class WordCounter:
                 else:
                     files = sorted([f for f
                                     in Path(os.path.expanduser(location)).glob(f"*.{extension}")
-                                    if f.is_file() and not is_hidden(f)])
+                                    if f.is_file() and not is_hidden_file_or_dir(f)])
 
         if files:
             sizes = []

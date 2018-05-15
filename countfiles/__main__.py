@@ -72,7 +72,7 @@ def main_flow(args: Type[argparse_namespace_object]):
     show_table = not args.no_table
     sort_alpha = args.sort_alpha
     search_by_extension = True if args.file_extension else False
-    platform_name = sys.platform
+
     fc = WordCounter()
 
     if os.path.abspath(args.path) == os.getcwd():
@@ -86,7 +86,7 @@ def main_flow(args: Type[argparse_namespace_object]):
         print(f'The path {location} does not exist, or there may be a typo in it.')
         return
 
-    if not include_hidden and is_hidden_file_or_dir(platform_name, location):
+    if not include_hidden and is_hidden_file_or_dir(location):
         print(f'\nNot counting any files, because {loc_text[2:]} is hidden.')
         return
 
@@ -109,12 +109,10 @@ def main_flow(args: Type[argparse_namespace_object]):
 
     if recursive:
         print(f'\nRecursively counting all files, {hidden_msg} in {loc_text}.\n')
-        files = recursive_search(location, platform_name,
-                                 include_hidden=include_hidden)
+        files = recursive_search(location, include_hidden=include_hidden)
     else:
         print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')
-        files = non_recursive_search(location, platform_name,
-                                     include_hidden=include_hidden)
+        files = non_recursive_search(location, include_hidden=include_hidden)
 
     for f in files:
         extension = get_file_extension(f)

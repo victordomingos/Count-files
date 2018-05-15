@@ -57,48 +57,48 @@ class TestSomeFunctions(unittest.TestCase):
     # only hidden files, hidden folders are not processed in def non_recursive_search for Windows
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_non_recursive_search_win(self):
-        result_false = non_recursive_search(self.get_locations('test_hidden_windows'), platform_name='win', include_hidden=False)
-        result_true = non_recursive_search(self.get_locations('test_hidden_windows'), platform_name='win', include_hidden=True)
+        result_false = non_recursive_search(self.get_locations('test_hidden_windows'), include_hidden=False)
+        result_true = non_recursive_search(self.get_locations('test_hidden_windows'), include_hidden=True)
         self.assertEqual(len(result_false), 1)
         self.assertEqual(len(result_true), 2)
 
     # only hidden files, hidden folders are not processed in def recursive_search for Windows
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_recursive_search_win(self):
-        result_false = recursive_search(self.get_locations('test_hidden_windows'), platform_name='win', include_hidden=False)
-        result_true = recursive_search(self.get_locations('test_hidden_windows'), platform_name='win', include_hidden=True)
+        result_false = recursive_search(self.get_locations('test_hidden_windows'), include_hidden=False)
+        result_true = recursive_search(self.get_locations('test_hidden_windows'), include_hidden=True)
         self.assertEqual(len(result_false), 3)
         self.assertEqual(len(result_true), 6)
 
     # hidden files and folders
     @unittest.skipUnless(sys.platform.startswith('linux'), 'for Linux')
     def test_non_recursive_search_linux(self):
-        result_false = non_recursive_search(self.get_locations('test_hidden_linux'), platform_name='linux', include_hidden=False)
-        result_true = non_recursive_search(self.get_locations('test_hidden_linux'), platform_name='linux', include_hidden=True)
+        result_false = non_recursive_search(self.get_locations('test_hidden_linux'), include_hidden=False)
+        result_true = non_recursive_search(self.get_locations('test_hidden_linux'), include_hidden=True)
         self.assertEqual(len(result_false), 1)
         self.assertEqual(len(result_true), 2)
 
     # hidden files and folders
     @unittest.skipUnless(sys.platform.startswith('linux'), 'for Linux')
     def test_recursive_search_linux(self):
-        result_false = recursive_search(self.get_locations('test_hidden_linux'), platform_name='linux', include_hidden=False)
-        result_true = recursive_search(self.get_locations('test_hidden_linux'), platform_name='linux', include_hidden=True)
+        result_false = recursive_search(self.get_locations('test_hidden_linux'), include_hidden=False)
+        result_true = recursive_search(self.get_locations('test_hidden_linux'), include_hidden=True)
         self.assertEqual(len(result_false), 2)
         self.assertEqual(len(result_true), 6)
 
     # hidden files and folders
     @unittest.skipUnless(sys.platform.startswith('darwin'), 'for macOS')
     def test_non_recursive_search_linux(self):
-        result_false = non_recursive_search(self.get_locations('test_hidden_linux'), platform_name='darwin', include_hidden=False)
-        result_true = non_recursive_search(self.get_locations('test_hidden_linux'), platform_name='darwin', include_hidden=True)
+        result_false = non_recursive_search(self.get_locations('test_hidden_linux'), include_hidden=False)
+        result_true = non_recursive_search(self.get_locations('test_hidden_linux'), include_hidden=True)
         self.assertEqual(len(result_false), 1)
         self.assertEqual(len(result_true), 2)
 
     # hidden files and folders
     @unittest.skipUnless(sys.platform.startswith('darwin'), 'for macOS')
     def test_recursive_search_linux(self):
-        result_false = recursive_search(self.get_locations('test_hidden_linux'), platform_name='darwin', include_hidden=False)
-        result_true = recursive_search(self.get_locations('test_hidden_linux'), platform_name='darwin', include_hidden=True)
+        result_false = recursive_search(self.get_locations('test_hidden_linux'), include_hidden=False)
+        result_true = recursive_search(self.get_locations('test_hidden_linux'), include_hidden=True)
         self.assertEqual(len(result_false), 2)
         self.assertEqual(len(result_true), 6)
 
