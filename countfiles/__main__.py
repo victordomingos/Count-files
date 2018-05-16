@@ -8,7 +8,6 @@ directory.
 © 2018 Victor Domingos, Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 """
 import os
-import sys
 
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar
@@ -61,7 +60,7 @@ argparse_namespace_object = TypeVar('argparse_namespace_object', bound=Namespace
 
 
 # @exceptions_decorator
-def main_flow(**kwargs: Type[argparse_namespace_object]):
+def main_flow():
     """Main application function.
 
     :param args: object <class 'argparse.Namespace'>
