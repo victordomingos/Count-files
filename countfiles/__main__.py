@@ -61,7 +61,7 @@ argparse_namespace_object = TypeVar('argparse_namespace_object', bound=Namespace
 
 
 # @exceptions_decorator
-def main_flow(args: Type[argparse_namespace_object]):
+def main_flow(**kwargs: Type[argparse_namespace_object]):
     """Main application function.
 
     :param args: object <class 'argparse.Namespace'>
@@ -130,4 +130,4 @@ def main_flow(args: Type[argparse_namespace_object]):
 
 
 if __name__ == "__main__":
-    main_flow(args)
+    main_flow()
