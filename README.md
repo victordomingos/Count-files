@@ -35,76 +35,75 @@ customized by using the `-ps` or `--preview-size` argument followed by an intege
 
 Get a little help about how to use this application:
 
-`countfiles.py -h`  
-`countfiles.py --help`
+`countfiles -h`  
+`countfiles --help`
 
 
 Count all files in current working directory and all of its subdirectories, ignoring hidden files and hidden subdirectories:
 
-`countfiles.py`
+`countfiles`
 
 
 Count all files in current working directory and all of its subdirectories, including hidden files and hidden subdirectories:
 
-`countfiles.py -a`  
-`countfiles.py --all`
+`countfiles -a`  
+`countfiles --all`
 
 
 Count all files in current working directory, ignoring hidden files and hidden subdirectories, and without recursing through subdirectories:
 
-`countfiles.py -nr`  
-`countfiles.py --no-recursion`
+`countfiles -nr`  
+`countfiles --no-recursion`
 
 
 Count all files in a given directory with recursion:
 
-`countfiles.py ~/Documents`
+`countfiles ~/Documents`
 
 
 Count all files in a given directory with recursion, but don't display a table, only the total number of files:
 
-`countfiles.py -nt ~/Documents`  
-`countfiles.py --no-table ~/Documents`
+`countfiles -nt ~/Documents`  
+`countfiles --no-table ~/Documents`
 
 
 Count all files in a given directory without recursing through subdirectories, and sort the table alphabetically:
 
-`countfiles.py -nr -alpha ~/Documents`  
-`countfiles.py --no-recursion --sort-alpha ~/Documents`
+`countfiles -nr -alpha ~/Documents`  
+`countfiles --no-recursion --sort-alpha ~/Documents`
 
 
 Count all files in a given directory without recursing through subdirectories, including hidden files, and only displaying the total number of files (no table):
 
-`countfiles.py -nr -nt -a ~/Documents`  
-`countfiles.py --no-recursion --no-table --all ~/Documents`
+`countfiles -nr -nt -a ~/Documents`  
+`countfiles --no-recursion --no-table --all ~/Documents`
 
 
 Search recursively for any files that have a `.css` extension, in a given directory:
 
-`countfiles.py -fe css ~/Documents`  
-`countfiles.py --file-extension css ~/Documents`
+`countfiles -fe css ~/Documents`  
+`countfiles --file-extension css ~/Documents`
 
 
 Search recursively for any files that have a `.py` extension, in a given directory, and display a 500 characters preview for each one:
 
-`countfiles.py -fe py -p -ps 500 ~/Documents`   
-`countfiles.py --file-extension py --preview --preview-size 500 ~/Documents`
+`countfiles -fe py -p -ps 500 ~/Documents`   
+`countfiles --file-extension py --preview --preview-size 500 ~/Documents`
 
 Search recursively for any files that don't have any extension, in a given directory:
 
-`countfiles.py -fe .  ~/Documents`
-`countfiles.py --file-extension . ~/Documents`
+`countfiles -fe .  ~/Documents`
+`countfiles --file-extension . ~/Documents`
 
 
-## Dependencies:
+## Installation and dependencies:
 
-To run this application, you need to have a working Python 3.6+ instalation. We try to keep the external dependencies at a minimum, in order to keep compatibility with different plataforms, including Pythonista on iOS. At this moment, we require:
+The current development version can be installed with `pip install -e`, followed by the path to the main project directory (the same directory that has the `setup.py` file). To run this application, you need to have a working Python 3.6+ instalation. We try to keep the external dependencies at a minimum, in order to keep compatibility with different plataforms, including Pythonista on iOS. At this moment, we require:
 
 - puremagic==1.4
 
-The main file should have the execution permission bit set (`chmod +x`on Unix-like systems) and should be in a directory listed in the PATH environment variable (usually Python's `site-packages`).
+We plan to submit this to PyPI as soon as possible, in order to provide a more straight-forward instalation and upgrade process. While that doesn't happen, please feel free to take a look at the next section and maybe consider contributing to this project.
 
-I agree there should be a more straight-forward instalation process. While that doesn't happen, please feel free to take a look at the next section and maybe consider contributing to this project.
 
 ## Did you find a bug or do you have a suggestion?
 
