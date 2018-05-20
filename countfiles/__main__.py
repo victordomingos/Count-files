@@ -10,13 +10,14 @@ directory.
 import os
 
 from argparse import ArgumentParser, Namespace
-from typing import Type, TypeVar
+from typing import Type, TypeVar, Union
 
 from countfiles.utils.file_handlers import get_file_extension
 from countfiles.utils.word_counter import WordCounter
 from countfiles.utils.file_handlers import recursive_search
 from countfiles.utils.file_handlers import non_recursive_search
 from countfiles.utils.file_handlers import is_hidden_file_or_dir
+
 
 parser = ArgumentParser(
     description="Count files, grouped by extension, in a directory. By "
@@ -54,18 +55,20 @@ parser.add_argument('-p', '--preview', action='store_true',
 parser.add_argument('-ps', '--preview-size', required=False, type=int, default=390,
                     help="Specify the number of characters to be displayed from each "
                          "found file when using '-p' or '--preview')")
-args = parser.parse_args()
+
 
 argparse_namespace_object = TypeVar('argparse_namespace_object', bound=Namespace)
 
 
 # @exceptions_decorator
-def main_flow():
+def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     """Main application function.
 
-    :param args: object <class 'argparse.Namespace'>
+    :param args: object <class 'argparse.Namespace'>,
+    for tests param args - tuple with objects of <class 'str'>
     :return:
     """
+    args = parser.parse_args(*args)
     recursive = not args.no_recursion
     include_hidden = args.all
     show_table = not args.no_table
