@@ -26,10 +26,8 @@ class TestArgumentParser(unittest.TestCase):
         Equivalent to "python __main__.py ~/.../tests/data_for_tests -a -nt"
         :return:
         """
-        self.assertEqual(main_flow(args=self.parser.parse_args(
-            [self.get_locations('data_for_tests'), '-a', '-nt'])), 16)
-        self.assertEqual(main_flow(args=self.parser.parse_args(
-            [self.get_locations('data_for_tests'), '-a', '-nt', '-nr'])), 4)
+        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-a', '-nt']), 16)
+        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-a', '-nt', '-nr']), 4)
 
     # 2018-05-12: ignoring hidden files and directories - not implemented for def get_files_by_extension
     # and not covered by tests for -fe
@@ -40,9 +38,8 @@ class TestArgumentParser(unittest.TestCase):
         Equivalent to "python __main__.py ~/.../tests/data_for_tests -fe py"
         :return:
         """
-        self.assertEqual(main_flow(args=self.parser.parse_args([self.get_locations('data_for_tests'), '-fe', 'py'])), 2)
-        self.assertEqual(main_flow(args=self.parser.parse_args(
-            [self.get_locations('data_for_tests'), '-fe', 'py', '-nr'])), 1)
+        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-fe', 'py']), 2)
+        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-fe', 'py', '-nr']), 1)
 
     def test_countfiles_nt_fe_woff(self):
         """Testing def main_flow.
@@ -51,10 +48,8 @@ class TestArgumentParser(unittest.TestCase):
         Equivalent to "python __main__.py ~/.../tests/data_for_tests/django_staticfiles_for_test -nt -fe woff"
         :return:
         """
-        self.assertEqual(main_flow(args=self.parser.parse_args(
-            [self.get_locations('data_for_tests', 'django_staticfiles_for_test'), '-nt', '-fe', 'woff'])), 1)
-        self.assertEqual(main_flow(args=self.parser.parse_args(
-            [self.get_locations('data_for_tests', 'django_staticfiles_for_test'), '-nt', '-nr', '-fe', 'woff'])), 0)
+        self.assertEqual(main_flow([self.get_locations('data_for_tests', 'django_staticfiles_for_test'), '-nt', '-fe', 'woff']), 1)
+        self.assertEqual(main_flow([self.get_locations('data_for_tests', 'django_staticfiles_for_test'), '-nt', '-nr', '-fe', 'woff']), 0)
 
     def test_countfiles_fe(self):
         """Testing def main_flow.
@@ -68,8 +63,7 @@ class TestArgumentParser(unittest.TestCase):
         extensions = {'py': 1, 'json': 1, 'woff': 1}
         for k, v in extensions.items():
             with self.subTest(k=k, v=v):
-                args = self.parser.parse_args([location, '-fe', f'{k}'])
-                self.assertEqual(main_flow(args=args), v)
+                self.assertEqual(main_flow([location, '-fe', f'{k}']), v)
 
     def test_countfiles_fe_dot(self):
         """Testing def main_flow.
@@ -79,13 +73,11 @@ class TestArgumentParser(unittest.TestCase):
         and "python __main__.py ~/.../tests/data_for_tests -fe ."
         :return:
         """
-        self.assertEqual(main_flow(args=self.parser.parse_args(
-            [self.get_locations('data_for_tests'), '-fe', '.', '-nr'])), 1)
-        self.assertEqual(main_flow(args=self.parser.parse_args(
-            [self.get_locations('data_for_tests'), '-fe', '.'])), 2)
+        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-fe', '.', '-nr']), 1)
+        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-fe', '.']), 2)
 
     # TODO: add 1 hidden file and check it on Unix
-    #@unittest.skipIf(sys.platform.startswith("win"), "not for Windows")
+    @unittest.skipIf(sys.platform.startswith("win"), "not for Windows")
     def test_for_hidden(self):
         """Testing def main_flow.
 
@@ -94,10 +86,8 @@ class TestArgumentParser(unittest.TestCase):
         and "python __main__.py ~/.../tests/data_for_tests -nr -a"
         :return:
         """
-        self.assertEqual(main_flow(args=self.parser.parse_args(
-            [self.get_locations('test_hidden_linux'), '-nr', '-nt'])), 1)
-        self.assertEqual(main_flow(args=self.parser.parse_args(
-            [self.get_locations('test_hidden_linux'), '-nr', '-nt', '-a'])), 2)
+        self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-nt']), 1)
+        self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-nt', '-a']), 2)
 
 # from root directory:
 
