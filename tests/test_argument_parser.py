@@ -16,9 +16,6 @@ class TestArgumentParser(unittest.TestCase):
         print('LOCATION: ', os.path.normpath(os.path.join(os.path.dirname(__file__), *args)))
         return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
 
-    # 2018-05-12: ignoring hidden files and directories - not implemented for Windows
-    # python __main__.py ~/.../tests/data_for_tests -a -nt and
-    # python __main__.py ~/.../tests/data_for_tests -nt return the same for Windows
     def test_countfiles_all_nt(self):
         """Testing def main_flow.
 
@@ -29,8 +26,6 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-a', '-nt']), 16)
         self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-a', '-nt', '-nr']), 4)
 
-    # 2018-05-12: ignoring hidden files and directories - not implemented for def get_files_by_extension
-    # and not covered by tests for -fe
     def test_countfiles_fe_py(self):
         """Testing def main_flow.
 
@@ -76,7 +71,6 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-fe', '.', '-nr']), 1)
         self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-fe', '.']), 2)
 
-    # TODO: add 1 hidden file and check it on Unix
     @unittest.skipIf(sys.platform.startswith("win"), "not for Windows")
     def test_for_hidden(self):
         """Testing def main_flow.
@@ -88,6 +82,18 @@ class TestArgumentParser(unittest.TestCase):
         """
         self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-nt']), 1)
         self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-nt', '-a']), 2)
+
+    @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
+    def test_for_hidden_win(self):
+        """Testing def main_flow.
+
+        Equivalent to
+        "python __main__.py ~/.../tests/data_for_tests -nr"
+        and "python __main__.py ~/.../tests/data_for_tests -nr -a"
+        :return:
+        """
+        self.assertEqual(main_flow([self.get_locations('test_hidden_windows'), '-nr', '-nt']), 1)
+        self.assertEqual(main_flow([self.get_locations('test_hidden_windows'), '-nr', '-nt', '-a']), 2)
 
 # from root directory:
 

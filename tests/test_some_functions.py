@@ -4,15 +4,11 @@ import unittest
 import os
 import sys
 from countfiles.utils.file_handlers import get_file_extension, \
-    get_files_without_extension, non_recursive_search, recursive_search
+    get_files_without_extension, non_recursive_search, recursive_search, is_hidden_file_or_dir
+from countfiles.utils.file_preview import generate_preview
 
 
 class TestSomeFunctions(unittest.TestCase):
-
-    def setUp(self):
-        self.extensions_dict = {'file.py': ('py', True), '.gitignore': ('', False),
-                                'file': ('', False), '.hidden_file.txt': ('txt', True),
-                                '.hidden.file.txt': ('txt', True), 'select2.3805311d5fc1.css.gz': ('gz', True)}
 
     def get_locations(self, *args):
         print('LOCATION: ', os.path.normpath(os.path.join(os.path.dirname(__file__), *args)))
@@ -26,10 +22,12 @@ class TestSomeFunctions(unittest.TestCase):
         If the file name does not have an extension, return '[no extension]'.
         :return:
         """
-        for k, v in self.extensions_dict.items():
+        extensions_dict = {'file.py': ('py', True), '.gitignore': ('', False),
+                           'file': ('', False), '.hidden_file.txt': ('txt', True),
+                           '.hidden.file.txt': ('txt', True), 'select2.3805311d5fc1.css.gz': ('gz', True)}
+        for k, v in extensions_dict.items():
             with self.subTest(k=k, v=v):
                 self.assertEqual(get_file_extension(k), v[0])
-
 
     # Return len==1 [WindowsPath('C:/../tests/data_for_tests/no_extension')]
     def test_get_files_without_extension(self):
@@ -54,7 +52,6 @@ class TestSomeFunctions(unittest.TestCase):
         result = get_files_without_extension(path=self.get_locations('data_for_tests'), recursive=True)
         self.assertEqual(len(result), 2)
 
-    # only hidden files, hidden folders are not processed in def non_recursive_search for Windows
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_non_recursive_search_win(self):
         result_false = non_recursive_search(self.get_locations('test_hidden_windows'), include_hidden=False)
@@ -62,15 +59,13 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(len(result_false), 1)
         self.assertEqual(len(result_true), 2)
 
-    # only hidden files, hidden folders are not processed in def recursive_search for Windows
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_recursive_search_win(self):
         result_false = recursive_search(self.get_locations('test_hidden_windows'), include_hidden=False)
         result_true = recursive_search(self.get_locations('test_hidden_windows'), include_hidden=True)
-        self.assertEqual(len(result_false), 3)
+        self.assertEqual(len(result_false), 2)
         self.assertEqual(len(result_true), 6)
 
-    # hidden files and folders
     @unittest.skipUnless(sys.platform.startswith('linux'), 'for Linux')
     def test_non_recursive_search_linux(self):
         result_false = non_recursive_search(self.get_locations('test_hidden_linux'), include_hidden=False)
@@ -78,7 +73,6 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(len(result_false), 1)
         self.assertEqual(len(result_true), 2)
 
-    # hidden files and folders
     @unittest.skipUnless(sys.platform.startswith('linux'), 'for Linux')
     def test_recursive_search_linux(self):
         result_false = recursive_search(self.get_locations('test_hidden_linux'), include_hidden=False)
@@ -86,7 +80,6 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(len(result_false), 2)
         self.assertEqual(len(result_true), 6)
 
-    # hidden files and folders
     @unittest.skipUnless(sys.platform.startswith('darwin'), 'for macOS')
     def test_non_recursive_search_linux(self):
         result_false = non_recursive_search(self.get_locations('test_hidden_linux'), include_hidden=False)
@@ -94,7 +87,6 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(len(result_false), 1)
         self.assertEqual(len(result_true), 2)
 
-    # hidden files and folders
     @unittest.skipUnless(sys.platform.startswith('darwin'), 'for macOS')
     def test_recursive_search_linux(self):
         result_false = recursive_search(self.get_locations('test_hidden_linux'), include_hidden=False)
@@ -102,7 +94,48 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(len(result_false), 2)
         self.assertEqual(len(result_true), 6)
 
+    @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
+    def test_is_hidden_file_or_dir_win(self):
+        """Testing def is_hidden_file_or_dir.
 
+        Checking the presence of FILE_ATTRIBUTE_HIDDEN for file or folder.
+        Expected behavior: if any part of filepath(parent folders, final file/folder) is hidden return True
+        :return:
+        """
+        self.assertEqual(is_hidden_file_or_dir(
+            self.get_locations('test_hidden_windows', 'folder_hidden_for_win')), True)
+        self.assertEqual(is_hidden_file_or_dir(
+            self.get_locations('test_hidden_windows', 'not_nidden_folder')), False)
+        self.assertEqual(is_hidden_file_or_dir(
+            self.get_locations('test_hidden_windows', 'not_nidden_folder', 'hidden_for_win.xlsx')), True)
+        self.assertEqual(is_hidden_file_or_dir(
+            self.get_locations('test_hidden_windows', 'folder_hidden_for_win', 'not_hidden.py')), True)
+        self.assertEqual(is_hidden_file_or_dir(
+            self.get_locations('os_file', '0-NonPersonalRecommendations-https∺∯∯next-services.apps.microsoft.com'
+                                          '∯search∯6.3.9600-0∯776∯ru-RU_en-US.en.uk.ru∯c∯UA∯cp∯10005001∯'
+                                          'BrowseLists∯lts∯5.3.4∯cid∯0∯pc∯0∯pt∯x64∯af∯0∯lf∯1.dat')), False)
+
+    @unittest.skipUnless(sys.platform.startswith('linux')
+                         or sys.platform.startswith('darwin'), 'for Linux, Mac OS')
+    def test_is_hidden_file_or_dir_lin_mac(self):
+        """Testing def is_hidden_file_or_dir.
+
+        Check for the presence of a '/.' in the path.
+        Expected behavior: if any part of filepath(parent folders, final file/folder) is hidden return True
+        :return:
+        """
+        self.assertEqual(is_hidden_file_or_dir(
+            self.get_locations('test_hidden_linux', '.ebookreader')), True)
+        self.assertEqual(is_hidden_file_or_dir(
+            self.get_locations('test_hidden_linux', 'not_hidden_folder')), False)
+        self.assertEqual(is_hidden_file_or_dir(
+            self.get_locations('test_hidden_linux', 'not_hidden_folder', '.hidden_for_linux')), True)
+        self.assertEqual(is_hidden_file_or_dir(
+            self.get_locations('test_hidden_linux', '.ebookreader', 'not_hidden.txt')), True)
+
+    # TODO
+    def test_generate_preview(self):
+        pass
 
 # from root directory:
 

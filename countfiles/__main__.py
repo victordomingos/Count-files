@@ -89,9 +89,9 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         return
 
     if not include_hidden and is_hidden_file_or_dir(location):
-        print(f'\nNot counting any files, because {loc_text[2:]} is hidden.')
+        print(f'\nNot counting any files, because {loc_text[2:]} has hidden folders.\n'
+              f'Use: python -m countfiles {args.path} --all')
         return
-
 
     # Either search and list files by extension...
     if search_by_extension:
