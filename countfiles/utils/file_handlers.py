@@ -1,15 +1,10 @@
 #!/usr/bin/env python3
 
 import os
-import stat
 import sys
+import ctypes
 from pathlib import Path
 from typing import List
-
-try:
-    import ctypes
-except:
-    pass
 
 
 def get_file_extension(filepath: str) -> str:
@@ -47,6 +42,7 @@ def get_files_without_extension(path: str, recursive=False, include_hidden=True)
     By default, this function does not recurse through subdirectories.
     :param recursive:
     :param path:
+    :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
     :return: list with objects
     list example for win: return list with objects <class 'pathlib.WindowsPath'>
     [WindowsPath('C:/.../.gitignore'),
@@ -71,32 +67,45 @@ def get_files_without_extension(path: str, recursive=False, include_hidden=True)
 
 
 def is_hidden_file_or_dir(filepath: str) -> bool:
-    """The function determines whether the file or folder is hidden.
+    """The function determines whether the file or folder in filepath is hidden.
 
-    Windows: testing the FILE_ATTRIBUTE_HIDDEN for file or folder
-    (source: https://stackoverflow.com/questions/284115/cross-platform-hidden-file-detection)
+    Windows: testing the FILE_ATTRIBUTE_HIDDEN for file or folder.
+    Note: if any parent folders of filepath is hidden
+    def is_hidden_file_or_dir return True, even if it has visible final file/folder.
+    If parent folders not hidden, but final file/folder is hidden also return True.
+    (discussion: https://stackoverflow.com/questions/284115/cross-platform-hidden-file-detection)
 
-    Linux: testing at least for the dot character in path on Unix-like systems
+    Linux: testing at least for the dot character in path on Unix-like systems.
     Note: for Linux def is_hidden_file_or_dir('~/path/.to/file.txt') checking for the dot character in path,
     so if '/.' in path the entire folder is ignored, even if it has visible files.
 
-    For Windows def is_hidden_file_or_dir('~/path/to/file.txt')
-    checking only file. For checking folder - def is_hidden_file_or_dir('~/path/to_folder')
-
-    :param filepath: ~/path/to/file.txt or ~/path/to_folder
+    :param filepath: full/path/to/file.txt or full/path/to_folder
     :return: True if hidden or False if not
     """
     platform_name = sys.platform
     filepath = os.path.normpath(filepath)
     if platform_name.startswith('win'):
-        return bool(os.stat(filepath).st_file_attributes & stat.FILE_ATTRIBUTE_HIDDEN)
+        # list with full paths of all parents in filepath except drive
+        list_for_check = list(Path(filepath).parents)[:-1]
+        list_for_check.append(Path(filepath))
+        response = []
+        for some_path in list_for_check:
+            try:
+                attrs = ctypes.windll.kernel32.GetFileAttributesW(str(some_path))
+                assert attrs != -1
+                result = bool(attrs & 2)
+            except (AttributeError, AssertionError):
+                result = False
+            response.append(result)
+        if any(response):
+            return True
+        return False
     elif platform_name.startswith('linux'):
         return bool('/.' in filepath)
     elif platform_name.startswith('darwin'):
         return bool('/.' in filepath)
 
 
-# TODO: add checking for hidden folder in Windows to skip it.
 def non_recursive_search(location: str, include_hidden: bool) -> List[str]:
     """Non recursive search for files in folder.
 
@@ -118,7 +127,7 @@ def recursive_search(location: str, include_hidden: bool) -> List[str]:
     """Recursive search for files in folder and subfolders.
 
     :param location: ~/path/to_folder
-    :param include_idden: False -> exclude hidden, True -> include hidden, counting all files
+    :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
     :return: list with filenames
     """
     if include_hidden:
