@@ -106,10 +106,9 @@ class WordCounter:
         if files:
             sizes = []
             for f_path in files:
-                f = Path(f_path)
-                file_size = f.stat().st_size
+                file_size = os.path.getsize(f_path)
                 sizes.append(file_size)
-                filepath = str(f).strip("\r")
+                filepath = str(f_path).strip("\r")
                 print(f'{filepath} ({human_mem_size(file_size)})')
                 if preview:
                     print('–––––––––––––––––––––––––––––––––––')
