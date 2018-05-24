@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
+import ctypes
 import os
 import sys
-import ctypes
 from pathlib import Path
 from typing import List
 
@@ -47,23 +47,48 @@ def get_files_without_extension(path: str, recursive=False, include_hidden=True)
     list example for win: return list with objects <class 'pathlib.WindowsPath'>
     [WindowsPath('C:/.../.gitignore'),
     WindowsPath('C:/.../Pipfile')]
-    Special thanks to Natalia Bondarenko (github.com/NataliaBondarenko),
+    Special thanks to Nataliia Bondarenko (github.com/NataliaBondarenko),
     who submited the initial implementation.
     """
-    if recursive:
-        if include_hidden:
-            return [f for f in Path(os.path.expanduser(path)).rglob("*")
-                    if f.is_file() and not get_file_extension(f)]
-        else:
-            return [f for f in Path(os.path.expanduser(path)).rglob("*")
-                    if f.is_file() and not is_hidden_file_or_dir(f) and not get_file_extension(f)]
-    else:
-        if include_hidden:
-            return [f for f in Path(path).iterdir()
-                    if f.is_file() and not get_file_extension(f)]
-        else:
-            return [f for f in Path(path).iterdir()
-                    if f.is_file() and not is_hidden_file_or_dir(f) and not get_file_extension(f)]
+    result = []
+    for root, dirs, files in os.walk(path):
+        for f in files:
+            f_path = os.path.join(root, f)
+            if get_file_extension(f_path) or not os.path.isfile(f_path):
+                continue
+            if include_hidden or not is_hidden_file_or_dir(f_path):
+                result.append(f_path)
+        if not recursive:
+            break
+    return result
+
+
+def get_files_with_extension(path: str, extension: str, recursive=False, include_hidden=True):
+    """Find all files in a given directory that have a given extension.
+
+    By default, this function does not recurse through subdirectories.
+    :param recursive:
+    :param path:
+    :param extension:
+    :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
+    :return: list with objects
+    list example for win: return list with objects <class 'pathlib.WindowsPath'>
+    [WindowsPath('C:/.../.gitignore'),
+    WindowsPath('C:/.../Pipfile')]
+    """
+    result = []
+    for root, dirs, files in os.walk(path):
+        for f in files:
+            f_path = os.path.join(root, f)
+            f_extension = get_file_extension(f_path)
+            if not f_extension or not os.path.isfile(f_path):
+                continue
+            if include_hidden or not is_hidden_file_or_dir(f_path):
+                if f_extension == extension:
+                    result.append(f_path)
+        if not recursive:
+            break
+    return result
 
 
 def is_hidden_file_or_dir(filepath: str) -> bool:
@@ -130,15 +155,12 @@ def recursive_search(location: str, include_hidden: bool) -> List[str]:
     :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
     :return: list with filenames
     """
+    result = []
     if include_hidden:
-        result = []
         for root, dirs, files in os.walk(location):
             result.extend(files)
     else:
-        result = []
         for root, dirs, files in os.walk(location):
             result.extend([f for f in files
                            if not is_hidden_file_or_dir(os.path.join(root, f))])
     return result
-
-

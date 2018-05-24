@@ -1,27 +1,33 @@
 #!/usr/bin/env python3
 
 import os
-
 from collections import Counter
 from pathlib import Path
 
-from countfiles.utils.file_handlers import human_mem_size
+from countfiles.utils.file_handlers import human_mem_size, is_hidden_file_or_dir
+from countfiles.utils.file_handlers import get_files_without_extension
+from countfiles.utils.file_handlers import get_files_with_extension
 from countfiles.utils.file_preview import generate_preview
-from countfiles.utils.file_handlers import get_files_without_extension, is_hidden_file_or_dir
+
 
 class WordCounter:
+
     def __init__(self):
         self.counters = Counter()
+
 
     def count_word(self, word: str):
         """ Add a new word or increment the counter for an existing one. """
         self.counters[word] += 1
 
+
     def sort_by_frequency(self):
         return self.counters.most_common()
 
+
     def sort_by_word(self):
         return sorted(self.counters.items())
+
 
     @staticmethod
     def show_2columns(data):
@@ -55,10 +61,12 @@ class WordCounter:
         print(line)
         print(sep + "\n")
 
+
     def show_total(self) -> int:
         total = sum(self.counters.values())
         print(f"Total number of files in selected directory: {total}.\n")
         return total
+
 
     @staticmethod
     def get_files_by_extension(location: str, extension: str, preview=False, preview_size=395,
@@ -72,22 +80,18 @@ class WordCounter:
         if recursion:
             if extension == '.':
                 print(f'\nRecursively searching for files without extension in {location}.\n')
-                files = get_files_without_extension(location, recursive=True, include_hidden=include_hidden)
+                files = get_files_without_extension(location, recursive=True,
+                                                    include_hidden=include_hidden)
             else:
                 print(f'\nRecursively searching for .{extension} files in {location}.\n')
-                if include_hidden:
-                    files = sorted([f for f
-                                    in Path(os.path.expanduser(location)).rglob(f"*.{extension}")
-                                    if f.is_file()])
-                else:
-                    files = sorted([f for f
-                                    in Path(os.path.expanduser(location)).rglob(f"*.{extension}")
-                                    if f.is_file() and not is_hidden_file_or_dir(f)])
+                files = get_files_with_extension(location, extension, recursive=True,
+                                                 include_hidden=include_hidden)
 
         else:
             if extension == '.':
                 print(f'\nSearching for files without extension in {location}.\n')
-                files = get_files_without_extension(location, recursive=False, include_hidden=include_hidden)
+                files = get_files_without_extension(location, recursive=False,
+                                                    include_hidden=include_hidden)
             else:
                 print(f'\nSearching for .{extension} files in {location}.\n')
                 if include_hidden:
@@ -101,7 +105,8 @@ class WordCounter:
 
         if files:
             sizes = []
-            for f in files:
+            for f_path in files:
+                f = Path(f_path)
                 file_size = f.stat().st_size
                 sizes.append(file_size)
                 filepath = str(f).strip("\r")
@@ -130,5 +135,6 @@ class WordCounter:
             if extension == '.':
                 print(f"No files without extension were found in the specified directory.\n")
             else:
-                print(f"No files with the extension '{extension}' were found in the specified directory.\n")
+                print(
+                    f"No files with the extension '{extension}' were found in the specified directory.\n")
             return 0
