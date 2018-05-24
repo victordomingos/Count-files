@@ -5,8 +5,7 @@ from collections import Counter
 from pathlib import Path
 
 from countfiles.utils.file_handlers import human_mem_size, is_hidden_file_or_dir
-from countfiles.utils.file_handlers import get_files_without_extension
-from countfiles.utils.file_handlers import get_files_with_extension
+from countfiles.utils.file_handlers import get_files
 from countfiles.utils.file_preview import generate_preview
 
 
@@ -80,19 +79,22 @@ class WordCounter:
         if recursion:
             if extension == '.':
                 print(f'\nRecursively searching for files without extension in {location}.\n')
-                files = get_files_without_extension(location, recursive=True,
+                files = get_files(location, ".", recursive=True,
                                                     include_hidden=include_hidden)
             else:
                 print(f'\nRecursively searching for .{extension} files in {location}.\n')
-                files = get_files_with_extension(location, extension, recursive=True,
+                files = get_files(location, extension, recursive=True,
                                                  include_hidden=include_hidden)
 
         else:
             if extension == '.':
                 print(f'\nSearching for files without extension in {location}.\n')
-                files = get_files_without_extension(location, recursive=False,
+                files = get_files(location, ".", recursive=False,
                                                     include_hidden=include_hidden)
             else:
+                files = get_files(location, extension, recursive=False,
+                                                    include_hidden=include_hidden)
+                """
                 print(f'\nSearching for .{extension} files in {location}.\n')
                 if include_hidden:
                     files = sorted([f for f
@@ -102,7 +104,7 @@ class WordCounter:
                     files = sorted([f for f
                                     in Path(os.path.expanduser(location)).glob(f"*.{extension}")
                                     if f.is_file() and not is_hidden_file_or_dir(f)])
-
+                """
         if files:
             sizes = []
             for f_path in files:

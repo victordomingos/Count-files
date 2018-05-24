@@ -35,7 +35,7 @@ def human_mem_size(num: int, suffix='B') -> str:
 
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
-
+'''
 def get_files_without_extension(path: str, recursive=False, include_hidden=True):
     """Find all files in a given directory that have no extension.
 
@@ -61,15 +61,14 @@ def get_files_without_extension(path: str, recursive=False, include_hidden=True)
         if not recursive:
             break
     return result
+'''
 
-
-def get_files_with_extension(path: str, extension: str, recursive=False, include_hidden=True):
+def get_files(path: str, extension: str, recursive=False, include_hidden=True):
     """Find all files in a given directory that have a given extension.
 
     By default, this function does not recurse through subdirectories.
     :param recursive:
     :param path:
-    :param extension:
     :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
     :return: list with objects
     list example for win: return list with objects <class 'pathlib.WindowsPath'>
@@ -77,17 +76,46 @@ def get_files_with_extension(path: str, extension: str, recursive=False, include
     WindowsPath('C:/.../Pipfile')]
     """
     result = []
-    for root, dirs, files in os.walk(path):
-        for f in files:
-            f_path = os.path.join(root, f)
-            f_extension = get_file_extension(f_path)
-            if not f_extension or not os.path.isfile(f_path):
-                continue
-            if include_hidden or not is_hidden_file_or_dir(f_path):
-                if f_extension == extension:
+    if extension == '.':
+        for root, dirs, files in os.walk(path):
+            for f in files:
+                f_path = os.path.join(root, f)
+                if get_file_extension(f_path) or not os.path.isfile(f_path):
+                    continue
+                if include_hidden or not is_hidden_file_or_dir(f_path):
                     result.append(f_path)
-        if not recursive:
-            break
+            if not recursive:
+                break
+    elif not extension:
+        if recursive:
+            if include_hidden:
+                for root, dirs, files in os.walk(path):
+                    result.extend(files)
+            else:
+                for root, dirs, files in os.walk(path):
+                    result.extend([f for f in files
+                                   if not is_hidden_file_or_dir(os.path.join(root, f))])
+        else:
+            with os.scandir(path) as directory:
+                # if True return all files
+                if include_hidden:
+                    result = [f for f in directory if f.is_file()]
+                else:
+                    result = [f for f in directory if f.is_file()
+                              and not is_hidden_file_or_dir(os.path.join(path, f))]
+
+    else:
+        for root, dirs, files in os.walk(path):
+            for f in files:
+                f_path = os.path.join(root, f)
+                f_extension = get_file_extension(f_path)
+                if not f_extension or not os.path.isfile(f_path):
+                    continue
+                if include_hidden or not is_hidden_file_or_dir(f_path):
+                    if f_extension == extension:
+                        result.append(f_path)
+            if not recursive:
+                break
     return result
 
 
@@ -130,7 +158,7 @@ def is_hidden_file_or_dir(filepath: str) -> bool:
     elif platform_name.startswith('darwin'):
         return bool('/.' in filepath)
 
-
+'''
 def non_recursive_search(location: str, include_hidden: bool) -> List[str]:
     """Non recursive search for files in folder.
 
@@ -164,3 +192,4 @@ def recursive_search(location: str, include_hidden: bool) -> List[str]:
             result.extend([f for f in files
                            if not is_hidden_file_or_dir(os.path.join(root, f))])
     return result
+'''

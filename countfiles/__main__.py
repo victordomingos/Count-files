@@ -14,8 +14,9 @@ from typing import Type, TypeVar, Union
 
 from countfiles.utils.file_handlers import get_file_extension
 from countfiles.utils.word_counter import WordCounter
-from countfiles.utils.file_handlers import recursive_search
-from countfiles.utils.file_handlers import non_recursive_search
+#from countfiles.utils.file_handlers import recursive_search
+#from countfiles.utils.file_handlers import non_recursive_search
+from countfiles.utils.file_handlers import get_files
 from countfiles.utils.file_handlers import is_hidden_file_or_dir
 
 
@@ -111,10 +112,11 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
     if recursive:
         print(f'\nRecursively counting all files, {hidden_msg} in {loc_text}.\n')
-        files = recursive_search(location, include_hidden=include_hidden)
     else:
         print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')
-        files = non_recursive_search(location, include_hidden=include_hidden)
+
+    files = get_files(location, "", include_hidden=include_hidden, recursive=recursive)
+
 
     for f in files:
         extension = get_file_extension(f)
