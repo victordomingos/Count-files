@@ -5,6 +5,7 @@ import os
 import sys
 from pathlib import Path
 from typing import List
+from collections import Counter
 
 
 def get_file_extension(filepath: str) -> str:
@@ -35,40 +36,13 @@ def human_mem_size(num: int, suffix='B') -> str:
 
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
-'''
-def get_files_without_extension(path: str, recursive=False, include_hidden=True):
-    """Find all files in a given directory that have no extension.
 
-    By default, this function does not recurse through subdirectories.
-    :param recursive:
-    :param path:
-    :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
-    :return: list with objects
-    list example for win: return list with objects <class 'pathlib.WindowsPath'>
-    [WindowsPath('C:/.../.gitignore'),
-    WindowsPath('C:/.../Pipfile')]
-    Special thanks to Nataliia Bondarenko (github.com/NataliaBondarenko),
-    who submited the initial implementation.
-    """
-    result = []
-    for root, dirs, files in os.walk(path):
-        for f in files:
-            f_path = os.path.join(root, f)
-            if get_file_extension(f_path) or not os.path.isfile(f_path):
-                continue
-            if include_hidden or not is_hidden_file_or_dir(f_path):
-                result.append(f_path)
-        if not recursive:
-            break
-    return result
-'''
-
-def get_files(path: str, extension: str, recursive=False, include_hidden=True):
+def search_files(dirpath: str, extension: str, recursive=False, include_hidden=True):
     """Find all files in a given directory that have a given extension.
 
     By default, this function does not recurse through subdirectories.
     :param recursive:
-    :param path:
+    :param dirpath:
     :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
     :return: list with objects
     list example for win: return list with objects <class 'pathlib.WindowsPath'>
@@ -77,7 +51,7 @@ def get_files(path: str, extension: str, recursive=False, include_hidden=True):
     """
     result = []
     if extension == '.':
-        for root, dirs, files in os.walk(path):
+        for root, dirs, files in os.walk(dirpath):
             for f in files:
                 f_path = os.path.join(root, f)
                 if get_file_extension(f_path) or not os.path.isfile(f_path):
@@ -89,23 +63,23 @@ def get_files(path: str, extension: str, recursive=False, include_hidden=True):
     elif not extension:
         if recursive:
             if include_hidden:
-                for root, dirs, files in os.walk(path):
+                for root, dirs, files in os.walk(dirpath):
                     result.extend(files)
             else:
-                for root, dirs, files in os.walk(path):
+                for root, dirs, files in os.walk(dirpath):
                     result.extend([f for f in files
                                    if not is_hidden_file_or_dir(os.path.join(root, f))])
         else:
-            with os.scandir(path) as directory:
+            with os.scandir(dirpath) as directory:
                 # if True return all files
                 if include_hidden:
                     result = [f for f in directory if f.is_file()]
                 else:
                     result = [f for f in directory if f.is_file()
-                              and not is_hidden_file_or_dir(os.path.join(path, f))]
+                              and not is_hidden_file_or_dir(os.path.join(dirpath, f))]
 
     else:
-        for root, dirs, files in os.walk(path):
+        for root, dirs, files in os.walk(dirpath):
             for f in files:
                 f_path = os.path.join(root, f)
                 f_extension = get_file_extension(f_path)
@@ -117,6 +91,46 @@ def get_files(path: str, extension: str, recursive=False, include_hidden=True):
             if not recursive:
                 break
     return result
+
+
+def count_files_by_extension(dirpath: str, recursive=False, include_hidden=True):
+    """ Count all files in a given directory by their extensions.
+
+    :param recursive:
+    :param dirpath:
+    :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
+    :return: Counter() with extensions (keys: str)and their frequencies (values: int)
+    """
+    counters = Counter()
+    dirpath = os.path.expanduser(dirpath)
+
+    def count_file_extensions(files):
+        for f in files:
+            extension = get_file_extension(f)
+            if not extension:
+                extension = '[no extension]'
+            counters[extension] +=1
+
+    if recursive:
+        if include_hidden:
+            for root, dirs, files in os.walk(dirpath):
+                count_file_extensions(files)
+        else:
+            for root, dirs, files in os.walk(dirpath):
+                only_these = [f for f in files
+                               if not is_hidden_file_or_dir(os.path.join(root, f))]
+                count_file_extensions(only_these)
+    else:
+        with os.scandir(dirpath) as directory:
+            # if True return all files
+            if include_hidden:
+                only_these = [f for f in directory if f.is_file()]
+            else:
+                only_these = [f for f in directory if f.is_file()
+                          and not is_hidden_file_or_dir(os.path.join(dirpath, f))]
+            count_file_extensions(only_these)
+
+    return counters
 
 
 def is_hidden_file_or_dir(filepath: str) -> bool:
@@ -158,38 +172,3 @@ def is_hidden_file_or_dir(filepath: str) -> bool:
     elif platform_name.startswith('darwin'):
         return bool('/.' in filepath)
 
-'''
-def non_recursive_search(location: str, include_hidden: bool) -> List[str]:
-    """Non recursive search for files in folder.
-
-    :param location: ~/path/to_folder
-    :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
-    :return: list with filenames
-    """
-    with os.scandir(location) as directory:
-        # if True return all files
-        if include_hidden:
-            result = [f for f in directory if f.is_file()]
-        else:
-            result = [f for f in directory if f.is_file()
-                      and not is_hidden_file_or_dir(os.path.join(location, f))]
-    return result
-
-
-def recursive_search(location: str, include_hidden: bool) -> List[str]:
-    """Recursive search for files in folder and subfolders.
-
-    :param location: ~/path/to_folder
-    :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
-    :return: list with filenames
-    """
-    result = []
-    if include_hidden:
-        for root, dirs, files in os.walk(location):
-            result.extend(files)
-    else:
-        for root, dirs, files in os.walk(location):
-            result.extend([f for f in files
-                           if not is_hidden_file_or_dir(os.path.join(root, f))])
-    return result
-'''

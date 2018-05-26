@@ -21,7 +21,6 @@ def generate_preview(filepath: str, max_size=390) -> str:
 
     # TODO: Check if there is a specific file preview method
 
-
     # If no specific previewers were found, use the generic text/bytes preview:
     try:
         mf = puremagic.magic_file(filepath)
@@ -36,6 +35,9 @@ def generate_preview(filepath: str, max_size=390) -> str:
         excerpt = f.read_text(errors="replace")[0:max_size].replace('\n', ' ')
     except Exception as e:
         print(e)
-        excerpt = f.read_bytes()[0:max_size]
+        try:
+            excerpt = f.read_bytes()[0:max_size]
+        except Exception as e:
+            print(e)
 
     return f"{filetype}{excerpt}"

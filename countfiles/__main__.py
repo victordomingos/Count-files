@@ -12,12 +12,10 @@ import os
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar, Union
 
-from countfiles.utils.file_handlers import get_file_extension
-from countfiles.utils.word_counter import WordCounter
-#from countfiles.utils.file_handlers import recursive_search
-#from countfiles.utils.file_handlers import non_recursive_search
-from countfiles.utils.file_handlers import get_files
+from countfiles.utils.file_handlers import count_files_by_extension
 from countfiles.utils.file_handlers import is_hidden_file_or_dir
+
+from countfiles.utils.word_counter import show_2columns, show_total, get_files_by_extension
 
 
 parser = ArgumentParser(
@@ -57,7 +55,6 @@ parser.add_argument('-ps', '--preview-size', required=False, type=int, default=3
                     help="Specify the number of characters to be displayed from each "
                          "found file when using '-p' or '--preview')")
 
-
 argparse_namespace_object = TypeVar('argparse_namespace_object', bound=Namespace)
 
 
@@ -75,8 +72,6 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     show_table = not args.no_table
     sort_alpha = args.sort_alpha
     search_by_extension = True if args.file_extension else False
-
-    fc = WordCounter()
 
     if os.path.abspath(args.path) == os.getcwd():
         location = os.getcwd()
@@ -96,12 +91,12 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
     # Either search and list files by extension...
     if search_by_extension:
-        len_files = fc.get_files_by_extension(location, args.file_extension,
+        len_files = get_files_by_extension(location, args.file_extension,
                                               preview=args.preview,
                                               preview_size=args.preview_size,
                                               recursion=recursive,
                                               include_hidden=include_hidden)
-        return len_files
+        return len_files  # TODO: is this return value useful in some way?
 
 
     # ...or do other stuff, i.e., counting files.
@@ -115,22 +110,15 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     else:
         print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')
 
-    files = get_files(location, "", include_hidden=include_hidden, recursive=recursive)
-
-
-    for f in files:
-        extension = get_file_extension(f)
-        if not extension:
-            extension = '[no extension]'
-        fc.count_word(extension)
+    data = count_files_by_extension(location, include_hidden=include_hidden, recursive=recursive)
 
     if show_table:
         if sort_alpha:
-            fc.show_2columns(fc.sort_by_word())
+            show_2columns(sorted(data.items()))
         else:
-            fc.show_2columns(fc.sort_by_frequency())
+            show_2columns(data.most_common())
     else:
-        return fc.show_total()
+        return show_total(data) # TODO: is this return value useful in some way?
 
 
 if __name__ == "__main__":
