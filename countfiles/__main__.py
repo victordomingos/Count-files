@@ -97,10 +97,11 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                                               recursion=recursive,
                                               include_hidden=include_hidden)
         return len_files  # TODO: is this return value useful in some way?
-
+        # it's for tests in test_argument_parser.py,
+        # function should return something for check the correctness of the program in this thread
 
     # ...or do other stuff, i.e., counting files.
-    if include_hidden:
+    """if include_hidden:
         hidden_msg = "including hidden files and directories,"
     else:
         hidden_msg = "ignoring hidden files and directories,"
@@ -108,7 +109,11 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     if recursive:
         print(f'\nRecursively counting all files, {hidden_msg} in {loc_text}.\n')
     else:
-        print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')
+        print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')"""
+
+    print(f'Search options\nlocation: {location}'
+          f'\nextension: all extensions'
+          f'\nrecursion: {recursive}\ninclude hidden: {include_hidden}')
 
     data = count_files_by_extension(location, include_hidden=include_hidden, recursive=recursive)
 
@@ -117,8 +122,10 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
             show_2columns(sorted(data.items()))
         else:
             show_2columns(data.most_common())
+        # this part(table) is not tested at all, it returns None
     else:
         return show_total(data) # TODO: is this return value useful in some way?
+        # it's for tests in test_argument_parser.py too
 
 
 if __name__ == "__main__":
