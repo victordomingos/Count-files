@@ -3,8 +3,8 @@
 import unittest
 import os
 import sys
-from countfiles.utils.file_handlers import get_file_extension, \
-    get_files_without_extension, non_recursive_search, recursive_search, is_hidden_file_or_dir
+from countfiles.utils.file_handlers import get_file_extension,\
+    is_hidden_file_or_dir, search_files, count_files_by_extension
 from countfiles.utils.file_preview import generate_preview
 
 
@@ -17,82 +17,56 @@ class TestSomeFunctions(unittest.TestCase):
     def test_get_file_extension(self):
         """Testing def get_file_extension.
 
-        Expected behavior:
         Extract only the file extension from a given path.
-        If the file name does not have an extension, return '[no extension]'.
+        Expected behavior: return extension name (txt, py) or '.' (for files without extension)
         :return:
         """
-        extensions_dict = {'file.py': ('py', True), '.gitignore': ('', False),
-                           'file': ('', False), '.hidden_file.txt': ('txt', True),
+        extensions_dict = {'file.py': ('py', True), '.gitignore': ('.', False),
+                           'file': ('.', False), '.hidden_file.txt': ('txt', True),
                            '.hidden.file.txt': ('txt', True), 'select2.3805311d5fc1.css.gz': ('gz', True)}
         for k, v in extensions_dict.items():
             with self.subTest(k=k, v=v):
                 self.assertEqual(get_file_extension(k), v[0])
 
-    # Return len==1 [WindowsPath('C:/../tests/data_for_tests/no_extension')]
-    def test_get_files_without_extension(self):
-        """Testing def get_files_without_extension, recursive=False.
+    @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
+    def test_search_files_win(self):
+        """Testing def search_files.
 
-        Expected behavior:
-        Find all files in a given directory that have no extension.
+        Expected behavior: return list with strings(full paths to files)
+        """
+        a = search_files(self.get_locations('hidden_py'), 'py', recursive=True, include_hidden=True)
+        b = search_files(self.get_locations('hidden_py'), 'py', recursive=False, include_hidden=False)
+        c = search_files(self.get_locations('hidden_py'), 'py', recursive=False, include_hidden=True)
+        d = search_files(self.get_locations('hidden_py'), 'py', recursive=True, include_hidden=False)
+        self.assertEqual(len(a), 4)
+        self.assertEqual(len(b), 1)
+        self.assertEqual(len(c), 2)
+        self.assertEqual(len(d), 1)
+
+    @unittest.skipUnless(sys.platform.startswith('linux')
+                         or sys.platform.startswith('darwin'), 'for Linux, Mac OS')
+    def test_search_files_lin_mac(self):
+        """Testing def search_files.
+
+        Expected behavior: return list with strings(full paths to files)
+        """
+        a = search_files(self.get_locations('test_hidden_linux'), '.', recursive=True, include_hidden=True)
+        b = search_files(self.get_locations('test_hidden_linux'), '.', recursive=False, include_hidden=False)
+        c = search_files(self.get_locations('test_hidden_linux'), '.', recursive=False, include_hidden=True)
+        d = search_files(self.get_locations('test_hidden_linux'), '.', recursive=True, include_hidden=False)
+        self.assertEqual(len(a), 3)
+        self.assertEqual(len(b), 0)
+        self.assertEqual(len(c), 1)
+        self.assertEqual(len(d), 0)
+
+    def test_count_files_by_extension(self):
+        """Testing def count_files_by_ext.
+
+        Expected behavior: return object <class 'collections.Counter'>
         :return:
         """
-        result = get_files_without_extension(path=self.get_locations('data_for_tests'), recursive=False)
-        self.assertEqual(len(result), 1)
-
-    # Return len==2 [WindowsPath('C:/.../tests/data_for_tests/no_extension'),
-    # WindowsPath('C:/.../tests/data_for_tests/django_staticfiles_for_test/no_ext')]
-    def test_get_files_without_extension_recursive(self):
-        """Testing def get_files_without_extension, recursive=True.
-
-         Expected behavior:
-         Find all files in a given directory that have no extension.
-         :return:
-         """
-        result = get_files_without_extension(path=self.get_locations('data_for_tests'), recursive=True)
-        self.assertEqual(len(result), 2)
-
-    @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
-    def test_non_recursive_search_win(self):
-        result_false = non_recursive_search(self.get_locations('test_hidden_windows'), include_hidden=False)
-        result_true = non_recursive_search(self.get_locations('test_hidden_windows'), include_hidden=True)
-        self.assertEqual(len(result_false), 1)
-        self.assertEqual(len(result_true), 2)
-
-    @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
-    def test_recursive_search_win(self):
-        result_false = recursive_search(self.get_locations('test_hidden_windows'), include_hidden=False)
-        result_true = recursive_search(self.get_locations('test_hidden_windows'), include_hidden=True)
-        self.assertEqual(len(result_false), 2)
-        self.assertEqual(len(result_true), 6)
-
-    @unittest.skipUnless(sys.platform.startswith('linux'), 'for Linux')
-    def test_non_recursive_search_linux(self):
-        result_false = non_recursive_search(self.get_locations('test_hidden_linux'), include_hidden=False)
-        result_true = non_recursive_search(self.get_locations('test_hidden_linux'), include_hidden=True)
-        self.assertEqual(len(result_false), 1)
-        self.assertEqual(len(result_true), 2)
-
-    @unittest.skipUnless(sys.platform.startswith('linux'), 'for Linux')
-    def test_recursive_search_linux(self):
-        result_false = recursive_search(self.get_locations('test_hidden_linux'), include_hidden=False)
-        result_true = recursive_search(self.get_locations('test_hidden_linux'), include_hidden=True)
-        self.assertEqual(len(result_false), 2)
-        self.assertEqual(len(result_true), 6)
-
-    @unittest.skipUnless(sys.platform.startswith('darwin'), 'for macOS')
-    def test_non_recursive_search_linux(self):
-        result_false = non_recursive_search(self.get_locations('test_hidden_linux'), include_hidden=False)
-        result_true = non_recursive_search(self.get_locations('test_hidden_linux'), include_hidden=True)
-        self.assertEqual(len(result_false), 1)
-        self.assertEqual(len(result_true), 2)
-
-    @unittest.skipUnless(sys.platform.startswith('darwin'), 'for macOS')
-    def test_recursive_search_linux(self):
-        result_false = recursive_search(self.get_locations('test_hidden_linux'), include_hidden=False)
-        result_true = recursive_search(self.get_locations('test_hidden_linux'), include_hidden=True)
-        self.assertEqual(len(result_false), 2)
-        self.assertEqual(len(result_true), 6)
+        result = count_files_by_extension(self.get_locations('data_for_tests'), recursive=False, include_hidden=False)
+        self.assertEqual(str(result), "Counter({'html': 1, 'md': 1, '[no extension]': 1, 'py': 1})")
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_is_hidden_file_or_dir_win(self):

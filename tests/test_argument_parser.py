@@ -3,73 +3,48 @@
 import unittest
 import os
 import sys
-from countfiles.__main__ import parser, main_flow
+from countfiles.__main__ import main_flow
 
 
 class TestArgumentParser(unittest.TestCase):
     """Testing a parser with different arguments"""
 
-    def setUp(self):
-        self.parser = parser
-
     def get_locations(self, *args):
-        print('LOCATION: ', os.path.normpath(os.path.join(os.path.dirname(__file__), *args)))
         return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
 
+    # thread - ...or do other stuff, i.e., counting files.
     def test_countfiles_all_nt(self):
         """Testing def main_flow.
 
-        Recursive default counting.
+        Recursive/non recursive counting.
+        Testing for hidden files is not carried out here.
         Equivalent to "python __main__.py ~/.../tests/data_for_tests -a -nt"
         :return:
         """
-        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-a', '-nt']), 16)
-        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-a', '-nt', '-nr']), 4)
+        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-nt']), 14)
+        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-nt', '-nr']), 4)
 
-    def test_countfiles_fe_py(self):
-        """Testing def main_flow.
-
-        Recursive default counting.
-        Equivalent to "python __main__.py ~/.../tests/data_for_tests -fe py"
-        :return:
-        """
-        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-fe', 'py']), 2)
-        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-fe', 'py', '-nr']), 1)
-
-    def test_countfiles_nt_fe_woff(self):
-        """Testing def main_flow.
-
-        Recursive default counting.
-        Equivalent to "python __main__.py ~/.../tests/data_for_tests/django_staticfiles_for_test -nt -fe woff"
-        :return:
-        """
-        self.assertEqual(main_flow([self.get_locations('data_for_tests', 'django_staticfiles_for_test'), '-nt', '-fe', 'woff']), 1)
-        self.assertEqual(main_flow([self.get_locations('data_for_tests', 'django_staticfiles_for_test'), '-nt', '-nr', '-fe', 'woff']), 0)
-
+    # thread - if search_by_extension:
     def test_countfiles_fe(self):
         """Testing def main_flow.
 
         Recursive default counting.
         Equivalent to
         "python __main__.py ~/.../tests/data_for_tests/django_staticfiles_for_test -fe {extension}"
+        Non recursive counting.
+        Equivalent to
+        "python __main__.py ~/.../tests/data_for_tests/django_staticfiles_for_test -nr -fe {extension}"
         :return:
         """
         location = self.get_locations('data_for_tests', 'django_staticfiles_for_test')
-        extensions = {'py': 1, 'json': 1, 'woff': 1}
+        extensions = {'py': 1, 'json': 1, 'woff': 1, '.': 1}
+        nr_extensions = {'css': 0, '.': 1, 'woff': 0}
         for k, v in extensions.items():
             with self.subTest(k=k, v=v):
                 self.assertEqual(main_flow([location, '-fe', f'{k}']), v)
-
-    def test_countfiles_fe_dot(self):
-        """Testing def main_flow.
-
-        Equivalent to
-        "python __main__.py ~/.../tests/data_for_tests -fe . -nr"
-        and "python __main__.py ~/.../tests/data_for_tests -fe ."
-        :return:
-        """
-        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-fe', '.', '-nr']), 1)
-        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-fe', '.']), 2)
+        for k, v in nr_extensions.items():
+            with self.subTest(k=k, v=v):
+                self.assertEqual(main_flow([location, '-nr', '-fe', f'{k}']), v)
 
     @unittest.skipIf(sys.platform.startswith("win"), "not for Windows")
     def test_for_hidden(self):

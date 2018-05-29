@@ -47,36 +47,33 @@ def show_total(data) -> int:
 
 def get_files_by_extension(location: str, extension: str, preview=False, preview_size=395,
                            recursion=True, include_hidden=False) -> int:
-    """ Search for files that have the given extension in their filename and optionally display
-    a preview of the file.
+    """Search for files that have the given extension in their filename and optionally display
+    the number of files found, total, minimum and maximum size of files.
 
-    Special thanks to Natalia Bondarenko (github.com/NataliaBondarenko),
-    who suggested this feature and submited an initial implementation.
+    :param location: full/path/to/file
+    :param extension: extension name (txt, py) or '' (default all extensions)
+    :param preview: file contents
+    :param preview_size: number of characters to display the contents of the file
+    :param recursion: True or False
+    :param include_hidden: True or False
+    :return: len(files) for tests,
+    For user, depending on the parameters, something like this:
+    Search options
+    location: C:/Users/.../path/to/folder
+    extension: py
+    recursion: True
+    include hidden: False
+    C:/Users/.../path/to/folder\not_hidden.txt (0.0 B)
+    C:/Users/.../path/to/folder/sub-folder\not_hidden.xlsx (9.7 KiB)
+
+    Found 2 file(s).
+    Total combined size: 9.7 KiB.
+    Average file size: 4.8 KiB (max: 9.7 KiB, min: 0.0 B).
     """
-    if include_hidden:
-        hide_text = ", including hidden items,"
-    else:
-        hide_text = ""
-    if recursion:
-        if extension == '.':
-            print(f'\nRecursively searching for files without extension{hide_text} in {location}.\n')
-            files = search_files(location, ".", recursive=True,
-                                 include_hidden=include_hidden)
-        else:
-            print(f'\nRecursively searching for .{extension} files{hide_text} in {location}.\n')
-            files = search_files(location, extension, recursive=True,
-                                 include_hidden=include_hidden)
-
-    else:
-        if extension == '.':
-            print(f'\nSearching for files without extension{hide_text} in {location}.\n')
-            files = search_files(location, ".", recursive=False,
-                                 include_hidden=include_hidden)
-        else:
-            print(f'\nSearching for .{extension} files{hide_text} in {location}.\n')
-            files = search_files(location, extension, recursive=False,
-                                 include_hidden=include_hidden)
-
+    print(f'Search options\nlocation: {location}'
+          f'\nextension: {extension}'
+          f'\nrecursion: {recursion}\ninclude hidden: {include_hidden}')
+    files = search_files(location, extension=extension, recursive=recursion, include_hidden=include_hidden)
     if files:
         sizes = []
         for f_path in files:
@@ -96,18 +93,11 @@ def get_files_by_extension(location: str, extension: str, preview=False, preview
         h_max = human_mem_size(max(sizes))
         h_min = human_mem_size(min(sizes))
 
-        if extension == '.':
-            print(f"\n   Found {len(files)} files without extension.")
-        else:
-            print(f"\n   Found {len(files)} .{extension} files.")
+        print(f"\n   Found {len(files)} file(s).")
         print(f"   Total combined size: {h_total_size}.")
         print(f"   Average file size: {avg_size} (max: {h_max}, min: {h_min}).\n")
         return len(files)
 
     else:
-        if extension == '.':
-            print(f"No files without extension were found in the specified directory.\n")
-        else:
-            print(
-                f"No files with the extension '{extension}' were found in the specified directory.\n")
+        print(f"No files were found in the specified directory.\n")
         return 0

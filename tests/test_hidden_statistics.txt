@@ -1,19 +1,31 @@
 WINDOWS:
-2018-05-14
+2018-05-28
+update statistics in connection with the addition of support for handling hidden folders for Windows.
+
+2018-05-28
 Recursively counting all files, ignoring hidden files, in :
 /tests/test_hidden_windows.
-
+Search options
+location: ~/tests/test_hidden_windows
+extension: all extensions
+recursion: True
+include hidden: False
  EXTENSION | FREQ.
 -----------+-------
  txt       |     1
- py        |     1
  xlsx      |     1
 -----------+-------
- TOTAL:    |     3
+ TOTAL:    |     2
 -----------+-------
+
 
 Recursively counting all files, including hidden files, in :
 /tests/test_hidden_windows.
+Search options
+location: ~/tests/test_hidden_windows
+extension: all extensions
+recursion: True
+include hidden: True
 
  EXTENSION | FREQ.
 -----------+-------
