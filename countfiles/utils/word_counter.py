@@ -70,10 +70,11 @@ def get_files_by_extension(location: str, extension: str, preview=False, preview
     Total combined size: 9.7 KiB.
     Average file size: 4.8 KiB (max: 9.7 KiB, min: 0.0 B).
     """
-    print(f'Search options\nlocation: {location}'
-          f'\nextension: {extension}'
-          f'\nrecursion: {recursion}\ninclude hidden: {include_hidden}')
-    files = search_files(location, extension=extension, recursive=recursion, include_hidden=include_hidden)
+    files = search_files(location,
+                         extension=extension,
+                         recursive=recursion,
+                         include_hidden=include_hidden)
+
     if files:
         sizes = []
         for f_path in files:

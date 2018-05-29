@@ -89,6 +89,18 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
               f'Use: python -m countfiles {args.path} --all')
         return
 
+    action = 'searching' if search_by_extension else "counting"
+    r = f'Recursively {action} all files'
+    nr = f'{action.title()} files'
+    h = 'including hidden files and directories'
+    nh = 'ignoring hidden files and directories'
+    e = f'with extension .{args.file_extension}'
+    all_e = 'with any extension'
+
+    print(f'\n{r if recursive else nr} {e if args.file_extension != "." else all_e}, '
+          f'{h if include_hidden else nh}, in {location}\n')
+
+
     # Either search and list files by extension...
     if search_by_extension:
         len_files = get_files_by_extension(location, args.file_extension,
@@ -101,20 +113,6 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         # function should return something for check the correctness of the program in this thread
 
     # ...or do other stuff, i.e., counting files.
-    """if include_hidden:
-        hidden_msg = "including hidden files and directories,"
-    else:
-        hidden_msg = "ignoring hidden files and directories,"
-
-    if recursive:
-        print(f'\nRecursively counting all files, {hidden_msg} in {loc_text}.\n')
-    else:
-        print(f'\nCounting files, {hidden_msg} in {loc_text}.\n')"""
-
-    print(f'Search options\nlocation: {location}'
-          f'\nextension: all extensions'
-          f'\nrecursion: {recursive}\ninclude hidden: {include_hidden}')
-
     data = count_files_by_extension(location, include_hidden=include_hidden, recursive=recursive)
 
     if show_table:
