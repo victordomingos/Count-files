@@ -71,7 +71,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     include_hidden = args.all
     show_table = not args.no_table
     sort_alpha = args.sort_alpha
-    search_by_extension = True if args.file_extension else False
+    extension = args.file_extension
 
     if os.path.abspath(args.path) == os.getcwd():
         location = os.getcwd()
@@ -89,21 +89,21 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
               f'Use: python -m countfiles {args.path} --all')
         return
 
-    action = 'searching' if search_by_extension else "counting"
+    action = 'searching' if extension else "counting"
     r = f'Recursively {action} all files'
     nr = f'{action.title()} files'
-    h = 'including hidden files and directories'
-    nh = 'ignoring hidden files and directories'
-    e = f'with extension .{args.file_extension}'
-    all_e = 'with any extension'
+    e = f' with extension .{args.file_extension}' if extension else ''
+    all_e = ' with any extension' if extension else ''
+    h = ' including hidden files and directories'
+    nh = ' ignoring hidden files and directories'
 
-    print(f'\n{r if recursive else nr} {e if args.file_extension != "." else all_e}, '
+    print(f'\n{r if recursive else nr}{e if args.file_extension != "." else all_e},'
           f'{h if include_hidden else nh}, in {location}\n')
 
 
     # Either search and list files by extension...
-    if search_by_extension:
-        len_files = get_files_by_extension(location, args.file_extension,
+    if extension:
+        len_files = get_files_by_extension(location, extension,
                                               preview=args.preview,
                                               preview_size=args.preview_size,
                                               recursion=recursive,
