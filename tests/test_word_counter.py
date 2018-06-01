@@ -1,6 +1,9 @@
 import unittest
 import os
+from contextlib import redirect_stdout
+import filecmp
 from countfiles.utils.word_counter import get_files_by_extension, show_2columns
+from countfiles.utils.file_handlers import count_files_by_extension
 
 
 class TestWordCounter(unittest.TestCase):
@@ -19,9 +22,21 @@ class TestWordCounter(unittest.TestCase):
         """
         pass
 
-    # TODO
     def test_show_2columns(self):
-        self.assertEqual(show_2columns([]), None)
+        test1 = self.get_locations('compare_tables', 'test_2columns_sorted.txt')
+        test2 = self.get_locations('compare_tables', 'test_2columns_most_common.txt')
+        data = count_files_by_extension(dirpath=self.get_locations('data_for_tests'),
+                                        include_hidden=False, recursive=True)
+        with open(test1, 'w') as f:
+            with redirect_stdout(f):
+                show_2columns(sorted(data.items()))
+        with open(test2, 'w') as f:
+            with redirect_stdout(f):
+                show_2columns(data.most_common())
+        self.assertEqual(filecmp.cmp(test1, self.get_locations('compare_tables', '2columns_sorted.txt'),
+                                     shallow=False), True)
+        self.assertEqual(filecmp.cmp(test2, self.get_locations('compare_tables', '2columns_most_common.txt'),
+                                     shallow=False), True)
 
 # from root directory:
 # run all tests in test_word_counter.py
