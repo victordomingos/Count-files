@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+from typing import List
 
 from countfiles.utils.file_handlers import human_mem_size
 from countfiles.utils.file_handlers import search_files
@@ -43,6 +44,63 @@ def show_total(data) -> int:
     total = sum(data.values())
     print(f"Total number of files in selected directory: {total}.\n")
     return total
+
+
+def show_result_for_search_files(files: List[str], no_list: bool, preview: bool = False, preview_size: int = 395) -> int:
+    """Print list of all found file paths, preview and size info
+    or only the total number and size info(summary).
+
+    :param files: list with paths
+    :param no_list: view mode, False -> for now list(show list with paths, preview and size info),
+    True -> no-list(show only the total number and size info)
+    :param preview: optional, args.preview, True or False
+    :param preview_size: optional, args.preview_size, number
+    :return: len(files), print view mode
+    no_list=True
+    Found ... file(s).
+    Total combined size: ... KiB.
+    Average file size: ... KiB (max: ... KiB, min: ... B).
+    no_list=False default
+    full/path/to/file1.extension (... KiB)
+    –––––––––––––––––––––––––––––––––––
+    preview, if preview=True and supported type
+    –––––––––––––––––––––––––––––––––––
+    full/path/to/file2.extension (... KiB)
+    ...
+    Found ... file(s).
+    Total combined size: ... KiB.
+    Average file size: ... KiB (max: ... KiB, min: ... B).
+    """
+    if files:
+        sizes = []
+        if not no_list:
+            for f_path in files:
+                file_size = os.path.getsize(f_path)
+                sizes.append(file_size)
+                filepath = str(f_path).strip("\r")
+                print(f'{os.path.normpath(filepath)} ({human_mem_size(file_size)})')
+                if preview:
+                    print('–––––––––––––––––––––––––––––––––––')
+                    print(generate_preview(str(f_path), max_size=preview_size))
+                    print("–––––––––––––––––––––––––––––––––––\n")
+        elif no_list:
+            for f_path in files:
+                file_size = os.path.getsize(f_path)
+                sizes.append(file_size)
+        total_size = sum(sizes)
+        h_total_size = human_mem_size(total_size)
+        avg_size = human_mem_size(int(total_size / len(files)))
+
+        h_max = human_mem_size(max(sizes))
+        h_min = human_mem_size(min(sizes))
+
+        print(f"\n   Found {len(files)} file(s).")
+        print(f"   Total combined size: {h_total_size}.")
+        print(f"   Average file size: {avg_size} (max: {h_max}, min: {h_min}).\n")
+        return len(files)
+    else:
+        print(f"No files were found in the specified directory.\n")
+        return 0
 
 
 def get_files_by_extension(location: str, extension: str, preview=False, preview_size=395,
