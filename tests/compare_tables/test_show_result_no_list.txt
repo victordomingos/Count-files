@@ -1,0 +1,5 @@
+
+   Found 2 file(s).
+   Total combined size: 49.0 B.
+   Average file size: 24.0 B (max: 49.0 B, min: 0.0 B).
+

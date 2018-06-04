@@ -11,11 +11,12 @@ import os
 
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar, Union
+from itertools import chain
 
-from countfiles.utils.file_handlers import count_files_by_extension
+from countfiles.utils.file_handlers import count_files_by_extension, search_files
 from countfiles.utils.file_handlers import is_hidden_file_or_dir
-
-from countfiles.utils.word_counter import show_2columns, show_total, get_files_by_extension
+from countfiles.settings import SUPPORTED_TYPES, not_supported_type_message
+from countfiles.utils.word_counter import show_2columns, show_total, show_result_for_search_files
 
 
 parser = ArgumentParser(
@@ -54,6 +55,10 @@ parser.add_argument('-p', '--preview', action='store_true',
 parser.add_argument('-ps', '--preview-size', required=False, type=int, default=390,
                     help="Specify the number of characters to be displayed from each "
                          "found file when using '-p' or '--preview')")
+
+parser.add_argument('-nl', '--no-list', required=False, action='store_true',
+                    help="Don't show the list, only the total number of files and information about file sizes")
+
 
 argparse_namespace_object = TypeVar('argparse_namespace_object', bound=Namespace)
 
@@ -100,17 +105,22 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     print(f'\n{r if recursive else nr}{e if args.file_extension != "." else all_e},'
           f'{h if include_hidden else nh}, in {location}\n')
 
-
     # Either search and list files by extension...
     if extension:
-        len_files = get_files_by_extension(location, extension,
-                                              preview=args.preview,
-                                              preview_size=args.preview_size,
-                                              recursion=recursive,
-                                              include_hidden=include_hidden)
-        return len_files  # TODO: is this return value useful in some way?
-        # it's for tests in test_argument_parser.py,
-        # function should return something for check the correctness of the program in this thread
+        # no-list=True, only the total number of files and information about file sizes
+        # no-list=False, list of all found file paths - enabled by default,
+        # optional file preview, size specification for file preview
+        if not args.no_list and args.preview:
+            # check the possibility of displaying previews for this type of file
+            if args.file_extension not in list(chain.from_iterable(SUPPORTED_TYPES.values())):
+                parser.exit(status=0, message=not_supported_type_message)
+        # getting data list
+        data = search_files(dirpath=location, extension=extension, include_hidden=include_hidden,
+                            recursive=recursive)
+        # display result in chosen view mode
+        len_files = show_result_for_search_files(files=data, no_list=args.no_list, preview=args.preview,
+                                                 preview_size=args.preview_size)
+        return len_files
 
     # ...or do other stuff, i.e., counting files.
     data = count_files_by_extension(location, include_hidden=include_hidden, recursive=recursive)
@@ -120,7 +130,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
             show_2columns(sorted(data.items()))
         else:
             show_2columns(data.most_common())
-        # this part(table) is not tested at all, it returns None
+        # it returns None
     else:
         return show_total(data) # TODO: is this return value useful in some way?
         # it's for tests in test_argument_parser.py too
