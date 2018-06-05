@@ -5,7 +5,7 @@ import os
 import sys
 
 from pathlib import Path
-from typing import List
+from typing import Generator
 from collections import Counter
 from itertools import chain
 
@@ -52,7 +52,7 @@ def human_mem_size(num: int, suffix='B') -> str:
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 
-def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: bool) -> List[str]:
+def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: bool) -> Iterable[str]:
     """Find all files in a given directory with and without the extension.
 
     :param dirpath: full/path/to/folder
@@ -61,7 +61,7 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
     :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
     :return: list with strings(full paths to files)
     """
-    result = []
+
     # this part used in def get_files_by_extension
     if extension:
         for root, dirs, files in os.walk(dirpath):
@@ -71,7 +71,6 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
                 if f_extension != extension or not os.path.isfile(f_path):
                     continue
                 if include_hidden or not is_hidden_file_or_dir(f_path):
-                    ##result.append(f_path)
                     yield f_path
             if not recursive:
                 break
@@ -87,7 +86,6 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
                     if not f.is_file():
                         continue
                     if include_hidden or not is_hidden_file_or_dir(f_path):
-                        ##result.append(f_path)
                         yield f_path
 
         else:
@@ -97,9 +95,7 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
                     if not os.path.isfile(f_path):
                         continue
                     if include_hidden or not is_hidden_file_or_dir(f_path):
-                        ##result.append(f_path)
                         yield f_path
-    ##return result
 
 
 def count_files_by_extension(dirpath: str, recursive=False, include_hidden=True):
@@ -118,7 +114,7 @@ def count_files_by_extension(dirpath: str, recursive=False, include_hidden=True)
             extension = get_file_extension(f)
             if extension == '.':
                 extension = '[no extension]'
-            counters[extension] +=1
+            counters[extension] += 1
 
     if recursive:
         if include_hidden:
@@ -127,7 +123,7 @@ def count_files_by_extension(dirpath: str, recursive=False, include_hidden=True)
         else:
             for root, dirs, files in os.walk(dirpath):
                 only_these = [f for f in files
-                               if not is_hidden_file_or_dir(os.path.join(root, f))]
+                              if not is_hidden_file_or_dir(os.path.join(root, f))]
                 count_file_extensions(only_these)
     else:
         with os.scandir(dirpath) as directory:
@@ -136,7 +132,7 @@ def count_files_by_extension(dirpath: str, recursive=False, include_hidden=True)
                 only_these = [f for f in directory if f.is_file()]
             else:
                 only_these = [f for f in directory if f.is_file()
-                          and not is_hidden_file_or_dir(os.path.join(dirpath, f))]
+                              and not is_hidden_file_or_dir(os.path.join(dirpath, f))]
             count_file_extensions(only_these)
 
     return counters
@@ -180,4 +176,3 @@ def is_hidden_file_or_dir(filepath: str) -> bool:
         return bool('/.' in filepath)
     elif platform_name.startswith('darwin'):
         return bool('/.' in filepath)
-
