@@ -120,7 +120,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                             recursive=recursive))
         # display result in chosen view mode
         len_files = show_result_for_search_files(files=data, no_list=args.no_list, preview=args.preview,
-                                                 preview_size=args.preview_size)
+                                              preview_size=args.preview_size)
         return len_files
 
     # ...or do other stuff, i.e., counting files.

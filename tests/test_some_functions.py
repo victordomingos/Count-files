@@ -30,14 +30,14 @@ class TestSomeFunctions(unittest.TestCase):
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_search_files_win(self):
-        """Testing def search_files.
+        """Testing def search_files, def search_files returns generator.
 
         Expected behavior: return list with strings(full paths to files)
         """
-        a = search_files(self.get_locations('hidden_py'), 'py', recursive=True, include_hidden=True)
-        b = search_files(self.get_locations('hidden_py'), 'py', recursive=False, include_hidden=False)
-        c = search_files(self.get_locations('hidden_py'), 'py', recursive=False, include_hidden=True)
-        d = search_files(self.get_locations('hidden_py'), 'py', recursive=True, include_hidden=False)
+        a = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=True, include_hidden=True))
+        b = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=False, include_hidden=False))
+        c = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=False, include_hidden=True))
+        d = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=True, include_hidden=False))
         self.assertEqual(len(a), 4)
         self.assertEqual(len(b), 1)
         self.assertEqual(len(c), 2)
@@ -46,14 +46,14 @@ class TestSomeFunctions(unittest.TestCase):
     @unittest.skipUnless(sys.platform.startswith('linux')
                          or sys.platform.startswith('darwin'), 'for Linux, Mac OS')
     def test_search_files_lin_mac(self):
-        """Testing def search_files.
+        """Testing def search_files, def search_files returns generator.
 
         Expected behavior: return list with strings(full paths to files)
         """
-        a = search_files(self.get_locations('test_hidden_linux'), '.', recursive=True, include_hidden=True)
-        b = search_files(self.get_locations('test_hidden_linux'), '.', recursive=False, include_hidden=False)
-        c = search_files(self.get_locations('test_hidden_linux'), '.', recursive=False, include_hidden=True)
-        d = search_files(self.get_locations('test_hidden_linux'), '.', recursive=True, include_hidden=False)
+        a = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=True, include_hidden=True))
+        b = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=False, include_hidden=False))
+        c = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=False, include_hidden=True))
+        d = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=True, include_hidden=False))
         self.assertEqual(len(a), 3)
         self.assertEqual(len(b), 0)
         self.assertEqual(len(c), 1)
