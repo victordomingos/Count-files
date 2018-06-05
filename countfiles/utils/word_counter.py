@@ -74,7 +74,6 @@ def show_result_for_search_files(files: List[str], no_list: bool, preview: bool 
     Average file size: ... KiB (max: ... KiB, min: ... B).
     """
     files_amount = 0
-
     sizes = []
     if not no_list:
         try:
@@ -104,7 +103,7 @@ def show_result_for_search_files(files: List[str], no_list: bool, preview: bool 
     if files_amount == 0:
         print(f"No files were found in the specified directory.\n")
         return 0
-    
+
     total_size = sum(sizes)
     h_total_size = human_mem_size(total_size)
     avg_size = human_mem_size(int(total_size / files_amount))
