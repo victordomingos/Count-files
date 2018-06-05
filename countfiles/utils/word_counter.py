@@ -74,9 +74,10 @@ def show_result_for_search_files(files: List[str], no_list: bool, preview: bool 
     Average file size: ... KiB (max: ... KiB, min: ... B).
     """
     files_amount = 0
-    if files:
-        sizes = []
-        if not no_list:
+
+    sizes = []
+    if not no_list:
+        try:
             for f_path in files:
                 files_amount += 1
                 file_size = os.path.getsize(f_path)
@@ -87,25 +88,34 @@ def show_result_for_search_files(files: List[str], no_list: bool, preview: bool 
                     print('–––––––––––––––––––––––––––––––––––')
                     print(generate_preview(str(f_path), max_size=preview_size))
                     print("–––––––––––––––––––––––––––––––––––\n")
-        elif no_list:
+        except StopIteration:
+            print(f"No files were found in the specified directory.\n")
+            return 0
+    else:
+        try:
             for f_path in files:
                 files_amount += 1
                 file_size = os.path.getsize(f_path)
                 sizes.append(file_size)
-        total_size = sum(sizes)
-        h_total_size = human_mem_size(total_size)
-        avg_size = human_mem_size(int(total_size / files_amount))
+        except StopIteration:
+            print(f"No files were found in the specified directory.\n")
+            return 0
 
-        h_max = human_mem_size(max(sizes))
-        h_min = human_mem_size(min(sizes))
-
-        print(f"\n   Found {files_amount} file(s).")
-        print(f"   Total combined size: {h_total_size}.")
-        print(f"   Average file size: {avg_size} (max: {h_max}, min: {h_min}).\n")
-        return files_amount
-    else:
+    if files_amount == 0:
         print(f"No files were found in the specified directory.\n")
         return 0
+    
+    total_size = sum(sizes)
+    h_total_size = human_mem_size(total_size)
+    avg_size = human_mem_size(int(total_size / files_amount))
+
+    h_max = human_mem_size(max(sizes))
+    h_min = human_mem_size(min(sizes))
+
+    print(f"\n   Found {files_amount} file(s).")
+    print(f"   Total combined size: {h_total_size}.")
+    print(f"   Average file size: {avg_size} (max: {h_max}, min: {h_min}).\n")
+    return files_amount
 
 
 def get_files_by_extension(location: str, extension: str, preview=False, preview_size=395,
