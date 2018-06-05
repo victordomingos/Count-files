@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-
+# encoding: utf-8
 import os
 from typing import List
 
 from countfiles.utils.file_handlers import human_mem_size
 from countfiles.utils.file_handlers import search_files
 from countfiles.utils.file_preview import generate_preview
+from countfiles.settings import DEFAULT_PREVIEW_SIZE
 
 
 def show_2columns(data):
@@ -46,7 +47,8 @@ def show_total(data) -> int:
     return total
 
 
-def show_result_for_search_files(files: List[str], no_list: bool, preview: bool = False, preview_size: int = 395) -> int:
+def show_result_for_search_files(files: List[str], no_list: bool, preview: bool = False,
+                                 preview_size: int = DEFAULT_PREVIEW_SIZE) -> int:
     """Print list of all found file paths, preview and size info
     or only the total number and size info(summary).
 

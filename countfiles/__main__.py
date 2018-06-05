@@ -16,7 +16,7 @@ from countfiles.utils.file_handlers import count_files_by_extension, search_file
 from countfiles.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
 from countfiles.utils.word_counter import show_2columns, show_total
 from countfiles.utils.word_counter import show_result_for_search_files
-from countfiles.settings import not_supported_type_message
+from countfiles.settings import not_supported_type_message, DEFAULT_PREVIEW_SIZE
 
 
 parser = ArgumentParser(
@@ -52,7 +52,7 @@ parser.add_argument('-p', '--preview', action='store_true',
                     help="Display a short preview (only available for text files when "
                          "using '-fe' or '--file_extension')")
 
-parser.add_argument('-ps', '--preview-size', required=False, type=int, default=390,
+parser.add_argument('-ps', '--preview-size', required=False, type=int, default=DEFAULT_PREVIEW_SIZE,
                     help="Specify the number of characters to be displayed from each "
                          "found file when using '-p' or '--preview')")
 

@@ -1,4 +1,4 @@
-# coding=utf-8
+# encoding: utf-8
 from setuptools import setup
 
 long_desc = "Count files, grouped by extension, in a directory. By " \
