@@ -5,7 +5,7 @@ import os
 import sys
 
 from pathlib import Path
-from typing import Generator
+from typing import Iterable
 from collections import Counter
 from itertools import chain
 
