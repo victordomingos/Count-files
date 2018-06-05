@@ -3,9 +3,13 @@
 import ctypes
 import os
 import sys
+
 from pathlib import Path
 from typing import List
 from collections import Counter
+from itertools import chain
+
+from countfiles.settings import SUPPORTED_TYPES
 
 
 def get_file_extension(filepath: str) -> str:
@@ -22,6 +26,16 @@ def get_file_extension(filepath: str) -> str:
         return extension
     else:
         return '.'
+
+
+def is_supported_filetype(extension: str) -> bool:
+    """
+    Return a True if the given file extension has a supported file preview
+
+    :param extension:
+    :return: True if we have a preview procedure for the given file type, False otherwise.
+    """
+    return extension in list(chain.from_iterable(SUPPORTED_TYPES.values()))
 
 
 def human_mem_size(num: int, suffix='B') -> str:

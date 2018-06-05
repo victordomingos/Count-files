@@ -11,3 +11,4 @@ not_supported_type_message = f'No preview available for this file type. ' \
                              f'Supported types: ' \
                              f'{", ".join(sorted(list(chain.from_iterable(SUPPORTED_TYPES.values()))))}. ' \
                              f'Try without preview.'
+

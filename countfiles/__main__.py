@@ -11,12 +11,12 @@ import os
 
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar, Union
-from itertools import chain
 
 from countfiles.utils.file_handlers import count_files_by_extension, search_files
-from countfiles.utils.file_handlers import is_hidden_file_or_dir
-from countfiles.settings import SUPPORTED_TYPES, not_supported_type_message
-from countfiles.utils.word_counter import show_2columns, show_total, show_result_for_search_files
+from countfiles.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
+from countfiles.utils.word_counter import show_2columns, show_total
+from countfiles.utils.word_counter import show_result_for_search_files
+from countfiles.settings import not_supported_type_message
 
 
 parser = ArgumentParser(
@@ -110,9 +110,8 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         # no-list=True, only the total number of files and information about file sizes
         # no-list=False, list of all found file paths - enabled by default,
         # optional file preview, size specification for file preview
-        if not args.no_list and args.preview:
-            # check the possibility of displaying previews for this type of file
-            if args.file_extension not in list(chain.from_iterable(SUPPORTED_TYPES.values())):
+        if args.preview and not args.no_list:
+            if not is_supported_filetype(extension):
                 parser.exit(status=0, message=not_supported_type_message)
         # getting data list
         data = search_files(dirpath=location, extension=extension, include_hidden=include_hidden,
