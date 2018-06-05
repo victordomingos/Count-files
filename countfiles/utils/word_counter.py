@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 import os
-from typing import List
+from typing import Generator, Any
 
 from countfiles.utils.file_handlers import human_mem_size
 from countfiles.utils.file_handlers import search_files
@@ -47,7 +47,7 @@ def show_total(data) -> int:
     return total
 
 
-def show_result_for_search_files(files: List[str], no_list: bool, preview: bool = False,
+def show_result_for_search_files(files: Generator[str, Any, None], no_list: bool, preview: bool = False,
                                  preview_size: int = DEFAULT_PREVIEW_SIZE) -> int:
     """Print list of all found file paths, preview and size info
     or only the total number and size info(summary).
@@ -74,24 +74,24 @@ def show_result_for_search_files(files: List[str], no_list: bool, preview: bool 
     Average file size: ... KiB (max: ... KiB, min: ... B).
     """
     files_amount = 0
-    if files:
-        sizes = []
-        if not no_list:
-            for f_path in files:
-                files_amount += 1
-                file_size = os.path.getsize(f_path)
-                sizes.append(file_size)
-                filepath = str(f_path).strip("\r")
-                print(f'{os.path.normpath(filepath)} ({human_mem_size(file_size)})')
-                if preview:
-                    print('–––––––––––––––––––––––––––––––––––')
-                    print(generate_preview(str(f_path), max_size=preview_size))
-                    print("–––––––––––––––––––––––––––––––––––\n")
-        elif no_list:
-            for f_path in files:
-                files_amount += 1
-                file_size = os.path.getsize(f_path)
-                sizes.append(file_size)
+    sizes = []
+    if not no_list:
+        for f_path in files:
+            files_amount += 1
+            file_size = os.path.getsize(f_path)
+            sizes.append(file_size)
+            filepath = str(f_path).strip("\r")
+            print(f'{os.path.normpath(filepath)} ({human_mem_size(file_size)})')
+            if preview:
+                print('–––––––––––––––––––––––––––––––––––')
+                print(generate_preview(str(f_path), max_size=preview_size))
+                print("–––––––––––––––––––––––––––––––––––\n")
+    elif no_list:
+        for f_path in files:
+            files_amount += 1
+            file_size = os.path.getsize(f_path)
+            sizes.append(file_size)
+    if files_amount:
         total_size = sum(sizes)
         h_total_size = human_mem_size(total_size)
         avg_size = human_mem_size(int(total_size / files_amount))
