@@ -5,7 +5,9 @@ A little CLI utility written in Python to help you count files, grouped by
 extension, in a directory. You can either pass it the path to the directory to
 scan, or leave that argument empty and it will scan the current working
 directory.
-© 2018 Victor Domingos, Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+
+© 2018 Victor Domingos & Nataliia Bondarenko
+Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 """
 import os
 
@@ -114,8 +116,8 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
             if not is_supported_filetype(extension):
                 parser.exit(status=0, message=not_supported_type_message)
         # getting data list
-        data = search_files(dirpath=location, extension=extension, include_hidden=include_hidden,
-                            recursive=recursive)
+        data = (f for f in search_files(dirpath=location, extension=extension, include_hidden=include_hidden,
+                            recursive=recursive))
         # display result in chosen view mode
         len_files = show_result_for_search_files(files=data, no_list=args.no_list, preview=args.preview,
                                                  preview_size=args.preview_size)

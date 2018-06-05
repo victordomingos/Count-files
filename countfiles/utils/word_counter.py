@@ -73,10 +73,12 @@ def show_result_for_search_files(files: List[str], no_list: bool, preview: bool 
     Total combined size: ... KiB.
     Average file size: ... KiB (max: ... KiB, min: ... B).
     """
+    files_amount = 0
     if files:
         sizes = []
         if not no_list:
             for f_path in files:
+                files_amount += 1
                 file_size = os.path.getsize(f_path)
                 sizes.append(file_size)
                 filepath = str(f_path).strip("\r")
@@ -87,19 +89,20 @@ def show_result_for_search_files(files: List[str], no_list: bool, preview: bool 
                     print("–––––––––––––––––––––––––––––––––––\n")
         elif no_list:
             for f_path in files:
+                files_amount += 1
                 file_size = os.path.getsize(f_path)
                 sizes.append(file_size)
         total_size = sum(sizes)
         h_total_size = human_mem_size(total_size)
-        avg_size = human_mem_size(int(total_size / len(files)))
+        avg_size = human_mem_size(int(total_size / files_amount))
 
         h_max = human_mem_size(max(sizes))
         h_min = human_mem_size(min(sizes))
 
-        print(f"\n   Found {len(files)} file(s).")
+        print(f"\n   Found {files_amount} file(s).")
         print(f"   Total combined size: {h_total_size}.")
         print(f"   Average file size: {avg_size} (max: {h_max}, min: {h_min}).\n")
-        return len(files)
+        return files_amount
     else:
         print(f"No files were found in the specified directory.\n")
         return 0

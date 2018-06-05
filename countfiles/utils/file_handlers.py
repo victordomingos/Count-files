@@ -71,14 +71,15 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
                 if f_extension != extension or not os.path.isfile(f_path):
                     continue
                 if include_hidden or not is_hidden_file_or_dir(f_path):
-                    result.append(f_path)
+                    ##result.append(f_path)
+                    yield f_path
             if not recursive:
                 break
     # in fact this part do the same as def count_files_by_extension(except counters) if it called
     # directly -> search_files('full/path/to/folder', '', recursive=True, include_hidden=True)
     # in the current structure of the parser is not used
     # (two functions: one for searching (-fe) and one for counting)
-    elif not extension:
+    else:
         if not recursive:
             with os.scandir(dirpath) as directory:
                 for f in directory:
@@ -86,7 +87,8 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
                     if not f.is_file():
                         continue
                     if include_hidden or not is_hidden_file_or_dir(f_path):
-                        result.append(f_path)
+                        ##result.append(f_path)
+                        yield f_path
 
         else:
             for root, dirs, files in os.walk(dirpath):
@@ -95,8 +97,9 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
                     if not os.path.isfile(f_path):
                         continue
                     if include_hidden or not is_hidden_file_or_dir(f_path):
-                        result.append(f_path)
-    return result
+                        ##result.append(f_path)
+                        yield f_path
+    ##return result
 
 
 def count_files_by_extension(dirpath: str, recursive=False, include_hidden=True):
