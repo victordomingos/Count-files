@@ -100,7 +100,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     r = f'Recursively {action} all files'
     nr = f'{action.title()} files'
     e = f' with extension .{args.file_extension}' if extension else ''
-    all_e = ' with any extension' if extension else ''
+    all_e = ' without any extension' if extension else ''
     h = ' including hidden files and directories'
     nh = ' ignoring hidden files and directories'
 
