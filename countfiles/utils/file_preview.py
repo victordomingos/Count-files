@@ -48,6 +48,9 @@ def generate_preview(filepath: str, max_size=390) -> str:
     #    pass
 
 
+    # This part of the code is currently not being used anymore, since
+    # main_flow() only calls this function whenever it finds a known file type.
+    """
     # If no specific previewers were found, use the generic text/bytes preview:
     else:
         try:
@@ -59,6 +62,7 @@ def generate_preview(filepath: str, max_size=390) -> str:
                 excerpt = f.read_bytes()[0:max_size]
             except Exception as e:
                 print("ERROR 3:", e)
+    """
 
     if excerpt:
         return f"Format: {filetype}\n{excerpt}"
