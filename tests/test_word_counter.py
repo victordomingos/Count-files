@@ -2,7 +2,7 @@ import unittest
 import os
 from contextlib import redirect_stdout
 import filecmp
-from countfiles.utils.word_counter import get_files_by_extension, show_2columns, show_result_for_search_files
+from countfiles.utils.word_counter import show_2columns, show_result_for_search_files
 from countfiles.utils.file_handlers import count_files_by_extension, search_files
 
 
@@ -12,15 +12,6 @@ class TestWordCounter(unittest.TestCase):
     def get_locations(self, *args):
         print('LOCATION: ', os.path.normpath(os.path.join(os.path.dirname(__file__), *args)))
         return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
-
-    # Testing the result of this function is not necessary now,
-    # because it duplicates the tests for def search_files, def human_mem_size and def generate_preview.
-    def test_get_files_by_extension(self):
-        """Testing def get_files_by_extension.
-
-        :return:
-        """
-        pass
 
     def test_show_2columns(self):
         test1 = self.get_locations('compare_tables', 'test_2columns_sorted.txt')

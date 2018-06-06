@@ -5,7 +5,7 @@ import os
 import sys
 
 from pathlib import Path
-from typing import Generator, Any
+from typing import Iterable
 from collections import Counter
 from itertools import chain
 
@@ -52,7 +52,7 @@ def human_mem_size(num: int, suffix='B') -> str:
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 
-def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: bool) -> Generator[str, Any, None]:
+def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: bool) -> Iterable[str]:
     """Find all files in a given directory with and without the extension.
 
     :param dirpath: full/path/to/folder
