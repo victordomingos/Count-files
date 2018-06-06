@@ -59,7 +59,7 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
     :param extension: extension name (txt, py) or '' (default all extensions)
     :param recursive: True or False
     :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
-    :return: list with strings(full paths to files)
+    :return: object <class 'generator'>
     """
 
     # this part used in def get_files_by_extension
