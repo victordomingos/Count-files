@@ -13,3 +13,6 @@ not_supported_type_message = f'Sorry, there is no preview available for this fil
                              f'\nThis is the list of currently supported file types: ' \
                              f'{", ".join(sorted(list(chain.from_iterable(SUPPORTED_TYPES.values()))))}. ' \
                              f'\nYou may want to try again without preview.\n\n'
+
+supported_type_info_message = f'This is the list of currently supported file types for preview: ' \
+                              f'{", ".join(sorted(list(chain.from_iterable(SUPPORTED_TYPES.values()))))}. '
