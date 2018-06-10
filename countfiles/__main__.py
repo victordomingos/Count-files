@@ -7,7 +7,7 @@ scan, or leave that argument empty and it will scan the current working
 directory.
 
 © 2018 Victor Domingos & Nataliia Bondarenko
-Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+MIT License
 """
 import os
 
@@ -18,7 +18,8 @@ from countfiles.utils.file_handlers import count_files_by_extension, search_file
 from countfiles.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
 from countfiles.utils.word_counter import show_2columns, show_total
 from countfiles.utils.word_counter import show_result_for_search_files
-from countfiles.settings import not_supported_type_message, DEFAULT_PREVIEW_SIZE
+from countfiles.settings import not_supported_type_message, supported_type_info_message,\
+    DEFAULT_PREVIEW_SIZE
 
 
 parser = ArgumentParser(
@@ -31,35 +32,59 @@ parser = ArgumentParser(
                 "(those with names starting with '.') are ignored by "
                 "default.")
 
-parser.add_argument('path', nargs="?", default=os.getcwd(),
+parser.add_argument('-v', '--version', action='version', version='<the version>')
+
+parser.add_argument('-st', '--supported-types', action='store_true',
+                    help="The list of currently supported file types for preview.")
+
+parser.add_argument('path', nargs="?", default=os.getcwd(), type=str,
                     help='The path to the folder containing the files to be counted.')
 
 parser.add_argument('-a', '--all', action='store_true',
                     help="Include hidden files and directories (names starting with '.')")
 
-parser.add_argument('-alpha', '--sort-alpha', action='store_true',
-                    help="Sort the table alphabetically, by file extension.")
-
 parser.add_argument('-nr', "--no-recursion", action='store_true',
                     help="Don't recurse through subdirectories")
 
-parser.add_argument('-nt', '--no-table', action='store_true',
-                    help="Don't show the table, only the total number of files")
+count_group = parser.add_argument_group('File counting by extension',
+                                        description='Counting all files in the specified '
+                                                    'directory with or without extensions. '
+                                                    'Default settings: recursively count all files, '
+                                                    'ignoring hidden files and directories; '
+                                                    'path - the current working directory; '
+                                                    'view mode - a table with file '
+                                                    'extensions sorted by frequency. '
+                                                    'Usage: countfiles [-a] [-nr] [-alpha] [-nt] [path]')
 
-parser.add_argument('-fe', '--file-extension', required=False, type=str,
-                    help="Search files by file extension (use a single dot '.' to search for "
-                         "files without any extension)")
+count_group.add_argument('-alpha', '--sort-alpha', action='store_true',
+                         help="Sort the table alphabetically, by file extension.")
 
-parser.add_argument('-p', '--preview', action='store_true',
-                    help="Display a short preview (only available for text files when "
-                         "using '-fe' or '--file_extension')")
+count_group.add_argument('-nt', '--no-table', action='store_true',
+                         help="Don't show the table, only the total number of files")
 
-parser.add_argument('-ps', '--preview-size', required=False, type=int, default=DEFAULT_PREVIEW_SIZE,
-                    help="Specify the number of characters to be displayed from each "
-                         "found file when using '-p' or '--preview')")
+search_group = parser.add_argument_group('File searching by extension',
+                                         description='Search for files with a given extension. '
+                                                     'Default settings: recursively search all files, '
+                                                     'ignoring hidden files and directories; '
+                                                     'path - the current working directory; '
+                                                     'view mode - a list with full file paths. '
+                                                     'Usage: countfiles [-a] [-nr] [-fe FILE_EXTENSION] [-p] '
+                                                     '[-ps PREVIEW_SIZE] [-nl] [path]')
 
-parser.add_argument('-nl', '--no-list', required=False, action='store_true',
-                    help="Don't show the list, only the total number of files and information about file sizes")
+search_group.add_argument('-fe', '--file-extension', type=str,
+                          help="Search files by file extension (use a single dot '.' to search for "
+                          "files without any extension)")
+
+search_group.add_argument('-p', '--preview', action='store_true',
+                          help="Display a short preview (only available for text files when "
+                          "using '-fe' or '--file_extension')")
+
+search_group.add_argument('-ps', '--preview-size', type=int, default=DEFAULT_PREVIEW_SIZE,
+                          help="Specify the number of characters to be displayed from each "
+                          "found file when using '-p' or '--preview')")
+
+search_group.add_argument('-nl', '--no-list', action='store_true',
+                          help="Don't show the list, only the total number of files and information about file sizes")
 
 
 argparse_namespace_object = TypeVar('argparse_namespace_object', bound=Namespace)
@@ -79,6 +104,9 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     show_table = not args.no_table
     sort_alpha = args.sort_alpha
     extension = args.file_extension
+
+    if args.supported_types:
+        parser.exit(status=0, message=supported_type_info_message)
 
     if os.path.abspath(args.path) == os.getcwd():
         location = os.getcwd()
@@ -116,11 +144,11 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
             if not is_supported_filetype(extension):
                 parser.exit(status=0, message=not_supported_type_message)
         # getting data list
-        data = (f for f in search_files(dirpath=location, extension=extension, include_hidden=include_hidden,
-                            recursive=recursive))
+        data = (f for f in search_files(dirpath=location, extension=extension,
+                                        include_hidden=include_hidden, recursive=recursive))
         # display result in chosen view mode
-        len_files = show_result_for_search_files(files=data, no_list=args.no_list, preview=args.preview,
-                                              preview_size=args.preview_size)
+        len_files = show_result_for_search_files(files=data, no_list=args.no_list,
+                                                 preview=args.preview, preview_size=args.preview_size)
         return len_files
 
     # ...or do other stuff, i.e., counting files.
