@@ -18,7 +18,7 @@ def generate_preview(filepath: str, max_size=390) -> str:
     `max_size` characters. For other file types, a selection of their
     metadata could be shown.
     """
-    f = Path(os.path.expanduser(filepath))
+    #f = Path(os.path.expanduser(filepath))
     filetype = ""
     excerpt = ""
     extension = get_file_extension(filepath)
@@ -35,12 +35,16 @@ def generate_preview(filepath: str, max_size=390) -> str:
     print('EXT:', extension)
     print('TYPE:', filetype)
 
-    if extension in SUPPORTED_TYPES['text']:
-        try:
-            excerpt = f.read_text(errors="replace")[0:max_size].replace('\n', ' ')
+    #if extension in SUPPORTED_TYPES['text']:
+    if True:
+        p = Path(filepath)
+        try: 
+            with p.open(mode='rb') as f:
+                excerpt = f.read(max_size)
+                #excerpt = f.read_text(errors="replace")[0:max_size].replace('\n', ' ')
         except Exception as e:
             print("ERROR 2:", e)
-
+        """
     #elif extension in SUPPORTED_TYPES['image']:
     #    pass
 
@@ -50,8 +54,9 @@ def generate_preview(filepath: str, max_size=390) -> str:
 
     # This part of the code is currently not being used anymore, since
     # main_flow() only calls this function whenever it finds a known file type.
-    """
+    #"""
     # If no specific previewers were found, use the generic text/bytes preview:
+    """
     else:
         try:
             excerpt = f.read_text(errors="replace")[0:max_size].replace('\n', ' ')

@@ -5,6 +5,7 @@ DEFAULT_PREVIEW_SIZE = 395
 
 SUPPORTED_TYPES = {
     'text': ['py', 'txt', 'html', 'css', 'js', 'c'],
+    'bytes': ['dmg', 'mbox']
     #'image': ['jpg', 'png', 'gif'],
     #'pdf': ['pdf'],
 }

@@ -140,9 +140,9 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         # no-list=True, only the total number of files and information about file sizes
         # no-list=False, list of all found file paths - enabled by default,
         # optional file preview, size specification for file preview
-        if args.preview and not args.no_list:
-            if not is_supported_filetype(extension):
-                parser.exit(status=0, message=not_supported_type_message)
+        #if args.preview and not args.no_list:
+        #    if not is_supported_filetype(extension):
+        #        parser.exit(status=0, message=not_supported_type_message)
         # getting data list
         data = (f for f in search_files(dirpath=location, extension=extension,
                                         include_hidden=include_hidden, recursive=recursive))
