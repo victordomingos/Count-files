@@ -10,6 +10,40 @@ from countfiles.utils.file_handlers import get_file_extension
 from countfiles.settings import SUPPORTED_TYPES
 
 
+#TODO
+def generic_text_preview(filepath: str, max_size: int) -> str:
+    """ Read the first characters of the file and return a string
+
+    :param filepath: a string containing the path to the file
+    :param max_size: max number of characters to be read from file
+    :return: a string with the text preview
+    """
+    p = Path(filepath)
+    try:
+        with p.open(mode='r') as f:
+            return str(f.read(max_size)).replace('\n', ' ')
+    except Exception as e:
+        print("TEXT_PREVIEW_ERROR", e) # DEBUG
+        return ""
+
+
+# TODO: build a better preview system for binaries
+def generic_binary_preview(filepath: str, max_size: int) -> str:
+    """ Read the first characters of the file and return a string
+
+    :param filepath: a string containing the path to the file
+    :param max_size: max number of characters to be read from file
+    :return: a string with the text preview (without newline characters)
+    """
+    p = Path(filepath)
+    try:
+        with p.open(mode='rb') as f:
+            return f.read(max_size)
+    except Exception as e:
+        print("BINARY_PREVIEW_ERROR", e) # DEBUG
+        return ""
+
+
 def generate_preview(filepath: str, max_size=390) -> str:
     """ Detect filetype and generate a human readable text preview
 
@@ -18,56 +52,36 @@ def generate_preview(filepath: str, max_size=390) -> str:
     `max_size` characters. For other file types, a selection of their
     metadata could be shown.
     """
-    #f = Path(os.path.expanduser(filepath))
     filetype = ""
     excerpt = ""
     extension = get_file_extension(filepath)
+
 
     try:
         my_file = puremagic.magic_file(filepath)
         if my_file:
             filetype = " ".join(str(i) for i in next(itertools.chain(my_file)))
     except Exception as e:
-        # print("ERROR 1:", e)
+        print("FILETYPE_DETECTION_ERROR:", e) # DEBUG
         pass
 
     # TODO: Check if there is a specific file preview method
-    print('EXT:', extension)
-    print('TYPE:', filetype)
-
-    #if extension in SUPPORTED_TYPES['text']:
-    if True:
-        p = Path(filepath)
-        try: 
-            with p.open(mode='rb') as f:
-                excerpt = f.read(max_size)
-                #excerpt = f.read_text(errors="replace")[0:max_size].replace('\n', ' ')
-        except Exception as e:
-            print("ERROR 2:", e)
-        """
-    #elif extension in SUPPORTED_TYPES['image']:
-    #    pass
-
-    #elif extension in SUPPORTED_TYPES['pdf']:
-    #    pass
+    #print('EXT:', extension) # DEBUG
+    #print('TYPE:', filetype) # DEBUG
 
 
-    # This part of the code is currently not being used anymore, since
-    # main_flow() only calls this function whenever it finds a known file type.
-    #"""
-    # If no specific previewers were found, use the generic text/bytes preview:
-    """
+    if extension in SUPPORTED_TYPES['text']:
+        excerpt = generic_text_preview(filepath, max_size)
+
+    elif extension in SUPPORTED_TYPES['image']:
+        excerpt = "[Text preview for image files not implemented yet.]"
+
+    elif extension in SUPPORTED_TYPES['pdf']:
+        excerpt = "[Text preview for PDF files not implemented yet.]"
+
     else:
-        try:
-            excerpt = f.read_text(errors="replace")[0:max_size].replace('\n', ' ')
-        except Exception as e:
-            print("ERROR 2:", e)
+        excerpt = generic_binary_preview(filepath, max_size)
 
-            try:
-                excerpt = f.read_bytes()[0:max_size]
-            except Exception as e:
-                print("ERROR 3:", e)
-    """
 
     if excerpt:
         return f"Format: {filetype}\n{excerpt}"
