@@ -9,7 +9,7 @@ from typing import Iterable
 from collections import Counter
 from itertools import chain
 
-from countfiles.settings import SUPPORTED_TYPES
+from countfiles.settings import SUPPORTED_TYPES, TERM_WIDTH
 
 
 def get_file_extension(filepath: str) -> str:
@@ -115,7 +115,7 @@ def count_files_by_extension(dirpath: str, recursive=False, include_hidden=True)
             if extension == '.':
                 extension = '[no extension]'
             counters[extension] += 1
-            print("\r"+os.path.basename(f)[:79].ljust(79), end="")
+            print("\r"+os.path.basename(f)[:TERM_WIDTH-1].ljust(TERM_WIDTH-1), end="")
 
     if recursive:
         if include_hidden:
@@ -135,7 +135,8 @@ def count_files_by_extension(dirpath: str, recursive=False, include_hidden=True)
                 only_these = [f for f in directory if f.is_file()
                               and not is_hidden_file_or_dir(os.path.join(dirpath, f))]
             count_file_extensions(only_these)
-
+    
+    print("\r".ljust(79)) # Clean the feedback text before proceeding.
     return counters
 
 

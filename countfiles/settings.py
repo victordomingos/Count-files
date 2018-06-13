@@ -1,7 +1,11 @@
 # encoding: utf-8
+import shutil
 from itertools import chain
 
-DEFAULT_PREVIEW_SIZE = 395
+
+TERM_WIDTH, _ = shutil.get_terminal_size((80,24))
+DEFAULT_PREVIEW_SIZE = 5 * TERM_WIDTH  # 5 lines of text preview
+
 
 SUPPORTED_TYPES = {
     'text': ['py', 'txt', 'html', 'css', 'js', 'c'],
