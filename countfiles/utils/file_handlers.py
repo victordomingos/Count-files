@@ -136,7 +136,7 @@ def count_files_by_extension(dirpath: str, recursive=False, include_hidden=True)
                               and not is_hidden_file_or_dir(os.path.join(dirpath, f))]
             count_file_extensions(only_these)
     
-    print("\r".ljust(79)) # Clean the feedback text before proceeding.
+    print("\r".ljust(TERM_WIDTH-1)) # Clean the feedback text before proceeding.
     return counters
 
 
