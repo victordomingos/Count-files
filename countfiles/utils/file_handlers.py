@@ -115,6 +115,7 @@ def count_files_by_extension(dirpath: str, recursive=False, include_hidden=True)
             if extension == '.':
                 extension = '[no extension]'
             counters[extension] += 1
+            print("\r"+os.path.basename(f)[:79].ljust(79), end="")
 
     if recursive:
         if include_hidden:
