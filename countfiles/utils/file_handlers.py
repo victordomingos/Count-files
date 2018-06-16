@@ -98,24 +98,27 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
                         yield f_path
 
 
-def count_files_by_extension(dirpath: str, recursive=False, include_hidden=True):
-    """ Count all files in a given directory by their extensions.
+def count_files_by_extension(dirpath: str, no_feedback: bool, recursive=False, include_hidden=True) -> Counter:
+    """Count all files in a given directory by their extensions.
 
-    :param recursive: True or False
     :param dirpath: full/path/to/folder
+    :param no_feedback: True or False(default, prints processed file names in one line)
+    :param recursive: True(default, recursive search/count) or False
     :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
     :return: Counter() with extensions (keys: str)and their frequencies (values: int)
+    Counter({'txt': 15, 'py': 15, 'pyc': 13, '[no extension]': 8, 'xml': 4, 'md': 3, 'gz': 3, ...})
     """
     counters = Counter()
     dirpath = os.path.expanduser(dirpath)
 
-    def count_file_extensions(files):
+    def count_file_extensions(files: Iterable[str], no_feedback: bool = no_feedback):
         for f in files:
             extension = get_file_extension(f)
             if extension == '.':
                 extension = '[no extension]'
             counters[extension] += 1
-            print("\r"+os.path.basename(f)[:TERM_WIDTH-1].ljust(TERM_WIDTH-1), end="")
+            if not no_feedback:
+                print("\r"+os.path.basename(f)[:TERM_WIDTH-1].ljust(TERM_WIDTH-1), end="")
 
     if recursive:
         if include_hidden:
@@ -136,7 +139,7 @@ def count_files_by_extension(dirpath: str, recursive=False, include_hidden=True)
                               and not is_hidden_file_or_dir(os.path.join(dirpath, f))]
             count_file_extensions(only_these)
     
-    print("\r".ljust(TERM_WIDTH-1)) # Clean the feedback text before proceeding.
+    print("\r".ljust(TERM_WIDTH-1))  # Clean the feedback text before proceeding.
     return counters
 
 
@@ -152,6 +155,11 @@ def is_hidden_file_or_dir(filepath: str) -> bool:
     Linux: testing at least for the dot character in path on Unix-like systems.
     Note: for Linux def is_hidden_file_or_dir('~/path/.to/file.txt') checking for the dot character in path,
     so if '/.' in path the entire folder is ignored, even if it has visible files.
+
+    Note: the behavior of the function if the path does not exist.
+    When searching through a parser, a check os.path.exists() is performed.
+    Windows: when used separately, the function returns False if the path does not exist.
+    Linux, Mac OS: when used separately, the result depends on the presence of a "/." in the path.
 
     :param filepath: full/path/to/file.txt or full/path/to_folder
     :return: True if hidden or False if not
@@ -178,3 +186,23 @@ def is_hidden_file_or_dir(filepath: str) -> bool:
         return bool('/.' in filepath)
     elif platform_name.startswith('darwin'):
         return bool('/.' in filepath)
+
+
+def count_file_extensions1(file_paths: Iterable[str], no_feedback: bool) -> Counter:
+    """Count file extensions.
+
+    :param file_paths: when used with def search_files, file_paths is Generator
+    :param no_feedback: True or False(default, prints processed file names in one line)
+    :return: object of class 'collections.Counter'
+    Counter({'txt': 15, 'py': 15, 'pyc': 13, '[no extension]': 8, 'xml': 4, 'md': 3, 'gz': 3, ...})
+    """
+    counter = Counter()
+    for f in file_paths:
+        extension = get_file_extension(f)
+        if extension == '.':
+            extension = '[no extension]'
+        counter[extension] += 1
+        if not no_feedback:
+            print("\r"+os.path.basename(f)[:TERM_WIDTH-1].ljust(TERM_WIDTH-1), end="")
+    print("\r".ljust(TERM_WIDTH - 1))  # Clean the feedback text before proceeding.
+    return counter
