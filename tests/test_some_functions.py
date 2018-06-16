@@ -65,7 +65,8 @@ class TestSomeFunctions(unittest.TestCase):
         Expected behavior: return object <class 'collections.Counter'>
         :return:
         """
-        result = count_files_by_extension(self.get_locations('data_for_tests'), recursive=False, include_hidden=False)
+        result = count_files_by_extension(self.get_locations('data_for_tests'), no_feedback=True,
+                                          recursive=False, include_hidden=False)
         self.assertEqual(str(result), "Counter({'html': 1, 'md': 1, '[no extension]': 1, 'py': 1})")
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')

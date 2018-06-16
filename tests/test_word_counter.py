@@ -16,7 +16,7 @@ class TestWordCounter(unittest.TestCase):
     def test_show_2columns(self):
         test1 = self.get_locations('compare_tables', 'test_2columns_sorted.txt')
         test2 = self.get_locations('compare_tables', 'test_2columns_most_common.txt')
-        data = count_files_by_extension(dirpath=self.get_locations('data_for_tests'),
+        data = count_files_by_extension(dirpath=self.get_locations('data_for_tests'), no_feedback=True,
                                         include_hidden=False, recursive=True)
         with open(test1, 'w') as f:
             with redirect_stdout(f):
