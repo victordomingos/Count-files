@@ -14,7 +14,7 @@ import os
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar, Union
 
-from countfiles.utils.file_handlers import count_files_by_extension, search_files
+from countfiles.utils.file_handlers import count_files_by_extension, search_files, count_file_extensions1
 from countfiles.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
 from countfiles.utils.word_counter import show_2columns, show_total
 from countfiles.utils.word_counter import show_result_for_search_files
@@ -41,10 +41,19 @@ parser.add_argument('path', nargs="?", default=os.getcwd(), type=str,
                     help='The path to the folder containing the files to be counted.')
 
 parser.add_argument('-a', '--all', action='store_true',
-                    help="Include hidden files and directories (names starting with '.')")
+                    help="Include hidden files and directories. "
+                         "Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true; "
+                         "Linux, Mac OS: names starting with '.' ")
 
 parser.add_argument('-nr', "--no-recursion", action='store_true',
                     help="Don't recurse through subdirectories")
+
+parser.add_argument('-nf', "--no-feedback", action='store_true', default=False,
+                    help="Don't show the program's operating indicator"
+                         "(printing processed file names in one line). "
+                         "Feedback is available by default for counting files by extension"
+                         "(table and no-table), searching for files by extension"
+                         "(viewing mode no-list). This option disables it.")
 
 count_group = parser.add_argument_group('File counting by extension',
                                         description='Counting all files in the specified '
@@ -53,8 +62,10 @@ count_group = parser.add_argument_group('File counting by extension',
                                                     'ignoring hidden files and directories; '
                                                     'path - the current working directory; '
                                                     'view mode - a table with file '
-                                                    'extensions sorted by frequency. '
-                                                    'Usage: countfiles [-a] [-nr] [-alpha] [-nt] [path]')
+                                                    'extensions sorted by frequency; '
+                                                    "feedback - printing processed file names in one line, "
+                                                    "use '-nf' to disable it). "
+                                                    'Usage: countfiles [-a] [-nr] [-nf] [-alpha] [-nt] [path]')
 
 count_group.add_argument('-alpha', '--sort-alpha', action='store_true',
                          help="Sort the table alphabetically, by file extension.")
@@ -62,14 +73,18 @@ count_group.add_argument('-alpha', '--sort-alpha', action='store_true',
 count_group.add_argument('-nt', '--no-table', action='store_true',
                          help="Don't show the table, only the total number of files")
 
-search_group = parser.add_argument_group('File searching by extension',
-                                         description='Search for files with a given extension. '
-                                                     'Default settings: recursively search all files, '
-                                                     'ignoring hidden files and directories; '
-                                                     'path - the current working directory; '
-                                                     'view mode - a list with full file paths. '
-                                                     'Usage: countfiles [-a] [-nr] [-fe FILE_EXTENSION] [-p] '
-                                                     '[-ps PREVIEW_SIZE] [-nl] [path]')
+search_group = parser.add_argument_group("File searching by extension",
+                                         description="Search for files with a given extension. "
+                                                     "Default settings: recursively search all files, "
+                                                     "ignoring hidden files and directories; "
+                                                     "path - the current working directory; "
+                                                     "view mode - a list with full file paths; "
+                                                     f"preview size - {DEFAULT_PREVIEW_SIZE} chars; "
+                                                     "feedback - printing processed file names in one line"
+                                                     "(available by default only for '-nl' or '--no-list', "
+                                                     "use '-nf' to disable it). "
+                                                     "Usage: countfiles [-a] [-nr] [-nf] [-fe FILE_EXTENSION] [-p] "
+                                                     "[-ps PREVIEW_SIZE] [-nl] [path]")
 
 search_group.add_argument('-fe', '--file-extension', type=str,
                           help="Search files by file extension (use a single dot '.' to search for "
@@ -147,12 +162,24 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         data = (f for f in search_files(dirpath=location, extension=extension,
                                         include_hidden=include_hidden, recursive=recursive))
         # display result in chosen view mode
-        len_files = show_result_for_search_files(files=data, no_list=args.no_list,
+        len_files = show_result_for_search_files(files=data, no_list=args.no_list, no_feedback=args.no_feedback,
                                                  preview=args.preview, preview_size=args.preview_size)
         return len_files
 
     # ...or do other stuff, i.e., counting files.
-    data = count_files_by_extension(location, include_hidden=include_hidden, recursive=recursive)
+    # extension=None
+    data = (f for f in search_files(dirpath=location, extension=extension,
+                                    include_hidden=include_hidden, recursive=recursive))
+    counter = count_file_extensions1(data, no_feedback=args.no_feedback)
+    if show_table:
+        if sort_alpha:
+            show_2columns(sorted(counter.items()))
+        else:
+            show_2columns(counter.most_common())
+    else:
+        return show_total(counter)
+    """data = count_files_by_extension(dirpath=location, no_feedback=args.no_feedback,
+                                    include_hidden=include_hidden, recursive=recursive)
 
     if show_table:
         if sort_alpha:
@@ -162,7 +189,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         # it returns None
     else:
         return show_total(data) # TODO: is this return value useful in some way?
-        # it's for tests in test_argument_parser.py too
+        # it's for tests in test_argument_parser.py too"""
 
 
 if __name__ == "__main__":
