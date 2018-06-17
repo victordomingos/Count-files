@@ -23,14 +23,16 @@ from countfiles.settings import not_supported_type_message, supported_type_info_
 
 
 parser = ArgumentParser(
+    prog='countfiles',
     description="Count files, grouped by extension, in a directory. By "
                 "default, it will count files recursively in current "
                 "working directory and all of its subdirectories, and "
                 "will display a table showing the frequency for each file "
                 "extension (e.g.: .txt, .py, .html, .css) and the total "
                 "number of files found. Any hidden files or folders "
-                "(those with names starting with '.') are ignored by "
-                "default.")
+                "are ignored by default."
+                "(Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true; "
+                "Linux, Mac OS: those with names starting with '.')")
 
 parser.add_argument('-v', '--version', action='version', version='<the version>')
 
@@ -43,10 +45,10 @@ parser.add_argument('path', nargs="?", default=os.getcwd(), type=str,
 parser.add_argument('-a', '--all', action='store_true',
                     help="Include hidden files and directories. "
                          "Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true; "
-                         "Linux, Mac OS: names starting with '.' ")
+                         "Linux, Mac OS: those with names starting with '.'(dot)")
 
 parser.add_argument('-nr', "--no-recursion", action='store_true',
-                    help="Don't recurse through subdirectories")
+                    help="Don't recurse through subdirectories.")
 
 parser.add_argument('-nf', "--no-feedback", action='store_true', default=False,
                     help="Don't show the program's operating indicator"
@@ -71,7 +73,7 @@ count_group.add_argument('-alpha', '--sort-alpha', action='store_true',
                          help="Sort the table alphabetically, by file extension.")
 
 count_group.add_argument('-nt', '--no-table', action='store_true',
-                         help="Don't show the table, only the total number of files")
+                         help="Don't show the table, only the total number of files.")
 
 search_group = parser.add_argument_group("File searching by extension",
                                          description="Search for files with a given extension. "
@@ -88,18 +90,19 @@ search_group = parser.add_argument_group("File searching by extension",
 
 search_group.add_argument('-fe', '--file-extension', type=str,
                           help="Search files by file extension (use a single dot '.' to search for "
-                          "files without any extension)")
+                          "files without any extension).")
 
 search_group.add_argument('-p', '--preview', action='store_true',
                           help="Display a short preview (only available for text files when "
-                          "using '-fe' or '--file_extension')")
+                          "using '-fe' or '--file_extension').")
 
 search_group.add_argument('-ps', '--preview-size', type=int, default=DEFAULT_PREVIEW_SIZE,
                           help="Specify the number of characters to be displayed from each "
-                          "found file when using '-p' or '--preview')")
+                          "found file when using '-p' or '--preview'.")
 
 search_group.add_argument('-nl', '--no-list', action='store_true',
-                          help="Don't show the list, only the total number of files and information about file sizes")
+                          help="Don't show the list, "
+                               "only the total number of files and information about file sizes.")
 
 
 argparse_namespace_object = TypeVar('argparse_namespace_object', bound=Namespace)
