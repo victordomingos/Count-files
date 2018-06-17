@@ -52,7 +52,7 @@ class TestWordCounter(unittest.TestCase):
         test1 = self.get_locations('compare_tables', 'test_show_result_no_list.txt')
         with open(test1, 'w') as f:
             with redirect_stdout(f):
-                show_result_for_search_files(files=data, no_list=True)
+                show_result_for_search_files(files=data, no_list=True, no_feedback=True)
         self.assertEqual(filecmp.cmp(test1, self.get_locations('compare_tables', 'show_result_no_list.txt'),
                                      shallow=False), True)
 
