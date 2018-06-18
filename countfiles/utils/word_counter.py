@@ -5,7 +5,7 @@ from typing import Iterable
 
 from countfiles.utils.file_handlers import human_mem_size
 from countfiles.utils.file_preview import generate_preview
-from countfiles.settings import DEFAULT_PREVIEW_SIZE
+from countfiles.settings import DEFAULT_PREVIEW_SIZE, TERM_WIDTH
 
 
 def show_2columns(data):
@@ -46,7 +46,7 @@ def show_total(data) -> int:
     return total
 
 
-def show_result_for_search_files(files: Iterable[str], no_list: bool, preview: bool = False,
+def show_result_for_search_files(files: Iterable[str], no_list: bool, no_feedback: bool, preview: bool = False,
                                  preview_size: int = DEFAULT_PREVIEW_SIZE) -> int:
     """Print list of all found file paths, preview and size info
     or only the total number and size info(summary).
@@ -54,6 +54,7 @@ def show_result_for_search_files(files: Iterable[str], no_list: bool, preview: b
     :param files: list with paths
     :param no_list: view mode, False -> for now list(show list with paths, preview and size info),
     True -> no-list(show only the total number and size info)
+    :param no_feedback: True or False(default, prints processed file names in one line)
     :param preview: optional, args.preview, True or False
     :param preview_size: optional, args.preview_size, number
     :return: len(files), print view mode
@@ -95,6 +96,9 @@ def show_result_for_search_files(files: Iterable[str], no_list: bool, preview: b
                 files_amount += 1
                 file_size = os.path.getsize(f_path)
                 sizes.append(file_size)
+                if not no_feedback:
+                    print("\r" + os.path.basename(f_path)[:TERM_WIDTH - 1].ljust(TERM_WIDTH - 1), end="")
+            print("\r".ljust(TERM_WIDTH - 1))  # Clean the feedback text before proceeding.
         except StopIteration:
             print(f"No files were found in the specified directory.\n")
             return 0
