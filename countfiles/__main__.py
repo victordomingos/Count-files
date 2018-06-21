@@ -13,13 +13,13 @@ import os
 
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar, Union
-
 from countfiles.utils.file_handlers import count_files_by_extension, search_files, count_file_extensions1
 from countfiles.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
 from countfiles.utils.word_counter import show_2columns, show_total
 from countfiles.utils.word_counter import show_result_for_search_files
 from countfiles.settings import not_supported_type_message, supported_type_info_message,\
     DEFAULT_PREVIEW_SIZE
+# from countfiles.utils.decorators import exceptions_decorator
 
 
 parser = ArgumentParser(
@@ -34,7 +34,7 @@ parser = ArgumentParser(
                 "(Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true; "
                 "Linux, Mac OS: those with names starting with '.')")
 
-parser.add_argument('-v', '--version', action='version', version='<the version>')
+parser.add_argument('-v', '--version', action='version', version=__import__('countfiles').__version__)
 
 parser.add_argument('-st', '--supported-types', action='store_true',
                     help="The list of currently supported file types for preview.")
@@ -134,13 +134,11 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         loc_text = ':\n' + location
 
     if not os.path.exists(location):
-        print(f'The path {location} does not exist, or there may be a typo in it.')
-        return
+        parser.exit(status=1, message=f'The path {location} does not exist, or there may be a typo in it.')
 
     if not include_hidden and is_hidden_file_or_dir(location):
-        print(f'\nNot counting any files, because {loc_text[2:]} has hidden folders.\n'
-              f'Use: python -m countfiles {args.path} --all')
-        return
+        parser.exit(status=1, message=f'\nNot counting any files, because {loc_text[2:]} has hidden folders.\n'
+                                      f'Use: python -m countfiles {args.path} --all')
 
     action = 'searching' if extension else "counting"
     r = f'Recursively {action} all files'
@@ -152,7 +150,6 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
     print(f'\n{r if recursive else nr}{e if args.file_extension != "." else all_e},'
           f'{h if include_hidden else nh}, in {location}\n')
-
     # Either search and list files by extension...
     if extension:
         # no-list=True, only the total number of files and information about file sizes
