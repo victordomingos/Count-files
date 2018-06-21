@@ -317,4 +317,4 @@ Recursively searching all files without any extension, including hidden files an
 
 ### Вы нашли ошибку или у Вас есть предложения по улучшению?
 
-Пожалуйста, задайте вопрос или оставте комментарий в разделе Issues.
+Пожалуйста, задайте вопрос или оставьте комментарий в разделе Issues.
