@@ -47,7 +47,7 @@ By default, the result of a search by certain file extension is a list with the 
 If you only need the total number of files, use the `-nl` or `--no-list` argument.
 
 The program's operating indicator is printing processed file names in one line.
-File names are not displayed when searching for a particular extension, if there are no such files in the folder or if the files are hidden, and the argument --all` is not specified.
+File names are not displayed when searching for a particular extension, if there are no such files in the folder or if the files are hidden, and the argument `--all` is not specified.
 
 Feedback is available by default for counting files by extension(table and no-table),
 searching for files by extension(viewing mode no-list). Optional argument `-nf` or `--no-feedback` disables it.
