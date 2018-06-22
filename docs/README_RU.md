@@ -3,7 +3,7 @@
 Python package and Command Line Interface, CLI.
 
 ---
-Последнее обновление описания: 21.06.2018
+Последнее обновление: 22.06.2018
 ## Описание проекта
 Утилита для получения информации о файлах в заданной директории.
 Доступные опции: подсчет всех файлов, независимо от их типа, или поиск файлов с определенным расширением.
@@ -21,86 +21,129 @@ Python package and Command Line Interface, CLI.
 pip install -e git+https://github.com/victordomingos/Count-files.git#egg=destination_folder_name
 ```
 
-## Как использовать CLI
+## Описание аргументов CLI
 
-Вызов справки:
-
-```
-python -m countfiles -h
-```
+Аргументы могут быть указаны как в короткой, так и в длинной форме. Например: ```-a``` или ```--all```.
 
 ```
 usage: countfiles [-h] [-v] [-st] [-a] [-nr] [-nf] [-alpha] [-nt]
                   [-fe FILE_EXTENSION] [-p] [-ps PREVIEW_SIZE] [-nl]
                   [path]
-
-Count files, grouped by extension, in a directory. By default, it will count
-files recursively in current working directory and all of its subdirectories,
-and will display a table showing the frequency for each file extension (e.g.:
-.txt, .py, .html, .css) and the total number of files found. Any hidden files
-or folders are ignored by default.(Windows: files and directories for which
-FILE_ATTRIBUTE_HIDDEN is true; Linux, Mac OS: those with names starting with
-'.')
-
-positional arguments:
-  path                  The path to the folder containing the files to be
-                        counted.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -v, --version         show program's version number and exit
-  -st, --supported-types
-                        The list of currently supported file types for
-                        preview.
-  -a, --all             Include hidden files and directories. Windows: files
-                        and directories for which FILE_ATTRIBUTE_HIDDEN is
-                        true; Linux, Mac OS: those with names starting with
-                        '.'(dot)
-  -nr, --no-recursion   Don't recurse through subdirectories.
-  -nf, --no-feedback    Don't show the program's operating indicator(printing
-                        processed file names in one line). Feedback is
-                        available by default for counting files by
-                        extension(table and no-table), searching for files by
-                        extension(viewing mode no-list). This option disables
-                        it.
-
-File counting by extension:
-  Counting all files in the specified directory with or without extensions.
-  Default settings: recursively count all files, ignoring hidden files and
-  directories; path - the current working directory; view mode - a table
-  with file extensions sorted by frequency; feedback - printing processed
-  file names in one line, use '-nf' to disable it. Usage: countfiles [-a]
-  [-nr] [-nf] [-alpha] [-nt] [path]
-
-  -alpha, --sort-alpha  Sort the table alphabetically, by file extension.
-  -nt, --no-table       Don't show the table, only the total number of files.
-
-File searching by extension:
-  Search for files with a given extension. Default settings: recursively
-  search all files, ignoring hidden files and directories; path - the
-  current working directory; view mode - a list with full file paths;
-  preview size - ... chars; feedback - printing processed file names in one
-  line(available by default only for '-nl' or '--no-list', use '-nf' to
-  disable it). Usage: countfiles [-a] [-nr] [-nf] [-fe FILE_EXTENSION] [-p]
-  [-ps PREVIEW_SIZE] [-nl] [path]
-
-  -fe FILE_EXTENSION, --file-extension FILE_EXTENSION
-                        Search files by file extension (use a single dot '.'
-                        to search for files without any extension).
-  -p, --preview         Display a short preview (only available for text files
-                        when using '-fe' or '--file_extension').
-  -ps PREVIEW_SIZE, --preview-size PREVIEW_SIZE
-                        Specify the number of characters to be displayed from
-                        each found file when using '-p' or '--preview'.
-  -nl, --no-list        Don't show the list, only the total number of files
-                        and information about file sizes.
 ```
 
-Аргументы могут быть указаны как в короткой, так и в длинной форме. Например: ```-a``` или ```--all```.
+### Позиционные аргументы
+
+```path```
+
+Путь к папке, содержащей файлы для подсчета.
+
+Если позиционный аргумент ```path``` не указан, то будет проверена текущая рабочая директория.
+
+### Необязательные аргументы
+
+```-h, --help```
+
+Вызов справки (английский)
+
+```-v, --version```
+
+Посмотреть номер версии программы
+
+```-st, --supported-types```
+
+Список расширений файлов, для которых доступен предварительный просмотр.
+
+```-a, --all```
+
+Включить в подсчет/поиск скрытые файлы и папки. По умолчанию они игнорируются.
+
+```-nr, --no-recursion```
+
+Использовать нерекурсивный поиск. По умолчанию используется рекурсивный способ.
+
+```-nf, --no-feedback```
+
+Опция для отключения индикатора работы программы. Обратная связь доступна по умолчанию.
+
+### Подсчет всех файлов, независимо от их типа
+
+```
+Usage: countfiles [-a] [-nr] [-nf] [-alpha] [-nt] [path]
+```
+
+Подсчет всех файлов в указанной директории с расширениями или без расширения.
+
+Настройки по умолчанию:
+
+рекурсивный подсчет всех файлов, игнорируя скрытые файлы и каталоги;
+
+path - текущий рабочий каталог;
+
+результат - таблица с расширениями файлов, отсортированными по частоте;
+
+индикатор работы программы - включен.
+
+Необязательные аргументы для подсчета всех файлов:
+
+```-alpha, --sort-alpha```
+
+Отсортировать таблицу с расширениями файлов и их количеством по алфавиту.
+
+```-nt, --no-table```
+
+Показать только общее количество файлов, без таблицы.
+
+### Поиск файлов по расширению
+
+```
+Usage: countfiles [-a] [-nr] [-nf] [-fe FILE_EXTENSION] [-p] [-ps PREVIEW_SIZE] [-nl] [path]
+```
+
+Поиск файлов с заданным расширением или без него.
+
+Настройки по умолчанию:
+
+рекурсивный поиск всех файлов, игнорируя скрытые файлы и папки;
+
+path - текущий рабочий каталог;
+
+результат - список с полными путями файлов (индикатором работы программы является сам список);
+
+размер предварительного просмотра - количество символов зависит от настроек ширины терминала;
+
+индикатор работы программы - включен для ```-nl``` или ```--no-list```.
+
+
+```-fe FILE_EXTENSION, --file-extension FILE_EXTENSION```
+
+Обязательно указать название расширения для поиска.
+
+Используйте одну точку "." для поиска файлов без какого-либо расширения.
+
+Необязательные аргументы для поиска файлов:
+
+```-p, --preview```
+
+Отобразить короткое превью (доступно только для текстовых файлов).
+
+```-ps PREVIEW_SIZE, --preview-size PREVIEW_SIZE```
+
+Выбрать количество символов для предварительного просмотра, которые будут отображаться для каждого найденного файла
+
+```-nl, --no-list```
+
+Показать только общее количество файлов и информацию об их размерах.
+
+## Как использовать CLI
+
+```
+python -m countfiles <arguments>
+```
 
 ### Выбор директории для подсчета/поиска файлов
-Если позиционный аргумент ```path``` не указан, то будет проверена текущая рабочая директория.
+
 Выбрать директорию можно следующими способами.
+
 #### Перейти в нужную папку
 
 Windows:
@@ -178,7 +221,9 @@ python -m countfiles --file-extension . <arguments>
 - при поиске по определенному расширению, если искомых файлов в папке нет
 - если файлы являются скрытыми, а аргумент ```--all``` не указан
 
-Индикатор работы программы включен для подсчета всех файлов и для поиска по расширению с использованием аргумента ```--no-list```. Для его отключения используйте ```--no-feedback```. Это также позволит несколько ускорить обработку файлов.
+Индикатор работы программы включен для подсчета всех файлов и для поиска по расширению с использованием аргумента ```--no-list```.
+
+Для его отключения используйте ```--no-feedback```. Это также позволит несколько ускорить обработку файлов.
 
 ### Выбор режима просмотра результатов
 
@@ -219,7 +264,7 @@ Recursively counting all files, ignoring hidden files and directories, in ...
 
 ---
 
-Подсчет с выбранными аргументами:
+Подсчет с выбранными аргументами, без таблицы:
 
 без рекурсии, в указанной директории, включая скрытые файлы и папки, индикатор работы программы выключен.
 
@@ -239,7 +284,7 @@ Total number of files in selected directory: 8.
 
 ```countfiles [-a] [-nr] [-nf] [-fe FILE_EXTENSION] [-p] [-ps PREVIEW_SIZE] [-nl] [path]```
 
-Подсчет со значениями по умолчанию:
+Поиск со значениями по умолчанию:
 
 рекурсивно, в текущей рабочей директории, без превью, игнорируя скрытые файлы и папки.
 
@@ -265,7 +310,7 @@ full/path/to/requirements.txt (16.0 B)
 
 ---
 
-Подсчет с выбранными аргументами:
+Поиск с выбранными аргументами:
 
 без рекурсии, в указанной директории, исключая скрытые файлы и папки, предварительный просмотр в размере 100 символов.
 
@@ -295,7 +340,7 @@ Format: .py text/plain Python file 0.9
 
 ---
 
-Подсчет с выбранными аргументами, без списка:
+Поиск с выбранными аргументами, без списка:
 
 рекурсивно, в указанной директории, включая скрытые файлы и папки, без превью, индикатор работы программы включен.
 
