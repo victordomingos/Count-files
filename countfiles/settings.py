@@ -1,7 +1,13 @@
 # encoding: utf-8
 import shutil
+import os
 from itertools import chain
 
+
+LOG_FOLDER = os.path.normpath(os.path.join(os.path.dirname(__file__), 'logs'))
+CLI_LOG_FILE = 'cli_errors.log'
+
+BUG_REPORT_URL = 'https://github.com/victordomingos/Count-files/issues'
 
 TERM_WIDTH, _ = shutil.get_terminal_size((80,24))
 DEFAULT_PREVIEW_SIZE = 5 * TERM_WIDTH  # 5 lines of text preview
