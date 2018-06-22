@@ -68,6 +68,12 @@ Get the version number of the program:
 `countfiles --version`
 
 
+Get the list of currently supported file types for preview:
+
+`countfiles -st`
+`countfiles --supported-types`
+
+
 Count all files in current working directory and all of its subdirectories, ignoring hidden files and hidden subdirectories:
 
 `countfiles`
@@ -118,7 +124,7 @@ Search recursively for any files that have a `.txt` extension, in a given direct
 
 
 `countfiles -nf -nl -fe txt ~/Documents`
-`countfiles --no-feedback --no-list -fe txt ~/Documents`
+`countfiles --no-feedback --no-list --file-extension txt ~/Documents`
 
 
 Search recursively for any files that have a `.css` extension, in a given directory:
