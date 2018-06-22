@@ -4,7 +4,11 @@ count files, grouped by extension, in a directory. By default, it will count
 files recursively in current working directory and all of its subdirectories,
 and will display a table showing the frequency for each file extension (e.g.:
 .txt, .py, .html, .css) and the total number of files found. Any hidden files
-or folders (those with names starting with '.') are ignored by default.
+or folders are ignored by default.
+
+Supported operating systems: Linux, Mac OS, Windows.
+
+[README in Russian](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
 
 ![Count-files screenshot](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
 
@@ -22,14 +26,33 @@ not to show a table listing all the found file extensions and their respective
 frequencies, so that it will only display the total number of files.
 
 By default, it will ignore files and directories that are supposed to be
-hidden (with names starting with '.', but you can add the `-a` or `--all` optional
+hidden, but you can add the `-a` or `--all` optional
 switch argument to make it count all files.
+
+Hidden files and directories
+
+Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true
+
+Linux, Mac OS: those with names starting with "."(dot)
 
 This utility can also be used to search for files that have a certain file extension
 (using `-fe` or `--file-extension`) and, optionally, display a short preview (`-p`or 
 `--preview`) for text files. The size of the preview text sample can optionally be
 customized by using the `-ps` or `--preview-size` argument followed by an integer number.
 
+The list of file types for which preview is available can be viewed with the `-st` or `--supported-types` argument.
+The names of extensions are case sensitive. The results for `ini` and `INI` will be different.
+
+By default, the result of a search by certain file extension is a list with the full paths of the files found.
+If you only need the total number of files, use the `-nl` or `--no-list` argument.
+
+The program's operating indicator is printing processed file names in one line.
+File names are not displayed when searching for a particular extension, if there are no such files in the folder or if the files are hidden, and the argument --all` is not specified.
+
+Feedback is available by default for counting files by extension(table and no-table),
+searching for files by extension(viewing mode no-list). Optional argument `-nf` or `--no-feedback` disables it.
+
+Using the arguments `--no-feedback` and `--no-list` allows you to speed up the processing of files a little.
 
 ## Examples of usage:
 
@@ -37,6 +60,12 @@ Get a little help about how to use this application:
 
 `countfiles -h`  
 `countfiles --help`
+
+
+Get the version number of the program:
+
+`countfiles -v`
+`countfiles --version`
 
 
 Count all files in current working directory and all of its subdirectories, ignoring hidden files and hidden subdirectories:
@@ -77,6 +106,19 @@ Count all files in a given directory without recursing through subdirectories, i
 
 `countfiles -nr -nt -a ~/Documents`  
 `countfiles --no-recursion --no-table --all ~/Documents`
+
+
+Count all files in a given directory with recursion, ignoring hidden files and hidden subdirectories, without feedback:
+
+`countfiles -nf ~/Documents`
+`countfiles --no-feedback ~/Documents`
+
+
+Search recursively for any files that have a `.txt` extension, in a given directory, without list and without feedback:
+
+
+`countfiles -nf -nl -fe txt ~/Documents`
+`countfiles --no-feedback --no-list -fe txt ~/Documents`
 
 
 Search recursively for any files that have a `.css` extension, in a given directory:
