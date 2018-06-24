@@ -15,6 +15,7 @@ filename:lineno(function) provides the respective data of each function
 import cProfile
 import os
 import sys
+from countfiles.utils.word_counter import show_result_for_search_files, show_2columns
 from countfiles.utils.file_handlers import search_files, count_file_extensions1, count_files_by_extension
 from countfiles.__main__ import main_flow
 
@@ -34,10 +35,19 @@ if __name__ == "__main__":
         # specify folder
         pass
 
+    # count all files
     # cProfile.run("main_flow([location, '-a'])", sort='name')
+    # if extension thread, search for txt extension
     # cProfile.run("main_flow([location, '-a', '-fe', 'txt'])", sort='name')
+
+    # Counter and count all files with all extensions, return table, feedback - file names
     cProfile.run("data = count_files_by_extension(dirpath=location, no_feedback=False,"
-                 "recursive=True, include_hidden=True)", sort='name')
-    cProfile.run("data = search_files(dirpath=location, extension='', recursive=True, include_hidden=True); "
-                 "counter = count_file_extensions1(file_paths=data, no_feedback=False)", sort='name')
+                 "recursive=True, include_hidden=True); show_2columns(data.most_common())", sort='name')
+
+    # generator and search all files with all extensions, return list, feedback - list itself
+    cProfile.run("data = (f for f in search_files(dirpath=location, extension='..', "
+                 "recursive=True, include_hidden=True));"
+                 "len_files = show_result_for_search_files(files=data, "
+                 "no_list=False, no_feedback=False, preview=False)",
+                 sort='name')
 

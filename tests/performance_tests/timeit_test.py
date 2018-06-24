@@ -31,6 +31,13 @@ count_files_feedback = """
 data = count_files_by_extension(dirpath=location, no_feedback=False, recursive=True, include_hidden=True)
 """
 
+main_search_all = """
+main_flow([location, '-a', '-fe', '..', '-nl'])
+"""
+
+main_count_all = """
+main_flow([location, '-a', '-nf', '-nt'])
+"""
 
 if __name__ == "__main__":
 
@@ -43,7 +50,7 @@ if __name__ == "__main__":
         # specify folder
         pass
 
-    stmts = [search_files_feedback, count_files_feedback]
+    stmts = [main_count_all, main_search_all]
     for s in stmts:
         t = timeit.Timer(stmt=s, globals=globals())
         print(s, t.repeat(repeat=3, number=1))
