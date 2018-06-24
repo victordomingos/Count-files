@@ -142,6 +142,13 @@ Search recursively for any files that don't have any extension, in a given direc
 `countfiles --file-extension . ~/Documents`
 
 
+Recursively searching all files with extension or without it, in a given directory:  
+(similar to searching recursively for any files, but the result is a list with paths)
+
+`countfiles -fe ..  ~/Documents`  
+`countfiles --file-extension .. ~/Documents`
+
+
 ## Installation and dependencies:
 
 The current development version can be installed with `pip install -e`, followed by the path to the main project directory (the same directory that has the `setup.py` file). To run this application, you need to have a working Python 3.6+ instalation. We try to keep the external dependencies at a minimum, in order to keep compatibility with different plataforms, including Pythonista on iOS. At this moment, we require:
