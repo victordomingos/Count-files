@@ -29,10 +29,8 @@ By default, it will ignore files and directories that are supposed to be
 hidden, but you can add the `-a` or `--all` optional
 switch argument to make it count all files.
 
-Hidden files and directories
-
-Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true
-
+Hidden files and directories  
+Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true  
 Linux, Mac OS: those with names starting with "."(dot)
 
 This utility can also be used to search for files that have a certain file extension
@@ -64,13 +62,13 @@ Get a little help about how to use this application:
 
 Get the version number of the program:
 
-`countfiles -v`
+`countfiles -v`  
 `countfiles --version`
 
 
 Get the list of currently supported file types for preview:
 
-`countfiles -st`
+`countfiles -st`  
 `countfiles --supported-types`
 
 
@@ -116,14 +114,14 @@ Count all files in a given directory without recursing through subdirectories, i
 
 Count all files in a given directory with recursion, ignoring hidden files and hidden subdirectories, without feedback:
 
-`countfiles -nf ~/Documents`
+`countfiles -nf ~/Documents`  
 `countfiles --no-feedback ~/Documents`
 
 
 Search recursively for any files that have a `.txt` extension, in a given directory, without list and without feedback:
 
 
-`countfiles -nf -nl -fe txt ~/Documents`
+`countfiles -nf -nl -fe txt ~/Documents`  
 `countfiles --no-feedback --no-list --file-extension txt ~/Documents`
 
 
@@ -140,7 +138,7 @@ Search recursively for any files that have a `.py` extension, in a given directo
 
 Search recursively for any files that don't have any extension, in a given directory:
 
-`countfiles -fe .  ~/Documents`
+`countfiles -fe .  ~/Documents`  
 `countfiles --file-extension . ~/Documents`
 
 
