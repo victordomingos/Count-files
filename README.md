@@ -12,6 +12,15 @@ README in other languages: [Russian](https://github.com/victordomingos/Count-fil
 
 ![Count-files screenshot](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
 
+
+## Contents  
+### [Description](#description)  
+### [Examples of usage](#examples-of-usage)  
+### [Installation and dependencies](#installation-and-dependencies)  
+### [Did you find a bug or do you have a suggestion?](#did-you-find-a-bug-or-do-you-have-a-suggestion)
+
+## Description:
+
 Optionally, you can pass it a path to the directory to scan. If you prefer, you can leave that argument empty, and it will scan the current working directory.
 
 The optional `-nr` or `--no-recursion` switch argument tells the
@@ -143,7 +152,7 @@ Search recursively for any files that don't have any extension, in a given direc
 
 
 Recursively searching all files with extension or without it, in a given directory:  
-(similar to searching recursively for any files, but the result is a list with paths)
+(similar to counting recursively for any files, but the result is a list with paths)
 
 `countfiles -fe ..  ~/Documents`  
 `countfiles --file-extension .. ~/Documents`
