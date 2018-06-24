@@ -18,7 +18,7 @@ from countfiles.utils.file_handlers import is_hidden_file_or_dir, is_supported_f
 from countfiles.utils.word_counter import show_2columns, show_total
 from countfiles.utils.word_counter import show_result_for_search_files
 from countfiles.settings import not_supported_type_message, supported_type_info_message,\
-    DEFAULT_PREVIEW_SIZE, TERM_WIDTH
+    DEFAULT_PREVIEW_SIZE
 # from countfiles.utils.decorators import exceptions_decorator
 
 
@@ -89,8 +89,10 @@ search_group = parser.add_argument_group("File searching by extension",
                                                      "[-ps PREVIEW_SIZE] [-nl] [path]")
 
 search_group.add_argument('-fe', '--file-extension', type=str,
-                          help="Search files by file extension (use a single dot '.' to search for "
-                          "files without any extension).")
+                          help="Search files by file extension. "
+                               "Specify the name of the extension or "
+                               "use a single dot '.' to search for files without any extension. "
+                               "Use a two dots '..' to search for all files with extension or without it.")
 
 search_group.add_argument('-p', '--preview', action='store_true',
                           help="Display a short preview (only available for text files when "
