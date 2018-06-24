@@ -18,7 +18,7 @@ from countfiles.utils.file_handlers import is_hidden_file_or_dir, is_supported_f
 from countfiles.utils.word_counter import show_2columns, show_total
 from countfiles.utils.word_counter import show_result_for_search_files
 from countfiles.settings import not_supported_type_message, supported_type_info_message,\
-    DEFAULT_PREVIEW_SIZE
+    DEFAULT_PREVIEW_SIZE, TERM_WIDTH
 # from countfiles.utils.decorators import exceptions_decorator
 
 
@@ -143,7 +143,8 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     action = 'searching' if extension else "counting"
     r = f'Recursively {action} all files'
     nr = f'{action.title()} files'
-    e = f' with extension .{args.file_extension}' if extension else ''
+    wi = 'or without it'
+    e = f' with extension {"." + args.file_extension if args.file_extension != ".." else wi}' if extension else ''
     all_e = ' without any extension' if extension else ''
     h = ' including hidden files and directories'
     nh = ' ignoring hidden files and directories'
@@ -158,17 +159,20 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         #if args.preview and not args.no_list:
         #    if not is_supported_filetype(extension):
         #        parser.exit(status=0, message=not_supported_type_message)
-        # getting data list
+
+        # getting data list for -fe .. (all extensions), -fe . and -fe extension_name
         data = (f for f in search_files(dirpath=location, extension=extension,
                                         include_hidden=include_hidden, recursive=recursive))
+
         # display result in chosen view mode
         len_files = show_result_for_search_files(files=data, no_list=args.no_list, no_feedback=args.no_feedback,
                                                  preview=args.preview, preview_size=args.preview_size)
+
         return len_files
 
     # ...or do other stuff, i.e., counting files.
-    # extension=None
-    data = (f for f in search_files(dirpath=location, extension=extension,
+    # all extensions
+    """data = (f for f in search_files(dirpath=location, extension='..',
                                     include_hidden=include_hidden, recursive=recursive))
     counter = count_file_extensions1(data, no_feedback=args.no_feedback)
     if show_table:
@@ -177,8 +181,8 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         else:
             show_2columns(counter.most_common())
     else:
-        return show_total(counter)
-    """data = count_files_by_extension(dirpath=location, no_feedback=args.no_feedback,
+        return show_total(counter)"""
+    data = count_files_by_extension(dirpath=location, no_feedback=args.no_feedback,
                                     include_hidden=include_hidden, recursive=recursive)
 
     if show_table:
@@ -189,7 +193,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         # it returns None
     else:
         return show_total(data) # TODO: is this return value useful in some way?
-        # it's for tests in test_argument_parser.py too"""
+        # it's for tests in test_argument_parser.py too
 
 
 if __name__ == "__main__":
