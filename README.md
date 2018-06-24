@@ -14,10 +14,10 @@ README in other languages: [Russian](https://github.com/victordomingos/Count-fil
 
 
 ## Contents  
-### [Description](#description)  
-### [Examples of usage](#examples-of-usage)  
-### [Installation and dependencies](#installation-and-dependencies)  
-### [Did you find a bug or do you have a suggestion?](#did-you-find-a-bug-or-do-you-have-a-suggestion)
+- [Description](#description)  
+- [Examples of usage](#examples-of-usage)  
+- [Installation and dependencies](#installation-and-dependencies)  
+- [Did you find a bug or do you have a suggestion?](#did-you-find-a-bug-or-do-you-have-a-suggestion)
 
 ## Description:
 
