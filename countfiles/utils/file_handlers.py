@@ -57,13 +57,26 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
 
     :param dirpath: full/path/to/folder
     :param extension: extension name (txt, py) or '' (default all extensions)
-    :param recursive: True or False
+    :param recursive: True(default) or False
     :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
     :return: object <class 'generator'>
     """
-
-    # this part used in def get_files_by_extension
-    if extension:
+    # in fact this part do the same as def count_files_by_extension(except counters) if it called
+    # directly -> search_files('full/path/to/folder', '..', recursive=True, include_hidden=True)
+    # this part used for -fe .. (all extensions)
+    # this is equivalent to the def count_files_by_extension, but instead of a table, it returns all paths
+    if extension == '..':
+        for root, dirs, files in os.walk(dirpath):
+            for f in files:
+                f_path = os.path.join(root, f)
+                if not os.path.isfile(f_path):
+                    continue
+                if include_hidden or not is_hidden_file_or_dir(f_path):
+                    yield f_path
+            if not recursive:
+                break
+    # this part used for -fe . and -fe extension_name
+    else:
         for root, dirs, files in os.walk(dirpath):
             for f in files:
                 f_path = os.path.join(root, f)
@@ -74,28 +87,6 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
                     yield f_path
             if not recursive:
                 break
-    # in fact this part do the same as def count_files_by_extension(except counters) if it called
-    # directly -> search_files('full/path/to/folder', '', recursive=True, include_hidden=True)
-    # in the current structure of the parser is not used
-    # (two functions: one for searching (-fe) and one for counting)
-    else:
-        if not recursive:
-            with os.scandir(dirpath) as directory:
-                for f in directory:
-                    f_path = os.path.join(dirpath, f)
-                    if not f.is_file():
-                        continue
-                    if include_hidden or not is_hidden_file_or_dir(f_path):
-                        yield f_path
-
-        else:
-            for root, dirs, files in os.walk(dirpath):
-                for f in files:
-                    f_path = os.path.join(root, f)
-                    if not os.path.isfile(f_path):
-                        continue
-                    if include_hidden or not is_hidden_file_or_dir(f_path):
-                        yield f_path
 
 
 def count_files_by_extension(dirpath: str, no_feedback: bool, recursive=False, include_hidden=True) -> Counter:
