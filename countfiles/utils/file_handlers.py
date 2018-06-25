@@ -56,7 +56,7 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
     """Find all files in a given directory with and without the extension.
 
     :param dirpath: full/path/to/folder
-    :param extension: extension name (txt, py) or '' (default all extensions)
+    :param extension: extension name (txt, py), '.'(without extension) or '..' (all extensions)
     :param recursive: True(default) or False
     :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
     :return: object <class 'generator'>

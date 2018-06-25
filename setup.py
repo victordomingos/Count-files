@@ -12,8 +12,8 @@ required = (3, 6)
 # in order for the python_requires argument to be recognized and the appropriate metadata generated
 # python -m pip install --upgrade pip setuptools
 if used[:2] < required:
-    sys.stderr.write(f"Unsupported Python version: {sys.version_info.major}.{sys.version_info.minor}. "
-                     f"Python 3.6 or later is required.")
+    sys.stderr.write("Unsupported Python version: %s.%s. "
+                     "Python 3.6 or later is required." % (sys.version_info.major, sys.version_info.minor))
     sys.exit(1)
 
 long_desc = "Count files, grouped by extension, in a directory. By " \
