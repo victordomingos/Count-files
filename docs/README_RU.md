@@ -36,7 +36,7 @@ Python package and Command Line Interface, CLI.
 Доступные опции: подсчет всех файлов, независимо от их типа, или поиск файлов с определенным расширением.
 ## Технические требования
 - Python 3.6.x
-- Поддерживаемые операционные системы: Windows, Linux, Mac OS
+- Поддерживаемые операционные системы: Windows, Linux, macOS
 ## Зависимости
 - [puremagic==1.4](https://pypi.org/project/puremagic/)
 ## Как установить
@@ -187,7 +187,7 @@ cd C:\Users\Username\PycharmProjects
 C:\Users\Username\PycharmProjects>python -m countfiles <arguments>
 ```
 
-Linux, Mac OS: TODO
+Linux, macOS: TODO
 
 #### Указать полный путь
 
@@ -203,7 +203,7 @@ python -m countfiles E:\Книги <arguments>
 python -m countfiles "C:\Users\Username\Pictures\Снимки экрана" <arguments>
 ```
 
-Linux, Mac OS: TODO
+Linux, macOS: TODO
 
 #### Для обработки файлов в домашнем каталоге пользователя можно использовать ```~```
 
@@ -213,7 +213,7 @@ Windows:
 python -m countfiles ~\Desktop <arguments>
 ```
 
-Linux, Mac OS: TODO
+Linux, macOS: TODO
 
 ### Включение или исключение скрытых файлов и папок
 
@@ -221,7 +221,7 @@ Linux, Mac OS: TODO
 
 #### Скрытые файлы и папки
 - Windows: файлы и папки для которых установлен FILE_ATTRIBUTE_HIDDEN
-- Linux, Mac OS: файлы и папки имена которых начинаются с точки ```.```
+- Linux, macOS: файлы и папки имена которых начинаются с точки ```.```
 
 ### Рекурсивный и нерекурсивный подсчет или поиск файлов
 

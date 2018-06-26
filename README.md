@@ -10,7 +10,9 @@ and will display a table showing the frequency for each file extension (e.g.:
 .txt, .py, .html, .css) and the total number of files found. Any hidden files
 or folders are ignored by default.
 
-Supported operating systems: Linux, Mac OS, Windows.
+Supported operating systems: Linux, Mac OS, Windows. It may also be used on 
+iOS (iPhone/iPad) using the [StaSh](https://github.com/ywangd/stash) 
+command-line in the Pythonista 3 app.
 
 
 ![Count-files screenshot](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)

@@ -10,7 +10,9 @@ a frequência de cada extensão de ficheiro (p.ex.: .txt, .py, .html, .css) e o
 número total de ficheiros encontrados. Quaisquer pastas ou ficheiros 
 escondidos serão ignorados por defeito.
 
-Sistemas operativos suportados: Linux, macOS, Windows.
+Sistemas operativos suportados: Linux, macOS, Windows. Pode ainda ser 
+utilizado em iOS (iPhone/iPad) utilizando a linha de comandos [StaSh](https://github.com/ywangd/stash) 
+na app Pythonista 3.
 
 
 ![Captura de ecrã da aplicação Count-files](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
