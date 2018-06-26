@@ -1,4 +1,4 @@
-**[English](https://github.com/victordomingos/Count-files/blob/master/README.md)** | [Portugu&ecirc;s](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md) | [Russian](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
+**[English](https://github.com/victordomingos/Count-files/blob/master/README.md)** | [Portugu&ecirc;s](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md) | [&#x420;&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439; &#x44F;&#x437;&#x44B;&#x43A;](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
   
   
 # Count Files [![Github commits (since latest release)](https://img.shields.io/github/commits-since/victordomingos/Count-files/latest.svg)](https://github.com/victordomingos/Count-files)
@@ -208,7 +208,7 @@ Then force-quit and restart Pythonista and launch StaSh again. It should now be 
 pip install victordomingos/Count-files
 ```
 
-If all goes well, it should install any dependencies, place a new `count_files` package inside the `site-packages3` folder and create an entrypoint script named `count-files.py`. You may need to manually download (remember that `wget` command) a file named `magic_data.json` from the [`puremagic`](https://github.com/cdgriffith/puremagic) repository (for some reason, it is not being correctly installed using StaSh) and move it to the `site-packages-3/puremagic/`. Then force-quit and launch StaSh again. You should now be able to run this application directly from the shell to count any files that you may have inside your Pythonista environment.
+If all goes well, it should install any dependencies, place a new `count_files` package inside the `site-packages3` folder and create an entrypoint script named `count-files.py` in `stash_extensions/bin`. You may need to manually download (remember that `wget` command?) a file named `magic_data.json` from the [`puremagic`](https://github.com/cdgriffith/puremagic) repository (for some reason, it is not being correctly installed using StaSh) and move it to `site-packages-3/puremagic/`. Then force-quit and launch StaSh again. You should now be able to run this application directly from the shell to count any files that you may have inside your Pythonista environment.
    
 
 ## Did you find a bug or do you have a suggestion?

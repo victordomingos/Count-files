@@ -1,4 +1,4 @@
-[English](https://github.com/victordomingos/Count-files/blob/master/README.md) | [Português](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md) | **[Russian](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)**
+[English](https://github.com/victordomingos/Count-files/blob/master/README.md) | [Portugu&ecirc;s](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md) | **[&#x420;&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439; &#x44F;&#x437;&#x44B;&#x43A;](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)**
  
  
 # Countfiles

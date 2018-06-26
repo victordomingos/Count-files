@@ -1,4 +1,4 @@
-[English](https://github.com/victordomingos/Count-files/blob/master/README.md) | **[Português](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md)** | [Russian](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
+[English](https://github.com/victordomingos/Count-files/blob/master/README.md) | **[Portugu&ecirc;s](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md)** | [&#x420;&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439; &#x44F;&#x437;&#x44B;&#x43A;](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
   
  
 # Count Files [![Github commits (desde a última versão)](https://img.shields.io/github/commits-since/victordomingos/Count-files/latest.svg)](https://github.com/victordomingos/Count-files)
@@ -218,6 +218,8 @@ resultado é uma lista com os caminhos dos ficheiros encontrados):
 
 ## Instalação e dependências:
 
+### Em sistemas operativos de secretária
+
 A atual versão de desenvolvimento pode ser instalada com o comando 
 `pip install -e`, seguido do caminho para a pasta principal do projeto (a 
 mesma pasta que contém o ficheiro `setup.py`). Para executar esta aplicação é 
@@ -233,6 +235,22 @@ Enquanto isso não acontece, estejam à vontade para dar uma olhada na próxima
 secção e talvez considerar contribuir também para este projeto.
 
 
+### Em iPhone ou iPad (na app Pythonista 3 para iOS)
+
+Primeiro, irá precisar de um ambiente Python e uma consola de linha de comandos compatível com Python 3. No momento presente, isto significa que precisa de ter instalada uma app chamada [Pythonista 3](http://omz-software.com/pythonista/) (que é, entre outras coisas, um excelente ambiente para desenvolvimento e execução de aplicações de Python puro em iOS). Depois, precisará de instalar a [StaSh](https://github.com/ywangd/stash), que é uma consola de linha de comandos baseada em Python, concebida especificamente para correr no Pythonista. Irá permitir executar comandos bem úteis como `wget`, `git clone`, `pip install` e muitos outros. Merece realmente um atalho no ecrã principal do seu iPhone ou iPad. Depois de seguir as instruções para a instalação da StaSh, poderá precisar de a atualizar para uma versão mais recente. Experimente este comando:
+
+```
+selfupdate.py -f bennr01:command_testing
+``` 
+
+De seguida, force o encerramento do Pythonista, reiniciando-o de seguida, e inicie novamente a StaSh. Deverá estar agora a correr em Python 3. Neste momento, pode tentar instalar esta aplicação, diretamente a partir deste repositório:
+
+```
+pip install victordomingos/Count-files
+```
+
+Se tudo correr bem, o comando acima deverá instalar quais quer dependências, colocar um pacote chamado `count_files` dentro da pasta  `site-packages3` e criar um *script* de execução chamado `count-files.py` em `stash_extensions/bin`. Poderá precisar de descarregar manualmente (recorda-se daquele comando `wget`?) um ficheiro chamado `magic_data.json` do repositório [`puremagic`](https://github.com/cdgriffith/puremagic) (por algum motivo, neste momento não está a instalar corretamente usando a StaSh) e movê-lo para `site-packages-3/puremagic/`. De seguida, force o encerramento do Pythonista, reinicie a app e inicie novamente a StaSh. Já deverá conseguir executar esta aplicação diretamente a partir da consola para contar quaisquer ficheiros que possa ter no ambiente do Pythonista.
+   
 ## Encontrou um bug ou tem uma sugestão?
 
 Por favor avise-nos, abrindo um novo *issue* ou *pull request*.
