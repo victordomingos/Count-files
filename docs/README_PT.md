@@ -17,7 +17,13 @@ Sistemas operativos suportados: Linux, macOS, Windows.
 
 ## Conteúdo  
 - [Descrição](#descrição)  
+   - Ficheiros e pastas escondidos
+   - Personalização da apresentação de resultados e feedback durante a operação
 - [Exemplos de utilização](#exemplos-de-utilização)  
+   - Contar quantos ficheiros há de cada extensão
+   - Procurar ficheiros com uma extensão específica
+   - Procurar e listar ficheiros sem extensão
+   - Procurar e listar todos os ficheiros
 - [Instalação e dependências](#instalação-e-dependências)  
 - [Encontrou um bug ou tem uma sugestão?](#encontrou-um-bug-ou-tem-uma-sugestão)
 
@@ -39,16 +45,21 @@ De modo semelhante, as opções `-nt` ou `--no-table` instruem a aplicação par
 não mostrar uma tabela com a lista de todas as extensões encontradas e 
 respetivas frequências, ou seja, apresentando apenas o número total de 
 ficheiros.
-
-Por predefinição, serão ignorados ficheiros e pastas que supostamente devem 
-estar escondidos, mas é possível acrescentar os argumentos opcionais `-a` ou 
-`--all` para incluir todos os ficheiros na contagem.
-
+  
+  
 ### Ficheiros e pastas escondidos
+
+Por predefinição, serão ignorados ficheiros e pastas que é suposto estarem 
+escondidos, mas é possível acrescentar os argumentos opcionais `-a` ou `--all` 
+para incluir todos os ficheiros na contagem.
+
 - Windows: ficheiros e pastas com em que o atributo FILE_ATTRIBUTE_HIDDEN é `True`.  
 - Linux, macOS: aqueles cujos nomes começam por "." (ponto).
+  
+  
+### Personalização da apresentação de resultados e feedback durante a operação
 
-Esta ferramenta pode ainda ser utilizada para procurar ficheiros que tenham no 
+Este utilitário pode ainda ser utilizado para procurar ficheiros que tenham no 
 seu nome uma determinada extensão (utilizando `-fe` ou `--file-extension`) e, 
 opcionalmente, apresentar uma pre-visualização breve (`-p`ou `--preview`) para 
 ficheiros de texto. O tamanho do texto de pre-visualização pode ser, de forma 

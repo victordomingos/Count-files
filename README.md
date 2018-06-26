@@ -8,7 +8,7 @@ or folders are ignored by default.
 
 Supported operating systems: Linux, Mac OS, Windows.
 
-## README in other languages:
+## View README in other languages:
 [Português](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md) | [Russian](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
 
 ![Count-files screenshot](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
@@ -16,7 +16,13 @@ Supported operating systems: Linux, Mac OS, Windows.
 
 ## Contents  
 - [Description](#description)  
+   - Hidden files and directories  
+   - Customizing display of results and operation feedback  
 - [Examples of usage](#examples-of-usage)  
+   - Counting how many files are there for each extension
+   - Searching for files with a specific extension
+   - Searching and listing files without extension
+   - Searching and listing all files
 - [Installation and dependencies](#installation-and-dependencies)  
 - [Did you find a bug or do you have a suggestion?](#did-you-find-a-bug-or-do-you-have-a-suggestion)
 
@@ -34,14 +40,19 @@ argument.
 Similarly, the optional `-nt` or `--no-table` switch tells the application
 not to show a table listing all the found file extensions and their respective
 frequencies, so that it will only display the total number of files.
+  
+  
+### Hidden files and directories  
 
 By default, it will ignore files and directories that are supposed to be
 hidden, but you can add the `-a` or `--all` optional
 switch argument to make it count all files.
 
-Hidden files and directories  
 Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true  
 Linux, Mac OS: those with names starting with "."(dot)
+  
+  
+### Customizing display of results and operation feedback
 
 This utility can also be used to search for files that have a certain file extension
 (using `-fe` or `--file-extension`) and, optionally, display a short preview (`-p`or 
@@ -62,7 +73,8 @@ Feedback is available by default for counting files by extension(table and no-ta
 searching for files by extension(viewing mode no-list). Optional argument `-nf` or `--no-feedback` disables it.
 
 Using the arguments `--no-feedback` and `--no-list` allows you to speed up the processing of files a little.
-
+  
+  
 ## Examples of usage:
 
 Get a little help about how to use this application:
@@ -83,7 +95,7 @@ Get the list of currently supported file types for preview:
 `countfiles --supported-types`
 
 
-### Count how many files there are for each extension
+### Counting how many files are there for each extension
 
 Count all files in current working directory and all of its subdirectories, ignoring hidden files and hidden subdirectories:
 
