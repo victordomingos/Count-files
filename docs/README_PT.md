@@ -189,7 +189,9 @@ Procurar recursivamente ficheiros com a extensão `.css`, numa determinada pasta
 `countfiles --file-extension css ~/Documents`
 
 
-Search recursively for any files that have a `.py` extension, in a given directory, and display a 500 characters preview for each one:
+Procurar recursivamente ficheiros que tenham a extensão `.py`, numa 
+determinada pasta, e apresentar uma pre-visualização de 500 caracteres para 
+cada um deles:
 
 `countfiles -fe py -p -ps 500 ~/Documents`   
 `countfiles --file-extension py --preview --preview-size 500 ~/Documents`
@@ -197,7 +199,8 @@ Search recursively for any files that have a `.py` extension, in a given directo
 
 ### Procurar e listar ficheiros sem extensão
 
-Search recursively for any files that don't have any extension, in a given directory:
+Procurar recursivamente ficheiros que não têm qualquer extensão no seu nome, 
+numa determinada pasta:
 
 `countfiles -fe .  ~/Documents`  
 `countfiles --file-extension . ~/Documents`
@@ -205,8 +208,9 @@ Search recursively for any files that don't have any extension, in a given direc
 
 ### Procurar e listar todos os ficheiros
 
-Recursively searching all files with extension or without it, in a given directory:  
-(similar to counting recursively for any files, but the result is a list with paths)
+Procurar recursivamente todos os ficheiros com ou sem extensão, numa dada 
+pasta (processo semelhante à contagem de ficheiros recursiva, mas aqui o 
+resultado é uma lista com os caminhos dos ficheiros encontrados):
 
 `countfiles -fe ..  ~/Documents`  
 `countfiles --file-extension .. ~/Documents`
@@ -214,13 +218,21 @@ Recursively searching all files with extension or without it, in a given directo
 
 ## Instalação e dependências:
 
-The current development version can be installed with `pip install -e`, followed by the path to the main project directory (the same directory that has the `setup.py` file). To run this application, you need to have a working Python 3.6+ instalation. We try to keep the external dependencies at a minimum, in order to keep compatibility with different plataforms, including Pythonista on iOS. At this moment, we require:
+A atual versão de desenvolvimento pode ser instalada com o comando 
+`pip install -e`, seguido do caminho para a pasta principal do projeto (a 
+mesma pasta que contém o ficheiro `setup.py`). Para executar esta aplicação é 
+necessária uma instalação do Python 3.6 ou superior. Procuramos manter no 
+mínimo as dependências externas, de modo a manter a compatibilidade com 
+diferentes plataformas, incluindo Pythonista em iOS. Neste momento, requer:
 
 - puremagic==1.4
 
-We plan to submit this to PyPI as soon as possible, in order to provide a more straight-forward instalation and upgrade process. While that doesn't happen, please feel free to take a look at the next section and maybe consider contributing to this project.
+Planeamos submeter esta aplicação ao PyPI tão brevemente quanto possível, para 
+permitir oferecer uma forma de instalação e atualização mais simples. 
+Enquanto isso não acontece, estejam à vontade para dar uma olhada na próxima 
+secção e talvez considerar contribuir também para este projeto.
 
 
 ## Encontrou um bug ou tem uma sugestão?
 
-Please let me know, by opening a new issue or a pull request.
+Por favor avise-nos, abrindo um novo *issue* ou *pull request*.
