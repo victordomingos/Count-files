@@ -6,7 +6,8 @@
 logs/
 
 # ignore tests/compare_tables
-tests/compare_tables/
+tests/compare_tables/show_result_no_list.txt
+tests/compare_tables/test_show_result_no_list.txt
 
 ### PyCharm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
