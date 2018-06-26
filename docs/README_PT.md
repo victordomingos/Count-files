@@ -2,8 +2,8 @@
   
  
 # Count Files [![Github commits (desde a última versão)](https://img.shields.io/github/commits-since/victordomingos/Count-files/latest.svg)](https://github.com/victordomingos/Count-files)
-Um pequeno utilitário com interface de linha de comandos (CLI) escrito em 
-Python para ajudar a contar ficheiros por extensão, numa determinada pasta. 
+Um pequeno utilitário de linha de comandos (CLI) escrito em Python para
+ajudar a contar ficheiros por extensão, numa determinada pasta. 
 Por predefinição, a aplicação contará os ficheiros recursivamente na pasta de 
 trabalho atual e em todas as suas subpastas e apresentará uma tabela mostrando 
 a frequência de cada extensão de ficheiro (p.ex.: .txt, .py, .html, .css) e o 
