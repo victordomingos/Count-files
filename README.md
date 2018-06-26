@@ -1,4 +1,6 @@
+<div style="text-align:center">
 [English](https://github.com/victordomingos/Count-files/blob/master/README.md) | [Português](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md) | [Russian](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
+</div>
 
 # Count Files [![Github commits (since latest release)](https://img.shields.io/github/commits-since/victordomingos/Count-files/latest.svg)](https://github.com/victordomingos/Count-files)
 
