@@ -1,3 +1,6 @@
+**[English](https://github.com/victordomingos/Count-files/blob/master/README.md)** | [Português](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md) | [Russian](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
+ 
+ 
 # Countfiles
 
 Python package and Command Line Interface, CLI.
