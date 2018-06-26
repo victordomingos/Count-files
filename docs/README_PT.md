@@ -1,13 +1,13 @@
 # Count Files [![Github commits (desde a última versão)](https://img.shields.io/github/commits-since/victordomingos/Count-files/latest.svg)](https://github.com/victordomingos/Count-files)
 Um pequeno utilitário com interface de linha de comandos (CLI) escrito em 
-Python para ajudar a contar ficheiros por extensão, numa determinada pasta.
-Por predefinição, a aplicação contará os ficheiros recursivamente na pasta
-de trabalho atual e em todas as suas subpastas e apresentará uma tabela
-mostrando a frequência de cada extensão de ficheiro (p.ex.: .txt, .py,
-.html, .css) e o número total de ficheiros encontrados. Quaisquer pastas ou
-ficheiros escondidos serão ignorados por defeito.
+Python para ajudar a contar ficheiros por extensão, numa determinada pasta. 
+Por predefinição, a aplicação contará os ficheiros recursivamente na pasta de 
+trabalho atual e em todas as suas subpastas e apresentará uma tabela mostrando 
+a frequência de cada extensão de ficheiro (p.ex.: .txt, .py, .html, .css) e o 
+número total de ficheiros encontrados. Quaisquer pastas ou ficheiros 
+escondidos serão ignorados por defeito.
 
-Sistemas operativos suportados: Linux, Mac OS, Windows.
+Sistemas operativos suportados: Linux, macOS, Windows.
 
 Ler o ficheiro README em outras línguas: [English](https://github.com/victordomingos/Count-files/blob/master/README.md) | [Русский язык](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
 
@@ -31,116 +31,144 @@ percorrer de forma recursiva todas as subpastas (ou seja, pesquisar apenas na
 raiz da pasta indicada).
 
 Por predefinição, a tabela será ordenada pela frequência das extensões dos 
-nomes de ficheiros. Se preferir visualizar resultados ordenados alfabeticamente,
-basta adicionar o argumento `-alpha` or `--sort-alpha`.
+nomes de ficheiros. Se preferir visualizar resultados ordenados 
+alfabeticamente, basta adicionar o argumento `-alpha` or `--sort-alpha`.
 
 De modo semelhante, as opções `-nt` ou `--no-table` instruem a aplicação para
 não mostrar uma tabela com a lista de todas as extensões encontradas e 
-respetivas frequências, ou seja, apresentando apenas o número total de ficheiros.
+respetivas frequências, ou seja, apresentando apenas o número total de 
+ficheiros.
 
-Por predefinição, serão ignorados ficheiros e pastas
+Por predefinição, serão ignorados ficheiros e pastas que supostamente devem 
+estar escondidos, mas é possível acrescentar os argumentos opcionais `-a` ou 
+`--all` para incluir todos os ficheiros na contagem.
 
-By default, it will ignore files and directories that are supposed to be
-hidden, but you can add the `-a` or `--all` optional
-switch argument to make it count all files.
+### Ficheiros e pastas escondidos
+- Windows: ficheiros e pastas com em que o atributo FILE_ATTRIBUTE_HIDDEN é `True`.  
+- Linux, macOS: aqueles cujos nomes começam por "." (ponto).
 
-Hidden files and directories  
-Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true  
-Linux, Mac OS: those with names starting with "."(dot)
+Esta ferramenta pode ainda ser utilizada para procurar ficheiros que tenham no 
+seu nome uma determinada extensão (utilizando `-fe` ou `--file-extension`) e, 
+opcionalmente, apresentar uma pre-visualização breve (`-p`ou `--preview`) para 
+ficheiros de texto. O tamanho do texto de pre-visualização pode ser, de forma 
+opcional, personalizado através do argumento `-ps` ou `--preview-size` seguido 
+de um número inteiro indicando o número de caracteres.
 
-This utility can also be used to search for files that have a certain file extension
-(using `-fe` or `--file-extension`) and, optionally, display a short preview (`-p`or 
-`--preview`) for text files. The size of the preview text sample can optionally be
-customized by using the `-ps` or `--preview-size` argument followed by an integer number.
+A lista de tipos de ficheiro para os quais está disponível a funcionalidade de 
+pre-visualização pode ser consultada com o argumento `-st` ou 
+`--supported-types`.
 
-The list of file types for which preview is available can be viewed with the `-st` or `--supported-types` argument.
-The names of extensions are case sensitive. The results for `ini` and `INI` will be different.
+As extensões de ficheiros são tratadas com sensibilidade a maiúsculas/minúsculas. 
+Por exemplo, os resultados para `ini` e `INI` serão diferentes.
 
-By default, the result of a search by certain file extension is a list with the full paths of the files found.
-If you only need the total number of files, use the `-nl` or `--no-list` argument.
+Por predefinição, o resultado da pesquisa por uma determinada extensão é 
+apresentado sob a forma de uma lista com os caminhos completos dos ficheiros
+encontrados. Caso apenas necessite do número total de ficheiros, sem a lista, 
+basta utilizar o argumento `-nl` or `--no-list`.
 
-The program's operating indicator is printing processed file names in one line.
-File names are not displayed when searching for a particular extension, if there are no such files in the folder or if the files are hidden, and the argument `--all` is not specified.
+Durante a procura, o programa apresenta um indicador de operação, mostrando no 
+ecrã, sucessivamente e numa única linha, os nomes de ficheiro processados. Os 
+nomes de ficheiros não são contudo apresentados, ao buscar por uma determinada 
+extensão, caso não sejam encontrados ficheiros que obedeçam aos critérios 
+indicados nessa pasta, ou se os ficheiros estiverem escondidos e não tiver 
+sido especificado o argumento `--all`.
 
-Feedback is available by default for counting files by extension(table and no-table),
-searching for files by extension(viewing mode no-list). Optional argument `-nf` or `--no-feedback` disables it.
-
-Using the arguments `--no-feedback` and `--no-list` allows you to speed up the processing of files a little.
-
+Este mecanismo de feedback está ativo, de forma predefinida, ao contar 
+ficheiros por extensão (com ou sem tabela) e ao procurar ficheiros por 
+extensão (no modo de visualização `-nl`/`--no-list`). A opção `-nf` ou 
+`--no-feedback` desativa o feedback. A utilização das opções `--no-feedback` 
+e `--no-list` pode permitir obter um processamento um pouco mais rápido.
+ 
+ 
 ## Exemplos de utilização:
 
-Get a little help about how to use this application:
+Obter ajuda sobre como usar esta aplicação:
 
 `countfiles -h`  
 `countfiles --help`
 
 
-Get the version number of the program:
+Consultar o número da versão do programa:
 
 `countfiles -v`  
 `countfiles --version`
 
 
-Get the list of currently supported file types for preview:
+### Contar quantos ficheiros há de cada extensão
+
+Consultar a lista dos tipos de ficheiro atualmente suportados para a 
+funcionalidade de pre-visualização:
 
 `countfiles -st`  
 `countfiles --supported-types`
 
-
-Count all files in current working directory and all of its subdirectories, ignoring hidden files and hidden subdirectories:
+Contar todos os ficheiros na pasta atual e em todas as suas subpastas, 
+ignorando pastas e ficheiros escondidos:
 
 `countfiles`
 
 
-Count all files in current working directory and all of its subdirectories, including hidden files and hidden subdirectories:
+Contar todos os ficheiros na pasta atual e em todas as suas subpastas, 
+incluindo pastas e ficheiros escondidos:
 
 `countfiles -a`  
 `countfiles --all`
 
 
-Count all files in current working directory, ignoring hidden files and hidden subdirectories, and without recursing through subdirectories:
+Contar todos os ficheiros na pasta atual, ignorando pastas e ficheiros 
+escondidos, mas sem percorrer as suas subpastas:
 
 `countfiles -nr`  
 `countfiles --no-recursion`
 
 
-Count all files in a given directory with recursion:
+Contar todos os ficheiros numa determinada pasta e nas suas subpastas, 
+ignorando pastas e ficheiros escondidos:
 
 `countfiles ~/Documents`
 
 
-Count all files in a given directory with recursion, but don't display a table, only the total number of files:
+Contar todos os ficheiros numa determinada pasta e nas suas subpastas, mas 
+sem mostrar uma tabela, apenas o número total de ficheiros:
 
 `countfiles -nt ~/Documents`  
 `countfiles --no-table ~/Documents`
 
 
-Count all files in a given directory without recursing through subdirectories, and sort the table alphabetically:
+Contar todos os ficheiros numa determinada pasta, ignorando pastas e ficheiros 
+escondidos, sem percorrer as subpastas, e ordenar alfabeticamente a tabela:
 
 `countfiles -nr -alpha ~/Documents`  
 `countfiles --no-recursion --sort-alpha ~/Documents`
 
 
-Count all files in a given directory without recursing through subdirectories, including hidden files, and only displaying the total number of files (no table):
+Contar todos os ficheiros numa determinada pasta, incluindo pastas e ficheiros 
+escondidos, sem percorrer as subpastas, e apresentar apenas o número total de 
+ficheiros (sem tabela):
 
 `countfiles -nr -nt -a ~/Documents`  
 `countfiles --no-recursion --no-table --all ~/Documents`
 
 
-Count all files in a given directory with recursion, ignoring hidden files and hidden subdirectories, without feedback:
+Contar todos os ficheiros numa determinada pasta e nas suas subpastas, 
+ignorando pastas e ficheiros escondidos, sem feedback relativo ao progresso da 
+operação:
 
 `countfiles -nf ~/Documents`  
 `countfiles --no-feedback ~/Documents`
 
 
-Search recursively for any files that have a `.txt` extension, in a given directory, without list and without feedback:
 
+### Procurar ficheiros com uma extensão específica
+
+Procurar recursivamente ficheiros que tenham a extensão `.txt`, numa 
+determinada pasta, sem lista e sem feedback relativo ao progresso da operação:
 
 `countfiles -nf -nl -fe txt ~/Documents`  
 `countfiles --no-feedback --no-list --file-extension txt ~/Documents`
 
 
-Search recursively for any files that have a `.css` extension, in a given directory:
+Procurar recursivamente ficheiros com a extensão `.css`, numa determinada pasta:
 
 `countfiles -fe css ~/Documents`  
 `countfiles --file-extension css ~/Documents`
@@ -151,11 +179,16 @@ Search recursively for any files that have a `.py` extension, in a given directo
 `countfiles -fe py -p -ps 500 ~/Documents`   
 `countfiles --file-extension py --preview --preview-size 500 ~/Documents`
 
+
+### Procurar e listar ficheiros sem extensão
+
 Search recursively for any files that don't have any extension, in a given directory:
 
 `countfiles -fe .  ~/Documents`  
 `countfiles --file-extension . ~/Documents`
 
+
+### Procurar e listar todos os ficheiros
 
 Recursively searching all files with extension or without it, in a given directory:  
 (similar to counting recursively for any files, but the result is a list with paths)

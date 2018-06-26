@@ -8,7 +8,7 @@ or folders are ignored by default.
 
 Supported operating systems: Linux, Mac OS, Windows.
 
-README in other languages: [Russian](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
+README in other languages: [Português](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md) | [Russian](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
 
 ![Count-files screenshot](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
 
@@ -45,7 +45,8 @@ Linux, Mac OS: those with names starting with "."(dot)
 This utility can also be used to search for files that have a certain file extension
 (using `-fe` or `--file-extension`) and, optionally, display a short preview (`-p`or 
 `--preview`) for text files. The size of the preview text sample can optionally be
-customized by using the `-ps` or `--preview-size` argument followed by an integer number.
+customized by using the `-ps` or `--preview-size` argument followed by an integer number 
+specifying the number of characters to present.
 
 The list of file types for which preview is available can be viewed with the `-st` or `--supported-types` argument.
 The names of extensions are case sensitive. The results for `ini` and `INI` will be different.
@@ -80,6 +81,8 @@ Get the list of currently supported file types for preview:
 `countfiles -st`  
 `countfiles --supported-types`
 
+
+### Count how many files there are for each extension
 
 Count all files in current working directory and all of its subdirectories, ignoring hidden files and hidden subdirectories:
 
@@ -127,8 +130,9 @@ Count all files in a given directory with recursion, ignoring hidden files and h
 `countfiles --no-feedback ~/Documents`
 
 
-Search recursively for any files that have a `.txt` extension, in a given directory, without list and without feedback:
+### Searching for files with a specific extension
 
+Search recursively for any files that have a `.txt` extension, in a given directory, without list and without feedback:
 
 `countfiles -nf -nl -fe txt ~/Documents`  
 `countfiles --no-feedback --no-list --file-extension txt ~/Documents`
@@ -145,11 +149,16 @@ Search recursively for any files that have a `.py` extension, in a given directo
 `countfiles -fe py -p -ps 500 ~/Documents`   
 `countfiles --file-extension py --preview --preview-size 500 ~/Documents`
 
+
+### Searching and listing files without extension
+
 Search recursively for any files that don't have any extension, in a given directory:
 
 `countfiles -fe .  ~/Documents`  
 `countfiles --file-extension . ~/Documents`
 
+
+### Searching and listing all files
 
 Recursively searching all files with extension or without it, in a given directory:  
 (similar to counting recursively for any files, but the result is a list with paths)
