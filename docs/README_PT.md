@@ -1,3 +1,6 @@
+[English](https://github.com/victordomingos/Count-files/blob/master/README.md) | [Português](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md) | [Russian](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
+  
+ 
 # Count Files [![Github commits (desde a última versão)](https://img.shields.io/github/commits-since/victordomingos/Count-files/latest.svg)](https://github.com/victordomingos/Count-files)
 Um pequeno utilitário com interface de linha de comandos (CLI) escrito em 
 Python para ajudar a contar ficheiros por extensão, numa determinada pasta. 
