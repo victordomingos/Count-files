@@ -99,14 +99,14 @@ e `--no-list` pode permitir obter um processamento um pouco mais rápido.
 
 Obter ajuda sobre como usar esta aplicação:
 
-`countfiles -h`  
-`countfiles --help`
+`count-files -h`  
+`count-files --help`
 
 
 Consultar o número da versão do programa:
 
-`countfiles -v`  
-`countfiles --version`
+`count-files -v`  
+`count-files --version`
 
 
 ### Contar quantos ficheiros há de cada extensão
@@ -114,63 +114,63 @@ Consultar o número da versão do programa:
 Consultar a lista dos tipos de ficheiro atualmente suportados para a 
 funcionalidade de pre-visualização:
 
-`countfiles -st`  
-`countfiles --supported-types`
+`count-files -st`  
+`count-files --supported-types`
 
 Contar todos os ficheiros na pasta atual e em todas as suas subpastas, 
 ignorando pastas e ficheiros escondidos:
 
-`countfiles`
+`count-files`
 
 
 Contar todos os ficheiros na pasta atual e em todas as suas subpastas, 
 incluindo pastas e ficheiros escondidos:
 
-`countfiles -a`  
-`countfiles --all`
+`count-files -a`  
+`count-files --all`
 
 
 Contar todos os ficheiros na pasta atual, ignorando pastas e ficheiros 
 escondidos, mas sem percorrer as suas subpastas:
 
-`countfiles -nr`  
-`countfiles --no-recursion`
+`count-files -nr`  
+`count-files --no-recursion`
 
 
 Contar todos os ficheiros numa determinada pasta e nas suas subpastas, 
 ignorando pastas e ficheiros escondidos:
 
-`countfiles ~/Documents`
+`count-files ~/Documents`
 
 
 Contar todos os ficheiros numa determinada pasta e nas suas subpastas, mas 
 sem mostrar uma tabela, apenas o número total de ficheiros:
 
-`countfiles -nt ~/Documents`  
-`countfiles --no-table ~/Documents`
+`count-files -nt ~/Documents`  
+`count-files --no-table ~/Documents`
 
 
 Contar todos os ficheiros numa determinada pasta, ignorando pastas e ficheiros 
 escondidos, sem percorrer as subpastas, e ordenar alfabeticamente a tabela:
 
-`countfiles -nr -alpha ~/Documents`  
-`countfiles --no-recursion --sort-alpha ~/Documents`
+`count-files -nr -alpha ~/Documents`  
+`count-files --no-recursion --sort-alpha ~/Documents`
 
 
 Contar todos os ficheiros numa determinada pasta, incluindo pastas e ficheiros 
 escondidos, sem percorrer as subpastas, e apresentar apenas o número total de 
 ficheiros (sem tabela):
 
-`countfiles -nr -nt -a ~/Documents`  
-`countfiles --no-recursion --no-table --all ~/Documents`
+`count-files -nr -nt -a ~/Documents`  
+`count-files --no-recursion --no-table --all ~/Documents`
 
 
 Contar todos os ficheiros numa determinada pasta e nas suas subpastas, 
 ignorando pastas e ficheiros escondidos, sem feedback relativo ao progresso da 
 operação:
 
-`countfiles -nf ~/Documents`  
-`countfiles --no-feedback ~/Documents`
+`count-files -nf ~/Documents`  
+`count-files --no-feedback ~/Documents`
 
 
 
@@ -179,22 +179,22 @@ operação:
 Procurar recursivamente ficheiros que tenham a extensão `.txt`, numa 
 determinada pasta, sem lista e sem feedback relativo ao progresso da operação:
 
-`countfiles -nf -nl -fe txt ~/Documents`  
-`countfiles --no-feedback --no-list --file-extension txt ~/Documents`
+`count-files -nf -nl -fe txt ~/Documents`  
+`count-files --no-feedback --no-list --file-extension txt ~/Documents`
 
 
 Procurar recursivamente ficheiros com a extensão `.css`, numa determinada pasta:
 
-`countfiles -fe css ~/Documents`  
-`countfiles --file-extension css ~/Documents`
+`count-files -fe css ~/Documents`  
+`count-files --file-extension css ~/Documents`
 
 
 Procurar recursivamente ficheiros que tenham a extensão `.py`, numa 
 determinada pasta, e apresentar uma pre-visualização de 500 caracteres para 
 cada um deles:
 
-`countfiles -fe py -p -ps 500 ~/Documents`   
-`countfiles --file-extension py --preview --preview-size 500 ~/Documents`
+`count-files -fe py -p -ps 500 ~/Documents`   
+`count-files --file-extension py --preview --preview-size 500 ~/Documents`
 
 
 ### Procurar e listar ficheiros sem extensão
@@ -202,8 +202,8 @@ cada um deles:
 Procurar recursivamente ficheiros que não têm qualquer extensão no seu nome, 
 numa determinada pasta:
 
-`countfiles -fe .  ~/Documents`  
-`countfiles --file-extension . ~/Documents`
+`count-files -fe .  ~/Documents`  
+`count-files --file-extension . ~/Documents`
 
 
 ### Procurar e listar todos os ficheiros
@@ -212,8 +212,8 @@ Procurar recursivamente todos os ficheiros com ou sem extensão, numa dada
 pasta (processo semelhante à contagem de ficheiros recursiva, mas aqui o 
 resultado é uma lista com os caminhos dos ficheiros encontrados):
 
-`countfiles -fe ..  ~/Documents`  
-`countfiles --file-extension .. ~/Documents`
+`count-files -fe ..  ~/Documents`  
+`count-files --file-extension .. ~/Documents`
 
 
 ## Instalação e dependências:

@@ -3,9 +3,9 @@
 import unittest
 import os
 import sys
-from countfiles.utils.file_handlers import get_file_extension,\
+from count_files.utils.file_handlers import get_file_extension,\
     is_hidden_file_or_dir, search_files, count_files_by_extension
-from countfiles.utils.file_preview import generate_preview
+from count_files.utils.file_preview import generate_preview
 
 
 class TestSomeFunctions(unittest.TestCase):

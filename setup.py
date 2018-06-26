@@ -34,10 +34,10 @@ def read_readme(file_name):
         return f.read()
 
 
-setup(name='countfiles',
-      version=__import__('countfiles').__version__,
+setup(name='count-files',
+      version=__import__('count_files').__version__,
       description=short_desc,
-      packages=['countfiles'],
+      packages=['count_files'],
       long_description=read_readme('README.md'),  # for PyPI
       long_description_content_type="text/markdown",
       license='MIT',
@@ -70,7 +70,7 @@ setup(name='countfiles',
 
       entry_points = {
           'console_scripts': [
-              'countfiles = countfiles.__main__:main_flow'
+              'count-files = count_files.__main__:main_flow'
           ]
       },
       project_urls={

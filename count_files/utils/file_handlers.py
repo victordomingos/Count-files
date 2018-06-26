@@ -9,7 +9,7 @@ from typing import Iterable
 from collections import Counter
 from itertools import chain
 
-from countfiles.settings import SUPPORTED_TYPES, TERM_WIDTH
+from count_files.settings import SUPPORTED_TYPES, TERM_WIDTH
 
 
 def get_file_extension(filepath: str) -> str:

@@ -83,96 +83,96 @@ Using the arguments `--no-feedback` and `--no-list` allows you to speed up the p
 
 Get a little help about how to use this application:
 
-`countfiles -h`  
-`countfiles --help`
+`count-files -h`  
+`count-files --help`
 
 
 Get the version number of the program:
 
-`countfiles -v`  
-`countfiles --version`
+`count-files -v`  
+`count-files --version`
 
 
 Get the list of currently supported file types for preview:
 
-`countfiles -st`  
-`countfiles --supported-types`
+`count-files -st`  
+`count-files --supported-types`
 
 
 ### Counting how many files are there for each extension
 
 Count all files in current working directory and all of its subdirectories, ignoring hidden files and hidden subdirectories:
 
-`countfiles`
+`count-files`
 
 
 Count all files in current working directory and all of its subdirectories, including hidden files and hidden subdirectories:
 
-`countfiles -a`  
-`countfiles --all`
+`count-files -a`  
+`count-files --all`
 
 
 Count all files in current working directory, ignoring hidden files and hidden subdirectories, and without recursing through subdirectories:
 
-`countfiles -nr`  
-`countfiles --no-recursion`
+`count-files -nr`  
+`count-files --no-recursion`
 
 
 Count all files in a given directory with recursion:
 
-`countfiles ~/Documents`
+`count-files ~/Documents`
 
 
 Count all files in a given directory with recursion, but don't display a table, only the total number of files:
 
-`countfiles -nt ~/Documents`  
-`countfiles --no-table ~/Documents`
+`count-files -nt ~/Documents`  
+`count-files --no-table ~/Documents`
 
 
 Count all files in a given directory without recursing through subdirectories, and sort the table alphabetically:
 
-`countfiles -nr -alpha ~/Documents`  
-`countfiles --no-recursion --sort-alpha ~/Documents`
+`count-files -nr -alpha ~/Documents`  
+`count-files --no-recursion --sort-alpha ~/Documents`
 
 
 Count all files in a given directory without recursing through subdirectories, including hidden files, and only displaying the total number of files (no table):
 
-`countfiles -nr -nt -a ~/Documents`  
-`countfiles --no-recursion --no-table --all ~/Documents`
+`count-files -nr -nt -a ~/Documents`  
+`count-files --no-recursion --no-table --all ~/Documents`
 
 
 Count all files in a given directory with recursion, ignoring hidden files and hidden subdirectories, without feedback:
 
-`countfiles -nf ~/Documents`  
-`countfiles --no-feedback ~/Documents`
+`count-files -nf ~/Documents`  
+`count-files --no-feedback ~/Documents`
 
 
 ### Searching for files with a specific extension
 
 Search recursively for any files that have a `.txt` extension, in a given directory, without list and without feedback:
 
-`countfiles -nf -nl -fe txt ~/Documents`  
-`countfiles --no-feedback --no-list --file-extension txt ~/Documents`
+`count-files -nf -nl -fe txt ~/Documents`  
+`count-files --no-feedback --no-list --file-extension txt ~/Documents`
 
 
 Search recursively for any files that have a `.css` extension, in a given directory:
 
-`countfiles -fe css ~/Documents`  
-`countfiles --file-extension css ~/Documents`
+`count-files -fe css ~/Documents`  
+`count-files --file-extension css ~/Documents`
 
 
 Search recursively for any files that have a `.py` extension, in a given directory, and display a 500 characters preview for each one:
 
-`countfiles -fe py -p -ps 500 ~/Documents`   
-`countfiles --file-extension py --preview --preview-size 500 ~/Documents`
+`count-files -fe py -p -ps 500 ~/Documents`   
+`count-files --file-extension py --preview --preview-size 500 ~/Documents`
 
 
 ### Searching and listing files without extension
 
 Search recursively for any files that don't have any extension, in a given directory:
 
-`countfiles -fe .  ~/Documents`  
-`countfiles --file-extension . ~/Documents`
+`count-files -fe .  ~/Documents`  
+`count-files --file-extension . ~/Documents`
 
 
 ### Searching and listing all files
@@ -180,8 +180,8 @@ Search recursively for any files that don't have any extension, in a given direc
 Recursively searching all files with extension or without it, in a given directory:  
 (similar to counting recursively for any files, but the result is a list with paths)
 
-`countfiles -fe ..  ~/Documents`  
-`countfiles --file-extension .. ~/Documents`
+`count-files -fe ..  ~/Documents`  
+`count-files --file-extension .. ~/Documents`
 
 
 ## Installation and dependencies:

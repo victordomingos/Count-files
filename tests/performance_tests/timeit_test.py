@@ -6,8 +6,8 @@ Timer.repeat(repeat=3, number=1000000)
 import timeit
 import sys
 import os
-from countfiles.utils.file_handlers import search_files, count_file_extensions1, count_files_by_extension
-from countfiles.__main__ import main_flow
+from count_files.utils.file_handlers import search_files, count_file_extensions1, count_files_by_extension
+from count_files.__main__ import main_flow
 
 
 def get_locations(*args):

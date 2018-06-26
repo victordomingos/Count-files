@@ -3,7 +3,7 @@
 import unittest
 import os
 import sys
-from countfiles.__main__ import main_flow
+from count_files.__main__ import main_flow
 
 
 class TestArgumentParser(unittest.TestCase):

@@ -53,12 +53,12 @@ pip install -e git+https://github.com/victordomingos/Count-files.git#egg=destina
 Аргументы могут быть указаны как в короткой, так и в длинной форме. Например: ```-a``` или ```--all```.
 
 ```
-usage: countfiles [-h] [-v] [-st] [-a] [-nr]
+usage: count-files [-h] [-v] [-st] [-a] [-nr]
                   [-nf] [-alpha] [-nt] [-fe FILE_EXTENSION]
                   [-p] [-ps PREVIEW_SIZE] [-nl] [path]
 ```
 ```
-usage: countfiles [--help] [--version] [--supported-types] [--all] [--no-recursion]
+usage: count-files [--help] [--version] [--supported-types] [--all] [--no-recursion]
                   [--no-feedback] [--sort-alpha] [--no-table] [--file-extension FILE_EXTENSION]
                   [--preview] [--preview-size PREVIEW_SIZE] [--no-list] [path]
 ```
@@ -98,10 +98,10 @@ usage: countfiles [--help] [--version] [--supported-types] [--all] [--no-recursi
 ### Подсчет всех файлов, независимо от их типа
 
 ```
-usage: countfiles [-a] [-nr] [-nf] [-alpha] [-nt] [path]
+usage: count-files [-a] [-nr] [-nf] [-alpha] [-nt] [path]
 ```
 ```
-usage: countfiles [--all] [--no-recursion] [--no-feedback] [--sort-alpha] [--no-table] [path]
+usage: count-files [--all] [--no-recursion] [--no-feedback] [--sort-alpha] [--no-table] [path]
 ```
 
 Подсчет всех файлов в указанной директории с расширениями или без расширения.
@@ -125,11 +125,11 @@ path - текущий рабочий каталог;
 ### Поиск файлов по расширению
 
 ```
-usage: countfiles [-a] [-nr] [-nf] [-fe FILE_EXTENSION]
+usage: count-files [-a] [-nr] [-nf] [-fe FILE_EXTENSION]
                   [-p] [-ps PREVIEW_SIZE] [-nl] [path]
 ```
 ```
-usage: countfiles [--all] [--no-recursion] [--no-feedback] [--file-extension FILE_EXTENSION]
+usage: count-files [--all] [--no-recursion] [--no-feedback] [--file-extension FILE_EXTENSION]
                   [--preview] [--preview-size PREVIEW_SIZE] [--no-list] [path]
 ```
 
@@ -278,7 +278,7 @@ python -m countfiles --file-extension .. <arguments>
 
 #### Подсчет файлов всех типов
 
-```countfiles [-a] [-nr] [-nf] [-alpha] [-nt] [path]```
+```count-files [-a] [-nr] [-nf] [-alpha] [-nt] [path]```
 
 Подсчет со значениями по умолчанию:  
 рекурсивно, в текущей рабочей директории, игнорируя скрытые файлы и папки, индикатор работы программы включен.
@@ -317,7 +317,7 @@ Total number of files in selected directory: 8.
 
 #### Поиск всех файлов с определенным расширением:
 
-```countfiles [-a] [-nr] [-nf] [-fe FILE_EXTENSION] [-p] [-ps PREVIEW_SIZE] [-nl] [path]```
+```count-files [-a] [-nr] [-nf] [-fe FILE_EXTENSION] [-p] [-ps PREVIEW_SIZE] [-nl] [path]```
 
 Поиск со значениями по умолчанию:  
 рекурсивно, в текущей рабочей директории, без превью, игнорируя скрытые файлы и папки.

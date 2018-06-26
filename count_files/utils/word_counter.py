@@ -3,9 +3,9 @@
 import os
 from typing import Iterable
 
-from countfiles.utils.file_handlers import human_mem_size
-from countfiles.utils.file_preview import generate_preview
-from countfiles.settings import DEFAULT_PREVIEW_SIZE, TERM_WIDTH
+from count_files.utils.file_handlers import human_mem_size
+from count_files.utils.file_preview import generate_preview
+from count_files.settings import DEFAULT_PREVIEW_SIZE, TERM_WIDTH
 
 
 def show_2columns(data):

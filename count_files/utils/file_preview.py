@@ -6,8 +6,8 @@ import itertools
 
 from pathlib import Path
 
-from countfiles.utils.file_handlers import get_file_extension
-from countfiles.settings import SUPPORTED_TYPES
+from count_files.utils.file_handlers import get_file_extension
+from count_files.settings import SUPPORTED_TYPES
 
 
 #TODO

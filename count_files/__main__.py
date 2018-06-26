@@ -13,17 +13,17 @@ import os
 
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar, Union
-from countfiles.utils.file_handlers import count_files_by_extension, search_files, count_file_extensions1
-from countfiles.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
-from countfiles.utils.word_counter import show_2columns, show_total
-from countfiles.utils.word_counter import show_result_for_search_files
-from countfiles.settings import not_supported_type_message, supported_type_info_message,\
+from count_files.utils.file_handlers import count_files_by_extension, search_files, count_file_extensions1
+from count_files.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
+from count_files.utils.word_counter import show_2columns, show_total
+from count_files.utils.word_counter import show_result_for_search_files
+from count_files.settings import not_supported_type_message, supported_type_info_message,\
     DEFAULT_PREVIEW_SIZE
-# from countfiles.utils.decorators import exceptions_decorator
+# from count_files.utils.decorators import exceptions_decorator
 
 
 parser = ArgumentParser(
-    prog='countfiles',
+    prog='count_files',
     description="Count files, grouped by extension, in a directory. By "
                 "default, it will count files recursively in current "
                 "working directory and all of its subdirectories, and "
@@ -34,7 +34,7 @@ parser = ArgumentParser(
                 "(Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true; "
                 "Linux, Mac OS: those with names starting with '.')")
 
-parser.add_argument('-v', '--version', action='version', version=__import__('countfiles').__version__)
+parser.add_argument('-v', '--version', action='version', version=__import__('count_files').__version__)
 
 parser.add_argument('-st', '--supported-types', action='store_true',
                     help="The list of currently supported file types for preview.")
@@ -67,7 +67,7 @@ count_group = parser.add_argument_group('File counting by extension',
                                                     'extensions sorted by frequency; '
                                                     "feedback - printing processed file names in one line, "
                                                     "use '-nf' to disable it). "
-                                                    'Usage: countfiles [-a] [-nr] [-nf] [-alpha] [-nt] [path]')
+                                                    'Usage: count_files [-a] [-nr] [-nf] [-alpha] [-nt] [path]')
 
 count_group.add_argument('-alpha', '--sort-alpha', action='store_true',
                          help="Sort the table alphabetically, by file extension.")
@@ -85,7 +85,7 @@ search_group = parser.add_argument_group("File searching by extension",
                                                      "feedback - printing processed file names in one line"
                                                      "(available by default only for '-nl' or '--no-list', "
                                                      "use '-nf' to disable it). "
-                                                     "Usage: countfiles [-a] [-nr] [-nf] [-fe FILE_EXTENSION] [-p] "
+                                                     "Usage: count_files [-a] [-nr] [-nf] [-fe FILE_EXTENSION] [-p] "
                                                      "[-ps PREVIEW_SIZE] [-nl] [path]")
 
 search_group.add_argument('-fe', '--file-extension', type=str,
@@ -140,7 +140,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
     if not include_hidden and is_hidden_file_or_dir(location):
         parser.exit(status=1, message=f'\nNot counting any files, because {loc_text[2:]} has hidden folders.\n'
-                                      f'Use: python -m countfiles {args.path} --all')
+                                      f'Use: python -m count_files {args.path} --all')
 
     action = 'searching' if extension else "counting"
     r = f'Recursively {action} all files'

@@ -3,8 +3,8 @@ import os
 import sys
 from contextlib import redirect_stdout
 import filecmp
-from countfiles.utils.word_counter import show_2columns, show_result_for_search_files
-from countfiles.utils.file_handlers import count_files_by_extension, search_files
+from count_files.utils.word_counter import show_2columns, show_result_for_search_files
+from count_files.utils.file_handlers import count_files_by_extension, search_files
 
 
 class TestWordCounter(unittest.TestCase):

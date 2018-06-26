@@ -3,7 +3,7 @@ import logging
 import os
 import sys
 from functools import wraps
-from countfiles.settings import LOG_FOLDER, CLI_LOG_FILE, BUG_REPORT_URL
+from count_files.settings import LOG_FOLDER, CLI_LOG_FILE, BUG_REPORT_URL
 
 
 cli_logger = logging.getLogger('cli')
