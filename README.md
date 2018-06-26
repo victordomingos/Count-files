@@ -1,8 +1,3 @@
-This document in other languages: 
-[Português](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md) | [Russian](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
- 
- 
-
 # Count Files [![Github commits (since latest release)](https://img.shields.io/github/commits-since/victordomingos/Count-files/latest.svg)](https://github.com/victordomingos/Count-files)
 
 A little command-line interface (CLI) utility written in Python to help you
@@ -13,6 +8,9 @@ and will display a table showing the frequency for each file extension (e.g.:
 or folders are ignored by default.
 
 Supported operating systems: Linux, Mac OS, Windows.
+
+Read this document in other languages:
+[Português](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md) | [Russian](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
 
 ![Count-files screenshot](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
 

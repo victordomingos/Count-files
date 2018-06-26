@@ -9,7 +9,7 @@ escondidos serão ignorados por defeito.
 
 Sistemas operativos suportados: Linux, macOS, Windows.
 
-## Ler o ficheiro README em outras línguas: 
+## Ler este documento noutras línguas: 
 [English](https://github.com/victordomingos/Count-files/blob/master/README.md) | [Русский язык](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
 
 ![Captura de ecrã da aplicação Count-files](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
