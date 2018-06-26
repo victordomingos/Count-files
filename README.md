@@ -16,13 +16,13 @@ Supported operating systems: Linux, Mac OS, Windows.
 
 ## Contents  
 - [Description](#description)  
-   - Hidden files and directories  
-   - Customizing display of results and operation feedback  
+   - [Hidden files and directories](#hidden-files-and-directories)  
+   - [Customizing display of results and operation feedback](#customizing-display-of-results-and-operation-feedback)  
 - [Examples of usage](#examples-of-usage)  
-   - Counting how many files are there for each extension
-   - Searching for files with a specific extension
-   - Searching and listing files without extension
-   - Searching and listing all files
+   - [Counting how many files are there for each extension](#counting-how-many-files-are-there-for-each-extension)  
+   - [Searching for files with a specific extension](#searching-for-files-with-a-specific-extension)
+   - [Searching and listing files without extension](#searching-and-listing-files-without-extension)
+   - [Searching and listing all files](#searching-and-listing-all-files)
 - [Installation and dependencies](#installation-and-dependencies)  
 - [Did you find a bug or do you have a suggestion?](#did-you-find-a-bug-or-do-you-have-a-suggestion)
 
