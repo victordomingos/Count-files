@@ -141,6 +141,9 @@ raiz da pasta indicada).
 
 ### Obter ajuda sobre como usar esta aplicação:
 
+Para consultar a lista de opções disponíveis e o seu modo de funcionamento, 
+basta utilizar um dos seguintes comando:
+
 ```
 count-files -h
 ```
