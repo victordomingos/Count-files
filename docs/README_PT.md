@@ -20,14 +20,16 @@ na app Pythonista 3.
 
 ## Conteúdo  
 - [Descrição](#descrição)  
-   - Ficheiros e pastas escondidos
-   - Personalização da apresentação de resultados e feedback durante a operação
+   - [Ficheiros e pastas escondidos](#ficheiros-e-pastas-escondidos)
+   - [Personalização da apresentação de resultados e feedback durante a operação](#personalização-da-apresentação-de-resultados-e-feedback-durante-a-operação)
 - [Exemplos de utilização](#exemplos-de-utilização)  
-   - Contar quantos ficheiros há de cada extensão
-   - Procurar ficheiros com uma extensão específica
-   - Procurar e listar ficheiros sem extensão
-   - Procurar e listar todos os ficheiros
+   - [Contar quantos ficheiros há de cada extensão](#contar-quantos-ficheiros-há-de-cada-extensão)
+   - [Procurar ficheiros com uma extensão específica](#procurar-ficheiros-com-uma-extensão-específica)
+   - [Procurar e listar ficheiros sem extensão](#procurar-e-listar-ficheiros-sem-extensão)
+   - [Procurar e listar todos os ficheiros](#procurar-e-listar-todos-os-ficheiros)
 - [Instalação e dependências](#instalação-e-dependências)  
+   - [Em sistemas operativos de secretária](#em-sistemas-operativos-de-secretária)
+   - [Em iPhone ou iPad (na app Pythonista 3 para iOS)](#em-iphone-ou-ipad-na-app-pythonista-3-para-ios)
 - [Encontrou um bug ou tem uma sugestão?](#encontrou-um-bug-ou-tem-uma-sugestão)
 
 ## Descrição:

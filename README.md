@@ -28,6 +28,8 @@ command-line in the Pythonista 3 app.
    - [Searching and listing files without extension](#searching-and-listing-files-without-extension)
    - [Searching and listing all files](#searching-and-listing-all-files)
 - [Installation and dependencies](#installation-and-dependencies)  
+   - [On regular desktop operating systems](#on-regular-desktop-operating-systems)  
+   - [On iPhone or iPad (in Pythonista 3 for iOS)](#on-iphone-or-ipad-in-pythonista-3-for-ios)  
 - [Did you find a bug or do you have a suggestion?](#did-you-find-a-bug-or-do-you-have-a-suggestion)
 
 ## Description:
