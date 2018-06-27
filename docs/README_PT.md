@@ -7,53 +7,144 @@ ajudar a contar ficheiros por extensão, numa determinada pasta.
 Por predefinição, a aplicação contará os ficheiros recursivamente na pasta de 
 trabalho atual e em todas as suas subpastas e apresentará uma tabela mostrando 
 a frequência de cada extensão de ficheiro (p.ex.: .txt, .py, .html, .css) e o 
-número total de ficheiros encontrados. Quaisquer pastas ou ficheiros 
-escondidos serão ignorados por defeito.
+número total de ficheiros encontrados.
 
-Sistemas operativos suportados: Linux, macOS, Windows. Pode ainda ser 
-utilizado em iOS (iPhone/iPad) utilizando a linha de comandos [StaSh](https://github.com/ywangd/stash) 
+Sistemas operativos suportados: Linux, macOS, Windows. Pode ainda ser
+utilizado em iOS (iPhone/iPad) utilizando a linha de comandos [StaSh](https://github.com/ywangd/stash)
 na app Pythonista 3.
 
 
 ![Captura de ecrã da aplicação Count-files](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
 
-
 ## Conteúdo  
-- [Descrição](#descrição)  
-   - [Ficheiros e pastas escondidos](#ficheiros-e-pastas-escondidos)
-   - Sensibilidade a maiúsculas/minúsculas
-   - [Personalização da apresentação de resultados e feedback durante a operação](#personalização-da-apresentação-de-resultados-e-feedback-durante-a-operação)
-- [Exemplos de utilização](#exemplos-de-utilização)  
-   - [Contar quantos ficheiros há de cada extensão](#contar-quantos-ficheiros-há-de-cada-extensão)
-   - [Procurar ficheiros com uma extensão específica](#procurar-ficheiros-com-uma-extensão-específica)
-   - [Procurar e listar ficheiros sem extensão](#procurar-e-listar-ficheiros-sem-extensão)
-   - [Procurar e listar todos os ficheiros](#procurar-e-listar-todos-os-ficheiros)
-- [Instalação e dependências](#instalação-e-dependências)  
+- [Instalação e dependências](#instalação-e-dependências)
    - [Em sistemas operativos de secretária](#em-sistemas-operativos-de-secretária)
    - [Em iPhone ou iPad (na app Pythonista 3 para iOS)](#em-iphone-ou-ipad-na-app-pythonista-3-para-ios)
+- [Como utilizar](#como-utilizar)
+   - [Obter ajuda sobre como usar esta aplicação](#obter-ajuda-sobre-como-usar-esta-aplicação)
+   - [Pastas e ficheiros escondidos](#pastas-e-ficheiros-escondidos)
+   - [Sensibilidade a maiúsculas/minúsculas](#sensibilidade-a-maiúsculas-minúsculas)
+   - [Personalização da apresentação de resultados e feedback durante a operação](#personalização-da-apresentação-de-resultados-e-feedback-durante-a-operação)
+   - [Exemplos práticos de utilização](#exemplos-práticos-de-utilização)
+      - [Contar quantos ficheiros há de cada extensão](#contar-quantos-ficheiros-há-de-cada-extensão)
+      - [Procurar ficheiros com uma extensão específica](#procurar-ficheiros-com-uma-extensão-específica)
+      - [Procurar e listar ficheiros sem extensão](#procurar-e-listar-ficheiros-sem-extensão)
+      - [Procurar e listar todos os ficheiros](#procurar-e-listar-todos-os-ficheiros)
+   - [Outras funcionalidades](#outras-funcionalidades)
 - [Encontrou um bug ou tem uma sugestão?](#encontrou-um-bug-ou-tem-uma-sugestão)
 
-## Descrição:
 
-Opcionalmente, é possivel indicar um caminho para a pasta a processar. Se 
-preferir, poderá deixar esse argumento vazio, e a aplicação irá contar os 
+
+## Instalação e dependências:
+
+### Em sistemas operativos de secretária
+
+A atual versão de desenvolvimento pode ser instalada com o comando
+`pip install -e`, seguido do caminho para a pasta principal do projeto (a
+mesma pasta que contém o ficheiro `setup.py`). Para executar esta aplicação é
+necessária uma instalação do Python 3.6 ou superior. Procuramos manter no
+mínimo as dependências externas, de modo a manter a compatibilidade com
+diferentes plataformas, incluindo Pythonista em iOS. Neste momento, requer:
+
+- puremagic==1.4
+
+Planeamos submeter esta aplicação ao PyPI tão brevemente quanto possível, para
+permitir oferecer uma forma de instalação e atualização mais simples.
+Enquanto isso não acontece, estejam à vontade para dar uma olhada na próxima
+secção e talvez considerar contribuir também para este projeto.
+
+
+### Em iPhone ou iPad (na app Pythonista 3 para iOS)
+
+Primeiro, irá precisar de um ambiente Python e uma consola de linha de comandos
+compatível com Python 3. No momento presente, isto significa que precisa de ter
+instalada uma app chamada [Pythonista 3](http://omz-software.com/pythonista/)
+(que é, entre outras coisas, um excelente ambiente para desenvolvimento e
+execução de aplicações de Python puro em iOS). Depois, precisará de instalar a
+[StaSh](https://github.com/ywangd/stash), que é uma consola de linha de
+comandos baseada em Python, concebida especificamente para correr no
+Pythonista. Irá permitir executar comandos bem úteis como `wget`, `git clone`,
+`pip install` e muitos outros. Merece realmente um atalho no ecrã principal do
+seu iPhone ou iPad. Depois de seguir as instruções para a instalação da StaSh,
+poderá precisar de a atualizar para uma versão mais recente. Experimente este
+comando:
+
+```
+selfupdate.py -f bennr01:command_testing
+```
+
+De seguida, force o encerramento do Pythonista, reiniciando-o de seguida, e
+inicie novamente a StaSh. Deverá estar agora a correr em Python 3. Neste
+momento, pode tentar instalar esta aplicação, diretamente a partir deste
+repositório:
+
+```
+pip install victordomingos/Count-files
+```
+
+Se tudo correr bem, o comando acima deverá instalar quais quer dependências,
+colocar um pacote chamado `count_files` dentro da pasta
+`~/Documents/site-packages-3` e criar um *script* de execução chamado
+`count-files.py` em `stash_extensions/bin`. Poderá precisar de descarregar
+manualmente (recorda-se daquele comando `wget`?) um ficheiro chamado
+`magic_data.json` do repositório [`puremagic`](https://github.com/cdgriffith/puremagic)
+(por algum motivo, neste momento não está a instalar corretamente usando a
+StaSh) e movê-lo para `~/Documents/site-packages-3/puremagic/`. De seguida,
+force o encerramento do Pythonista, reinicie a app e inicie novamente a StaSh.
+Já deverá conseguir executar esta aplicação diretamente a partir da consola
+para contar quaisquer ficheiros que possa ter no ambiente do Pythonista.
+
+
+## Como utilizar:
+
+A forma mais simples de utilização consiste na introdução de um comando
+simples na linha de comandos, sem quaisquer argumentos. Assim, para contar
+todos os ficheiros na pasta atual e em todas as suas subpastas, ignorando
+pastas e ficheiros escondidos:
+
+```
+count-files
+```
+
+Por predefinição, a aplicação contará os ficheiros recursivamente na pasta de
+trabalho atual e em todas as suas subpastas e apresentará no final uma tabela
+mostrando a frequência de cada extensão de ficheiro (p.ex.: .txt, .py, .html,
+.css) e o número total de ficheiros encontrados. Quaisquer pastas ou ficheiros
+escondidos serão ignorados por defeito.
+
+Uma outra funcionalidade principal da aplicação consiste na pesquisa de
+ficheiros pela sua extensão, que permite obter uma lista de todos os ficheiros
+encontrados ou, opcionalmente, apenas o numero de ficheiros.
+
+```
+count-files -fe txt
+````
+
+```
+count-files --file-extension txt
+```
+
+Opcionalmente, é possivel indicar um caminho para a pasta a processar. Se
+preferir, poderá deixar esse argumento vazio, e a aplicação irá contar os
 ficheiros da pasta atual.
 
 Os argumentos optionais `-nr` ou `--no-recursion` dizem à aplicação para não
 percorrer de forma recursiva todas as subpastas (ou seja, pesquisar apenas na
 raiz da pasta indicada).
 
-Por predefinição, a tabela será ordenada pela frequência das extensões dos 
-nomes de ficheiros. Se preferir visualizar resultados ordenados 
-alfabeticamente, basta adicionar o argumento `-alpha` or `--sort-alpha`.
 
-De modo semelhante, as opções `-nt` ou `--no-table` instruem a aplicação para
-não mostrar uma tabela com a lista de todas as extensões encontradas e 
-respetivas frequências, ou seja, apresentando apenas o número total de 
-ficheiros.
+### Obter ajuda sobre como usar esta aplicação:
+
+```
+count-files -h
+```
+
+```
+count-files --help
+```
+
   
-  
-### Ficheiros e pastas escondidos
+### Pastas e ficheiros escondidos
 
 Por predefinição, serão ignorados ficheiros e pastas que é suposto estarem 
 escondidos, mas é possível acrescentar os argumentos opcionais `-a` ou `--all` 
@@ -101,186 +192,203 @@ extensão (no modo de visualização `-nl`/`--no-list`). A opção `-nf` ou
 `--no-feedback` desativa o feedback. A utilização das opções `--no-feedback` 
 e `--no-list` pode permitir obter um processamento um pouco mais rápido.
  
- 
-## Exemplos de utilização:
-
-Obter ajuda sobre como usar esta aplicação:
-
-`count-files -h`  
-`count-files --help`
 
 
-Consultar o número da versão do programa:
+### Exemplos práticos de utilização:
 
-`count-files -v`  
-`count-files --version`
+#### Contar quantos ficheiros há de cada extensão
 
 
-### Contar quantos ficheiros há de cada extensão
+Por predefinição, a tabela será ordenada pela frequência das extensões dos
+nomes de ficheiros. Se preferir visualizar resultados ordenados
+alfabeticamente, basta adicionar o argumento `-alpha` or `--sort-alpha`.
 
-Consultar a lista dos tipos de ficheiro atualmente suportados para a 
-funcionalidade de pre-visualização:
+De modo semelhante, as opções `-nt` ou `--no-table` instruem a aplicação para
+não mostrar uma tabela com a lista de todas as extensões encontradas e
+respetivas frequências, ou seja, apresentando apenas o número total de
+ficheiros.
 
-`count-files -st`  
-`count-files --supported-types`
 
 Contar todos os ficheiros na pasta atual e em todas as suas subpastas, 
 ignorando pastas e ficheiros escondidos:
 
-`count-files`
+```
+count-files
+```
 
 
 Contar todos os ficheiros na pasta atual e em todas as suas subpastas, 
 incluindo pastas e ficheiros escondidos:
 
-`count-files -a`  
-`count-files --all`
+```
+count-files -a
+```
+  
+```
+count-files --all
+```
 
 
 Contar todos os ficheiros na pasta atual, ignorando pastas e ficheiros 
 escondidos, mas sem percorrer as suas subpastas:
 
-`count-files -nr`  
-`count-files --no-recursion`
+```
+count-files -nr
+```
+  
+```
+count-files --no-recursion
+```
 
 
 Contar todos os ficheiros numa determinada pasta e nas suas subpastas, 
 ignorando pastas e ficheiros escondidos:
 
-`count-files ~/Documents`
+```
+count-files ~/Documents
+```
 
 
 Contar todos os ficheiros numa determinada pasta e nas suas subpastas, mas 
 sem mostrar uma tabela, apenas o número total de ficheiros:
 
-`count-files -nt ~/Documents`  
-`count-files --no-table ~/Documents`
+```
+count-files -nt ~/Documents
+```  
+
+```
+count-files --no-table ~/Documents
+```
 
 
 Contar todos os ficheiros numa determinada pasta, ignorando pastas e ficheiros 
 escondidos, sem percorrer as subpastas, e ordenar alfabeticamente a tabela:
 
-`count-files -nr -alpha ~/Documents`  
-`count-files --no-recursion --sort-alpha ~/Documents`
+```
+count-files -nr -alpha ~/Documents
+```  
+
+```
+count-files --no-recursion --sort-alpha ~/Documents
+```
 
 
 Contar todos os ficheiros numa determinada pasta, incluindo pastas e ficheiros 
 escondidos, sem percorrer as subpastas, e apresentar apenas o número total de 
 ficheiros (sem tabela):
 
-`count-files -nr -nt -a ~/Documents`  
-`count-files --no-recursion --no-table --all ~/Documents`
+```
+count-files -nr -nt -a ~/Documents
+``` 
+ 
+```
+count-files --no-recursion --no-table --all ~/Documents
+```
 
 
 Contar todos os ficheiros numa determinada pasta e nas suas subpastas, 
 ignorando pastas e ficheiros escondidos, sem feedback relativo ao progresso da 
 operação:
 
-`count-files -nf ~/Documents`  
-`count-files --no-feedback ~/Documents`
+```
+count-files -nf ~/Documents
+```  
+
+```
+count-files --no-feedback ~/Documents
+```
 
 
-
-### Procurar ficheiros com uma extensão específica
+#### Procurar ficheiros com uma extensão específica
 
 Procurar recursivamente ficheiros que tenham a extensão `.txt`, numa 
 determinada pasta, sem lista e sem feedback relativo ao progresso da operação:
 
-`count-files -nf -nl -fe txt ~/Documents`  
-`count-files --no-feedback --no-list --file-extension txt ~/Documents`
+```
+count-files -nf -nl -fe txt ~/Documents
+```
+  
+```
+count-files --no-feedback --no-list --file-extension txt ~/Documents
+```
 
 
 Procurar recursivamente ficheiros com a extensão `.css`, numa determinada pasta:
 
-`count-files -fe css ~/Documents`  
-`count-files --file-extension css ~/Documents`
+```
+count-files -fe css ~/Documents
+```  
+
+```
+count-files --file-extension css ~/Documents
+```
 
 
 Procurar recursivamente ficheiros que tenham a extensão `.py`, numa 
 determinada pasta, e apresentar uma pre-visualização de 500 caracteres para 
 cada um deles:
 
-`count-files -fe py -p -ps 500 ~/Documents`   
-`count-files --file-extension py --preview --preview-size 500 ~/Documents`
+```
+count-files -fe py -p -ps 500 ~/Documents
+```   
+
+```
+count-files --file-extension py --preview --preview-size 500 ~/Documents
+```
 
 
-### Procurar e listar ficheiros sem extensão
+#### Procurar e listar ficheiros sem extensão
 
 Procurar recursivamente ficheiros que não têm qualquer extensão no seu nome, 
 numa determinada pasta:
 
-`count-files -fe .  ~/Documents`  
-`count-files --file-extension . ~/Documents`
+```
+count-files -fe .  ~/Documents
+```  
+
+```
+count-files --file-extension . ~/Documents
+```
 
 
-### Procurar e listar todos os ficheiros
+#### Procurar e listar todos os ficheiros
 
 Procurar recursivamente todos os ficheiros com ou sem extensão, numa dada 
 pasta (processo semelhante à contagem de ficheiros recursiva, mas aqui o 
 resultado é uma lista com os caminhos dos ficheiros encontrados):
 
-`count-files -fe ..  ~/Documents`  
-`count-files --file-extension .. ~/Documents`
-
-
-## Instalação e dependências:
-
-### Em sistemas operativos de secretária
-
-A atual versão de desenvolvimento pode ser instalada com o comando 
-`pip install -e`, seguido do caminho para a pasta principal do projeto (a 
-mesma pasta que contém o ficheiro `setup.py`). Para executar esta aplicação é 
-necessária uma instalação do Python 3.6 ou superior. Procuramos manter no 
-mínimo as dependências externas, de modo a manter a compatibilidade com 
-diferentes plataformas, incluindo Pythonista em iOS. Neste momento, requer:
-
-- puremagic==1.4
-
-Planeamos submeter esta aplicação ao PyPI tão brevemente quanto possível, para 
-permitir oferecer uma forma de instalação e atualização mais simples. 
-Enquanto isso não acontece, estejam à vontade para dar uma olhada na próxima 
-secção e talvez considerar contribuir também para este projeto.
-
-
-### Em iPhone ou iPad (na app Pythonista 3 para iOS)
-
-Primeiro, irá precisar de um ambiente Python e uma consola de linha de comandos 
-compatível com Python 3. No momento presente, isto significa que precisa de ter 
-instalada uma app chamada [Pythonista 3](http://omz-software.com/pythonista/) 
-(que é, entre outras coisas, um excelente ambiente para desenvolvimento e 
-execução de aplicações de Python puro em iOS). Depois, precisará de instalar a 
-[StaSh](https://github.com/ywangd/stash), que é uma consola de linha de 
-comandos baseada em Python, concebida especificamente para correr no 
-Pythonista. Irá permitir executar comandos bem úteis como `wget`, `git clone`, 
-`pip install` e muitos outros. Merece realmente um atalho no ecrã principal do 
-seu iPhone ou iPad. Depois de seguir as instruções para a instalação da StaSh, 
-poderá precisar de a atualizar para uma versão mais recente. Experimente este 
-comando:
-
 ```
-selfupdate.py -f bennr01:command_testing
-``` 
-
-De seguida, force o encerramento do Pythonista, reiniciando-o de seguida, e 
-inicie novamente a StaSh. Deverá estar agora a correr em Python 3. Neste 
-momento, pode tentar instalar esta aplicação, diretamente a partir deste 
-repositório:
-
+count-files -fe ..  ~/Documents
 ```
-pip install victordomingos/Count-files
+  
+```
+count-files --file-extension .. ~/Documents
 ```
 
-Se tudo correr bem, o comando acima deverá instalar quais quer dependências, 
-colocar um pacote chamado `count_files` dentro da pasta 
-`~/Documents/site-packages-3` e criar um *script* de execução chamado 
-`count-files.py` em `stash_extensions/bin`. Poderá precisar de descarregar 
-manualmente (recorda-se daquele comando `wget`?) um ficheiro chamado 
-`magic_data.json` do repositório [`puremagic`](https://github.com/cdgriffith/puremagic) 
-(por algum motivo, neste momento não está a instalar corretamente usando a 
-StaSh) e movê-lo para `~/Documents/site-packages-3/puremagic/`. De seguida, 
-force o encerramento do Pythonista, reinicie a app e inicie novamente a StaSh. 
-Já deverá conseguir executar esta aplicação diretamente a partir da consola 
-para contar quaisquer ficheiros que possa ter no ambiente do Pythonista.
+
+#### Outras funcionalidades
+
+Consultar o número da versão do programa:
+
+```
+count-files -v
+```
+
+```
+count-files --version
+```
+
+Consultar a lista dos tipos de ficheiro atualmente suportados para a
+funcionalidade de pre-visualização:
+
+```
+count-files -st
+```
+
+```
+count-files --supported-types
+```
+
    
 ## Encontrou um bug ou tem uma sugestão?
 
