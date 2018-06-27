@@ -340,7 +340,7 @@ count-files --file-extension py --preview --preview-size 500 ~/Documents
 ```
 
 
-### Searching and listing files without extension
+#### Searching and listing files without extension
 
 Search recursively for any files that don't have any extension, in a given directory:
 
@@ -353,7 +353,7 @@ count-files --file-extension . ~/Documents
 ```
 
 
-### Searching and listing all files
+#### Searching and listing all files
 
 Recursively searching all files with extension or without it, in a given directory:  
 (similar to counting recursively for any files, but the result is a list with paths)
