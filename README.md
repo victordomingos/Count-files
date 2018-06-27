@@ -20,7 +20,8 @@ command-line in the Pythonista 3 app.
 
 ## Contents  
 - [Description](#description)  
-   - [Hidden files and directories](#hidden-files-and-directories)  
+   - [Hidden files and directories](#hidden-files-and-directories)
+   - Case sensitivity
    - [Customizing display of results and operation feedback](#customizing-display-of-results-and-operation-feedback)  
 - [Examples of usage](#examples-of-usage)  
    - [Counting how many files are there for each extension](#counting-how-many-files-are-there-for-each-extension)  
@@ -57,7 +58,15 @@ switch argument to make it count all files.
 Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true  
 Linux, Mac OS: those with names starting with "."(dot)
   
-  
+
+### Case sensitivity
+
+The names of extensions are case insensitive by default. The results for
+`ini` and `INI` will be the same. To distinguish between similar
+extensions in different cases, use the `-c`or `--case-sensitive` switch
+argument.
+
+
 ### Customizing display of results and operation feedback
 
 This utility can also be used to search for files that have a certain file extension
@@ -66,8 +75,8 @@ This utility can also be used to search for files that have a certain file exten
 customized by using the `-ps` or `--preview-size` argument followed by an integer number 
 specifying the number of characters to present.
 
-The list of file types for which preview is available can be viewed with the `-st` or `--supported-types` argument.
-The names of extensions are case sensitive. The results for `ini` and `INI` will be different.
+The list of file types for which preview is available can be viewed with
+the `-st` or `--supported-types` argument.
 
 By default, the result of a search by certain file extension is a list with the full paths of the files found.
 If you only need the total number of files, use the `-nl` or `--no-list` argument.

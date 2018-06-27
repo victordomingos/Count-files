@@ -21,6 +21,7 @@ na app Pythonista 3.
 ## Conteúdo  
 - [Descrição](#descrição)  
    - [Ficheiros e pastas escondidos](#ficheiros-e-pastas-escondidos)
+   - Sensibilidade a maiúsculas/minúsculas
    - [Personalização da apresentação de resultados e feedback durante a operação](#personalização-da-apresentação-de-resultados-e-feedback-durante-a-operação)
 - [Exemplos de utilização](#exemplos-de-utilização)  
    - [Contar quantos ficheiros há de cada extensão](#contar-quantos-ficheiros-há-de-cada-extensão)
@@ -61,7 +62,14 @@ para incluir todos os ficheiros na contagem.
 - Windows: ficheiros e pastas com em que o atributo FILE_ATTRIBUTE_HIDDEN é `True`.  
 - Linux, macOS: aqueles cujos nomes começam por "." (ponto).
   
-  
+
+### Sensibilidade a maiúsculas/minúsculas
+
+As extensões de ficheiros são tratadas sem distinguir maiúsculas/minúsculas.
+Por exemplo, os resultados para `ini` e `INI` serão iguais. Para distinguir
+maiúsculas/minúsculas, use a opção `-c` ou `--case-sensitive`.
+
+
 ### Personalização da apresentação de resultados e feedback durante a operação
 
 Este utilitário pode ainda ser utilizado para procurar ficheiros que tenham no 
@@ -74,9 +82,6 @@ de um número inteiro indicando o número de caracteres.
 A lista de tipos de ficheiro para os quais está disponível a funcionalidade de 
 pre-visualização pode ser consultada com o argumento `-st` ou 
 `--supported-types`.
-
-As extensões de ficheiros são tratadas com sensibilidade a maiúsculas/minúsculas. 
-Por exemplo, os resultados para `ini` e `INI` serão diferentes.
 
 Por predefinição, o resultado da pesquisa por uma determinada extensão é 
 apresentado sob a forma de uma lista com os caminhos completos dos ficheiros
