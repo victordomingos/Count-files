@@ -20,7 +20,7 @@ na app Pythonista 3.
 - **[Instalação e dependências](#instalação-e-dependências)**
    - [Em sistemas operativos de secretária](#em-sistemas-operativos-de-secretária)
    - [Em iPhone ou iPad (na app Pythonista 3 para iOS)](#em-iphone-ou-ipad-na-app-pythonista-3-para-ios)
-
+  
 - **[Como utilizar](#como-utilizar)**
    - [Obter ajuda sobre como usar esta aplicação](#obter-ajuda-sobre-como-usar-esta-aplicação)
    - [Pastas e ficheiros escondidos](#pastas-e-ficheiros-escondidos)
@@ -32,7 +32,7 @@ na app Pythonista 3.
       - [Procurar e listar ficheiros sem extensão](#procurar-e-listar-ficheiros-sem-extensão)
       - [Procurar e listar todos os ficheiros](#procurar-e-listar-todos-os-ficheiros)
    - [Outras funcionalidades](#outras-funcionalidades)
-
+  
 - **[Encontrou um bug ou tem uma sugestão?](#encontrou-um-bug-ou-tem-uma-sugestão)**
 
 
