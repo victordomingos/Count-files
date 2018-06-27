@@ -32,7 +32,7 @@ command-line in the Pythonista 3 app.
       - [Searching for files with a specific extension](#searching-for-files-with-a-specific-extension)
       - [Searching and listing files without extension](#searching-and-listing-files-without-extension)
       - [Searching and listing all files](#searching-and-listing-all-files)
-   - [Other features](#other-features)
+      - [Other features](#other-features)
   
 - **[Did you find a bug or do you have a suggestion?](#did-you-find-a-bug-or-do-you-have-a-suggestion)**
 
