@@ -141,7 +141,7 @@ count-files -h
 
 ```
 count-files --help
-``
+```
 
 
 
