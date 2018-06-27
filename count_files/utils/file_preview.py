@@ -54,7 +54,7 @@ def generate_preview(filepath: str, max_size=390) -> str:
     """
     filetype = ""
     excerpt = ""
-    extension = get_file_extension(filepath)
+    extension = get_file_extension(filepath, case_sensitive=False).lower()
 
 
     try:

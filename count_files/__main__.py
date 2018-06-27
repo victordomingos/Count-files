@@ -30,7 +30,8 @@ parser = ArgumentParser(
                 "will display a table showing the frequency for each file "
                 "extension (e.g.: .txt, .py, .html, .css) and the total "
                 "number of files found. Any hidden files or folders "
-                "are ignored by default."
+                "are ignored by default. File extensions are treated with no"
+                "case sensitiveness, by default."
                 "(Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true; "
                 "Linux, Mac OS: those with names starting with '.')")
 
@@ -49,6 +50,9 @@ parser.add_argument('-a', '--all', action='store_true',
 
 parser.add_argument('-nr', "--no-recursion", action='store_true',
                     help="Don't recurse through subdirectories.")
+
+parser.add_argument('-c', "--case-sensitive", action='store_true',
+                    help="Treat file extensions with case sensitiveness.")
 
 parser.add_argument('-nf', "--no-feedback", action='store_true', default=False,
                     help="Don't show the program's operating indicator"
@@ -146,7 +150,8 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     r = f'Recursively {action} all files'
     nr = f'{action.title()} files'
     wi = 'or without it'
-    e = f' with extension {"." + args.file_extension if args.file_extension != ".." else wi}' if extension else ''
+    case = 'case-sensitive' if args.case_sensitive else 'case-insensitive'
+    e = f' with ({case}) extension {"." + args.file_extension if args.file_extension != ".." else wi}' if extension else ''
     all_e = ' without any extension' if extension else ''
     h = ' including hidden files and directories'
     nh = ' ignoring hidden files and directories'
@@ -164,11 +169,16 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
         # getting data list for -fe .. (all extensions), -fe . and -fe extension_name
         data = (f for f in search_files(dirpath=location, extension=extension,
-                                        include_hidden=include_hidden, recursive=recursive))
+                                        include_hidden=include_hidden,
+                                        recursive=recursive,
+                                        case_sensitive=args.case_sensitive))
 
         # display result in chosen view mode
-        len_files = show_result_for_search_files(files=data, no_list=args.no_list, no_feedback=args.no_feedback,
-                                                 preview=args.preview, preview_size=args.preview_size)
+        len_files = show_result_for_search_files(files=data,
+                                                 no_list=args.no_list,
+                                                 no_feedback=args.no_feedback,
+                                                 preview=args.preview,
+                                                 preview_size=args.preview_size)
 
         return len_files
 
@@ -184,18 +194,22 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
             show_2columns(counter.most_common())
     else:
         return show_total(counter)"""
-    data = count_files_by_extension(dirpath=location, no_feedback=args.no_feedback,
-                                    include_hidden=include_hidden, recursive=recursive)
+    data = count_files_by_extension(dirpath=location,
+                                    no_feedback=args.no_feedback,
+                                    include_hidden=include_hidden,
+                                    recursive=recursive,
+                                    case_sensitive=args.case_sensitive)
 
     if show_table:
         if sort_alpha:
-            show_2columns(sorted(data.items()))
+            # sort extensions alphabeticaly, with uppercase versions on top
+            sort_key = lambda data: (data[0].casefold(), data[0])
+            show_2columns(sorted(data.items(), key=sort_key))
         else:
             show_2columns(data.most_common())
         # it returns None
     else:
-        return show_total(data) # TODO: is this return value useful in some way?
-        # it's for tests in test_argument_parser.py too
+        return show_total(data) # this return value is used for tests in test_argument_parser.py
 
 
 if __name__ == "__main__":

@@ -26,7 +26,7 @@ class TestSomeFunctions(unittest.TestCase):
                            '.hidden.file.txt': ('txt', True), 'select2.3805311d5fc1.css.gz': ('gz', True)}
         for k, v in extensions_dict.items():
             with self.subTest(k=k, v=v):
-                self.assertEqual(get_file_extension(k), v[0])
+                self.assertEqual(get_file_extension(k, case_sensitive=True), v[0])
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_search_files_win(self):
