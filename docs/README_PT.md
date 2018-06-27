@@ -17,10 +17,10 @@ na app Pythonista 3.
 ![Captura de ecrã da aplicação Count-files](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
 
 ## Conteúdo  
-- [Instalação e dependências](#instalação-e-dependências)
+- **[Instalação e dependências](#instalação-e-dependências)**
    - [Em sistemas operativos de secretária](#em-sistemas-operativos-de-secretária)
    - [Em iPhone ou iPad (na app Pythonista 3 para iOS)](#em-iphone-ou-ipad-na-app-pythonista-3-para-ios)
-- [Como utilizar](#como-utilizar)
+- **[Como utilizar](#como-utilizar)**
    - [Obter ajuda sobre como usar esta aplicação](#obter-ajuda-sobre-como-usar-esta-aplicação)
    - [Pastas e ficheiros escondidos](#pastas-e-ficheiros-escondidos)
    - [Sensibilidade a maiúsculas/minúsculas](#sensibilidade-a-maiúsculas-minúsculas)
@@ -31,7 +31,7 @@ na app Pythonista 3.
       - [Procurar e listar ficheiros sem extensão](#procurar-e-listar-ficheiros-sem-extensão)
       - [Procurar e listar todos os ficheiros](#procurar-e-listar-todos-os-ficheiros)
    - [Outras funcionalidades](#outras-funcionalidades)
-- [Encontrou um bug ou tem uma sugestão?](#encontrou-um-bug-ou-tem-uma-sugestão)
+- **[Encontrou um bug ou tem uma sugestão?](#encontrou-um-bug-ou-tem-uma-sugestão)**
 
 
 
