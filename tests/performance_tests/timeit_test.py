@@ -6,7 +6,7 @@ Timer.repeat(repeat=3, number=1000000)
 import timeit
 import sys
 import os
-from count_files.utils.file_handlers import search_files, count_file_extensions1, count_files_by_extension
+from count_files.utils.file_handlers import search_files, count_files_by_extension
 from count_files.__main__ import main_flow
 
 
@@ -23,8 +23,7 @@ main_flow([location, '-a'])
 """
 
 search_files_feedback = """
-data = search_files(dirpath=location, extension='', recursive=True, include_hidden=True)
-counter = count_file_extensions1(file_paths=data, no_feedback=False)
+data = (f for f in search_files(dirpath=location, extension='.', recursive=True, include_hidden=True, case_sensitive=False))
 """
 
 count_files_feedback = """

@@ -16,7 +16,7 @@ import cProfile
 import os
 import sys
 from count_files.utils.word_counter import show_result_for_search_files, show_2columns
-from count_files.utils.file_handlers import search_files, count_file_extensions1, count_files_by_extension
+from count_files.utils.file_handlers import search_files, count_files_by_extension
 from count_files.__main__ import main_flow
 
 
@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     # generator and search all files with all extensions, return list, feedback - list itself
     cProfile.run("data = (f for f in search_files(dirpath=location, extension='..', "
-                 "recursive=True, include_hidden=True));"
+                 "recursive=True, include_hidden=True, case_sensitive=False));"
                  "len_files = show_result_for_search_files(files=data, "
                  "no_list=False, no_feedback=False, preview=False)",
                  sort='name')
