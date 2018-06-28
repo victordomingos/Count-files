@@ -47,44 +47,33 @@
 
 ### На iPhone или iPad (в Pythonista 3 для iOS)
 
-First you will need a Python environment and a command-line shell compatible
-with Python 3. Presently, it means you need to have an app called
-[Pythonista 3](http://omz-software.com/pythonista/) (which is, among other
-things, a very nice environment for developing and/or running pure Python
-applications on iOS). 
+Для начала Вам будет необходимо окружение и командная оболочка, совместимая с Python 3.
+В настоящее время это означает, что Вам нужно иметь приложение [Pythonista 3](http://omz-software.com/pythonista/) (которое, помимо прочего, является очень приятной средой для разработки и/или запуска Python-приложений на iOS).
 
-Then you need to install
-[StaSh](https://github.com/ywangd/stash), which is a Python-based shell
-application for Pythonista. It will enable you to use useful commands like
-`wget`, `git clone`, `pip install` and many others. It really deserves an home
-screen shortcut on your iPhone or iPad. 
+Затем вам необходимо установить
+[StaSh](https://github.com/ywangd/stash), который представляет собой Bash-подобное приложение для Pythonista.
+Это позволит вам использовать такие полезные команды, как `wget`,` git clone`, `pip install` и др.
+Оно действительно заслуживает ярлыка на главном экране вашего iPhone или iPad.
 
-After following the instructions for
-StaSh installation, you may need to update it to a more recent version. Try
-this command:
+После выполнения инструкций по установке StaSh Вам может потребоваться обновить его до последней версии. Попробуйте эту команду:
 
 ```
 selfupdate.py -f bennr01:command_testing
 ```
 
-Then force-quit and restart Pythonista and launch StaSh again. It should now
-be running in Python 3. You may now try to install this application, directly
-from this git repository:
+Затем принудительно завершите работу и перезапустите Pythonista и снова запустите StaSh.
+Теперь вы можете попробовать установить это приложение напрямую из git-хранилища:
 
 ```
 pip install victordomingos/Count-files
 ```
 
-If all goes well, it should install any dependencies, place a new `count_files`
-package inside the `~/Documents/site-packages-3/` folder and create an
-entrypoint script named `count-files.py` in `stash_extensions/bin`. You may
-need to manually download (remember that `wget` command?) a file named
-`magic_data.json` from the [`puremagic`](https://github.com/cdgriffith/puremagic)
-repository (for some reason, it is not being correctly installed using StaSh)
-and move it to `~/Documents/site-packages-3/puremagic/`. Then force-quit and
-launch StaSh again. You should now be able to run this application directly
-from the shell to count any files that you may have inside your Pythonista
-environment.
+Если все пойдет хорошо, должны быть установлены любые зависимости, новый пакет `count_files` внутри папки
+`~/Documents/site-packages-3/` и создан entrypoint script с именем count-files.py в `stash_extensions/bin`.
+Возможно, вам придется вручную загрузить (помните команду `wget`?) файл с именем `magic_data.json` из репозитория [`puremagic`](https://github.com/cdgriffith/puremagic)
+(по какой-то причине он не устанавливается корректно с помощью StaSh) и переместить его в `~/Documents/site-packages-3/puremagic/`.
+Затем принудительно завершите работу и снова запустите StaSh.
+Теперь вы можете запустить эту программу непосредственно из оболочки, чтобы подсчитать все файлы, которые могут быть внутри Pythonista.
 
 ## Как использовать CLI:
 
