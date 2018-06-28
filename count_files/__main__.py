@@ -13,7 +13,7 @@ import os
 
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar, Union
-from count_files.utils.file_handlers import count_files_by_extension, search_files, count_file_extensions1
+from count_files.utils.file_handlers import count_files_by_extension, search_files
 from count_files.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
 from count_files.utils.word_counter import show_2columns, show_total
 from count_files.utils.word_counter import show_result_for_search_files
@@ -184,16 +184,6 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
     # ...or do other stuff, i.e., counting files.
     # all extensions
-    """data = (f for f in search_files(dirpath=location, extension='..',
-                                    include_hidden=include_hidden, recursive=recursive))
-    counter = count_file_extensions1(data, no_feedback=args.no_feedback)
-    if show_table:
-        if sort_alpha:
-            show_2columns(sorted(counter.items()))
-        else:
-            show_2columns(counter.most_common())
-    else:
-        return show_total(counter)"""
     data = count_files_by_extension(dirpath=location,
                                     no_feedback=args.no_feedback,
                                     include_hidden=include_hidden,

@@ -105,7 +105,10 @@ def count_files_by_extension(dirpath: str, no_feedback: bool, recursive=False, i
     :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
     :param case_sensitive: False -> ignore case in extensions, True -> distinguish case variations in extensions
     :return: Counter() with extensions (keys: str)and their frequencies (values: int)
-    Counter({'txt': 15, 'py': 15, 'pyc': 13, '[no extension]': 8, 'xml': 4, 'md': 3, 'gz': 3, ...})
+    if case_sensitive(extensions are displayed as is):
+    Counter({'txt': 15, 'py': 15, 'pyc': 13, '[no extension]': 8, ...})
+    if not case_sensitive(default, in uppercase):
+    Counter({'TXT': 15, 'PY': 15, 'PYC': 13, '[no extension]': 8, ...})
     """
     counters = Counter()
     dirpath = os.path.expanduser(dirpath)
@@ -186,22 +189,3 @@ def is_hidden_file_or_dir(filepath: str) -> bool:
     elif platform_name.startswith('darwin'):
         return bool('/.' in filepath)
 
-
-def count_file_extensions1(file_paths: Iterable[str], no_feedback: bool, case_sensitive:bool) -> Counter:
-    """Count file extensions.
-
-    :param file_paths: when used with def search_files, file_paths is Generator
-    :param no_feedback: True or False(default, prints processed file names in one line)
-    :return: object of class 'collections.Counter'
-    Counter({'txt': 15, 'py': 15, 'pyc': 13, '[no extension]': 8, 'xml': 4, 'md': 3, 'gz': 3, ...})
-    """
-    counter = Counter()
-    for f in file_paths:
-        extension = get_file_extension(f, case_sensitive=case_sensitive)
-        if extension == '.':
-            extension = '[no extension]'
-        counter[extension] += 1
-        if not no_feedback:
-            print("\r"+os.path.basename(f)[:TERM_WIDTH-1].ljust(TERM_WIDTH-1), end="")
-    print("\r".ljust(TERM_WIDTH - 1))  # Clean the feedback text before proceeding.
-    return counter
