@@ -21,23 +21,49 @@ class TestSomeFunctions(unittest.TestCase):
         Expected behavior: return extension name (txt, py) or '.' (for files without extension)
         :return:
         """
-        extensions_dict = {'file.py': ('py', True), '.gitignore': ('.', False),
-                           'file': ('.', False), '.hidden_file.txt': ('txt', True),
-                           '.hidden.file.txt': ('txt', True), 'select2.3805311d5fc1.css.gz': ('gz', True)}
+        extensions_dict = {'file.py': 'py', '.gitignore': '.', 'image.JPG': 'JPG',
+                           'file': '.', '.hidden_file.txt': 'txt',
+                           '.hidden.file.txt': 'txt', 'select2.3805311d5fc1.css.gz': 'gz'
+                           }
         for k, v in extensions_dict.items():
             with self.subTest(k=k, v=v):
-                self.assertEqual(get_file_extension(k, case_sensitive=True), v[0])
+                self.assertEqual(get_file_extension(k, case_sensitive=True), v)
+
+    def test_search_files_case_sensitive(self):
+        """Testing def search_files, case_sensitive param.
+
+        :return:
+        if not case_sensitive: returns a list with all found files(txt, TXT, Txt and so on).
+        if case_sensitive: returns a list of files with extensions that exactly match the query.
+        """
+        a = list(f for f in search_files(self.get_locations('data_for_tests'), 'txt', recursive=False,
+                                         include_hidden=False, case_sensitive=False))
+        b = list(f for f in search_files(self.get_locations('data_for_tests'), 'txt', recursive=False,
+                                         include_hidden=False, case_sensitive=True))
+        c = list(f for f in search_files(self.get_locations('data_for_tests'), 'TXT', recursive=False,
+                                         include_hidden=False, case_sensitive=True))
+        d = list(f for f in search_files(self.get_locations('data_for_tests'), 'Txt', recursive=False,
+                                         include_hidden=False, case_sensitive=False))
+        self.assertEqual(len(a), 2)
+        self.assertEqual(len(b), 1)
+        self.assertEqual(len(c), 1)
+        self.assertEqual(len(d), 2)
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_search_files_win(self):
-        """Testing def search_files, def search_files returns generator.
+        """Testing def search_files, include_hidden and recursive params.
 
+        def search_files returns generator.
         Expected behavior: return list with strings(full paths to files)
         """
-        a = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=True, include_hidden=True))
-        b = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=False, include_hidden=False))
-        c = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=False, include_hidden=True))
-        d = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=True, include_hidden=False))
+        a = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=True,
+                                         include_hidden=True, case_sensitive=False))
+        b = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=False,
+                                         include_hidden=False, case_sensitive=False))
+        c = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=False,
+                                         include_hidden=True, case_sensitive=False))
+        d = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=True,
+                                         include_hidden=False, case_sensitive=False))
         self.assertEqual(len(a), 4)
         self.assertEqual(len(b), 1)
         self.assertEqual(len(c), 2)
@@ -46,28 +72,37 @@ class TestSomeFunctions(unittest.TestCase):
     @unittest.skipUnless(sys.platform.startswith('linux')
                          or sys.platform.startswith('darwin'), 'for Linux, Mac OS')
     def test_search_files_lin_mac(self):
-        """Testing def search_files, def search_files returns generator.
+        """Testing def search_files, include_hidden and recursive params.
 
+        def search_files returns generator.
         Expected behavior: return list with strings(full paths to files)
         """
-        a = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=True, include_hidden=True))
-        b = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=False, include_hidden=False))
-        c = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=False, include_hidden=True))
-        d = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=True, include_hidden=False))
+        a = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=True,
+                                         include_hidden=True, case_sensitive=False))
+        b = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=False,
+                                         include_hidden=False, case_sensitive=False))
+        c = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=False,
+                                         include_hidden=True, case_sensitive=False))
+        d = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=True,
+                                         include_hidden=False, case_sensitive=False))
         self.assertEqual(len(a), 3)
         self.assertEqual(len(b), 0)
         self.assertEqual(len(c), 1)
         self.assertEqual(len(d), 0)
 
     def test_count_files_by_extension(self):
-        """Testing def count_files_by_ext.
+        """Testing def count_files_by_extension, case_sensitive and recursive params.
 
         Expected behavior: return object <class 'collections.Counter'>
         :return:
         """
         result = count_files_by_extension(self.get_locations('data_for_tests'), no_feedback=True,
-                                          recursive=False, include_hidden=False)
-        self.assertEqual(str(result), "Counter({'html': 1, 'md': 1, '[no extension]': 1, 'py': 1})")
+                                          recursive=False, include_hidden=False, case_sensitive=False)
+        result1 = count_files_by_extension(self.get_locations('data_for_tests'), no_feedback=True,
+                                           recursive=True, include_hidden=False, case_sensitive=True)
+        self.assertEqual(str(result), "Counter({'TXT': 2, 'HTML': 1, 'MD': 1, '[no extension]': 1, 'PY': 1})")
+        self.assertEqual(str(result1), "Counter({'gz': 3, 'txt': 2, 'md': 2, '[no extension]': 2, 'py': 2, "
+                                       "'TXT': 1, 'html': 1, 'json': 1, 'css': 1, 'woff': 1})")
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_is_hidden_file_or_dir_win(self):
