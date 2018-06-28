@@ -55,7 +55,8 @@ class TestWordCounter(unittest.TestCase):
             standard = 'darwin_show_result_no_list.txt'
         elif sys.platform.startswith('linux'):
             standard = 'linux_show_result_no_list.txt'
-        data = search_files(dirpath=self.get_locations('data_for_tests'), extension='.', include_hidden=False, recursive=True)
+        data = search_files(dirpath=self.get_locations('data_for_tests'), extension='.',
+                            include_hidden=False, recursive=True, case_sensitive=False)
         test1 = self.get_locations('compare_tables', 'test_show_result_no_list.txt')
         with open(test1, 'w') as f:
             with redirect_stdout(f):

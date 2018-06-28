@@ -1,47 +1,92 @@
 Dataset statistics for tests (assert())
-2018-05-28: For now /tests/data_for_tests doesn't contain hidden files and subdirectories.
+2018-06-28: For now /tests/data_for_tests doesn't contain hidden files and subdirectories.
+
+location: ~/tests/data_for_tests
+extension: all extensions
+include hidden: False
+sort: Counter.most_common()
 
 Recursively counting all files in:
 ~/tests/data_for_tests
-2018-05-28
-Search options
-location: ~/tests/data_for_tests
-extension: all extensions
+2018-06-28
 recursion: True
-include hidden: False
+case_sensitive: False (default, in uppercase)
+
+
+ EXTENSION      | FREQ.
+----------------+-------
+ TXT            |     3
+ GZ             |     3
+ MD             |     2
+ [no extension] |     2
+ PY             |     2
+ HTML           |     1
+ JSON           |     1
+ CSS            |     1
+ WOFF           |     1
+----------------+-------
+ TOTAL:         |    16
+----------------+-------
+
+
+Recursively counting all files in:
+~/tests/data_for_tests
+2018-06-28
+recursion: True
+case_sensitive: True (extensions are displayed as is)
+
  EXTENSION      | FREQ.
 ----------------+-------
  gz             |     3
+ txt            |     2
  md             |     2
  [no extension] |     2
  py             |     2
+ TXT            |     1
  html           |     1
  json           |     1
  css            |     1
- txt            |     1
  woff           |     1
 ----------------+-------
- TOTAL:         |    14
+ TOTAL:         |    16
 ----------------+-------
-
 
 
 Counting all files in:
 ~/tests/data_for_tests
-2018-05-28
-Search options
-location: ~/tests/data_for_tests
-extension: all extensions
+2018-06-28
 recursion: False
-include hidden: False
+case_sensitive: False (default, in uppercase)
 
-EXTENSION      | FREQ.
+ EXTENSION      | FREQ.
 ----------------+-------
+ TXT            |     2
+ HTML           |     1
+ MD             |     1
+ [no extension] |     1
+ PY             |     1
+----------------+-------
+ TOTAL:         |     6
+----------------+-------
+
+
+Counting all files in:
+~/tests/data_for_tests
+2018-06-28
+recursion: False
+case_sensitive: True (extensions are displayed as is)
+
+ EXTENSION      | FREQ.
+----------------+-------
+ txt            |     1
+ TXT            |     1
  html           |     1
  md             |     1
  [no extension] |     1
  py             |     1
 ----------------+-------
- TOTAL:         |     4
+ TOTAL:         |     6
 ----------------+-------
+
+
 
