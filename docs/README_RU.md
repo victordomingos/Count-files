@@ -12,6 +12,10 @@
 Поддерживаемые операционные системы: Linux, Mac OS, Windows. Также может использоваться
 на iOS (iPhone/iPad) с использованием командной строки [StaSh](https://github.com/ywangd/stash) в приложении Pythonista 3.
 
+
+![Count Files_screenshot - counting files by extension](https://user-images.githubusercontent.com/18650184/42160179-29998a52-7dee-11e8-9813-b8594e50fe77.png)
+
+
 ## Содержание  
 - **[Установка и зависимости](#Установка-и-зависимости)**
    - [На настольные операционные системы](#На-настольные-операционные-системы)
