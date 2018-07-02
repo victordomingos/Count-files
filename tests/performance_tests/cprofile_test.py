@@ -41,13 +41,20 @@ if __name__ == "__main__":
     # cProfile.run("main_flow([location, '-a', '-fe', 'txt'])", sort='name')
 
     # Counter and count all files with all extensions, return table, feedback - file names
-    cProfile.run("data = count_files_by_extension(dirpath=location, no_feedback=False,"
+    """cProfile.run("data = count_files_by_extension(dirpath=location, no_feedback=False,"
                  "recursive=True, include_hidden=True); show_2columns(data.most_common())", sort='name')
 
     # generator and search all files with all extensions, return list, feedback - list itself
     cProfile.run("data = (f for f in search_files(dirpath=location, extension='..', "
                  "recursive=True, include_hidden=True, case_sensitive=False));"
                  "len_files = show_result_for_search_files(files=data, "
-                 "no_list=False, no_feedback=False, preview=False)",
-                 sort='name')
+                 "file_sizes=False, no_feedback=False, preview=False)",
+                 sort='name')"""
 
+    # total number of files
+    cProfile.run("main_flow([location, '-t', '..', '-a'])", sort='name')
+    cProfile.run("main_flow([location, '-nt', '-a'])", sort='name')
+
+    # lists
+    # cProfile.run("main_flow([location, '-fe', '.', '-fs', '-a'])", sort='name')
+    # cProfile.run("main_flow([location, '-fe', '.', '-a'])", sort='name')
