@@ -14,7 +14,7 @@ iOS (iPhone/iPad) using the [StaSh](https://github.com/ywangd/stash)
 command-line in the Pythonista 3 app.
 
 
-![Count-files screenshot](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
+![Count Files_screenshot - counting files by extension](https://user-images.githubusercontent.com/18650184/42160179-29998a52-7dee-11e8-9813-b8594e50fe77.png)
 
 
 ## Contents
