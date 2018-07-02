@@ -125,6 +125,12 @@ count-files --file-extension txt
 Optionally, you can pass it a path to the directory to scan. If you prefer, you 
 can leave that argument empty, and it will scan the current working directory.
 
+To process files in the user's home directory, you can use ```~```
+
+If there are spaces in the folder names, then `path` should be specified in quotation marks. Example for Windows:
+```
+count-files "~\Desktop\New folder"
+```
 The optional `-nr` or `--no-recursion` switch argument tells the
 application not to scan recursively through the subdirectories.
 
@@ -342,6 +348,9 @@ count-files --file-extension py --preview --preview-size 500 ~/Documents
 
 #### Searching and listing files without extension
 
+Use a single dot ```.``` to search for files without any extension.  
+Note: files with names such as `.gitignore`,` Procfile`, `_netrc`.
+
 Search recursively for any files that don't have any extension, in a given directory:
 
 ```
@@ -354,6 +363,8 @@ count-files --file-extension . ~/Documents
 
 
 #### Searching and listing all files
+
+Use two dots without spaces ```..``` to search for all files with or without the extension.
 
 Recursively searching all files with extension or without it, in a given directory:  
 (similar to counting recursively for any files, but the result is a list with paths)
