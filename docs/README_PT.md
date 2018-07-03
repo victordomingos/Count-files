@@ -133,7 +133,15 @@ count-files --file-extension txt
 
 Opcionalmente, é possivel indicar um caminho para a pasta a processar. Se
 preferir, poderá deixar esse argumento vazio, e a aplicação irá contar os
-ficheiros da pasta atual.
+ficheiros da pasta atual. Para processar os ficheiros na sua pasta de 
+utilizador, poderá indicar o caminho ```~```. No caso de haver espaços nos 
+nomes de pastas ou ficheiros, o caminho deve ser especificado `"entre aspas"`. 
+
+Exemplo para Windows:
+
+```
+count-files "~\Ambiente de Trabalho\Nova pasta"
+```
 
 Os argumentos optionais `-nr` ou `--no-recursion` dizem à aplicação para não
 percorrer de forma recursiva todas as subpastas (ou seja, pesquisar apenas na
@@ -388,6 +396,9 @@ count-files --file-extension py --preview --preview-size 500 ~/Documents
 
 #### Procurar e listar ficheiros sem extensão
 
+Utilize um único ponto ```.``` para procurar ficheiros que não tenham extensão. 
+Por exemplo, ficheiros com nomes como `.gitignore`, `Procfile`, `_netrc`.
+
 Procurar recursivamente ficheiros que não têm qualquer extensão no seu nome, 
 numa determinada pasta:
 
@@ -401,6 +412,9 @@ count-files --file-extension . ~/Documents
 
 
 #### Procurar e listar todos os ficheiros
+
+Utilize dois pontos ```..``` sem espaço entre eles para procurar todos os 
+ficheiros, independentemente de terem ou não extensão.
 
 Procurar recursivamente todos os ficheiros com ou sem extensão, numa dada 
 pasta (processo semelhante à contagem de ficheiros recursiva, mas aqui o 
