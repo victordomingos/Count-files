@@ -4,14 +4,15 @@ import unittest
 import os
 import sys
 from count_files.utils.file_handlers import get_file_extension,\
-    is_hidden_file_or_dir, search_files, count_files_by_extension
+    is_hidden_file_or_dir, search_files, count_files_by_extension,\
+    get_total, get_total_by_extension
 from count_files.utils.file_preview import generate_preview
 
 
 class TestSomeFunctions(unittest.TestCase):
 
     def get_locations(self, *args):
-        print('LOCATION: ', os.path.normpath(os.path.join(os.path.dirname(__file__), *args)))
+        # print('LOCATION: ', os.path.normpath(os.path.join(os.path.dirname(__file__), *args)))
         return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
 
     def test_get_file_extension(self):
@@ -142,6 +143,27 @@ class TestSomeFunctions(unittest.TestCase):
             self.get_locations('test_hidden_linux', 'not_hidden_folder', '.hidden_for_linux')), True)
         self.assertEqual(is_hidden_file_or_dir(
             self.get_locations('test_hidden_linux', '.ebookreader', 'not_hidden.txt')), True)
+
+    def test_get_total(self):
+        """Testing def get_total.
+
+        Expected behavior: get the total number of all files in directory(all extensions '..').
+        :return:
+        """
+        result = get_total(dirpath=self.get_locations('data_for_tests'), include_hidden=False,
+                           no_feedback=True, recursive=True)
+        self.assertEqual(len(list(result)), 16)
+
+    def test_get_total_by_extension(self):
+        """Testing def get_total_by_extension.
+
+        Expected behavior: get the total number of all files with a certain extension or without it.
+        :return:
+        """
+        result = get_total_by_extension(dirpath=self.get_locations('data_for_tests'),
+                                        extension='.', case_sensitive=False,
+                                        include_hidden=False, no_feedback=True, recursive=True)
+        self.assertEqual(len(list(result)), 2)
 
     # TODO
     def test_generate_preview(self):

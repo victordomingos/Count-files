@@ -30,7 +30,8 @@ class TestWordCounter(unittest.TestCase):
         self.assertEqual(filecmp.cmp(test2, self.get_locations('compare_tables', '2columns_most_common.txt'),
                                      shallow=False), True)
 
-    # TODO:  test show_result_for_search_files(files=data, no_list=False) for different OS
+    # TODO:  test show_result_for_search_files() for different OS
+    # TODO: It is necessary to update.
     def test_show_result_for_search_files(self):
         """Testing def show_result_for_search_files. Search by extension.
         Comparison of the file with the results of the function with the specified file.

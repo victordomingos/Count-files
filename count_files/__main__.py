@@ -13,7 +13,8 @@ import os
 
 from argparse import ArgumentParser, Namespace
 from typing import Type, TypeVar, Union
-from count_files.utils.file_handlers import count_files_by_extension, search_files
+from count_files.utils.file_handlers import count_files_by_extension, search_files,\
+    get_total, get_total_by_extension
 from count_files.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
 from count_files.utils.word_counter import show_2columns, show_total
 from count_files.utils.word_counter import show_result_for_search_files
@@ -61,6 +62,12 @@ parser.add_argument('-nf', "--no-feedback", action='store_true', default=False,
                          "(table and no-table), searching for files by extension"
                          "(viewing mode no-list). This option disables it.")
 
+parser.add_argument('-t', "--total", type=str,
+                    help="Get the total number of all files, files with a certain extension or without it. "
+                         "Specify the name of the extension or "
+                         "use a single dot '.' to get the total number of files without any extension. "
+                         "Use a two dots '..' to get the total number of all files with extension or without it.")
+
 count_group = parser.add_argument_group('File counting by extension',
                                         description='Counting all files in the specified '
                                                     'directory with or without extensions. '
@@ -105,6 +112,11 @@ search_group.add_argument('-p', '--preview', action='store_true',
 search_group.add_argument('-ps', '--preview-size', type=int, default=DEFAULT_PREVIEW_SIZE,
                           help="Specify the number of characters to be displayed from each "
                           "found file when using '-p' or '--preview'.")
+
+search_group.add_argument('-fs', '--file-sizes', action='store_true', default=False,
+                          help="Show size info for each "
+                               "found file when using '-fe' or '--file_extension'. "
+                               "And: total combined size and average file size.")
 
 search_group.add_argument('-nl', '--no-list', action='store_true',
                           help="Don't show the list, "
@@ -158,32 +170,52 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
     print(f'\n{r if recursive else nr}{e if args.file_extension != "." else all_e},'
           f'{h if include_hidden else nh}, in {location}\n')
+
+    # display the result as the total number of files
+    # getting total for -fe .. (all extensions), -fe . and -fe extension_name
+    # same as --no-table or --no-list with -fe (without sizes)
+    if args.total:
+        if args.total == '..':
+            result = get_total(dirpath=location,
+                               include_hidden=include_hidden,
+                               no_feedback=args.no_feedback,
+                               recursive=recursive)
+        else:
+            result = get_total_by_extension(dirpath=location,
+                                            extension=args.total,
+                                            case_sensitive=args.case_sensitive,
+                                            include_hidden=include_hidden,
+                                            no_feedback=args.no_feedback,
+                                            recursive=recursive)
+        print(f"\n   Found {len(list(result))} file(s).")
+        return len(list(result))
+
     # Either search and list files by extension...
     if extension:
-        # no-list=True, only the total number of files and information about file sizes
-        # no-list=False, list of all found file paths - enabled by default,
-        # optional file preview, size specification for file preview
-        #if args.preview and not args.no_list:
+        # list of all found file paths - enabled by default,
+        # optional: information about file sizes, file preview, size specification for file preview
+
+        # if args.preview and not args.no_list:
         #    if not is_supported_filetype(extension):
         #        parser.exit(status=0, message=not_supported_type_message)
 
         # getting data list for -fe .. (all extensions), -fe . and -fe extension_name
-        data = (f for f in search_files(dirpath=location, extension=extension,
+        data = (f for f in search_files(dirpath=location,
+                                        extension=extension,
                                         include_hidden=include_hidden,
                                         recursive=recursive,
                                         case_sensitive=args.case_sensitive))
 
-        # display result in chosen view mode
+        # display the result as a list
         len_files = show_result_for_search_files(files=data,
-                                                 no_list=args.no_list,
-                                                 no_feedback=args.no_feedback,
+                                                 file_sizes=args.file_sizes,
                                                  preview=args.preview,
                                                  preview_size=args.preview_size)
 
         return len_files
 
     # ...or do other stuff, i.e., counting files.
-    # all extensions
+    # all extensions, display the result as a table
     data = count_files_by_extension(dirpath=location,
                                     no_feedback=args.no_feedback,
                                     include_hidden=include_hidden,
