@@ -28,6 +28,7 @@ command-line in the Pythonista 3 app.
    - [Case sensitivity](#case-sensitivity)
    - [Customizing display of results and operation feedback](#customizing-display-of-results-and-operation-feedback)  
    - [Examples of practical usage](#examples-of-practical-usage)  
+      - [Counting the total number of files in the directory](#counting-the-total-number-of-files-in-the-directory)  
       - [Counting how many files are there for each extension](#counting-how-many-files-are-there-for-each-extension)  
       - [Searching for files with a specific extension](#searching-for-files-with-a-specific-extension)
       - [Searching and listing files without extension](#searching-and-listing-files-without-extension)
@@ -168,7 +169,7 @@ Linux, Mac OS: those with names starting with "."(dot)
 
 The names of extensions are case insensitive by default. The results for
 `ini` and `INI` will be the same. To distinguish between similar
-extensions in different cases, use the `-c`or `--case-sensitive` switch
+extensions in different cases, use the `-c` or `--case-sensitive` switch
 argument.
 
 
@@ -184,20 +185,24 @@ The list of file types for which preview is available can be viewed with
 the `-st` or `--supported-types` argument.
 
 By default, the result of a search by certain file extension is a list with 
-the full paths of the files found. If you only need the total number of files, 
-use the `-nl` or `--no-list` argument.
+the full paths of the files found. If you need information about the size of the files, use the `-fs` or `--file-sizes` argument.
+
+If you only need the total number of all files, number of files with a certain extension or without it 
+use the `-t` or `--total` argument.
 
 The program's operating indicator is printing processed file names in one line.
 File names are not displayed when searching for a particular extension, if 
 there are no such files in the folder or if the files are hidden, and the 
 argument `--all` is not specified.
 
-Feedback is available by default for counting files by extension (table and 
-no-table), searching for files by extension (viewing mode no-list). Optional 
+Feedback is available by default for counting files by extension (table),
+ and for counting the total number of files. Optional 
 argument `-nf` or `--no-feedback` disables it.
 
-Using the arguments `--no-feedback` and `--no-list` allows you to speed up the 
+Using the `--no-feedback` argument allows you to speed up the 
 processing of files a little.
+
+To search for files by extension (using `-fe` or `--file-extension`), feedback is the list itself.
   
   
   
@@ -205,11 +210,53 @@ processing of files a little.
 prefer alphabetically sorted results, you just need to add the `-alpha` or 
 `--sort-alpha` argument.
 
-Similarly, the optional `-nt` or `--no-table` switch tells the application
-not to show a table listing all the found file extensions and their respective
-frequencies, so that it will only display the total number of files.
   
 ### Examples of practical usage:
+
+#### Counting the total number of files in the directory
+
+To count the total number of files, you must specify
+the name of the extension or use a single dot ```.``` to get the total number of files without any extension.  
+Use two dots without spaces ```..``` to get the total number of all files with or without the extension.
+
+Recursively count the total number of files with a specific extension in the current directory, including hidden files and hidden subdirectories:
+
+```
+count-files -a -t txt
+```
+
+```
+count-files --all --total txt
+```
+
+Recursively count the total number of files with a specific extension in uppercase:
+
+```
+count-files -t JPG -c
+```
+
+```
+count-files --total JPG --case-sensitive
+```
+
+Recursively count the total number of files without any extension:
+
+```
+count-files -t .
+```
+
+```
+count-files --total .
+```
+
+Counting the total number of files in the current directory, regardless of the extension and without recursion:
+```
+count-files -nr -t ..
+```
+
+```
+count-files --no-recursion --total ..
+```
 
 #### Counting how many files are there for each extension
 
@@ -217,18 +264,27 @@ By default, the table will be sorted by the file extension frequency. If you
 prefer alphabetically sorted results, you just need to add the `-alpha` or 
 `--sort-alpha` argument.
 
-Similarly, the optional `-nt` or `--no-table` switch tells the application
-not to show a table listing all the found file extensions and their respective
-frequencies, so that it will only display the total number of files.
   
   
 Count all files in current working directory and all of its subdirectories, 
-ignoring hidden files and hidden subdirectories:
+ignoring hidden files and hidden subdirectories:  
+In this case, the file extensions in the table will be displayed in uppercase (default).
 
 ```
 count-files
 ```
 
+Count all files in current working directory and all of its subdirectories, 
+ignoring hidden files and hidden subdirectories, with `--case-sensitive` argument:  
+In this case, the file extensions in the table will be displayed as is (in lowercase and uppercase).
+
+```
+count-files -c
+```
+
+```
+count-files --case-sensitive
+```
 
 Count all files in current working directory and all of its subdirectories, 
 including hidden files and hidden subdirectories:
@@ -261,18 +317,6 @@ count-files ~/Documents
 ```
 
 
-Count all files in a given directory with recursion, but don't display a 
-table, only the total number of files:
-
-```
-count-files -nt ~/Documents
-```  
-
-```
-count-files --no-table ~/Documents
-```
-
-
 Count all files in a given directory without recursing through subdirectories, 
 and sort the table alphabetically:
 
@@ -282,18 +326,6 @@ count-files -nr -alpha ~/Documents
 
 ```
 count-files --no-recursion --sort-alpha ~/Documents
-```
-
-
-Count all files in a given directory without recursing through subdirectories, 
-including hidden files, and only displaying the total number of files (no table):
-
-```
-count-files -nr -nt -a ~/Documents
-```  
-
-```
-count-files --no-recursion --no-table --all ~/Documents
 ```
 
 
@@ -312,14 +344,14 @@ count-files --no-feedback ~/Documents
 ### Searching for files with a specific extension
 
 Search recursively for any files that have a `.txt` extension, in a given 
-directory, without list and without feedback:
+directory, without feedback:
 
 ```
-count-files -nf -nl -fe txt ~/Documents
+count-files -nf -fe txt ~/Documents
 ```
   
 ```
-count-files --no-feedback --no-list --file-extension txt ~/Documents
+count-files --no-feedback --file-extension txt ~/Documents
 ```
 
 
