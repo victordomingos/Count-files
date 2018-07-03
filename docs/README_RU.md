@@ -281,14 +281,14 @@ count-files -nf -fe txt ~/Documents
 count-files --no-feedback --file-extension txt ~/Documents
 ```
 
-Рекурсивный поиск всех файлов с расширением `.css` в заданной директории:
+Рекурсивный поиск всех файлов с расширением `.css` в заданной директории, включая информацию о размерах файлов:
 
 ```
-count-files -fe css ~/Documents
+count-files -fe css -fs ~/Documents
 ```
 
 ```
-count-files --file-extension css ~/Documents
+count-files --file-extension css --file-sizes ~/Documents
 ```
 
 Рекурсивный поиск всех файлов с расширением `.py` в заданной директории и отображение предварительного просмотра в размере 500 символов для каждого файла:

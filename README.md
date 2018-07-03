@@ -195,14 +195,14 @@ File names are not displayed when searching for a particular extension, if
 there are no such files in the folder or if the files are hidden, and the 
 argument `--all` is not specified.
 
-Feedback is available by default for counting files by extension (table),
+Feedback is available by default for counting files by extension (table)
  and for counting the total number of files. Optional 
 argument `-nf` or `--no-feedback` disables it.
 
 Using the `--no-feedback` argument allows you to speed up the 
 processing of files a little.
 
-To search for files by extension (using `-fe` or `--file-extension`), feedback is the list itself.
+To search for files by extension (using `-fe` or `--file-extension`) feedback is the list itself.
   
   
   
@@ -355,14 +355,14 @@ count-files --no-feedback --file-extension txt ~/Documents
 ```
 
 
-Search recursively for any files that have a `.css` extension, in a given directory:
+Search recursively for any files that have a `.css` extension, in a given directory, including information about the size of the files:
 
 ```
-count-files -fe css ~/Documents
+count-files -fe css -fs ~/Documents
 ```  
 
 ```
-count-files --file-extension css ~/Documents
+count-files --file-extension css --file-sizes ~/Documents
 ```
 
 
