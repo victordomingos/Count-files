@@ -15,10 +15,6 @@ def get_locations(*args):
     return os.path.normpath(os.path.join(os.path.expanduser('~/'), *args))
 
 
-main_nt = """
-main_flow([location, '-a', '-nt'])
-"""
-
 main_fe = """
 main_flow([location, '-a', '-fe', 'txt'])
 """
@@ -62,7 +58,5 @@ if __name__ == "__main__":
     print(total, t.repeat(repeat=3, number=1))
     # t = timeit.Timer(total_by_extension, globals=globals())
     # print(total_by_extension, t.repeat(repeat=3, number=1))
-    # t = timeit.Timer(main_nt, globals=globals())
-    # print(main_nt, t.repeat(repeat=3, number=1))
     # t = timeit.Timer(main_fe, globals=globals())
     # print(main_fe, t.repeat(repeat=3, number=1))
