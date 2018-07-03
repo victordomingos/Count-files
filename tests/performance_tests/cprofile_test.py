@@ -53,7 +53,6 @@ if __name__ == "__main__":
 
     # total number of files
     cProfile.run("main_flow([location, '-t', '..', '-a'])", sort='name')
-    cProfile.run("main_flow([location, '-nt', '-a'])", sort='name')
 
     # lists
     # cProfile.run("main_flow([location, '-fe', '.', '-fs', '-a'])", sort='name')

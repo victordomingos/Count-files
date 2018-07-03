@@ -13,16 +13,16 @@ class TestArgumentParser(unittest.TestCase):
         return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
 
     # thread - ...or do other stuff, i.e., counting files.
-    def test_countfiles_all_nt(self):
+    def test_countfiles_all_t(self):
         """Testing def main_flow.
 
         Recursive/non recursive counting.
         Testing for hidden files is not carried out here.
-        Equivalent to "python __main__.py ~/.../tests/data_for_tests -a -nt"
+        Equivalent to "python __main__.py ~/.../tests/data_for_tests -a -t .."
         :return:
         """
-        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-nt']), 16)
-        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-nt', '-nr']), 6)
+        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-t', '..']), 16)
+        self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-t', '..', '-nr']), 6)
 
     # thread - if search_by_extension:
     def test_countfiles_fe(self):
@@ -53,24 +53,24 @@ class TestArgumentParser(unittest.TestCase):
         """Testing def main_flow.
 
         Equivalent to
-        "python __main__.py ~/.../tests/data_for_tests -nr"
-        and "python __main__.py ~/.../tests/data_for_tests -nr -a"
+        "python __main__.py ~/.../tests/data_for_tests -nr -t .."
+        and "python __main__.py ~/.../tests/data_for_tests -nr -a -t .."
         :return:
         """
-        self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-nt']), 1)
-        self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-nt', '-a']), 2)
+        self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-t', '..']), 1)
+        self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-t', '..', '-a']), 2)
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_for_hidden_win(self):
         """Testing def main_flow.
 
         Equivalent to
-        "python __main__.py ~/.../tests/data_for_tests -nr"
-        and "python __main__.py ~/.../tests/data_for_tests -nr -a"
+        "python __main__.py ~/.../tests/data_for_tests -nr -t .."
+        and "python __main__.py ~/.../tests/data_for_tests -nr -a -t .."
         :return:
         """
-        self.assertEqual(main_flow([self.get_locations('test_hidden_windows'), '-nr', '-nt']), 1)
-        self.assertEqual(main_flow([self.get_locations('test_hidden_windows'), '-nr', '-nt', '-a']), 2)
+        self.assertEqual(main_flow([self.get_locations('test_hidden_windows'), '-nr', '-t', '..']), 1)
+        self.assertEqual(main_flow([self.get_locations('test_hidden_windows'), '-nr', '-t', '..', '-a']), 2)
 
 # from root directory:
 

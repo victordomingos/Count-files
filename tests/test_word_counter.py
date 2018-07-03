@@ -31,17 +31,13 @@ class TestWordCounter(unittest.TestCase):
                                      shallow=False), True)
 
     # TODO:  test show_result_for_search_files() for different OS
-    # TODO: It is necessary to update.
+    # compare lists with paths and file sizes, for different OS and PC lists will be different
     def test_show_result_for_search_files(self):
         """Testing def show_result_for_search_files. Search by extension.
         Comparison of the file with the results of the function with the specified file.
 
-        Expected behavior:
-        no_list=True
-        Found ... file(s).
-        Total combined size: ... KiB.
-        Average file size: ... KiB (max: ... KiB, min: ... B).
-        no_list=False default
+        Expected behavior: List with paths and file sizes.
+
         full/path/to/file1.extension (... KiB)
         full/path/to/file2.extension (... KiB)
         ...
@@ -51,17 +47,17 @@ class TestWordCounter(unittest.TestCase):
         :return:
         """
         if sys.platform.startswith('win'):
-            standard = 'win_show_result_no_list.txt'
+            standard = 'win_show_result_list.txt'
         elif sys.platform.startswith('darwin'):
-            standard = 'darwin_show_result_no_list.txt'
+            standard = 'darwin_show_result_list.txt'
         elif sys.platform.startswith('linux'):
-            standard = 'linux_show_result_no_list.txt'
+            standard = 'linux_show_result_list.txt'
         data = search_files(dirpath=self.get_locations('data_for_tests'), extension='.',
                             include_hidden=False, recursive=True, case_sensitive=False)
-        test1 = self.get_locations('compare_tables', 'test_show_result_no_list.txt')
+        test1 = self.get_locations('compare_tables', 'test_show_result_list.txt')
         with open(test1, 'w') as f:
             with redirect_stdout(f):
-                show_result_for_search_files(files=data, no_list=True, no_feedback=True)
+                show_result_for_search_files(files=data, file_sizes=True)
         self.assertEqual(filecmp.cmp(test1, self.get_locations('compare_tables', standard),
                                      shallow=False), True)
 

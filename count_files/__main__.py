@@ -24,7 +24,7 @@ from count_files.settings import not_supported_type_message, supported_type_info
 
 
 parser = ArgumentParser(
-    prog='count_files',
+    prog='count-files',
     description="Count files, grouped by extension, in a directory. By "
                 "default, it will count files recursively in current "
                 "working directory and all of its subdirectories, and "
@@ -32,9 +32,7 @@ parser = ArgumentParser(
                 "extension (e.g.: .txt, .py, .html, .css) and the total "
                 "number of files found. Any hidden files or folders "
                 "are ignored by default. File extensions are treated with no"
-                "case sensitiveness, by default."
-                "(Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true; "
-                "Linux, Mac OS: those with names starting with '.')")
+                "case sensitiveness, by default.")
 
 parser.add_argument('-v', '--version', action='version', version=__import__('count_files').__version__)
 
@@ -42,7 +40,11 @@ parser.add_argument('-st', '--supported-types', action='store_true',
                     help="The list of currently supported file types for preview.")
 
 parser.add_argument('path', nargs="?", default=os.getcwd(), type=str,
-                    help='The path to the folder containing the files to be counted.')
+                    help='The path to the folder containing the files to be counted. '
+                         'Optionally, you can pass it a path to the directory to scan. '
+                         'If you prefer, you can leave that argument empty, '
+                         'and it will scan the current working directory. '
+                         "To process files in the user's home directory, you can use ~ (tilde).")
 
 parser.add_argument('-a', '--all', action='store_true',
                     help="Include hidden files and directories. "
@@ -56,17 +58,25 @@ parser.add_argument('-c', "--case-sensitive", action='store_true',
                     help="Treat file extensions with case sensitiveness.")
 
 parser.add_argument('-nf', "--no-feedback", action='store_true', default=False,
-                    help="Don't show the program's operating indicator"
+                    help="Don't show the program's operating indicator "
                          "(printing processed file names in one line). "
-                         "Feedback is available by default for counting files by extension"
-                         "(table and no-table), searching for files by extension"
-                         "(viewing mode no-list). This option disables it.")
+                         "Feedback is available by default for counting files by extension "
+                         "(table) and for counting the total number of files ('-t' or '--total'). "
+                         "This option disables it.")
 
-parser.add_argument('-t', "--total", type=str,
-                    help="Get the total number of all files, files with a certain extension or without it. "
+total_group = parser.add_argument_group("Total counting of files",
+                                        description="If you need the total number of all files, "
+                                                    "number of files with a certain extension or without it "
+                                                    "use the '-t' or '--total' argument. "
+                                                    "The result of counting is only number. "
+                                                    "Usage: count-files [-a] [-c] [-nr] [-nf] [-t] [path]")
+
+total_group.add_argument('-t', "--total", type=str,
+                         help="Get the total number of files in the directory. "
                          "Specify the name of the extension or "
                          "use a single dot '.' to get the total number of files without any extension. "
-                         "Use a two dots '..' to get the total number of all files with extension or without it.")
+                         "Use a two dots without spaces '..' to get the total number of all files "
+                         "with extension or without it.")
 
 count_group = parser.add_argument_group('File counting by extension',
                                         description='Counting all files in the specified '
@@ -75,16 +85,16 @@ count_group = parser.add_argument_group('File counting by extension',
                                                     'ignoring hidden files and directories; '
                                                     'path - the current working directory; '
                                                     'view mode - a table with file '
-                                                    'extensions sorted by frequency; '
-                                                    "feedback - printing processed file names in one line, "
-                                                    "use '-nf' to disable it). "
-                                                    'Usage: count_files [-a] [-nr] [-nf] [-alpha] [-nt] [path]')
+                                                    'extensions sorted by frequency '
+                                                    '(the file extensions in the table '
+                                                    'will be displayed in uppercase, '
+                                                    'use "-c" or "--case-sensitive" to display it as is); '
+                                                    'feedback - printing processed file names in one line, '
+                                                    'use "-nf" or "--no-feedback" to disable it. '
+                                                    'Usage: count-files [-a] [-alpha] [-c] [-nr] [-nf] [path]')
 
 count_group.add_argument('-alpha', '--sort-alpha', action='store_true',
                          help="Sort the table alphabetically, by file extension.")
-
-count_group.add_argument('-nt', '--no-table', action='store_true',
-                         help="Don't show the table, only the total number of files.")
 
 search_group = parser.add_argument_group("File searching by extension",
                                          description="Search for files with a given extension. "
@@ -93,11 +103,9 @@ search_group = parser.add_argument_group("File searching by extension",
                                                      "path - the current working directory; "
                                                      "view mode - a list with full file paths; "
                                                      f"preview size - {DEFAULT_PREVIEW_SIZE} chars; "
-                                                     "feedback - printing processed file names in one line"
-                                                     "(available by default only for '-nl' or '--no-list', "
-                                                     "use '-nf' to disable it). "
-                                                     "Usage: count_files [-a] [-nr] [-nf] [-fe FILE_EXTENSION] [-p] "
-                                                     "[-ps PREVIEW_SIZE] [-nl] [path]")
+                                                     "feedback is the list itself. "
+                                                     "Usage: count-files [-a] [-c] [-nr] [-fe FILE_EXTENSION] "
+                                                     "[-fs] [-p] [-ps PREVIEW_SIZE] [path]")
 
 search_group.add_argument('-fe', '--file-extension', type=str,
                           help="Search files by file extension. "
@@ -116,11 +124,7 @@ search_group.add_argument('-ps', '--preview-size', type=int, default=DEFAULT_PRE
 search_group.add_argument('-fs', '--file-sizes', action='store_true', default=False,
                           help="Show size info for each "
                                "found file when using '-fe' or '--file_extension'. "
-                               "And: total combined size and average file size.")
-
-search_group.add_argument('-nl', '--no-list', action='store_true',
-                          help="Don't show the list, "
-                               "only the total number of files and information about file sizes.")
+                               "Additional information: total combined size and average file size.")
 
 
 argparse_namespace_object = TypeVar('argparse_namespace_object', bound=Namespace)
@@ -137,7 +141,6 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     args = parser.parse_args(*args)
     recursive = not args.no_recursion
     include_hidden = args.all
-    show_table = not args.no_table
     sort_alpha = args.sort_alpha
     extension = args.file_extension
 
@@ -187,8 +190,10 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                                             include_hidden=include_hidden,
                                             no_feedback=args.no_feedback,
                                             recursive=recursive)
-        print(f"\n   Found {len(list(result))} file(s).")
-        return len(list(result))
+        # var for tests
+        total_result = len(list(result))
+        print(f"\n   Found {total_result} file(s).")
+        return total_result
 
     # Either search and list files by extension...
     if extension:
@@ -222,16 +227,15 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                                     recursive=recursive,
                                     case_sensitive=args.case_sensitive)
 
-    if show_table:
-        if sort_alpha:
-            # sort extensions alphabeticaly, with uppercase versions on top
-            sort_key = lambda data: (data[0].casefold(), data[0])
-            show_2columns(sorted(data.items(), key=sort_key))
-        else:
-            show_2columns(data.most_common())
-        # it returns None
+    if sort_alpha:
+        # sort extensions alphabeticaly, with uppercase versions on top
+        sort_key = lambda data: (data[0].casefold(), data[0])
+        show_2columns(sorted(data.items(), key=sort_key))
+        parser.exit(status=0)
     else:
-        return show_total(data) # this return value is used for tests in test_argument_parser.py
+        show_2columns(data.most_common())
+        # it returns None
+        parser.exit(status=0)
 
 
 if __name__ == "__main__":
