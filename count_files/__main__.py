@@ -69,7 +69,7 @@ total_group = parser.add_argument_group("Total counting of files",
                                                     "number of files with a certain extension or without it "
                                                     "use the '-t' or '--total' argument. "
                                                     "The result of counting is only number. "
-                                                    "Usage: count-files [-a] [-c] [-nr] [-nf] [-t] [path]")
+                                                    "Usage: count-files [-a] [-c] [-nr] [-nf] [-t TOTAL] [path]")
 
 total_group.add_argument('-t', "--total", type=str,
                          help="Get the total number of files in the directory. "
