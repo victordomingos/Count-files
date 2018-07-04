@@ -200,9 +200,9 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         # list of all found file paths - enabled by default,
         # optional: information about file sizes, file preview, size specification for file preview
 
-        # if args.preview and not args.no_list:
+        # if args.preview:
         #    if not is_supported_filetype(extension):
-        #        parser.exit(status=0, message=not_supported_type_message)
+        #       parser.exit(status=0, message=not_supported_type_message)
 
         # getting data list for -fe .. (all extensions), -fe . and -fe extension_name
         data = (f for f in search_files(dirpath=location,

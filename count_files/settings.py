@@ -14,6 +14,8 @@ DEFAULT_PREVIEW_SIZE = 5 * TERM_WIDTH  # 5 lines of text preview
 
 
 SUPPORTED_TYPES = {
+    'all_extensions': ['..'],
+    'no_extension': ['.'],
     'text': ['py', 'txt', 'html', 'css', 'js', 'c'],
     'image': ['jpg', 'png', 'gif'],
     'pdf': ['pdf'],
