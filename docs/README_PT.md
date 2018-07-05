@@ -163,7 +163,7 @@ Exemplo para Windows:
 count-files "~\Ambiente de Trabalho\Nova pasta"
 ```
 
-Os argumentos optionais `-nr` ou `--no-recursion` dizem à aplicação para não
+Os argumentos opcionais `-nr` ou `--no-recursion` dizem à aplicação para não
 percorrer de forma recursiva todas as subpastas (ou seja, pesquisar apenas na
 raiz da pasta indicada).
 
