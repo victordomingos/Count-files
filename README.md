@@ -3,7 +3,7 @@
   
 # Count Files [![Github commits (since latest release)](https://img.shields.io/github/commits-since/victordomingos/Count-files/latest.svg)](https://github.com/victordomingos/Count-files)
 
-A little command-line interface (CLI) utility written in Python to help you
+A command-line interface (CLI) utility written in Python to help you
 count files, grouped by extension, in a directory. By default, it will count
 files recursively in current working directory and all of its subdirectories,
 and will display a table showing the frequency for each file extension (e.g.:
