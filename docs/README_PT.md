@@ -54,7 +54,7 @@ diferentes plataformas, incluindo Pythonista em iOS. Neste momento, requer:
 
 Planeamos submeter esta aplicação ao PyPI tão brevemente quanto possível, para
 permitir oferecer uma forma de instalação e atualização mais simples.
-Enquanto isso não acontece, estejam à vontade para dar uma olhada na próxima
+Enquanto isso não acontece, estejam à vontade para dar uma olhada na última
 secção e talvez considerar contribuir também para este projeto.
 
 

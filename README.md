@@ -54,7 +54,7 @@ on iOS. At this moment, we require:
 
 We plan to submit this to PyPI as soon as possible, in order to provide a more
 straight-forward instalation and upgrade process. While that doesn't happen,
-please feel free to take a look at the next section and maybe consider
+please feel free to take a look at the last section and maybe consider
 contributing to this project.
 
 ### On iPhone or iPad (in Pythonista 3 for iOS)
