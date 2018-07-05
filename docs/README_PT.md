@@ -14,7 +14,7 @@ utilizado em iOS (iPhone/iPad) utilizando a linha de comandos [StaSh](https://gi
 na app Pythonista 3.
 
 
-![Captura de ecrã da aplicação Count-files](https://user-images.githubusercontent.com/18650184/39443000-1bd83b62-4cab-11e8-9942-242ba29232d7.png)
+![Captura de ecrã da aplicação Count-files - contar ficheiros por extensão](https://user-images.githubusercontent.com/18650184/42160179-29998a52-7dee-11e8-9813-b8594e50fe77.png)
 
 ## Conteúdo  
 - **[Instalação e dependências](#instalação-e-dependências)**
