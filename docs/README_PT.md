@@ -22,6 +22,7 @@ na app Pythonista 3.
    - [Em iPhone ou iPad (na app Pythonista 3 para iOS)](#em-iphone-ou-ipad-na-app-pythonista-3-para-ios)
   
 - **[Como utilizar](#como-utilizar)**
+   - [Argumentos da linha de comandos](#argumentos-da-linha-de-comandos)
    - [Obter ajuda sobre como usar esta aplicação](#obter-ajuda-sobre-como-usar-esta-aplicação)
    - [Pastas e ficheiros escondidos](#pastas-e-ficheiros-escondidos)
    - [Sensibilidade a maiúsculas/minúsculas](#sensibilidade-a-maiúsculas-minúsculas)
@@ -103,6 +104,25 @@ para contar quaisquer ficheiros que possa ter no ambiente do Pythonista.
 
 
 ## Como utilizar:
+
+### Argumentos da linha de comandos
+
+De um modo geral, podem ser indicados argumentos tanto na forma
+abreviada como na forma extensa. Por exemplo: `-a` ou `--all`.
+
+```
+usage: count-files [-h] [-v] [-st] [-a]
+                   [-c] [-nr] [-nf] [-t TOTAL]
+                   [-alpha] [-fe FILE_EXTENSION] [-fs]
+                   [-p] [-ps PREVIEW_SIZE] [path]
+```
+
+```
+usage: count-files [--help] [--version] [--supported-types] [--all]
+                   [--case-sensitive] [--no-recursion] [--no-feedback] [--total TOTAL]
+                   [--sort-alpha] [--file-extension FILE_EXTENSION] [--file-sizes]
+                   [--preview] [--preview-size PREVIEW_SIZE] [path]
+```
 
 A forma mais simples de utilização consiste na introdução de um comando
 simples na linha de comandos, sem quaisquer argumentos. Assim, para contar
@@ -219,6 +239,16 @@ o mecanismo de feedback apresentado é a própria lista de ficheiros.
 
 #### Contar o número total de ficheiros numa pasta
 
+Argumentos na forma abreviada:
+```
+usage: count-files [-a] [-c] [-nr] [-nf] [-t TOTAL] [path]
+```
+
+Argumentos na forma extensa:
+```
+usage: count-files [--all] [--case-sensitive] [--no-recursion] [--no-feedback] [--total TOTAL] [path]
+```
+
 Para contar o número total de ficheiros, deverá especificar a extensão de 
 ficheiro ou utilizar um ponto ```.``` para obter uma contagem dos ficheiros 
 que não têm extensão. Também poderá utilizar dois pontos sem espaços ```..``` 
@@ -272,6 +302,15 @@ count-files --no-recursion --total ..
 
 #### Contar quantos ficheiros há de cada extensão
 
+Argumentos na forma abreviada:
+```
+usage: count-files [-a] [-alpha] [-c] [-nr] [-nf] [path]
+```
+
+Argumentos na forma extensa:
+```
+usage: count-files [--all] [--sort-alpha] [--case-sensitive] [--no-recursion] [--no-feedback] [path]
+```
 
 Por predefinição, a tabela será ordenada pela frequência das extensões dos
 nomes de ficheiros. Se preferir visualizar resultados ordenados
@@ -357,15 +396,29 @@ count-files --no-feedback ~/Documents
 
 #### Procurar ficheiros com uma extensão específica
 
+Argumentos na forma abreviada:
+```
+usage: count-files [-a] [-c] [-nr]
+                   [-fe FILE_EXTENSION] [-fs]
+                   [-p] [-ps PREVIEW_SIZE] [path]
+```
+
+Argumentos na forma extensa:
+```
+usage: count-files [--all] [--case-sensitive] [--no-recursion]
+                   [--file-extension FILE_EXTENSION] [--file-sizes]
+                   [--preview] [--preview-size PREVIEW_SIZE] [path]
+```
+
 Procurar recursivamente ficheiros que tenham a extensão `.txt`, numa 
-determinada pasta, sem feedback relativo ao progresso da operação:
+determinada pasta, incluindo pastas e ficheiros escondidos:
 
 ```
-count-files -nf -fe txt ~/Documents
+count-files -a -fe txt ~/Documents
 ```
-  
+
 ```
-count-files --no-feedback --file-extension txt ~/Documents
+count-files --all --file-extension txt ~/Documents
 ```
 
 
