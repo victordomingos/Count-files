@@ -69,7 +69,7 @@ total_group = parser.add_argument_group("Total counting of files",
                                                     "number of files with a certain extension or without it "
                                                     "use the '-t' or '--total' argument. "
                                                     "The result of counting is only number. "
-                                                    "Usage: count-files [-a] [-c] [-nr] [-nf] [-t] [path]")
+                                                    "Usage: count-files [-a] [-c] [-nr] [-nf] [-t TOTAL] [path]")
 
 total_group.add_argument('-t', "--total", type=str,
                          help="Get the total number of files in the directory. "
@@ -200,9 +200,9 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         # list of all found file paths - enabled by default,
         # optional: information about file sizes, file preview, size specification for file preview
 
-        # if args.preview and not args.no_list:
+        # if args.preview:
         #    if not is_supported_filetype(extension):
-        #        parser.exit(status=0, message=not_supported_type_message)
+        #       parser.exit(status=0, message=not_supported_type_message)
 
         # getting data list for -fe .. (all extensions), -fe . and -fe extension_name
         data = (f for f in search_files(dirpath=location,

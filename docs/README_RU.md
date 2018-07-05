@@ -22,6 +22,7 @@
    - [На iPhone или iPad (в Pythonista 3 для iOS)](#На-iphone-или-ipad-в-pythonista-3-для-ios)
   
 - **[Как использовать CLI](#Как-использовать-cli)**  
+   - [Аргументы CLI](#Аргументы-cli)
    - [Получение справки](#Получение-справки)
    - [Скрытые файлы и папки](#Скрытые-файлы-и-папки)
    - [Чувствительность к регистру](#Чувствительность-к-регистру)
@@ -81,6 +82,24 @@ pip install victordomingos/Count-files
 Теперь можно запустить эту программу непосредственно из оболочки, чтобы подсчитать все файлы, которые могут быть внутри Pythonista.
 
 ## Как использовать CLI:
+
+### Аргументы CLI
+
+Аргументы можно указывать как в короткой так и в длинной форме. Например: `-a` или `--all`.
+
+```
+usage: count-files [-h] [-v] [-st] [-a]
+                   [-c] [-nr] [-nf] [-t TOTAL]
+                   [-alpha] [-fe FILE_EXTENSION] [-fs]
+                   [-p] [-ps PREVIEW_SIZE] [path]
+```
+
+```
+usage: count-files [--help] [--version] [--supported-types] [--all]
+                   [--case-sensitive] [--no-recursion] [--no-feedback] [--total TOTAL]
+                   [--sort-alpha] [--file-extension FILE_EXTENSION] [--file-sizes]
+                   [--preview] [--preview-size PREVIEW_SIZE] [path]
+```
 
 Наиболее простой формой является ввод команды без всяких аргументов. Итак, подсчитаем все файлы в текущем рабочем каталоге и во всех его подкаталогах, игнорируя скрытые файлы и папки:
 
@@ -163,6 +182,15 @@ Linux, Mac OS: файлы и папки имена которых начинаю
 
 #### Подсчет общего количества файлов в директории
 
+Короткая форма аргументов  
+```
+usage: count-files [-a] [-c] [-nr] [-nf] [-t TOTAL] [path]
+```
+Длинная форма аргументов  
+```
+usage: count-files [--all] [--case-sensitive] [--no-recursion] [--no-feedback] [--total TOTAL] [path]
+```
+
 Для подсчета общего количества файлов с определенным расширением нужно указать название расширения после аргумента.
 Используйте символ ```.```(точка) для подсчета общего количества файлов без расширения или две точки без пробелов ```..``` для подсчета абсолютно всех файлов в папке.
 
@@ -206,6 +234,15 @@ count-files --no-recursion --total ..
 ```
 
 #### Подсчет всех файлов и их расширений
+
+Короткая форма аргументов  
+```
+usage: count-files [-a] [-alpha] [-c] [-nr] [-nf] [path]
+```
+Длинная форма аргументов  
+```
+usage: count-files [--all] [--sort-alpha] [--case-sensitive] [--no-recursion] [--no-feedback] [path]
+```
 
 Рекурсивный подсчет всех файлов в текущем рабочем каталоге и всех его подкаталогах, исключая скрытые файлы и папки:  
 В этом случае расширения файлов в таблице будут отображаться в верхнем регистре (по умолчанию).
@@ -271,14 +308,28 @@ count-files --no-feedback ~/Documents
 
 ### Поиск файлов с определенным расширением
 
-Рекурсивный поиск всех файлов с расширением `.txt` в заданной директории, без индикатора работы программы:
+Короткая форма аргументов  
+```
+usage: count-files [-a] [-c] [-nr]
+                   [-fe FILE_EXTENSION] [-fs]
+                   [-p] [-ps PREVIEW_SIZE] [path]
+```
+
+Длинная форма аргументов  
+```
+usage: count-files [--all] [--case-sensitive] [--no-recursion]
+                   [--file-extension FILE_EXTENSION] [--file-sizes]
+                   [--preview] [--preview-size PREVIEW_SIZE] [path]
+```
+
+Рекурсивный поиск всех файлов с расширением `.txt` в заданной директории, включая скрытые файлы:
 
 ```
-count-files -nf -fe txt ~/Documents
+count-files -a -fe txt ~/Documents
 ```
 
 ```
-count-files --no-feedback --file-extension txt ~/Documents
+count-files --all --file-extension txt ~/Documents
 ```
 
 Рекурсивный поиск всех файлов с расширением `.css` в заданной директории, включая информацию о размерах файлов:

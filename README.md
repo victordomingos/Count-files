@@ -23,6 +23,7 @@ command-line in the Pythonista 3 app.
    - [On iPhone or iPad (in Pythonista 3 for iOS)](#on-iphone-or-ipad-in-pythonista-3-for-ios)
   
 - **[How to use](#how-to-use)**  
+   - [CLI arguments](#cli-arguments)
    - [Getting help on how to use this application](#getting-help-on-how-to-use-this-application)
    - [Hidden files and directories](#hidden-files-and-directories)
    - [Case sensitivity](#case-sensitivity)
@@ -99,6 +100,24 @@ environment.
 
 
 ## How to use:
+
+### CLI arguments
+
+Arguments can be specified in both short and long form. For example: `-a` or `--all`.
+
+```
+usage: count-files [-h] [-v] [-st] [-a]
+                   [-c] [-nr] [-nf] [-t TOTAL]
+                   [-alpha] [-fe FILE_EXTENSION] [-fs]
+                   [-p] [-ps PREVIEW_SIZE] [path]
+```
+
+```
+usage: count-files [--help] [--version] [--supported-types] [--all]
+                   [--case-sensitive] [--no-recursion] [--no-feedback] [--total TOTAL]
+                   [--sort-alpha] [--file-extension FILE_EXTENSION] [--file-sizes]
+                   [--preview] [--preview-size PREVIEW_SIZE] [path]
+```
 
 The most simple form of usage is to type a simple command in the shell, without 
 any arguments. So, to count all files in current working directory and all of 
@@ -215,6 +234,15 @@ prefer alphabetically sorted results, you just need to add the `-alpha` or
 
 #### Counting the total number of files in the directory
 
+Short form of arguments  
+```
+usage: count-files [-a] [-c] [-nr] [-nf] [-t TOTAL] [path]
+```
+Long form of arguments  
+```
+usage: count-files [--all] [--case-sensitive] [--no-recursion] [--no-feedback] [--total TOTAL] [path]
+```
+
 To count the total number of files, you must specify
 the name of the extension or use a single dot ```.``` to get the total number of files without any extension.  
 Use two dots without spaces ```..``` to get the total number of all files with or without the extension.
@@ -259,6 +287,15 @@ count-files --no-recursion --total ..
 ```
 
 #### Counting how many files are there for each extension
+
+Short form of arguments  
+```
+usage: count-files [-a] [-alpha] [-c] [-nr] [-nf] [path]
+```
+Long form of arguments  
+```
+usage: count-files [--all] [--sort-alpha] [--case-sensitive] [--no-recursion] [--no-feedback] [path]
+```
 
 By default, the table will be sorted by the file extension frequency. If you
 prefer alphabetically sorted results, you just need to add the `-alpha` or 
@@ -343,15 +380,29 @@ count-files --no-feedback ~/Documents
 
 ### Searching for files with a specific extension
 
-Search recursively for any files that have a `.txt` extension, in a given 
-directory, without feedback:
+Short form of arguments  
+```
+usage: count-files [-a] [-c] [-nr]
+                   [-fe FILE_EXTENSION] [-fs]
+                   [-p] [-ps PREVIEW_SIZE] [path]
+```
+
+Long form of arguments  
+```
+usage: count-files [--all] [--case-sensitive] [--no-recursion]
+                   [--file-extension FILE_EXTENSION] [--file-sizes]
+                   [--preview] [--preview-size PREVIEW_SIZE] [path]
+```
+
+Search recursively for any files that have a `.txt` extension, including hidden files, in a given 
+directory:
 
 ```
-count-files -nf -fe txt ~/Documents
+count-files -a -fe txt ~/Documents
 ```
   
 ```
-count-files --no-feedback --file-extension txt ~/Documents
+count-files --all --file-extension txt ~/Documents
 ```
 
 
