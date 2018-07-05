@@ -506,6 +506,6 @@ count-files --supported-types
 ```
 
    
-## Encontrou um bug ou tem uma sugestão?
+## Encontrou um *bug* ou tem uma sugestão?
 
 Por favor avise-nos, abrindo um novo *issue* ou *pull request*.
