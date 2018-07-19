@@ -16,7 +16,7 @@ from typing import Type, TypeVar, Union
 from count_files.utils.file_handlers import count_files_by_extension, search_files,\
     get_total, get_total_by_extension
 from count_files.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
-from count_files.utils.word_counter import show_2columns, show_total
+from count_files.utils.word_counter import show_2columns
 from count_files.utils.word_counter import show_result_for_search_files
 from count_files.settings import not_supported_type_message, supported_type_info_message,\
     DEFAULT_PREVIEW_SIZE
@@ -200,9 +200,9 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         # list of all found file paths - enabled by default,
         # optional: information about file sizes, file preview, size specification for file preview
 
-        # if args.preview:
-        #    if not is_supported_filetype(extension):
-        #       parser.exit(status=0, message=not_supported_type_message)
+        if args.preview:
+            if extension == '.' or not is_supported_filetype(extension.lower()):
+                parser.exit(status=0, message=not_supported_type_message)
 
         # getting data list for -fe .. (all extensions), -fe . and -fe extension_name
         data = (f for f in search_files(dirpath=location,

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 import os
-import puremagic
 import itertools
 
 from pathlib import Path
@@ -18,17 +17,17 @@ def generic_text_preview(filepath: str, max_size: int) -> str:
     :param max_size: max number of characters to be read from file
     :return: a string with the text preview
     """
-    p = Path(filepath)
     try:
+        p = Path(filepath)
         with p.open(mode='r') as f:
             return str(f.read(max_size)).replace('\n', ' ')
     except Exception as e:
-        print("TEXT_PREVIEW_ERROR", e) # DEBUG
-        return ""
+        # DEBUG OSError
+        return f"TEXT_PREVIEW_ERROR: {e}"
 
 
 # TODO: build a better preview system for binaries
-def generic_binary_preview(filepath: str, max_size: int) -> str:
+def generic_binary_preview(filepath: str, max_size: int) -> bytes or str:
     """ Read the first characters of the file and return a string
 
     :param filepath: a string containing the path to the file
@@ -44,46 +43,29 @@ def generic_binary_preview(filepath: str, max_size: int) -> str:
         return ""
 
 
-def generate_preview(filepath: str, max_size=390) -> str:
-    """ Detect filetype and generate a human readable text preview
+def generate_preview(filepath: str, max_size: int = 390) -> str:
+    """Generate a human readable text preview.
 
-    Detects filetype and returns a string if there is a compatible text
-    preview method available. For text files, the preview will be the first
-    `max_size` characters. For other file types, a selection of their
-    metadata could be shown.
+    For text files, the preview will be the first `max_size` characters.
+    For other file types the preview is not implemented.
+    :param filepath: full/path/to/file (with extension or without it)
+    :param max_size:
+    For CLI.
+    The number of characters for viewing by default depends on the terminal width settings
+    and can be changed with the -ps or -preview-size argument.
+    :return: a string with the text preview (without newline characters)
     """
-    filetype = ""
-    excerpt = ""
     extension = get_file_extension(filepath, case_sensitive=False).lower()
-
-
-    try:
-        my_file = puremagic.magic_file(filepath)
-        if my_file:
-            filetype = " ".join(str(i) for i in next(itertools.chain(my_file)))
-    except Exception as e:
-        print("FILETYPE_DETECTION_ERROR:", e) # DEBUG
-        pass
-
-    # TODO: Check if there is a specific file preview method
-    #print('EXT:', extension) # DEBUG
-    #print('TYPE:', filetype) # DEBUG
-
 
     if extension in SUPPORTED_TYPES['text']:
         excerpt = generic_text_preview(filepath, max_size)
-
-    elif extension in SUPPORTED_TYPES['image']:
-        excerpt = "[Text preview for image files not implemented yet.]"
-
-    elif extension in SUPPORTED_TYPES['pdf']:
-        excerpt = "[Text preview for PDF files not implemented yet.]"
-
+        if excerpt:
+            # return excerpt or error string
+            return f"{excerpt}"
+        else:
+            return "[This file is empty.]"
     else:
-        excerpt = generic_binary_preview(filepath, max_size)
+        # skip the extension if it is not supported
+        return "[A preview of this file type is not yet implemented.]"
 
 
-    if excerpt:
-        return f"Format: {filetype}\n{excerpt}"
-    else:
-        return f"Format: {filetype}\n[No preview available for this file.]"

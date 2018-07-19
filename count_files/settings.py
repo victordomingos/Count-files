@@ -16,15 +16,16 @@ DEFAULT_PREVIEW_SIZE = 5 * TERM_WIDTH  # 5 lines of text preview
 SUPPORTED_TYPES = {
     'all_extensions': ['..'],
     'no_extension': ['.'],
-    'text': ['py', 'txt', 'html', 'css', 'js', 'c'],
-    'image': ['jpg', 'png', 'gif'],
-    'pdf': ['pdf'],
+    'text': ['py', 'txt', 'html', 'css', 'js', 'c', 'md'],
 }
 
-not_supported_type_message = f'Sorry, there is no preview available for this file type. ' \
-                             f'\nThis is the list of currently supported file types: ' \
-                             f'{", ".join(sorted(list(chain.from_iterable(SUPPORTED_TYPES.values()))))}. ' \
-                             f'\nYou may want to try again without preview.\n\n'
-
 supported_type_info_message = f'This is the list of currently supported file types for preview: ' \
-                              f'{", ".join(sorted(list(chain.from_iterable(SUPPORTED_TYPES.values()))))}. '
+                              f'{", ".join(sorted(SUPPORTED_TYPES["text"]))}.\n' \
+                              f'Previewing files without extension is not supported. ' \
+                              f'You can use the "--preview" argument together with the search ' \
+                              f'for all files regardless of the extension ("--file-extension .."). ' \
+                              f'In this case, the preview will only be displayed for files with a supported extension.'
+
+not_supported_type_message = f'Sorry, there is no preview available for this file type. ' \
+                             f'You may want to try again without preview.\n' \
+                             f'{supported_type_info_message}'

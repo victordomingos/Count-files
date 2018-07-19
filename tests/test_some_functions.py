@@ -6,7 +6,7 @@ import sys
 from count_files.utils.file_handlers import get_file_extension,\
     is_hidden_file_or_dir, search_files, count_files_by_extension,\
     get_total, get_total_by_extension
-from count_files.utils.file_preview import generate_preview
+from count_files.utils.file_preview import generate_preview, generic_text_preview, generic_binary_preview
 
 
 class TestSomeFunctions(unittest.TestCase):
@@ -169,6 +169,29 @@ class TestSomeFunctions(unittest.TestCase):
     def test_generate_preview(self):
         pass
 
+    def test_generic_text_preview_errors(self):
+        # win denied_result: TEXT_PREVIEW_ERROR: [Errno 13] Permission denied: 'path\to\data_for_tests'
+        denied_result = generic_text_preview(filepath=self.get_locations('data_for_tests'), max_size=1)
+        # win no_file: TEXT_PREVIEW_ERROR: [Errno 2] No such file or directory: 'path\to\data_for_tests\no'
+        no_file = generic_text_preview(filepath=self.get_locations('data_for_tests', 'no'), max_size=1)
+        # win not_implemented: TEXT_PREVIEW_ERROR: 'charmap' codec can't decode byte 0x98 in position 579:
+        # character maps to <undefined>
+        not_implemented = generic_text_preview(
+            filepath=self.get_locations('data_for_tests', 'django_staticfiles_for_test', 'admin',
+                                        'fonts', 'LICENSE.txt.gz'), max_size=1)
+        self.assertEqual('TEXT_PREVIEW_ERROR' in denied_result, True)
+        self.assertEqual('TEXT_PREVIEW_ERROR' in no_file, True)
+        self.assertEqual('TEXT_PREVIEW_ERROR' in not_implemented, True)
+
+    def test_generic_text_preview_excerpt(self):
+        empty_file = generic_text_preview(filepath=self.get_locations(
+            'data_for_tests', 'ext_in_lowercase.txt'), max_size=1)
+        excerpt_result = generic_text_preview(filepath=self.get_locations(
+            'data_for_tests', 'py_file_for_tests.py'), max_size=1)
+        self.assertEqual(empty_file, '')
+        self.assertEqual(excerpt_result, '"')
+
+
 # from root directory:
 
 # run all tests in test_some_functions.py
@@ -178,7 +201,7 @@ class TestSomeFunctions(unittest.TestCase):
 # python -m unittest tests.test_some_functions.TestSomeFunctions
 
 # run test for def test_non_recursive_search in class TestSomeFunctions
-# python -m unittest tests.test_some_functions.TestSomeFunctions.test_non_recursive_search
+# python -m unittest tests.test_some_functions.TestSomeFunctions.test_get_file_extension
 
 # or run file in PyCharm
 

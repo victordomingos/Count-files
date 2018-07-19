@@ -36,7 +36,7 @@ def is_supported_filetype(extension: str) -> bool:
     """
     Return a True if the given file extension has a supported file preview
 
-    :param extension:
+    :param extension: extension name (txt, py), '.'(without extension) or '..' (all extensions)
     :return: True if we have a preview procedure for the given file type, False otherwise.
     """
     return extension in list(chain.from_iterable(SUPPORTED_TYPES.values()))
@@ -56,7 +56,8 @@ def human_mem_size(num: int, suffix='B') -> str:
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 
-def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: bool, case_sensitive: bool) -> Iterable[str]:
+def search_files(dirpath: str, extension: str, recursive: bool = True,
+                 include_hidden: bool = False, case_sensitive: bool = False) -> Iterable[str]:
     """Find all files in a given directory with and without the extension.
 
     :param dirpath: full/path/to/folder
@@ -96,7 +97,8 @@ def search_files(dirpath: str, extension: str, recursive: bool, include_hidden: 
                 break
 
 
-def count_files_by_extension(dirpath: str, no_feedback: bool, recursive=False, include_hidden=True, case_sensitive=False) -> Counter:
+def count_files_by_extension(dirpath: str, no_feedback: bool = False, recursive: bool = True,
+                             include_hidden: bool = False, case_sensitive: bool = False) -> Counter:
     """Count all files in a given directory by their extensions.
 
     :param dirpath: full/path/to/folder
