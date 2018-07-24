@@ -48,9 +48,7 @@ A atual versão de desenvolvimento pode ser instalada com o comando
 mesma pasta que contém o ficheiro `setup.py`). Para executar esta aplicação é
 necessária uma instalação do Python 3.6 ou superior. Procuramos manter no
 mínimo as dependências externas, de modo a manter a compatibilidade com
-diferentes plataformas, incluindo Pythonista em iOS. Neste momento, requer:
-
-- puremagic==1.4
+diferentes plataformas, incluindo Pythonista em iOS. 
 
 Planeamos submeter esta aplicação ao PyPI tão brevemente quanto possível, para
 permitir oferecer uma forma de instalação e atualização mais simples.
@@ -90,14 +88,10 @@ repositório:
 pip install victordomingos/Count-files
 ```
 
-Se tudo correr bem, o comando acima deverá instalar quais quer dependências,
+Se tudo correr bem, o comando acima deverá 
 colocar um pacote chamado `count_files` dentro da pasta
 `~/Documents/site-packages-3` e criar um *script* de execução chamado
-`count-files.py` em `stash_extensions/bin`. Poderá precisar de descarregar
-manualmente (recorda-se daquele comando `wget`?) um ficheiro chamado
-`magic_data.json` do repositório [`puremagic`](https://github.com/cdgriffith/puremagic)
-(por algum motivo, neste momento não está a instalar corretamente usando a
-StaSh) e movê-lo para `~/Documents/site-packages-3/puremagic/`. De seguida,
+`count-files.py` em `stash_extensions/bin`. De seguida,
 force o encerramento do Pythonista, reinicie a app e inicie novamente a StaSh.
 Já deverá conseguir executar esta aplicação diretamente a partir da consola
 para contar quaisquer ficheiros que possa ter no ambiente do Pythonista.
