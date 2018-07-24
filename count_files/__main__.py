@@ -171,8 +171,8 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         location = os.path.expanduser(args.path)
         loc_text = ':\n' + location
 
-    #if not os.path.exists(location):
-        #parser.exit(status=1, message=f'The path {location} does not exist, or there may be a typo in it.')
+    if not os.path.exists(location):
+        parser.exit(status=1, message=f'The path {location} does not exist, or there may be a typo in it.')
 
     if not include_hidden and is_hidden_file_or_dir(location):
         parser.exit(status=1, message=f'\nNot counting any files, because {loc_text[2:]} has hidden folders.\n'
