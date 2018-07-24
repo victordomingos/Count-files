@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-
 import unittest
 import os
 import sys
+
 from count_files.__main__ import main_flow
 
 
@@ -12,28 +12,28 @@ class TestArgumentParser(unittest.TestCase):
     def get_locations(self, *args):
         return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
 
-    # thread - ...or do other stuff, i.e., counting files.
+    # counting total number of files
     def test_countfiles_all_t(self):
         """Testing def main_flow.
 
         Recursive/non recursive counting.
         Testing for hidden files is not carried out here.
-        Equivalent to "python __main__.py ~/.../tests/data_for_tests -a -t .."
+        Equivalent to "count-files ~/.../tests/data_for_tests -a -t .."
         :return:
         """
         self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-t', '..']), 16)
         self.assertEqual(main_flow([self.get_locations('data_for_tests'), '-t', '..', '-nr']), 6)
 
-    # thread - if search_by_extension:
+    # search by extension
     def test_countfiles_fe(self):
         """Testing def main_flow.
 
         Recursive default counting.
         Equivalent to
-        "python __main__.py ~/.../tests/data_for_tests/django_staticfiles_for_test -fe {extension}"
+        "count-files ~/.../tests/data_for_tests/django_staticfiles_for_test -fe {extension}"
         Non recursive counting.
         Equivalent to
-        "python __main__.py ~/.../tests/data_for_tests/django_staticfiles_for_test -nr -fe {extension}"
+        "count-files ~/.../tests/data_for_tests/django_staticfiles_for_test -nr -fe {extension}"
         :return:
         """
         location = self.get_locations('data_for_tests')
@@ -48,6 +48,7 @@ class TestArgumentParser(unittest.TestCase):
             with self.subTest(k=k, v=v):
                 self.assertEqual(main_flow([location, '-nr', '-c', '-fe', f'{k}']), v)
 
+    # tests for hidden files, Linux and Mac OS
     @unittest.skipIf(sys.platform.startswith("win"), "not for Windows")
     def test_for_hidden(self):
         """Testing def main_flow.
@@ -60,6 +61,7 @@ class TestArgumentParser(unittest.TestCase):
         self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-t', '..']), 1)
         self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-t', '..', '-a']), 2)
 
+    # tests for hidden files, Windows
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_for_hidden_win(self):
         """Testing def main_flow.

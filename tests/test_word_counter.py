@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
 import unittest
 import os
 import sys
 from contextlib import redirect_stdout
 import filecmp
+
 from count_files.utils.word_counter import show_2columns, show_result_for_search_files
 from count_files.utils.file_handlers import count_files_by_extension, search_files
 
@@ -11,10 +13,16 @@ class TestWordCounter(unittest.TestCase):
     """Testing word_counter.py functions"""
 
     def get_locations(self, *args):
-        print('LOCATION: ', os.path.normpath(os.path.join(os.path.dirname(__file__), *args)))
         return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
 
     def test_show_2columns(self):
+        """Testing def show_2columns(compare files with tables).
+
+        Comparison of the file with the results of the function with the specified file.
+        standard: 2columns_sorted.txt and 2columns_most_common.txt
+        results of the function: test_2columns_sorted.txt and test_2columns_most_common.txt
+        :return:
+        """
         test1 = self.get_locations('compare_tables', 'test_2columns_sorted.txt')
         test2 = self.get_locations('compare_tables', 'test_2columns_most_common.txt')
         data = count_files_by_extension(dirpath=self.get_locations('data_for_tests'), no_feedback=True,
@@ -31,11 +39,13 @@ class TestWordCounter(unittest.TestCase):
                                      shallow=False), True)
 
     # TODO:  test show_result_for_search_files() for different OS
-    # compare lists with paths and file sizes, for different OS and PC lists will be different
+    # compare lists with paths and file sizes
     def test_show_result_for_search_files(self):
         """Testing def show_result_for_search_files. Search by extension.
-        Comparison of the file with the results of the function with the specified file.
 
+        Comparison of the file with the results of the function with the specified file.
+        Note: for different OS and PC lists will be different!
+        Preconditions: create standard file for a particular PC
         Expected behavior: List with paths and file sizes.
 
         full/path/to/file1.extension (... KiB)
@@ -66,8 +76,8 @@ class TestWordCounter(unittest.TestCase):
 # python -m unittest tests/test_word_counter.py
 # run all tests for class TestWordCounter
 # python -m unittest tests.test_word_counter.TestWordCounter
-# run test for def test_get_files_by_extension in class TestWordCounter
-# python -m unittest tests.test_word_counter.TestWordCounter.test_get_files_by_extension
+# run test for def test_show_2columns in class TestWordCounter
+# python -m unittest tests.test_word_counter.TestWordCounter.test_show_2columns
 
 # or run file in PyCharm
 

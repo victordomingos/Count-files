@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """https://docs.python.org/3.6/library/profile.html
 
 profile.run(command, filename=None, sort=-1)
@@ -15,6 +16,7 @@ filename:lineno(function) provides the respective data of each function
 import cProfile
 import os
 import sys
+
 from count_files.utils.word_counter import show_result_for_search_files, show_2columns
 from count_files.utils.file_handlers import search_files, count_files_by_extension
 from count_files.__main__ import main_flow
