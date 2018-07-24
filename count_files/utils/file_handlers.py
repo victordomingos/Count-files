@@ -12,15 +12,17 @@ from itertools import chain
 from count_files.settings import SUPPORTED_TYPES, TERM_WIDTH
 
 
-def get_file_extension(filepath: str, case_sensitive=False) -> str:
+def get_file_extension(filepath: str, case_sensitive: bool = False) -> str:
     """Extract only the file extension from a given path.
 
     Behavior:
     select2.3805311d5fc1.css.gz -> gz, .gitignore -> '.'
     Pipfile -> '.', .hidden_file.txt -> txt
     :param filepath: full/path/to/file
-    :param case_sensitive: False -> ignore case in extensions, True -> distinguish case variations in extensions
-    :return: extension name (txt, py) or '.' (for files without extension). If case_sensitive==False, return in uppercase.
+    :param case_sensitive: False -> ignore case in extensions,
+    True -> distinguish case variations in extensions
+    :return: extension name (txt, py) or '.' (for files without extension).
+    If case_sensitive==False, return in uppercase.
     """
     extension = os.path.splitext(filepath)[1][1:]
     if extension:
@@ -33,8 +35,7 @@ def get_file_extension(filepath: str, case_sensitive=False) -> str:
 
 
 def is_supported_filetype(extension: str) -> bool:
-    """
-    Return a True if the given file extension has a supported file preview
+    """Return a True if the given file extension has a supported file preview.
 
     :param extension: extension name (txt, py), '.'(without extension) or '..' (all extensions)
     :return: True if we have a preview procedure for the given file type, False otherwise.
@@ -42,7 +43,7 @@ def is_supported_filetype(extension: str) -> bool:
     return extension in list(chain.from_iterable(SUPPORTED_TYPES.values()))
 
 
-def human_mem_size(num: int, suffix='B') -> str:
+def human_mem_size(num: int, suffix: str = 'B') -> str:
     """Return a human readable memory size in a string.
 
     Initially written by Fred Cirera, modified and shared by Sridhar Ratnakumar
@@ -64,13 +65,11 @@ def search_files(dirpath: str, extension: str, recursive: bool = True,
     :param extension: extension name (txt, py), '.'(without extension) or '..' (all extensions)
     :param recursive: True(default) or False
     :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
-    :param case_sensitive: False -> ignore case in extensions, True -> distinguish case variations in extensions
+    :param case_sensitive: False -> ignore case in extensions,
+    True -> distinguish case variations in extensions
     :return: object <class 'generator'>
     """
-    # in fact this part do the same as def count_files_by_extension(except counters) if it called
-    # directly -> search_files('full/path/to/folder', '..', recursive=True, include_hidden=True)
     # this part used for -fe .. (all extensions)
-    # this is equivalent to the def count_files_by_extension, but instead of a table, it returns all paths
     if extension == '..':
         for root, dirs, files in os.walk(dirpath):
             for f in files:
@@ -142,8 +141,9 @@ def count_files_by_extension(dirpath: str, no_feedback: bool = False, recursive:
                 only_these = [f for f in directory if f.is_file()
                               and not is_hidden_file_or_dir(os.path.join(dirpath, f))]
             count_file_extensions(only_these)
-    
-    print("\r".ljust(TERM_WIDTH-1))  # Clean the feedback text before proceeding.
+
+    if not no_feedback:
+        print("\r".ljust(TERM_WIDTH-1))  # Clean the feedback text before proceeding.
     return counters
 
 
@@ -156,7 +156,7 @@ def is_hidden_file_or_dir(filepath: str) -> bool:
     If parent folders not hidden, but final file/folder is hidden also return True.
     (discussion: https://stackoverflow.com/questions/284115/cross-platform-hidden-file-detection)
 
-    Linux: testing at least for the dot character in path on Unix-like systems.
+    Linux, Mac OS: testing at least for the dot character in path on Unix-like systems.
     Note: for Linux def is_hidden_file_or_dir('~/path/.to/file.txt') checking for the dot character in path,
     so if '/.' in path the entire folder is ignored, even if it has visible files.
 
@@ -169,7 +169,6 @@ def is_hidden_file_or_dir(filepath: str) -> bool:
     :return: True if hidden or False if not
     """
     platform_name = sys.platform
-    filepath = os.path.normpath(filepath)
     if platform_name.startswith('win'):
         # list with full paths of all parents in filepath except drive
         list_for_check = list(Path(filepath).parents)[:-1]

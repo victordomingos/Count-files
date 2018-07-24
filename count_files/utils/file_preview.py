@@ -1,21 +1,17 @@
 #!/usr/bin/env python3
 # encoding: utf-8
-import os
-import itertools
-
 from pathlib import Path
 
 from count_files.utils.file_handlers import get_file_extension
 from count_files.settings import SUPPORTED_TYPES
 
 
-#TODO
 def generic_text_preview(filepath: str, max_size: int) -> str:
-    """ Read the first characters of the file and return a string
+    """Read the first characters of the file and return a string.
 
     :param filepath: a string containing the path to the file
     :param max_size: max number of characters to be read from file
-    :return: a string with the text preview
+    :return: a string with the text preview or error message
     """
     try:
         p = Path(filepath)
@@ -53,7 +49,8 @@ def generate_preview(filepath: str, max_size: int = 390) -> str:
     For CLI.
     The number of characters for viewing by default depends on the terminal width settings
     and can be changed with the -ps or -preview-size argument.
-    :return: a string with the text preview (without newline characters)
+    :return: a string with the text preview (without newline characters).
+    If the preview is not available for the file, it returns an information message.
     """
     extension = get_file_extension(filepath, case_sensitive=False).lower()
 
@@ -63,7 +60,7 @@ def generate_preview(filepath: str, max_size: int = 390) -> str:
             # return excerpt or error string
             return f"{excerpt}"
         else:
-            return "[This file is empty.]"
+            return "[This file can be empty.]"
     else:
         # skip the extension if it is not supported
         return "[A preview of this file type is not yet implemented.]"

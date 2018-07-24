@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # encoding: utf-8
 from setuptools import setup
 import os
@@ -16,15 +17,7 @@ if used[:2] < required:
                      "Python 3.6 or later is required." % (sys.version_info.major, sys.version_info.minor))
     sys.exit(1)
 
-long_desc = "Count files, grouped by extension, in a directory. By " \
-            "default, it will count files recursively in current " \
-            "working directory and all of its subdirectories, and " \
-            "will display a table showing the frequency for each file " \
-            "extension (e.g.: .txt, .py, .html, .css) and the total " \
-            "number of files found. Any hidden files or folders " \
-            "(those with names starting with '.') are ignored by " \
-            "default."
-short_desc = "A little command-line interface (CLI) utility " \
+short_desc = "A command-line interface (CLI) utility " \
              "that helps you count all the files or search for files " \
              "with a certain file extension (or without it) in the specified directory."
 
@@ -44,7 +37,7 @@ setup(name='count-files',
       url='https://github.com/victordomingos/Count-files',  # homepage
       python_requires='>=3.6',
 
-      classifiers = [
+      classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Intended Audience :: Developers',
@@ -64,11 +57,7 @@ setup(name='count-files',
       ],
     
       keywords='file count code analysis cli search extension recursive non-recursive',
-      install_requires=[
-        'puremagic==1.4',
-      ],
-
-      entry_points = {
+      entry_points={
           'console_scripts': [
               'count-files = count_files.__main__:main_flow'
           ]

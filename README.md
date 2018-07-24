@@ -46,11 +46,7 @@ command-line in the Pythonista 3 app.
 The current development version can be installed with `pip install -e`,
 followed by the path to the main project directory (the same directory that
 has the `setup.py` file). To run this application, you need to have a working
-Python 3.6+ instalation. We try to keep the external dependencies at a minimum,
-in order to keep compatibility with different plataforms, including Pythonista
-on iOS. At this moment, we require:
-
-- puremagic==1.4
+Python 3.6+ instalation.
 
 We plan to submit this to PyPI as soon as possible, in order to provide a more
 straight-forward instalation and upgrade process. While that doesn't happen,
@@ -168,10 +164,6 @@ count-files -h
 ```
 count-files --help
 ```
-
-
-
-
 
   
 ### Hidden files and directories  

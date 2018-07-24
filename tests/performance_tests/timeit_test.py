@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """https://docs.python.org/3.6/library/timeit.html
 
 Timer(stmt='pass', setup='pass', timer=<timer function>, globals=None)
@@ -6,6 +7,7 @@ Timer.repeat(repeat=3, number=1000000)
 import timeit
 import sys
 import os
+
 from count_files.utils.file_handlers import search_files, count_files_by_extension
 from count_files.__main__ import main_flow
 from count_files.utils.file_handlers import get_total, get_total_by_extension

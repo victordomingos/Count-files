@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
 import traceback
 import logging
 import os
 import sys
 from functools import wraps
+
 from count_files.settings import LOG_FOLDER, CLI_LOG_FILE, BUG_REPORT_URL
 
 

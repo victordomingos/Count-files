@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-
 import unittest
 import os
 import sys
+
 from count_files.utils.file_handlers import get_file_extension,\
     is_hidden_file_or_dir, search_files, count_files_by_extension,\
     get_total, get_total_by_extension
-from count_files.utils.file_preview import generate_preview, generic_text_preview, generic_binary_preview
+from count_files.utils.file_preview import generate_preview, generic_text_preview
 
 
 class TestSomeFunctions(unittest.TestCase):
 
     def get_locations(self, *args):
-        # print('LOCATION: ', os.path.normpath(os.path.join(os.path.dirname(__file__), *args)))
         return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
 
     def test_get_file_extension(self):
@@ -189,7 +188,7 @@ class TestSomeFunctions(unittest.TestCase):
         excerpt_result = generic_text_preview(filepath=self.get_locations(
             'data_for_tests', 'py_file_for_tests.py'), max_size=1)
         self.assertEqual(empty_file, '')
-        self.assertEqual(excerpt_result, '"')
+        self.assertEqual(excerpt_result, '#')
 
 
 # from root directory:
@@ -200,8 +199,8 @@ class TestSomeFunctions(unittest.TestCase):
 # run all tests for class TestSomeFunctions
 # python -m unittest tests.test_some_functions.TestSomeFunctions
 
-# run test for def test_non_recursive_search in class TestSomeFunctions
-# python -m unittest tests.test_some_functions.TestSomeFunctions.test_get_file_extension
+# run test for def test_generic_text_preview_excerpt in class TestSomeFunctions
+# python -m unittest tests.test_some_functions.TestSomeFunctions.test_generic_text_preview_excerpt
 
 # or run file in PyCharm
 
