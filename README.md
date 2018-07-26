@@ -83,13 +83,9 @@ from this git repository:
 pip install victordomingos/Count-files
 ```
 
-If all goes well, it should install any dependencies, place a new `count_files`
+If all goes well, it should place a new `count_files`
 package inside the `~/Documents/site-packages-3/` folder and create an
-entrypoint script named `count-files.py` in `stash_extensions/bin`. You may
-need to manually download (remember that `wget` command?) a file named
-`magic_data.json` from the [`puremagic`](https://github.com/cdgriffith/puremagic)
-repository (for some reason, it is not being correctly installed using StaSh)
-and move it to `~/Documents/site-packages-3/puremagic/`. Then force-quit and
+entrypoint script named `count-files.py` in `stash_extensions/bin`. Then force-quit and
 launch StaSh again. You should now be able to run this application directly
 from the shell to count any files that you may have inside your Pythonista
 environment.
