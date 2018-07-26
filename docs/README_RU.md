@@ -72,11 +72,7 @@ selfupdate.py -f bennr01:command_testing
 pip install victordomingos/Count-files
 ```
 
-Если все пойдет хорошо, должны быть установлены любые зависимости, новый пакет `count_files` внутри папки
-`~/Documents/site-packages-3/` и создан entrypoint script с именем `count-files.py` в `stash_extensions/bin`.
-Возможно, придется вручную загрузить (помните команду `wget`?) файл с именем `magic_data.json` из репозитория [`puremagic`](https://github.com/cdgriffith/puremagic)
-(по какой-то причине он не устанавливается корректно с помощью StaSh) и переместить его в `~/Documents/site-packages-3/puremagic/`.
-Затем принудительно завершите работу и снова запустите StaSh.
+Если все пойдет хорошо, внутри папки `~/Documents/site-packages-3/` появится новый пакет `count_files` и будет создан entrypoint script с именем `count-files.py` в `stash_extensions/bin`. Затем принудительно завершите работу и снова запустите StaSh.
 Теперь можно запустить эту программу непосредственно из оболочки, чтобы подсчитать все файлы, которые могут быть внутри Pythonista.
 
 ## Как использовать CLI:
