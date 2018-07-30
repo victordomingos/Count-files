@@ -26,8 +26,8 @@ from typing import TypeVar, Union
 from count_files.utils.file_handlers import count_files_by_extension, search_files,\
     get_total, get_total_by_extension
 from count_files.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
-from count_files.utils.word_counter import show_2columns
-from count_files.utils.word_counter import show_result_for_search_files
+from count_files.utils.viewing_modes import show_2columns
+from count_files.utils.viewing_modes import show_result_for_search_files
 from count_files.settings import not_supported_type_message, supported_type_info_message,\
     DEFAULT_PREVIEW_SIZE
 # from count_files.utils.decorators import exceptions_decorator
