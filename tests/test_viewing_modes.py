@@ -24,6 +24,16 @@ class TestViewingModes(unittest.TestCase):
     def get_locations(self, *args):
         return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
 
+    def generate_standard_file(self):
+        with open(self.standard_file, 'w') as f:
+            f.write(f"{self.get_locations('data_for_tests', 'no_extension')} (49.0 B)\n")
+            f.write(f"{self.get_locations('data_for_tests', 'django_staticfiles_for_test', 'no_ext')} (0.0 B)\n")
+            f.write('\n')
+            f.write('   Found 2 file(s).\n')
+            f.write('   Total combined size: 49.0 B.\n')
+            f.write('   Average file size: 24.0 B (max: 49.0 B, min: 0.0 B).\n\n')
+        return
+
     def test_show_2columns(self):
         """Testing def show_2columns(compare files with tables).
 
@@ -66,8 +76,8 @@ class TestViewingModes(unittest.TestCase):
         :return:
         """
         if not os.path.exists(self.standard_file):
-            msg = f'A standard file {self.standard_file} was not created.'
-            raise FileNotFoundError(msg)
+            print('A standard file is generated.')
+            self.generate_standard_file()
         data = search_files(dirpath=self.get_locations('data_for_tests'), extension='.',
                             include_hidden=False, recursive=True, case_sensitive=False)
         with open(self.test_file, 'w') as f:
