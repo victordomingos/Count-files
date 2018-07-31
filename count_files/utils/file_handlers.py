@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 # encoding: utf-8
-import ctypes
 import os
 import sys
-
 from pathlib import Path
 from typing import Iterable
 from collections import Counter
 from itertools import chain
+try:
+    import ctypes
+except:
+    pass
 
 from count_files.settings import SUPPORTED_TYPES, TERM_WIDTH
 
