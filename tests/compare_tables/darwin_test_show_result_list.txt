@@ -1,7 +1,0 @@
-tests/data_for_tests/no_extension (49.0 B)
-tests/data_for_tests/django_staticfiles_for_test/no_ext (0.0 B)
-
-   Found 2 file(s).
-   Total combined size: 49.0 B.
-   Average file size: 24.0 B (max: 49.0 B, min: 0.0 B).
-

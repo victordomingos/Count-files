@@ -16,7 +16,7 @@ DEFAULT_PREVIEW_SIZE = 5 * TERM_WIDTH  # 5 lines of text preview
 SUPPORTED_TYPES = {
     'all_extensions': ['..'],
     'no_extension': ['.'],
-    'text': ['py', 'txt', 'html', 'css', 'js', 'c', 'md'],
+    'text': ['py', 'txt', 'html', 'css', 'js', 'c', 'md', 'json'],
 }
 
 supported_type_info_message = f'This is the list of currently supported file types for preview: ' \

@@ -5,15 +5,34 @@ import sys
 from contextlib import redirect_stdout
 import filecmp
 
-from count_files.utils.word_counter import show_2columns, show_result_for_search_files
+from count_files.utils.viewing_modes import show_2columns, show_result_for_search_files
 from count_files.utils.file_handlers import count_files_by_extension, search_files
 
 
-class TestWordCounter(unittest.TestCase):
-    """Testing word_counter.py functions"""
+class TestViewingModes(unittest.TestCase):
+    """Testing viewing_modes.py functions"""
+
+    def setUp(self):
+        self.test_file = self.get_locations('compare_tables', 'test_show_result_list.txt')
+        if sys.platform.startswith('win'):
+            self.standard_file = self.get_locations('compare_tables', 'win_show_result_list.txt')
+        elif sys.platform.startswith('linux'):
+            self.standard_file = self.get_locations('compare_tables', 'linux_show_result_list.txt')
+        elif sys.platform.startswith('darwin'):
+            self.standard_file = self.get_locations('compare_tables', 'darwin_show_result_list.txt')
 
     def get_locations(self, *args):
         return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
+
+    def generate_standard_file(self):
+        with open(self.standard_file, 'w') as f:
+            f.write(f"{self.get_locations('data_for_tests', 'no_extension')} (49.0 B)\n")
+            f.write(f"{self.get_locations('data_for_tests', 'django_staticfiles_for_test', 'no_ext')} (0.0 B)\n")
+            f.write('\n')
+            f.write('   Found 2 file(s).\n')
+            f.write('   Total combined size: 49.0 B.\n')
+            f.write('   Average file size: 24.0 B (max: 49.0 B, min: 0.0 B).\n\n')
+        return
 
     def test_show_2columns(self):
         """Testing def show_2columns(compare files with tables).
@@ -56,28 +75,25 @@ class TestWordCounter(unittest.TestCase):
         Average file size: ... KiB (max: ... KiB, min: ... B).
         :return:
         """
-        if sys.platform.startswith('win'):
-            standard = 'win_show_result_list.txt'
-        elif sys.platform.startswith('darwin'):
-            standard = 'darwin_show_result_list.txt'
-        elif sys.platform.startswith('linux'):
-            standard = 'linux_show_result_list.txt'
+        if not os.path.exists(self.standard_file):
+            print('A standard file is generated.')
+            self.generate_standard_file()
         data = search_files(dirpath=self.get_locations('data_for_tests'), extension='.',
                             include_hidden=False, recursive=True, case_sensitive=False)
-        test1 = self.get_locations('compare_tables', 'test_show_result_list.txt')
-        with open(test1, 'w') as f:
+        with open(self.test_file, 'w') as f:
             with redirect_stdout(f):
                 show_result_for_search_files(files=data, file_sizes=True)
-        self.assertEqual(filecmp.cmp(test1, self.get_locations('compare_tables', standard),
+        self.assertEqual(filecmp.cmp(self.test_file, self.standard_file,
                                      shallow=False), True)
 
+
 # from root directory:
-# run all tests in test_word_counter.py
-# python -m unittest tests/test_word_counter.py
-# run all tests for class TestWordCounter
-# python -m unittest tests.test_word_counter.TestWordCounter
-# run test for def test_show_2columns in class TestWordCounter
-# python -m unittest tests.test_word_counter.TestWordCounter.test_show_2columns
+# run all tests in test_viewing_modes.py
+# python -m unittest tests/test_viewing_modes.py
+# run all tests for class TestViewingModes
+# python -m unittest tests.test_viewing_modes.TestViewingModes
+# run test for def test_show_2columns in class TestViewingModes
+# python -m unittest tests.test_word_counter.TestViewingModes.test_show_2columns
 
 # or run file in PyCharm
 
