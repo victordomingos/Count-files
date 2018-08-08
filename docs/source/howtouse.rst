@@ -119,8 +119,20 @@ processing of files a little.
 
 To search for files by extension (using ``-fe`` or ``--file-extension``) feedback is the list itself.
 
-Using the CLI
-^^^^^^^^^^^^^
+Displaying the counting and search results
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+File counting by extension (`Sorted table`_):
+
+A table with file extensions sorted by frequency or alphabetically.
+
+File searching by extension (using ``-fe`` or ``--file-extension``):
+
+The result of the search will be a `List of all found files`_.
+
+Total counting of files (using ``-t`` or ``--total``):
+
+Only the `Total number of files`_ found.
 
 Sorted table
 """"""""""""
