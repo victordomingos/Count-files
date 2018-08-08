@@ -134,6 +134,10 @@ Total counting of files (using ``-t`` or ``--total``):
 
 Only the `Total number of files`_ found.
 
+
+.. seealso:: :ref:`examples-label`
+
+
 Sorted table
 """"""""""""
 
@@ -225,6 +229,3 @@ Use two dots without spaces ``..`` to get the total number of all files with or 
 ::
 
    count-files --total ..
-
-.. seealso:: :ref:`examples-label`
-
