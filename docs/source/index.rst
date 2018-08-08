@@ -54,9 +54,7 @@ MIT
 Please, open a new issue or a pull request to the `repository <https://github.com/victordomingos/Count-files>`_.
 
 
-Indices and tables
-==================
+Search
+------
 
-* :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
