@@ -88,7 +88,17 @@ The names of extensions are case insensitive by default. The results for
 extensions in different cases, use the ``-c`` or ``--case-sensitive`` switch
 argument.
 
-In this case, the file extensions in the table will be displayed as is (in lowercase and uppercase). And the result of the search will be a list with paths to files with an extension in the corresponding register. For total counting of files with a specific extension, this option is also available.
+File counting by extension (`Sorted table`_):
+
+In this case, the file extensions in the table will be displayed as is (in lowercase and uppercase).
+
+File searching by extension (using ``-fe`` or ``--file-extension``):
+
+The result of the search will be a list with paths to files with an extension in the corresponding register.
+
+Total counting of files (using ``-t`` or ``--total``):
+
+For total counting of files with a specific extension, this option is also available.
 
 .. _feedback-label:
 
@@ -100,8 +110,8 @@ File names are not displayed when searching for a particular extension, if
 there are no such files in the folder or if the files are hidden, and the
 argument ``--all`` is not specified.
 
-Feedback is available by default for counting files by extension (table)
-and for counting the total number of files. Optional
+Feedback is available by default for counting files by extension (`Sorted table`_)
+and for counting the total number of files(using ``-t`` or ``--total``). Optional
 argument ``-nf`` or ``--no-feedback`` disables it.
 
 Using the ``--no-feedback`` argument allows you to speed up the

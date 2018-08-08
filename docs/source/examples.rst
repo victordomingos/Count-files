@@ -108,7 +108,7 @@ Long form of arguments
 If you only need the total number of all files, number of files with a certain extension or without it
 use the ``-t`` or ``--total`` argument.
 
-To count the total number of files, you must specify the name of the extension
+To count the total number of files, you must specify the name of the extension.
 
 Example::
 
