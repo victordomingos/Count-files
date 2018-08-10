@@ -40,9 +40,13 @@ command-line in the Pythonista 3 app.
 
 Python 3.6 and later
 
-**License:**
+**Tested:**
 
-MIT
+Windows 8.1 Professional, Python 3.6.0
+
+Linux Mint 19 "Tara", Python 3.6.5
+
+**License:** MIT
 
 **Contents:**
 
