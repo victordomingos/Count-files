@@ -36,6 +36,10 @@ It may also be used on
 iOS (iPhone/iPad) using the `StaSh <https://github.com/ywangd/stash>`_
 command-line in the Pythonista 3 app.
 
+**Supported Python versions:**
+
+Python 3.6 and later
+
 **License:**
 
 MIT
