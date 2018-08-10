@@ -10,21 +10,48 @@ More about the common arguments:
 * ``--no-recursion`` - :ref:`non-recursive-label`
 * ``--no-feedback`` - :ref:`feedback-label`
 
-Counting how many files are there for each extension
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. _count-label:
+
+File counting by extension: Sorted table
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 Short form of arguments
 ::
 
-   usage: count-files [-a] [-alpha] [-c] [-nr] [-nf] [path]
+   usage: count-files [-a] [-alpha] [-c]
+                      [-nr] [-nf] [path]
 
 Long form of arguments
 ::
 
    usage: count-files [--all] [--sort-alpha] [--case-sensitive]
-          [--no-recursion] [--no-feedback] [path]
+                      [--no-recursion] [--no-feedback] [path]
 
-By default, the table will be sorted by the file extension frequency. If you prefer alphabetically sorted results, you just need to add the ``-alpha`` or ``--sort-alpha`` argument.
+The most simple form of usage is to type a simple command in the shell, without
+any arguments.
+
+By default, it will count files recursively in current working directory and
+all of its subdirectories, and will display a table showing the frequency for
+each file extension (e.g.: .txt, .py, .html, .css) and the total number of
+files found. In this case, the file extensions in the table will be displayed in uppercase (default).
+
+Any hidden files or folders will be ignored.
+
+Example:
+
+::
+
+   count-files
+
+
+.. image:: _static/count_linux_mint.png
+   :scale: 50 %
+   :align: center
+   :alt: count files linux mint
+
+If you prefer alphabetically sorted results, you just need to add the ``-alpha`` or ``--sort-alpha`` argument.
 
 Example::
 
@@ -34,8 +61,10 @@ Example::
 
 ADD IMAGE
 
-Searching and listing files
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. _search-label:
+
+File searching by extension: List with file paths
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Short form of arguments
 ::
@@ -66,6 +95,20 @@ the full paths of the files found. If you need information about the size of the
 Searching for files with a specific extension
 """""""""""""""""""""""""""""""""""""""""""""
 
+Example:
+
+::
+
+   count-files -fe txt
+
+   count-files --file-extension txt
+
+
+.. image:: _static/count_linux_mint_fe_txt.png
+   :scale: 50 %
+   :align: center
+   :alt: count files linux mint fe txt
+
 Example::
 
    count-files -fe py -p -ps 500 -fs ~/Documents
@@ -91,8 +134,10 @@ Use two dots without spaces ``..`` to search for all files with or without the e
 
 Example: ``count-files --file-extension .. ~/Documents``
 
-Counting the total number of files in the directory
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. _total-label:
+
+Total counting of files: Total number
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Short form of arguments
 ::
@@ -110,6 +155,23 @@ use the ``-t`` or ``--total`` argument.
 
 To count the total number of files, you must specify the name of the extension.
 
+Total counting of files with a specific extension
+"""""""""""""""""""""""""""""""""""""""""""""""""
+
+Example:
+
+::
+
+   count-files -t txt
+
+   count-files --total txt
+
+
+.. image:: _static/count_total_txt_linux_mint.png
+   :scale: 50 %
+   :align: center
+   :alt: count files linux mint total txt
+
 Example::
 
    count-files ~/Documents -nr -nf -t png
@@ -118,9 +180,15 @@ Example::
 
 ADD IMAGE
 
+Total counting of files without extension
+"""""""""""""""""""""""""""""""""""""""""
+
 Use a single dot ``.`` to get the total number of files without any extension.
 
 Example: ``count-files --total . ~/Documents``
+
+Total counting of all files
+"""""""""""""""""""""""""""
 
 Use two dots without spaces ``..`` to get the total number of all files with or without the extension.
 

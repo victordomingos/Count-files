@@ -21,6 +21,22 @@ Arguments can be specified in both short and long form. For example: ``-a`` or `
                       [--file-extension FILE_EXTENSION] [--file-sizes]
                       [--preview] [--preview-size PREVIEW_SIZE] [path]
 
+Common arguments
+""""""""""""""""
+
+``path``, ``--all``, ``--case-sensitive``, ``--no-recursion``, ``--no-feedback``
+
+Special arguments
+"""""""""""""""""
+
+* File counting by extension (sorted table):
+   ``--sort-alpha``
+
+* File searching by extension (list with file paths):
+   ``--file-extension``, ``--file-sizes``, ``--preview``, ``--preview-size``
+
+* Total counting of files (total number):
+   ``--total``
 
 Getting help
 ^^^^^^^^^^^^
@@ -46,8 +62,8 @@ Get the list of currently supported file types for preview::
 
 .. _path-label:
 
-The `path` argument
-^^^^^^^^^^^^^^^^^^^
+The ``path`` argument
+^^^^^^^^^^^^^^^^^^^^^
 
 Optionally, you can pass it a path to the directory to scan. If you prefer, you
 can leave that argument empty, and it will scan the current working directory.
@@ -88,29 +104,29 @@ The names of extensions are case insensitive by default. The results for
 extensions in different cases, use the ``-c`` or ``--case-sensitive`` switch
 argument.
 
-File counting by extension (`Sorted table`_):
+* File counting by extension (sorted table):
 
-In this case, the file extensions in the table will be displayed as is (in lowercase and uppercase).
+   In this case, the file extensions in the table will be displayed as is (in lowercase and uppercase).
 
-File searching by extension (using ``-fe`` or ``--file-extension``):
+* File searching by extension (using ``-fe`` or ``--file-extension``):
 
-The result of the search will be a list with paths to files with an extension in the corresponding register.
+   The result of the search will be a list with paths to files with an extension in the corresponding register.
 
-Total counting of files (using ``-t`` or ``--total``):
+* Total counting of files (using ``-t`` or ``--total``):
 
-For total counting of files with a specific extension, this option is also available.
+   For total counting of files with a specific extension, this option is also available.
 
 .. _feedback-label:
 
 Customizing operation feedback
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The program's operating indicator is printing processed file names in one line.
 File names are not displayed when searching for a particular extension, if
 there are no such files in the folder or if the files are hidden, and the
 argument ``--all`` is not specified.
 
-Feedback is available by default for counting files by extension (`Sorted table`_)
+Feedback is available by default for counting files by extension 
 and for counting the total number of files(using ``-t`` or ``--total``). Optional
 argument ``-nf`` or ``--no-feedback`` disables it.
 
@@ -119,113 +135,49 @@ processing of files a little.
 
 To search for files by extension (using ``-fe`` or ``--file-extension``) feedback is the list itself.
 
-Displaying the counting and search results
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File counting by extension
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-File counting by extension (`Sorted table`_):
+To count all files by extension, you can simply use the command ``count-files`` and, if necessary, specify common arguments: ``path``, ``--all``, ``case-sensitive``, ``--no-recursion``, ``--no-feedback``.
 
-A table with file extensions sorted by frequency or alphabetically.
+.. seealso:: :ref:`count-label`
 
-File searching by extension (using ``-fe`` or ``--file-extension``):
+The ``--sort-alpha`` argument
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The result of the search will be a `List of all found files`_.
+By default, result of file counting by extension is a table showing the frequency for each file extension. To sort the extensions alphabetically, use the ``-alpha`` or ``--sort-alpha`` argument.
 
-Total counting of files (using ``-t`` or ``--total``):
+File searching by extension
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Only the `Total number of files`_ found.
+Another main feature of this application consists in searching files by a given extension, which presents to the user a list of all found files.
 
+Using ``-fe`` or ``--file-extension`` argument, you can find all the files with the specified extension.
 
-.. seealso:: :ref:`examples-label`
+.. seealso:: :ref:`search-label`
 
+Total counting of files
+^^^^^^^^^^^^^^^^^^^^^^^
 
-Sorted table
-""""""""""""
+To count the total number of all files, the number of files with a specific extension or without it
+you can use the ``-t`` or ``--total`` argument and specify the name of the extension.
 
+.. seealso:: :ref:`total-label`
 
-The most simple form of usage is to type a simple command in the shell, without
-any arguments.
+Preview text files
+^^^^^^^^^^^^^^^^^^
 
-By default, it will count files recursively in current working directory and
-all of its subdirectories, and will display a table showing the frequency for
-each file extension (e.g.: .txt, .py, .html, .css) and the total number of
-files found. In this case, the file extensions in the table will be displayed in uppercase (default).
+Preview is available for searching files using the ``-fe`` or ``--file-extension`` argument.
 
-Any hidden files or folders will be ignored.
+The default preview size depends on the terminal width settings.
+You can change this value by specifying the argument ``-p`` or ``--preview-size`` and an integer (the required number of characters).
 
-Example:
+Example: ``count-files --file-extension css --preview --preview-size 50``
 
-::
+File sizes
+^^^^^^^^^^
 
-   count-files
+You can get additional information about the size of each file using the ``-fs`` or ``--file-sizes`` argument. This option is available for searching files using the ``-fe`` or ``--file-extension`` argument.
 
+Example: ``count-files --file-extension js --file-sizes``
 
-.. image:: _static/count_linux_mint.png
-   :scale: 50 %
-   :align: center
-   :alt: count files linux mint
-
-
-List of all found files
-"""""""""""""""""""""""
-
-
-Another main feature of this application consists in searching files by a
-given extension, which presents to the user a list of all found files.
-
-Example:
-
-::
-
-   count-files -fe txt
-
-   count-files --file-extension txt
-
-
-.. image:: _static/count_linux_mint_fe_txt.png
-   :scale: 50 %
-   :align: center
-   :alt: count files linux mint fe txt
-
-
-Use a single dot ``.`` to search for files without any extension.
-::
-
-   count-files --file-extension .
-
-Use two dots without spaces ``..`` to search for all files with or without the extension.
-
-::
-
-   count-files --file-extension ..
-
-
-Total number of files
-""""""""""""""""""""""""""""""
-
-
-Only the total number of matching files found.
-
-Example:
-
-::
-
-   count-files -t txt
-
-   count-files --total txt
-
-
-.. image:: _static/count_total_txt_linux_mint.png
-   :scale: 50 %
-   :align: center
-   :alt: count files linux mint total txt
-
-
-Use a single dot ``.`` to get the total number of files without any extension.
-::
-
-   count-files --total .
-
-Use two dots without spaces ``..`` to get the total number of all files with or without the extension.
-::
-
-   count-files --total ..

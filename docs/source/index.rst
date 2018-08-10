@@ -16,15 +16,15 @@ and will display a table showing the frequency for each file extension (e.g.:
 
 **Main functions:**
 
-* file counting by extension (a table with file extensions sorted by frequency or alphabetically);
-* file searching by extension(a list with file paths, optional: file sizes, preview for text files);
-* total counting of files (the total number of all files or files with a specific extension).
+* counting files by extension and sorting results by frequency or alphabetically
+* file searching by extension, additionally: file sizes, preview for text files
+* total counting of all files or files with a specific extension
 
 **Features:**
 
 * counting or searching files with a specific extension, files without an extension, all files regardless of the extension;
 * recursive and non-recursive counting or searching;
-* enable or disable the search or counting in hidden files and folders;
+* enable the search or counting in hidden files and folders;
 * process the file extensions with case-sensitive or case-insensitive mode;
 * the program's operating indicator (feedback).
 
