@@ -75,7 +75,7 @@ parser.add_argument('-nf', '--no-feedback', action='store_true', default=False,
                          '(table) and for counting the total number of files ("-t" or "--total"). '
                          'This option disables it.')
 
-total_group = parser.add_argument_group('Total counting of files',
+total_group = parser.add_argument_group('Total counting of files'.upper(),
                                         description='If you need the total number of all files, '
                                                     'number of files with a certain extension or without it '
                                                     'use the "-t" or "--total" argument. '
@@ -89,7 +89,7 @@ total_group.add_argument('-t', '--total', type=str,
                          'Use a two dots without spaces ".." to get the total number of all files '
                          'with extension or without it.')
 
-count_group = parser.add_argument_group('File counting by extension',
+count_group = parser.add_argument_group('File counting by extension'.upper(),
                                         description='Counting all files in the specified '
                                                     'directory with or without extensions. '
                                                     'Default settings: recursively count all files, '
@@ -107,7 +107,7 @@ count_group = parser.add_argument_group('File counting by extension',
 count_group.add_argument('-alpha', '--sort-alpha', action='store_true', default=False,
                          help='Sort the table alphabetically, by file extension.')
 
-search_group = parser.add_argument_group('File searching by extension',
+search_group = parser.add_argument_group('File searching by extension'.upper(),
                                          description='Search for files with a given extension. '
                                                      'Default settings: recursively search all files, '
                                                      'ignoring hidden files and directories; '
@@ -137,6 +137,8 @@ search_group.add_argument('-fs', '--file-sizes', action='store_true', default=Fa
                                'found file when using "-fe" or "--file_extension". '
                                'Additional information: total combined size and average file size.')
 
+parser._positionals.title = parser._positionals.title.upper()
+parser._optionals.title = parser._optionals.title.upper()
 
 argparse_namespace_object = TypeVar('argparse_namespace_object', bound=Namespace)
 
