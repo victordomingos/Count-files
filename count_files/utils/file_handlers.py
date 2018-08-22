@@ -167,6 +167,9 @@ def is_hidden_file_or_dir(filepath: str) -> bool:
     Windows: when used separately, the function returns False if the path does not exist.
     Linux, Mac OS: when used separately, the result depends on the presence of a "/." in the path.
 
+    Windows: if filepath is a local drive it returns True.
+    is_hidden_file_or_dir('C:/') True , ...('C:') False
+    is_hidden_file_or_dir('D:/') True, ...('D:') True
     :param filepath: full/path/to/file.txt or full/path/to_folder
     :return: True if hidden or False if not
     """

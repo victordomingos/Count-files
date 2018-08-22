@@ -48,6 +48,8 @@ Linux Mint 19 "Tara", Python 3.6.5
 
 **License:** MIT
 
+**Source on GitHub:** `Project repository <https://github.com/victordomingos/Count-files>`_
+
 **Contents:**
 
 .. toctree::
