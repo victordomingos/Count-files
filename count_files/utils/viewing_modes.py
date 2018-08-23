@@ -104,3 +104,39 @@ def show_result_for_search_files(files: Iterable[str],
         print(f"   Total combined size: {h_total_size}.")
         print(f"   Average file size: {avg_size} (max: {h_max}, min: {h_min}).\n")
     return files_amount
+
+
+def show_start_message(value: [None, str], case_sensitive: bool, recursive: bool, include_hidden: bool,
+                       location: str, group: str = None) -> None:
+    """Displays an information message before starting the CLI.
+
+    :param value: str for args.total or args.file_extension, for table - None.
+    :param case_sensitive: args.case_sensitive
+    :param recursive: args.no_recursion
+    :param include_hidden: args.all
+    :param location: path argument
+    :param group: for now 'total' or None
+    :return: prints information message
+    """
+    wi = 'or without it'
+    case = 'case-sensitive' if case_sensitive else 'case-insensitive'
+    all_e = ' without any extension'
+    h = ' including hidden files and directories'
+    nh = ' ignoring hidden files and directories'
+
+    if group == 'total':
+        r = f'Recursively counting total number of files'
+        nr = 'Counting total number of files'
+        e = f' with{" (" + case + ")" if value not in [".", ".."] else ""} ' \
+            f'extension {"." + value if value != ".." else wi}'
+    # count_group and search_group
+    else:
+        action = 'searching' if value else 'counting'
+        r = f'Recursively {action} all files'
+        nr = f'{action.title()} files'
+        e = f' with{" (" + case + ")" if value not in [".", ".."] else ""} ' \
+            f'extension {"." + value if value != ".." else wi}' if value else ''
+
+    print(f'\n{r if recursive else nr}{e if value != "." else all_e},'
+          f'{h if include_hidden else nh}, in {location}\n')
+    return

@@ -20,13 +20,15 @@ enable or disable the program's operating indicator (feedback).
 MIT License
 """
 import os
+from sys import platform
 from argparse import ArgumentParser, Namespace
 from typing import TypeVar, Union
+from pathlib import Path
 
 from count_files.utils.file_handlers import count_files_by_extension, search_files,\
     get_total, get_total_by_extension
 from count_files.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
-from count_files.utils.viewing_modes import show_2columns
+from count_files.utils.viewing_modes import show_2columns, show_start_message
 from count_files.utils.viewing_modes import show_result_for_search_files
 from count_files.settings import not_supported_type_message, supported_type_info_message,\
     DEFAULT_PREVIEW_SIZE
@@ -171,31 +173,38 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         loc_text = ' the current directory'
     else:
         location = os.path.expanduser(args.path)
-        loc_text = ':\n' + location
+        loc_text = ':\n' + os.path.normpath(location)
 
     if not os.path.exists(location):
-        parser.exit(status=1, message=f'The path {location} does not exist, or there may be a typo in it.')
+        parser.exit(status=1, message=f'The path {location} '
+                                      f'does not exist, or there may be a typo in it.')
 
     if not include_hidden and is_hidden_file_or_dir(location):
-        parser.exit(status=1, message=f'\nNot counting any files, because {loc_text[2:]} has hidden folders.\n'
-                                      f'Use: python -m count_files {args.path} --all')
+        # skip check if path is a local drive
+        if platform.startswith('win') and len(Path(location).parents) == 0:
+            pass
+        else:
+            parser.exit(status=1, message=f'\nNot counting any files, because {loc_text[2:]}'
+                                          f' has hidden folders.\n'
+                                          f'Use the --all argument to include hidden files and folders.')
 
-    action = 'searching' if extension else 'counting'
+    """action = 'searching' if extension else 'counting'
     r = f'Recursively {action} all files'
     nr = f'{action.title()} files'
     wi = 'or without it'
     case = 'case-sensitive' if args.case_sensitive else 'case-insensitive'
-    e = f' with ({case}) extension {"." + args.file_extension if args.file_extension != ".." else wi}' if extension else ''
-    all_e = ' without any extension' if extension else ''
+    e = f' with ({case}) extension { if extension else ''
     h = ' including hidden files and directories'
-    nh = ' ignoring hidden files and directories'
+    nh = ' ignoring hidden files and"." + args.file_extension if args.file_extension != ".." else wi}' if extension else ''
+    all_e = ' without any extension' directories'
 
     print(f'\n{r if recursive else nr}{e if args.file_extension != "." else all_e},'
-          f'{h if include_hidden else nh}, in {location}\n')
+          f'{h if include_hidden else nh}, in {location}\n')"""
 
     # Parser total_group
     # getting the total number of files for -fe .. (all extensions), -fe . and -fe extension_name
     if args.total:
+        show_start_message(args.total, args.case_sensitive, recursive, include_hidden, location, 'total')
         if args.total == '..':
             result = get_total(dirpath=location,
                                include_hidden=include_hidden,
@@ -216,6 +225,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     # Parser search_group
     # search and list files by extension
     if extension:
+        show_start_message(extension, args.case_sensitive, recursive, include_hidden, location)
         # list of all found file paths - enabled by default,
         # optional: information about file sizes, file preview, size specification for file preview
         if args.preview:
@@ -239,6 +249,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
     # Parser count_group
     # counting all files by extension
+    show_start_message(extension, args.case_sensitive, recursive, include_hidden, location)
     data = count_files_by_extension(dirpath=location,
                                     no_feedback=args.no_feedback,
                                     include_hidden=include_hidden,
