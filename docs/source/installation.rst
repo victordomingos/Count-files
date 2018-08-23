@@ -7,10 +7,10 @@ On regular desktop operating systems
 The current development version can be installed with ``pip install -e``,
 followed by the path to the main project directory (the same directory that
 has the ``setup.py`` file). To run this application, you need to have a working
-Python 3.6+ instalation.
+Python 3.6+ installation.
 
 We plan to submit this to PyPI as soon as possible, in order to provide a more
-straight-forward instalation and upgrade process. While that doesn't happen,
+straight-forward installation and upgrade process. While that doesn't happen,
 please feel free to take a look at the last section and maybe consider
 contributing to this project.
 
@@ -43,7 +43,7 @@ from this git repository::
 
 If all goes well, it should place a new ``count_files``
 package inside the ``~/Documents/site-packages-3/`` folder and create an
-entrypoint script named ``count-files.py`` in ``stash_extensions/bin``. Then force-quit and
+entry point script named ``count-files.py`` in ``stash_extensions/bin``. Then force-quit and
 launch StaSh again. You should now be able to run this application directly
 from the shell to count any files that you may have inside your Pythonista
 environment.
