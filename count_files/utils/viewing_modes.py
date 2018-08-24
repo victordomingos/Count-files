@@ -107,7 +107,7 @@ def show_result_for_search_files(files: Iterable[str],
 
 
 def show_start_message(value: [None, str], case_sensitive: bool, recursive: bool, include_hidden: bool,
-                       location: str, group: str = None) -> None:
+                       location: str, group: str = None) -> str:
     """Displays an information message before starting the CLI.
 
     :param value: str for args.total or args.file_extension, for table - None.
@@ -137,6 +137,6 @@ def show_start_message(value: [None, str], case_sensitive: bool, recursive: bool
         e = f' with{" (" + case + ")" if value not in [".", ".."] else ""} ' \
             f'extension {"." + value if value != ".." else wi}' if value else ''
 
-    print(f'\n{r if recursive else nr}{e if value != "." else all_e},'
-          f'{h if include_hidden else nh}, in {location}\n')
-    return
+    message = f'\n{r if recursive else nr}{e if value != "." else all_e},' \
+              f'{h if include_hidden else nh}, in {location}\n'
+    return message
