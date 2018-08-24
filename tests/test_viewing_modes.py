@@ -5,7 +5,7 @@ import sys
 from contextlib import redirect_stdout
 import filecmp
 
-from count_files.utils.viewing_modes import show_2columns, show_result_for_search_files
+from count_files.utils.viewing_modes import show_2columns, show_result_for_search_files, show_start_message
 from count_files.utils.file_handlers import count_files_by_extension, search_files
 
 
@@ -86,6 +86,23 @@ class TestViewingModes(unittest.TestCase):
         self.assertEqual(filecmp.cmp(self.test_file, self.standard_file,
                                      shallow=False), True)
 
+    def test_show_start_message(self):
+        """Testing def show_start_message. Count, search, total group.
+
+        :return:
+        """
+        count = show_start_message(value=None, case_sensitive=False, recursive=True, include_hidden=False,
+                                   location='/some/path', group=None)
+        search = show_start_message(value='.', case_sensitive=False, recursive=False, include_hidden=False,
+                                    location='/some/path', group=None)
+        total = show_start_message(value='TXT', case_sensitive=True, recursive=True, include_hidden=True,
+                                   location='/some/path', group='total')
+        self.assertEqual(count, '\nRecursively counting all files, '
+                                'ignoring hidden files and directories, in /some/path\n')
+        self.assertEqual(search, '\nSearching files without any extension, '
+                                 'ignoring hidden files and directories, in /some/path\n')
+        self.assertEqual(total, '\nRecursively counting total number of files with (case-sensitive) extension .TXT, '
+                                'including hidden files and directories, in /some/path\n')
 
 # from root directory:
 # run all tests in test_viewing_modes.py
