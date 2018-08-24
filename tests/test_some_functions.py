@@ -2,6 +2,7 @@
 import unittest
 import os
 import sys
+from collections import Counter
 
 from count_files.utils.file_handlers import get_file_extension,\
     is_hidden_file_or_dir, search_files, count_files_by_extension,\
@@ -96,13 +97,15 @@ class TestSomeFunctions(unittest.TestCase):
         Expected behavior: return object <class 'collections.Counter'>
         :return:
         """
+        counter = Counter({'TXT': 2, 'HTML': 1, 'MD': 1, '[no extension]': 1, 'PY': 1})
+        counter1 = Counter({'gz': 3, 'txt': 2, 'md': 2, '[no extension]': 2, 'py': 2,
+                           'TXT': 1, 'html': 1, 'json': 1, 'css': 1, 'woff': 1})
         result = count_files_by_extension(self.get_locations('data_for_tests'), no_feedback=True,
                                           recursive=False, include_hidden=False, case_sensitive=False)
         result1 = count_files_by_extension(self.get_locations('data_for_tests'), no_feedback=True,
                                            recursive=True, include_hidden=False, case_sensitive=True)
-        self.assertEqual(str(result), "Counter({'TXT': 2, 'HTML': 1, 'MD': 1, '[no extension]': 1, 'PY': 1})")
-        self.assertEqual(str(result1), "Counter({'gz': 3, 'txt': 2, 'md': 2, '[no extension]': 2, 'py': 2, "
-                                       "'TXT': 1, 'html': 1, 'json': 1, 'css': 1, 'woff': 1})")
+        self.assertEqual(result, counter)
+        self.assertEqual(result1, counter1)
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_is_hidden_file_or_dir_win(self):
