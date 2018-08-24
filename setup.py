@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # encoding: utf-8
-from setuptools import setup
+from setuptools import setup, find_packages
 import os
 import sys
 
@@ -30,7 +30,7 @@ def read_readme(file_name):
 setup(name='count-files',
       version=__import__('count_files').__version__,
       description=short_desc,
-      packages=['count_files'],
+      packages=find_packages(),
       long_description=read_readme('README.md'),  # for PyPI
       long_description_content_type="text/markdown",
       license='MIT',
