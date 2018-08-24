@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 import shutil
-import os
 
-
-LOG_FOLDER = os.path.normpath(os.path.join(os.path.dirname(__file__), 'logs'))
-CLI_LOG_FILE = 'cli_errors.log'
 
 BUG_REPORT_URL = 'https://github.com/victordomingos/Count-files/issues'
 
