@@ -1,15 +1,15 @@
- EXTENSION      | FREQ. 
-----------------+-------
- TXT            |     3 
- GZ             |     3 
- MD             |     2 
- [no extension] |     2 
- PY             |     2 
- HTML           |     1 
- JSON           |     1 
- CSS            |     1 
- WOFF           |     1 
-----------------+-------
- TOTAL:         |    16 
-----------------+-------
+ EXTENSION       | FREQ. 
+-----------------+-------
+ TXT             |     3 
+ GZ              |     3 
+ MD              |     2 
+ [no extension]  |     2 
+ PY              |     2 
+ HTML            |     1 
+ JSON            |     1 
+ CSS             |     1 
+ WOFF            |     1 
+-----------------+-------
+ TOTAL:          |    16 
+-----------------+-------
 
