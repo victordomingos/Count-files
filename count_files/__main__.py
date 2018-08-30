@@ -24,6 +24,7 @@ from sys import platform
 from argparse import ArgumentParser, Namespace
 from typing import TypeVar, Union
 from pathlib import Path
+from textwrap import fill
 
 from count_files.utils.file_handlers import count_files_by_extension, search_files,\
     get_total, get_total_by_extension
@@ -31,7 +32,7 @@ from count_files.utils.file_handlers import is_hidden_file_or_dir, is_supported_
 from count_files.utils.viewing_modes import show_2columns, show_start_message
 from count_files.utils.viewing_modes import show_result_for_search_files
 from count_files.settings import not_supported_type_message, supported_type_info_message,\
-    DEFAULT_PREVIEW_SIZE
+    DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH
 # from count_files.utils.decorators import exceptions_decorator
 
 
@@ -188,23 +189,13 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                                           f' has hidden folders.\n'
                                           f'Use the --all argument to include hidden files and folders.')
 
-    """action = 'searching' if extension else 'counting'
-    r = f'Recursively {action} all files'
-    nr = f'{action.title()} files'
-    wi = 'or without it'
-    case = 'case-sensitive' if args.case_sensitive else 'case-insensitive'
-    e = f' with ({case}) extension { if extension else ''
-    h = ' including hidden files and directories'
-    nh = ' ignoring hidden files and"." + args.file_extension if args.file_extension != ".." else wi}' if extension else ''
-    all_e = ' without any extension' directories'
-
-    print(f'\n{r if recursive else nr}{e if args.file_extension != "." else all_e},'
-          f'{h if include_hidden else nh}, in {location}\n')"""
-
     # Parser total_group
     # getting the total number of files for -fe .. (all extensions), -fe . and -fe extension_name
     if args.total:
-        print(show_start_message(args.total, args.case_sensitive, recursive, include_hidden, location, 'total'))
+        print(
+            fill(show_start_message(args.total, args.case_sensitive, recursive, include_hidden, location, 'total'),
+                 width=START_TEXT_WIDTH)
+        )
         if args.total == '..':
             result = get_total(dirpath=location,
                                include_hidden=include_hidden,
@@ -225,7 +216,10 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     # Parser search_group
     # search and list files by extension
     if extension:
-        print(show_start_message(extension, args.case_sensitive, recursive, include_hidden, location))
+        print(
+            fill(show_start_message(extension, args.case_sensitive, recursive, include_hidden, location),
+                 width=START_TEXT_WIDTH)
+        )
         # list of all found file paths - enabled by default,
         # optional: information about file sizes, file preview, size specification for file preview
         if args.preview:
@@ -249,7 +243,10 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
     # Parser count_group
     # counting all files by extension
-    print(show_start_message(None, args.case_sensitive, recursive, include_hidden, location))
+    print(
+        fill(show_start_message(None, args.case_sensitive, recursive, include_hidden, location),
+             width=START_TEXT_WIDTH)
+    )
     data = count_files_by_extension(dirpath=location,
                                     no_feedback=args.no_feedback,
                                     include_hidden=include_hidden,

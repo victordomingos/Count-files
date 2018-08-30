@@ -2,47 +2,51 @@
 # encoding: utf-8
 import os
 from typing import Iterable, List
+from textwrap import wrap
 
 from count_files.utils.file_handlers import human_mem_size
 from count_files.utils.file_preview import generate_preview
-from count_files.settings import DEFAULT_PREVIEW_SIZE
+from count_files.settings import DEFAULT_PREVIEW_SIZE, EXT_COLUMN_WIDTH
 
 
-def show_2columns(data: List[tuple]):
+def show_2columns(data: List[tuple], size: int = EXT_COLUMN_WIDTH):
     """Displays a sorted table with file extensions.
 
     :param data: list with tuples
     default in uppercase: [('TXT', 24), ('PY', 17), ('PYC', 13), ...]
     with --case-sensitive as is: [('txt', 23), ('py', 17), ('pyc', 13), ...]
+    :param size: size of 'EXTENSION' column
     :return: the processed data as text to the screen.
     """
     if not data:
         print("Oops! We have no data to show...\n")
         return
 
-    max_word_width = 9  # default value, the minimum EXTENSION col. width
     total_occurences = 0
     for word, freq in data:
         total_occurences += freq
-        max_word_width = max(len(word), max_word_width)
 
     total_occurences_width = len(str(total_occurences))
     if total_occurences_width < 5:
         total_occurences_width = 5
 
-    header = f" {'EXTENSION'.ljust(max_word_width)} | {'FREQ.'.ljust(total_occurences_width)} "
-    sep_left = (max_word_width + 2) * '-'
+    header = f" {'EXTENSION'.ljust(size)} | {'FREQ.'.ljust(total_occurences_width)} "
+    sep_left = (size + 2) * '-'
     sep_center = "+"
     sep_right = (total_occurences_width + 2) * '-'
     sep = sep_left + sep_center + sep_right
     print(header)
     print(sep)
-
     for word, freq in data:
-        print(f" {word.ljust(max_word_width)} | {str(freq).rjust(total_occurences_width)} ")
-
+        if len(word) <= size:
+            print(f" {word.ljust(size)} | {str(freq).rjust(total_occurences_width)} ")
+        else:
+            print(f" {word[0: size]} | {str(freq).rjust(total_occurences_width)}")
+            new_text = wrap(word[size:], width=size, initial_indent=' ' * 2, subsequent_indent=' ' * 2)
+            for item in new_text:
+                print(f" {item.rjust(size)} | {' '.rjust(total_occurences_width)}")
     print(sep)
-    line = f" {'TOTAL:'.ljust(max_word_width)} | {str(total_occurences).rjust(total_occurences_width)} "
+    line = f" {'TOTAL:'.ljust(size)} | {str(total_occurences).rjust(total_occurences_width)} "
     print(line)
     print(sep + "\n")
     return
