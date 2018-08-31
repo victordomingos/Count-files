@@ -11,13 +11,12 @@ from count_files.settings import DEFAULT_EXTENSION_COL_WIDTH
 from count_files.settings import DEFAULT_FREQ_COL_WIDTH, MAX_TABLE_WIDTH
 
 
-def show_2columns(data: List[tuple], size: int = DEFAULT_EXTENSION_COL_WIDTH):
+def show_2columns(data: List[tuple]):
     """Displays a sorted table with file extensions.
 
     :param data: list with tuples
     default in uppercase: [('TXT', 24), ('PY', 17), ('PYC', 13), ...]
     with --case-sensitive as is: [('txt', 23), ('py', 17), ('pyc', 13), ...]
-    :param size: size of 'EXTENSION' column
     :return: the processed data as text to the screen.
     """
     if not data:
