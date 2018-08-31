@@ -24,7 +24,7 @@ from sys import platform
 from argparse import ArgumentParser, Namespace
 from typing import TypeVar, Union
 from pathlib import Path
-from textwrap import fill
+from textwrap import wrap
 
 from count_files.utils.file_handlers import count_files_by_extension, search_files,\
     get_total, get_total_by_extension
