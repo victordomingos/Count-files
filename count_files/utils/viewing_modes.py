@@ -6,10 +6,12 @@ from textwrap import wrap
 
 from count_files.utils.file_handlers import human_mem_size
 from count_files.utils.file_preview import generate_preview
-from count_files.settings import DEFAULT_PREVIEW_SIZE, EXT_COLUMN_WIDTH
+from count_files.settings import TERM_WIDTH, DEFAULT_PREVIEW_SIZE
+from count_files.settings import DEFAULT_EXTENSION_COL_WIDTH
+from count_files.settings import DEFAULT_FREQ_COL_WIDTH, MAX_TABLE_WIDTH
 
 
-def show_2columns(data: List[tuple], size: int = EXT_COLUMN_WIDTH):
+def show_2columns(data: List[tuple], size: int = DEFAULT_EXTENSION_COL_WIDTH):
     """Displays a sorted table with file extensions.
 
     :param data: list with tuples
@@ -22,31 +24,41 @@ def show_2columns(data: List[tuple], size: int = EXT_COLUMN_WIDTH):
         print("Oops! We have no data to show...\n")
         return
 
+    max_word_width = DEFAULT_EXTENSION_COL_WIDTH  # default value, the minimum EXTENSION col. width
     total_occurences = 0
     for word, freq in data:
         total_occurences += freq
+        max_word_width = max(len(word), max_word_width)
 
-    total_occurences_width = len(str(total_occurences))
-    if total_occurences_width < 5:
-        total_occurences_width = 5
+    freq_col_width = min(DEFAULT_FREQ_COL_WIDTH, len(str(total_occurences)))
+    
+    ext_col_width = min((TERM_WIDTH - freq_col_width - 5),
+                        max_word_width,
+                        MAX_TABLE_WIDTH)
 
-    header = f" {'EXTENSION'.ljust(size)} | {'FREQ.'.ljust(total_occurences_width)} "
-    sep_left = (size + 2) * '-'
+    header = f" {'EXTENSION'.ljust(ext_col_width)} | {'FREQ.'.ljust(freq_col_width)} "
+    sep_left = (ext_col_width + 2) * '-'
     sep_center = "+"
-    sep_right = (total_occurences_width + 2) * '-'
+    sep_right = (freq_col_width + 2) * '-'
     sep = sep_left + sep_center + sep_right
     print(header)
     print(sep)
+
     for word, freq in data:
-        if len(word) <= size:
-            print(f" {word.ljust(size)} | {str(freq).rjust(total_occurences_width)} ")
+        if len(word) <= ext_col_width:
+            print(f" {word.ljust(ext_col_width)} | {str(freq).rjust(freq_col_width)} ")
         else:
-            print(f" {word[0: size]} | {str(freq).rjust(total_occurences_width)}")
-            new_text = wrap(word[size:], width=size, initial_indent=' ' * 2, subsequent_indent=' ' * 2)
-            for item in new_text:
-                print(f" {item.rjust(size)} | {' '.rjust(total_occurences_width)}")
+            head = f" {word[0: ext_col_width]} | {str(freq).rjust(freq_col_width)}"
+            word_tail = wrap(word[ext_col_width:],
+                             width=ext_col_width,
+                             initial_indent=' ' * 2,
+                             subsequent_indent=' ' * 2)
+            print(head)
+            for line in word_tail:
+                print(f" {line.ljust(ext_col_width)} | {' '.rjust(freq_col_width)}")
+
     print(sep)
-    line = f" {'TOTAL:'.ljust(size)} | {str(total_occurences).rjust(total_occurences_width)} "
+    line = f" {'TOTAL:'.ljust(ext_col_width)} | {str(total_occurences).rjust(freq_col_width)} "
     print(line)
     print(sep + "\n")
     return
