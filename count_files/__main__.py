@@ -254,7 +254,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                                     case_sensitive=args.case_sensitive)
 
     # display the result as a table
-    total_occurences = sum(data.values())
+    total_occurrences = sum(data.values())
     max_word_width = len(max(data.keys()))
     if sort_alpha:
         # sort extensions alphabetically, with uppercase versions on top
@@ -263,7 +263,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     else:
         # sort extensions by frequency for each file extension
         data = data.most_common()
-    show_2columns(data, max_word_width, total_occurences)
+    show_2columns(data, max_word_width, total_occurrences)
     parser.exit(status=0)
 
 
