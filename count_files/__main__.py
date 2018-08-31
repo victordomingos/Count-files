@@ -24,7 +24,7 @@ from sys import platform
 from argparse import ArgumentParser, Namespace
 from typing import TypeVar, Union
 from pathlib import Path
-from textwrap import wrap
+from textwrap import fill
 
 from count_files.utils.file_handlers import count_files_by_extension, search_files,\
     get_total, get_total_by_extension
@@ -217,7 +217,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     # search and list files by extension
     if extension:
         print(
-            wrap(show_start_message(extension, args.case_sensitive, recursive, include_hidden, location),
+            fill(show_start_message(extension, args.case_sensitive, recursive, include_hidden, location),
                  width=START_TEXT_WIDTH)
         )
         # list of all found file paths - enabled by default,
@@ -244,7 +244,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     # Parser count_group
     # counting all files by extension
     print(
-        wrap(show_start_message(None, args.case_sensitive, recursive, include_hidden, location),
+        fill(show_start_message(None, args.case_sensitive, recursive, include_hidden, location),
              width=START_TEXT_WIDTH)
     )
     data = count_files_by_extension(dirpath=location,
