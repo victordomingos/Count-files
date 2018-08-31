@@ -48,10 +48,10 @@ class TestViewingModes(unittest.TestCase):
                                         include_hidden=False, recursive=True)
         with open(test1, 'w') as f:
             with redirect_stdout(f):
-                show_2columns(sorted(data.items()), size=15)
+                show_2columns(sorted(data.items()))
         with open(test2, 'w') as f:
             with redirect_stdout(f):
-                show_2columns(data.most_common(), size=15)
+                show_2columns(data.most_common())
         self.assertEqual(filecmp.cmp(test1, self.get_locations('compare_tables', '2columns_sorted.txt'),
                                      shallow=False), True)
         self.assertEqual(filecmp.cmp(test2, self.get_locations('compare_tables', '2columns_most_common.txt'),
