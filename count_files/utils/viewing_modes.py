@@ -11,27 +11,22 @@ from count_files.settings import DEFAULT_EXTENSION_COL_WIDTH
 from count_files.settings import DEFAULT_FREQ_COL_WIDTH, MAX_TABLE_WIDTH
 
 
-def show_2columns(data: List[tuple], size: int = DEFAULT_EXTENSION_COL_WIDTH):
+def show_2columns(data: List[tuple], max_word_width: int, total_occurrences: int):
     """Displays a sorted table with file extensions.
 
     :param data: list with tuples
     default in uppercase: [('TXT', 24), ('PY', 17), ('PYC', 13), ...]
     with --case-sensitive as is: [('txt', 23), ('py', 17), ('pyc', 13), ...]
-    :param size: size of 'EXTENSION' column
+    :param max_word_width: the longest extension name
+    :param total_occurrences: total number of files found
     :return: the processed data as text to the screen.
     """
     if not data:
         print("Oops! We have no data to show...\n")
         return
 
-    max_word_width = DEFAULT_EXTENSION_COL_WIDTH  # default value, the minimum EXTENSION col. width
-    total_occurences = 0
-    for word, freq in data:
-        total_occurences += freq
-        max_word_width = max(len(word), max_word_width)
-
-    freq_col_width = min(DEFAULT_FREQ_COL_WIDTH, len(str(total_occurences)))
-    
+    max_word_width = max(DEFAULT_EXTENSION_COL_WIDTH, max_word_width)
+    freq_col_width = max(DEFAULT_FREQ_COL_WIDTH, len(str(total_occurrences)))
     ext_col_width = min((TERM_WIDTH - freq_col_width - 5),
                         max_word_width,
                         MAX_TABLE_WIDTH)
@@ -58,7 +53,7 @@ def show_2columns(data: List[tuple], size: int = DEFAULT_EXTENSION_COL_WIDTH):
                 print(f" {line.ljust(ext_col_width)} | {' '.rjust(freq_col_width)}")
 
     print(sep)
-    line = f" {'TOTAL:'.ljust(ext_col_width)} | {str(total_occurences).rjust(freq_col_width)} "
+    line = f" {'TOTAL:'.ljust(ext_col_width)} | {str(total_occurrences).rjust(freq_col_width)} "
     print(line)
     print(sep + "\n")
     return
