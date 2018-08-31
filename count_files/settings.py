@@ -7,7 +7,7 @@ BUG_REPORT_URL = 'https://github.com/victordomingos/Count-files/issues'
 
 TERM_WIDTH, _ = shutil.get_terminal_size((80, 24))
 DEFAULT_PREVIEW_SIZE = 5 * TERM_WIDTH  # 5 lines of text preview
-START_TEXT_WIDTH = TERM_WIDTH if TERM_WIDTH < 100 else 100
+START_TEXT_WIDTH = min(TERM_WIDTH, 100)
 DEFAULT_EXTENSION_COL_WIDTH = 9
 DEFAULT_FREQ_COL_WIDTH = 5
 MAX_TABLE_WIDTH = 80

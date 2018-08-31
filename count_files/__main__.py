@@ -193,7 +193,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     # getting the total number of files for -fe .. (all extensions), -fe . and -fe extension_name
     if args.total:
         print(
-            fill(show_start_message(args.total, args.case_sensitive, recursive, include_hidden, location, 'total'),
+            wrap(show_start_message(args.total, args.case_sensitive, recursive, include_hidden, location, 'total'),
                  width=START_TEXT_WIDTH)
         )
         if args.total == '..':
@@ -244,7 +244,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     # Parser count_group
     # counting all files by extension
     print(
-        fill(show_start_message(None, args.case_sensitive, recursive, include_hidden, location),
+        wrap(show_start_message(None, args.case_sensitive, recursive, include_hidden, location),
              width=START_TEXT_WIDTH)
     )
     data = count_files_by_extension(dirpath=location,
