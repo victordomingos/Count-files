@@ -217,7 +217,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     # search and list files by extension
     if extension:
         print(
-            fill(show_start_message(extension, args.case_sensitive, recursive, include_hidden, location),
+            wrap(show_start_message(extension, args.case_sensitive, recursive, include_hidden, location),
                  width=START_TEXT_WIDTH)
         )
         # list of all found file paths - enabled by default,
