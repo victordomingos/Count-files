@@ -18,6 +18,7 @@ IPHONE_FONT_SIZE = 10
 IOS_WORKERS = 2
 IOS_FONT = "Menlo"
 
+
 if platform.system() == 'Darwin':
         if platform.machine().startswith('iPad'):
             device = "iPad"
@@ -25,21 +26,21 @@ if platform.system() == 'Darwin':
             device = "iPhone"
         else:
             device = "mac"
-    else:
-        device = "other"
+else:
+    device = "other"
 
-    if device in ("iPad", "iPhone"):
-        # Adapt for smaller screen sizes in iPhone and iPod touch
-        import ui
-        import console
-        if device == 'iPad':
-            font_size = IPAD_FONT_SIZE
-        else:
-            font_size = IPHONE_FONT_SIZE
-        console.set_font(IOS_FONT, font_size)
-        screen_width = ui.get_screen_size().width
-        char_width = ui.measure_string('.', font=(IOS_FONT, font_size)).width
-        TERM_WIDTH = int(screen_width / char_width - 1.5) - 1
+if device in ("iPad", "iPhone"):
+    # Adapt for smaller screen sizes in iPhone and iPod touch
+    import ui
+    import console
+    if device == 'iPad':
+        font_size = IPAD_FONT_SIZE
+    else:
+        font_size = IPHONE_FONT_SIZE
+    console.set_font(IOS_FONT, font_size)
+    screen_width = ui.get_screen_size().width
+    char_width = ui.measure_string('.', font=(IOS_FONT, font_size)).width
+    TERM_WIDTH = int(screen_width / char_width - 1.5) - 1
 
 
 SUPPORTED_TYPES = {
