@@ -255,7 +255,8 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
     # display the result as a table
     total_occurrences = sum(data.values())
-    max_word_width = len(max(data.keys()))
+    max_word_width = max(map(len, data.keys()))
+
     if sort_alpha:
         # sort extensions alphabetically, with uppercase versions on top
         sort_key = lambda data: (data[0].casefold(), data[0])
