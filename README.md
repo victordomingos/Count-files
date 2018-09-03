@@ -13,27 +13,29 @@ counting or searching files with a specific extension, files without an extensio
 
 - [English](https://countfiles.readthedocs.io/en/latest/)
 
+
+## Dependencies
+
+To run this application, you need to have a working Python 3.6+ installation.
+
+
 ## Installation
 
 ### On regular desktop operating systems
 
-Count Files is a multiplatform application that can be installed using [pip](https://pip.pypa.io/en/stable/quickstart/):
+Count Files is a multiplatform application that rum in Python and can be easily  installed using [pip](https://pip.pypa.io/en/stable/quickstart/):
 
 ```
 pip3 install count-files
 ```
 
-The current development version can be installed with [`pip3 install -e`](https://pip.pypa.io/en/stable/reference/pip_install/#editable-installs).
+If you are interested in the current development version, you can simply clone this git repository and install it using [`pip3 install -e`](https://pip.pypa.io/en/stable/reference/pip_install/#editable-installs). Please notice, however, that only released versions are expected to be stable and usable. The development code is often unstable or buggy, for the simple reason that it is a work in progress.
 
 ### On iPhone or iPad (in Pythonista 3 for iOS)
 
 It may also be used on iOS (iPhone/iPad) using the [StaSh](https://github.com/ywangd/stash) 
-command-line in the Pythonista 3 app.  
-See [documentation](https://countfiles.readthedocs.io/en/latest/installation.html) for instructions. 
+command-line in the Pythonista 3 app. Please see [documentation](https://countfiles.readthedocs.io/en/latest/installation.html) for further instructions. 
 
-## Dependencies
-
-To run this application, you need to have a working Python 3.6+ installation.
 
 ## How to use
 
@@ -74,7 +76,7 @@ count-files -fe txt [path]
 count-files --file-extension txt [path]
 ```
 
-You can also count the total number of files with a certain extension.
+You can also count the total number of files with a certain extension, without listing them.
 
 ```
 count-files -t py [path]
@@ -100,7 +102,7 @@ count-files -t . [path]
 count-files --total . [path]
 ```
 
-If you need all the files, regardless of the extension, specify two dots as the extension name.
+If you need to list or to count all the files, regardless of the extension, specify two dots as the extension name.
 
 ```
 count-files -fe .. [path]
