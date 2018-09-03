@@ -34,7 +34,7 @@ setup(name='count-files',
       long_description=read_readme('README.md'),  # for PyPI
       long_description_content_type="text/markdown",
       license='MIT',
-      url='https://github.com/victordomingos/Count-files',  # homepage
+      url='https://no-title.victordomingos/projects/count-files/',  # homepage
       python_requires='>=3.6',
 
       classifiers=[
@@ -63,7 +63,7 @@ setup(name='count-files',
           ]
       },
       project_urls={
-        'Documentation': 'https://github.com/victordomingos/Count-files/docs',
+        'Documentation': 'https://countfiles.readthedocs.io',
         'Source': 'https://github.com/victordomingos/Count-files',
         'Bug Reports': 'https://github.com/victordomingos/Count-files/issues',
       },
