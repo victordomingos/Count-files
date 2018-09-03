@@ -11,7 +11,8 @@ def suite():
     test_suite = unittest.TestSuite()
     test_suite.addTest(unittest.makeSuite(TestArgumentParser))
     test_suite.addTest(unittest.makeSuite(TestSomeFunctions))
-    test_suite.addTest(TestViewingModes('test_show_2columns'))
+    test_suite.addTest(TestViewingModes('test_show_2columns_usual'))
+    test_suite.addTest(TestViewingModes('test_show_2columns_long'))
     return test_suite
 
 

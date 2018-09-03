@@ -4,9 +4,10 @@ import os
 import sys
 from contextlib import redirect_stdout
 import filecmp
+from collections import Counter
 
 from count_files.utils.viewing_modes import show_2columns, show_result_for_search_files, show_start_message
-from count_files.utils.file_handlers import count_files_by_extension, search_files
+from count_files.utils.file_handlers import search_files
 
 
 class TestViewingModes(unittest.TestCase):
@@ -34,7 +35,12 @@ class TestViewingModes(unittest.TestCase):
             f.write('   Average file size: 24.0 B (max: 49.0 B, min: 0.0 B).\n\n')
         return
 
-    def test_show_2columns(self):
+    def write_to_test_file(self, filename, func, **kwargs):
+        with open(filename, 'w') as f:
+            with redirect_stdout(f):
+                func(**kwargs)
+
+    def test_show_2columns_usual(self):
         """Testing def show_2columns(compare files with tables).
 
         Comparison of the file with the results of the function with the specified file.
@@ -44,18 +50,61 @@ class TestViewingModes(unittest.TestCase):
         """
         test1 = self.get_locations('compare_tables', 'test_2columns_sorted.txt')
         test2 = self.get_locations('compare_tables', 'test_2columns_most_common.txt')
-        data = count_files_by_extension(dirpath=self.get_locations('data_for_tests'), no_feedback=True,
-                                        include_hidden=False, recursive=True)
 
-        with open(test1, 'w') as f:
-            with redirect_stdout(f):
-                show_2columns(sorted(data.items()), max_word_width=14, total_occurrences=16)
-        with open(test2, 'w') as f:
-            with redirect_stdout(f):
-                show_2columns(data.most_common(), max_word_width=14, total_occurrences=16)
+        usual_ext = Counter({'TXT': 3, 'GZ': 3, 'MD': 2, '[no extension]': 2, 'PY': 2,
+                             'HTML': 1, 'JSON': 1, 'CSS': 1, 'WOFF': 1})
+
+        usual_max_word_width = max(map(len, usual_ext.keys()))
+        usual_total_occurrences = sum(usual_ext.values())
+
+        usual_keys_sorted = {'data': sorted(usual_ext.items()), 'max_word_width': usual_max_word_width,
+                             'total_occurrences': usual_total_occurrences,
+                             'term_width': 80}
+        usual_keys_common = {'data': usual_ext.most_common(), 'max_word_width': usual_max_word_width,
+                             'total_occurrences': usual_total_occurrences,
+                             'term_width': 100}
+
+        self.write_to_test_file(test1, show_2columns, **usual_keys_sorted)
+        self.write_to_test_file(test2, show_2columns, **usual_keys_common)
+
         self.assertEqual(filecmp.cmp(test1, self.get_locations('compare_tables', '2columns_sorted.txt'),
                                      shallow=False), True)
         self.assertEqual(filecmp.cmp(test2, self.get_locations('compare_tables', '2columns_most_common.txt'),
+                                     shallow=False), True)
+
+    def test_show_2columns_long(self):
+        """Testing def show_2columns(compare files with tables).
+
+        Comparison of the file with the results of the function with the specified file.
+        standard: 2columns_sorted_long.txt and 2columns_most_common_long.txt
+        results of the function: test_2columns_sorted_long.txt and test_2columns_most_common_long.txt
+        :return:
+        """
+        test3 = self.get_locations('compare_tables', 'test_2columns_sorted_long.txt')
+        test4 = self.get_locations('compare_tables', 'test_2columns_most_common_long.txt')
+
+        # max ext len = 92
+        long_ext = Counter({'MD': 2, 'PY': 2, 'HTML': 1, '0674532431': 1,
+                            'INCREDIBLE_LONG_FILE_EXTENSION_INCREDIBLE_LONG_FILE_EXTENSION_'
+                            'INCREDIBLE_LONG_FILE_EXTENSION': 1,
+                            'MP3': 1, '7Z': 1})
+
+        long_max_word_width = max(map(len, long_ext.keys()))
+        long_total_occurrences = sum(long_ext.values())
+
+        long_keys_sorted = {'data': sorted(long_ext.items()), 'max_word_width': long_max_word_width,
+                            'total_occurrences': long_total_occurrences,
+                            'term_width': 50}
+        long_keys_common = {'data': long_ext.most_common(), 'max_word_width': long_max_word_width,
+                            'total_occurrences': long_total_occurrences,
+                            'term_width': 100}
+
+        self.write_to_test_file(test3, show_2columns, **long_keys_sorted)
+        self.write_to_test_file(test4, show_2columns, **long_keys_common)
+
+        self.assertEqual(filecmp.cmp(test3, self.get_locations('compare_tables', '2columns_sorted_long.txt'),
+                                     shallow=False), True)
+        self.assertEqual(filecmp.cmp(test4, self.get_locations('compare_tables', '2columns_most_common_long.txt'),
                                      shallow=False), True)
 
     # TODO:  test show_result_for_search_files() for different OS
