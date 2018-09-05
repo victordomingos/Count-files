@@ -49,14 +49,25 @@ SUPPORTED_TYPES = {
     'text': ['py', 'txt', 'html', 'css', 'js', 'c', 'md', 'json'],
 }
 
-supported_type_info_message = f'This is the list of currently supported file types for preview: ' \
-                              f'{", ".join(sorted(SUPPORTED_TYPES["text"]))}.\n' \
+
+def simple_columns(text_input, num_columns=4):
+    max_extension_width = max(map(len, text_input))
+    text_table = " "
+    for count, item in enumerate(sorted(text_input), 1):
+        text_table += item.ljust(max_extension_width+3)
+        if count % num_columns == 0 or count == len(text_input):
+            text_table += "\n "
+    return text_table
+
+
+supported_type_info_message = f'\nThis is the list of currently supported file types for preview:\n\n' \
+                              f'{simple_columns(SUPPORTED_TYPES["text"], num_columns=4)}\n' \
                               f'Previewing files without extension is not supported. ' \
                               f'You can use the "--preview" argument together with the search ' \
                               f'for all files regardless of the extension ("--file-extension .."). ' \
-                              f'In this case, the preview will only be displayed for files with a supported extension.'
+                              f'In this case, the preview will only be displayed for files with a supported extension.\n\n'
 
-not_supported_type_message = f'Sorry, there is no preview available for this file type. ' \
-                             f'You may want to try again without preview.\n' \
-                             f'This is the list of currently supported file types for preview: ' \
-                             f'{", ".join(sorted(SUPPORTED_TYPES["text"]))}.\n'
+not_supported_type_message = f'\nSorry, there is no preview available for this file type. ' \
+                             f'You may want to try again without preview. ' \
+                             f'This is the list of currently supported file types for preview:\n\n' \
+                             f'{simple_columns(SUPPORTED_TYPES["text"], num_columns=4)}\n'

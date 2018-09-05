@@ -101,12 +101,12 @@ def show_result_for_search_files(files: Iterable[str],
                 print(generate_preview(str(f_path), max_size=preview_size))
                 print("–––––––––––––––––––––––––––––––––––\n")
     except StopIteration:
-        print(f"No files were found in the specified directory.\n")
+        print(f"\nNo files were found in the specified directory.\n")
         return 0
     if files_amount == 0:
-        print(f"No files were found in the specified directory.\n")
+        print(f"\nNo files were found in the specified directory.\n")
         return 0
-    print(f"\n   Found {files_amount} file(s).")
+    print(f"\n   Found {files_amount} file(s).", end="\n")
     if file_sizes:
         total_size = sum(sizes)
         h_total_size = human_mem_size(total_size)
@@ -116,7 +116,10 @@ def show_result_for_search_files(files: Iterable[str],
         h_min = human_mem_size(min(sizes))
 
         print(f"   Total combined size: {h_total_size}.")
-        print(f"   Average file size: {avg_size} (max: {h_max}, min: {h_min}).\n")
+        print(f"   Average file size: {avg_size} (max: {h_max}, min: {h_min}).",
+                 end="\n\n")
+    else:
+        print("")
     return files_amount
 
 
@@ -151,6 +154,7 @@ def show_start_message(value: [None, str], case_sensitive: bool, recursive: bool
         e = f' with{" (" + case + ")" if value not in [".", ".."] else ""} ' \
             f'extension {"." + value if value != ".." else wi}' if value else ''
 
-    message = f'\n{r if recursive else nr}{e if value != "." else all_e},' \
-              f'{h if include_hidden else nh}, in {location}\n'
+    message = f'{r if recursive else nr}{e if value != "." else all_e},' \
+              f'{h if include_hidden else nh}, in {location}'
+
     return message

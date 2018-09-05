@@ -26,13 +26,14 @@ from typing import TypeVar, Union
 from pathlib import Path
 from textwrap import fill
 
-from count_files.utils.file_handlers import count_files_by_extension, search_files,\
+from count_files.utils.file_handlers import count_files_by_extension, search_files, \
     get_total, get_total_by_extension
 from count_files.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
 from count_files.utils.viewing_modes import show_2columns, show_start_message
 from count_files.utils.viewing_modes import show_result_for_search_files
-from count_files.settings import not_supported_type_message, supported_type_info_message,\
+from count_files.settings import not_supported_type_message, supported_type_info_message, \
     DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH
+
 # from count_files.utils.decorators import exceptions_decorator
 
 
@@ -87,10 +88,10 @@ total_group = parser.add_argument_group('Total counting of files'.upper(),
 
 total_group.add_argument('-t', '--total', type=str,
                          help='Get the total number of files in the directory. '
-                         'Specify the name of the extension or '
-                         'use a single dot "." to get the total number of files without any extension. '
-                         'Use a two dots without spaces ".." to get the total number of all files '
-                         'with extension or without it.')
+                              'Specify the name of the extension or '
+                              'use a single dot "." to get the total number of files without any extension. '
+                              'Use a two dots without spaces ".." to get the total number of all files '
+                              'with extension or without it.')
 
 count_group = parser.add_argument_group('File counting by extension'.upper(),
                                         description='Counting all files in the specified '
@@ -129,11 +130,11 @@ search_group.add_argument('-fe', '--file-extension', type=str,
 
 search_group.add_argument('-p', '--preview', action='store_true', default=False,
                           help='Display a short preview (only available for text files when '
-                          'using "-fe" or "--file_extension").')
+                               'using "-fe" or "--file_extension").')
 
 search_group.add_argument('-ps', '--preview-size', type=int, default=DEFAULT_PREVIEW_SIZE,
                           help='Specify the number of characters to be displayed from each '
-                          'found file when using "-p" or "--preview".')
+                               'found file when using "-p" or "--preview".')
 
 search_group.add_argument('-fs', '--file-sizes', action='store_true', default=False,
                           help='Show size info for each '
@@ -191,11 +192,13 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
     # Parser total_group
     # getting the total number of files for -fe .. (all extensions), -fe . and -fe extension_name
+    print("")
     if args.total:
-        print(
-            fill(show_start_message(args.total, args.case_sensitive, recursive, include_hidden, location, 'total'),
-                 width=START_TEXT_WIDTH)
-        )
+        print(fill(show_start_message(args.total, args.case_sensitive, recursive, include_hidden, location, 'total'),
+                   width=START_TEXT_WIDTH),
+              end="\n\n"
+              )
+
         if args.total == '..':
             result = get_total(dirpath=location,
                                include_hidden=include_hidden,
@@ -210,7 +213,8 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                                             recursive=recursive)
         # var for tests
         total_result = len(list(result))
-        print(f'\n   Found {total_result} file(s).')
+        print(f'   Found {total_result} file(s).',
+              end="\n\n")
         return total_result
 
     # Parser search_group
@@ -218,7 +222,8 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     if extension:
         print(
             fill(show_start_message(extension, args.case_sensitive, recursive, include_hidden, location),
-                 width=START_TEXT_WIDTH)
+                 width=START_TEXT_WIDTH),
+                 end="\n\n"
         )
         # list of all found file paths - enabled by default,
         # optional: information about file sizes, file preview, size specification for file preview
@@ -243,10 +248,10 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
     # Parser count_group
     # counting all files by extension
-    print(
-        fill(show_start_message(None, args.case_sensitive, recursive, include_hidden, location),
-             width=START_TEXT_WIDTH)
-    )
+    print(fill(show_start_message(None, args.case_sensitive, recursive, include_hidden, location),
+               width=START_TEXT_WIDTH),
+          end="\n\n"
+          )
     data = count_files_by_extension(dirpath=location,
                                     no_feedback=args.no_feedback,
                                     include_hidden=include_hidden,
