@@ -55,16 +55,12 @@ parser.add_argument('-st', '--supported-types', action='store_true',
 
 parser.add_argument('path', nargs='?', default=os.getcwd(), type=str,
                     help='The path to the folder containing the files to be counted. '
-                         'Optionally, you can pass it a path to the directory to scan. '
-                         'If you prefer, you can leave that argument empty, '
-                         'and it will scan the current working directory. '
+                         'If you leave this argument empty, it will scan the current working directory. '
                          "To process files in the user's home directory, you can use ~ (tilde). "
                          'For example: count-files ~/Documents')
 
 parser.add_argument('-a', '--all', action='store_true', default=False,
-                    help='Include hidden files and directories. '
-                         'Windows: files and directories for which FILE_ATTRIBUTE_HIDDEN is true; '
-                         'Linux, Mac OS: those with names starting with "." (dot)')
+                    help='Include hidden files and directories. ')
 
 parser.add_argument('-nr', '--no-recursion', action='store_true', default=False,
                     help="Don't recurse through subdirectories.")
@@ -79,58 +75,47 @@ parser.add_argument('-nf', '--no-feedback', action='store_true', default=False,
                          '(table) and for counting the total number of files ("-t" or "--total"). '
                          'This option disables it.')
 
-total_group = parser.add_argument_group('Total counting of files'.upper(),
-                                        description='If you need the total number of all files, '
-                                                    'number of files with a certain extension or without it '
-                                                    'use the "-t" or "--total" argument. '
-                                                    'The result of counting is only number. '
-                                                    'Usage: count-files [-a] [-c] [-nr] [-nf] [-t TOTAL] [path]')
+total_group = parser.add_argument_group('Total number of files'.upper(),
+                                        description='Displaying the number of files that either have a '
+                                                    'certain extension or no extension at all. '
+                                                    'Usage: count-files [-a] [-c] [-nr] [-nf] [-t EXTENSION] [path]')
 
-total_group.add_argument('-t', '--total', type=str,
+total_group.add_argument('-t', '--total', dest="extension", type=str,
                          help='Get the total number of files in the directory. '
-                              'Specify the name of the extension or '
-                              'use a single dot "." to get the total number of files without any extension. '
-                              'Use a two dots without spaces ".." to get the total number of all files '
-                              'with extension or without it.')
+                              'Specify the file extension or '
+                              'use a single dot "." to get the total number of files that do not have any extension. '
+                              'Use two dots without spaces ".." to get the total number of all files '
+                              'with or without extension.')
+
 
 count_group = parser.add_argument_group('File counting by extension'.upper(),
                                         description='Counting all files in the specified '
-                                                    'directory with or without extensions. '
-                                                    'Default settings: recursively count all files, '
-                                                    'ignoring hidden files and directories; '
-                                                    'path - the current working directory; '
-                                                    'view mode - a table with file '
-                                                    'extensions sorted by frequency '
-                                                    '(the file extensions in the table '
-                                                    'will be displayed in uppercase, '
-                                                    'use "-c" or "--case-sensitive" to display it as is); '
-                                                    'feedback - printing processed file names in one line, '
-                                                    'use "-nf" or "--no-feedback" to disable it. '
+                                                    'directory, by file extension. '
+                                                    'By default, it displays some feedback '
+                                                    'while scanning and it presents a table with file '
+                                                    'extensions sorted by frequency. '
                                                     'Usage: count-files [-a] [-alpha] [-c] [-nr] [-nf] [path]')
 
 count_group.add_argument('-alpha', '--sort-alpha', action='store_true', default=False,
                          help='Sort the table alphabetically, by file extension.')
 
 search_group = parser.add_argument_group('File searching by extension'.upper(),
-                                         description='Search for files with a given extension. '
-                                                     'Default settings: recursively search all files, '
-                                                     'ignoring hidden files and directories; '
-                                                     'path - the current working directory; '
-                                                     'view mode - a list with full file paths; '
-                                                     f'preview size - {DEFAULT_PREVIEW_SIZE} chars; '
-                                                     'feedback is the list itself. '
+                                         description='Searching for files that have a given extension. '
+                                                     'By default, it presents a simple list with full '
+                                                     'file paths. Optionally, it may also display a short '
+                                                     'text preview for each found file. '
                                                      'Usage: count-files [-a] [-c] [-nr] [-fe FILE_EXTENSION] '
                                                      '[-fs] [-p] [-ps PREVIEW_SIZE] [path]')
 
 search_group.add_argument('-fe', '--file-extension', type=str,
                           help='Search files by file extension. '
-                               'Specify the name of the extension or '
-                               'use a single dot "." to search for files without any extension. '
-                               'Use a two dots ".." to search for all files with extension or without it.')
+                               'You may use, instead, a single dot "." to search for files that don\'t have any extension, '
+                               'or two dots ".." to search for all files with or without extension.')
 
 search_group.add_argument('-p', '--preview', action='store_true', default=False,
                           help='Display a short preview (only available for text files when '
-                               'using "-fe" or "--file_extension").')
+                               'using "-fe" or "--file_extension"). Default preview size: '
+                               f'{DEFAULT_PREVIEW_SIZE} characters (5 lines).')
 
 search_group.add_argument('-ps', '--preview-size', type=int, default=DEFAULT_PREVIEW_SIZE,
                           help='Specify the number of characters to be displayed from each '
@@ -193,20 +178,20 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     # Parser total_group
     # getting the total number of files for -fe .. (all extensions), -fe . and -fe extension_name
     print("")
-    if args.total:
-        print(fill(show_start_message(args.total, args.case_sensitive, recursive, include_hidden, location, 'total'),
+    if args.extension:
+        print(fill(show_start_message(args.extension, args.case_sensitive, recursive, include_hidden, location, 'total'),
                    width=START_TEXT_WIDTH),
               end="\n\n"
               )
 
-        if args.total == '..':
+        if args.extension == '..':
             result = get_total(dirpath=location,
                                include_hidden=include_hidden,
                                no_feedback=args.no_feedback,
                                recursive=recursive)
         else:
             result = get_total_by_extension(dirpath=location,
-                                            extension=args.total,
+                                            extension=args.extension,
                                             case_sensitive=args.case_sensitive,
                                             include_hidden=include_hidden,
                                             no_feedback=args.no_feedback,

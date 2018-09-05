@@ -147,12 +147,12 @@ class TestViewingModes(unittest.TestCase):
                                     location='/some/path', group=None)
         total = show_start_message(value='TXT', case_sensitive=True, recursive=True, include_hidden=True,
                                    location='/some/path', group='total')
-        self.assertEqual(count, '\nRecursively counting all files, '
-                                'ignoring hidden files and directories, in /some/path\n')
-        self.assertEqual(search, '\nSearching files without any extension, '
-                                 'ignoring hidden files and directories, in /some/path\n')
-        self.assertEqual(total, '\nRecursively counting total number of files with (case-sensitive) extension .TXT, '
-                                'including hidden files and directories, in /some/path\n')
+        self.assertEqual(count, 'Recursively counting all files, '
+                                'ignoring hidden files and directories, in /some/path')
+        self.assertEqual(search, 'Searching files without any extension, '
+                                 'ignoring hidden files and directories, in /some/path')
+        self.assertEqual(total, 'Recursively counting total number of files with (case-sensitive) extension .TXT, '
+                                'including hidden files and directories, in /some/path')
 
 # from root directory:
 # run all tests in test_viewing_modes.py
