@@ -23,7 +23,7 @@ To run this application, you need to have a working Python 3.6+ installation.
 
 ### On regular desktop operating systems
 
-Count Files is a multiplatform application that rum in Python and can be easily  installed using [pip](https://pip.pypa.io/en/stable/quickstart/):
+Count Files is a multiplatform application that run in Python and can be easily  installed using [pip](https://pip.pypa.io/en/stable/quickstart/):
 
 ```
 pip3 install count-files

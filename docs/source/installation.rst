@@ -4,15 +4,11 @@ Installation and dependencies
 On regular desktop operating systems
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The current development version can be installed with ``pip install -e``,
-followed by the path to the main project directory (the same directory that
-has the ``setup.py`` file). To run this application, you need to have a working
-Python 3.6+ installation.
+Count Files is a multiplatform application that run in Python and can be easily  installed using `pip <https://pip.pypa.io/en/stable/quickstart/>`_::
 
-We plan to submit this to PyPI as soon as possible, in order to provide a more
-straight-forward installation and upgrade process. While that doesn't happen,
-please feel free to take a look at the last section and maybe consider
-contributing to this project.
+   pip3 install count-files
+
+If you are interested in the current development version, you can simply clone this git repository and install it using `pip3 install -e <https://pip.pypa.io/en/stable/reference/pip_install/#editable-installs>`_. Please notice, however, that only released versions are expected to be stable and usable. The development code is often unstable or buggy, for the simple reason that it is a work in progress.
 
 On iPhone or iPad (in Pythonista 3 for iOS)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
