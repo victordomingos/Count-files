@@ -58,4 +58,5 @@ supported_type_info_message = f'This is the list of currently supported file typ
 
 not_supported_type_message = f'Sorry, there is no preview available for this file type. ' \
                              f'You may want to try again without preview.\n' \
-                             f'{supported_type_info_message}'
+                             f'This is the list of currently supported file types for preview: ' \
+                             f'{", ".join(sorted(SUPPORTED_TYPES["text"]))}.\n'
