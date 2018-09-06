@@ -4,46 +4,97 @@
 # Count Files [![Github commits (desde a última versão)](https://img.shields.io/github/commits-since/victordomingos/Count-files/latest.svg)](https://github.com/victordomingos/Count-files)
 Um utilitário de linha de comandos (CLI) escrito em Python para
 ajudar a contar ficheiros por extensão, numa determinada pasta. 
+Por predefinição, a aplicação contará os ficheiros recursivamente na pasta de 
+trabalho atual e em todas as suas subpastas e apresentará uma tabela mostrando 
+a frequência de cada extensão de ficheiro (p.ex.: .txt, .py, .html, .css) e o 
+número total de ficheiros encontrados.
+
+Sistemas operativos suportados: Linux, macOS, Windows. Pode ainda ser
+utilizado em iOS (iPhone/iPad) utilizando a linha de comandos [StaSh](https://github.com/ywangd/stash)
+na app Pythonista 3.
+
 
 ![Captura de ecrã da aplicação Count-files - contar ficheiros por extensão](https://user-images.githubusercontent.com/18650184/42160179-29998a52-7dee-11e8-9813-b8594e50fe77.png)
 
+## Conteúdo  
+- **[Instalação e dependências](#instalação-e-dependências)**
+   - [Em sistemas operativos de secretária](#em-sistemas-operativos-de-secretária)
+   - [Em iPhone ou iPad (na app Pythonista 3 para iOS)](#em-iphone-ou-ipad-na-app-pythonista-3-para-ios)
+  
+- **[Como utilizar](#como-utilizar)**
+   - [Argumentos da linha de comandos](#argumentos-da-linha-de-comandos)
+   - [Obter ajuda sobre como usar esta aplicação](#obter-ajuda-sobre-como-usar-esta-aplicação)
+   - [Pastas e ficheiros escondidos](#pastas-e-ficheiros-escondidos)
+   - [Sensibilidade a maiúsculas/minúsculas](#sensibilidade-a-maiúsculas-minúsculas)
+   - [Personalização da apresentação de resultados e feedback durante a operação](#personalização-da-apresentação-de-resultados-e-feedback-durante-a-operação)
+   - [Exemplos práticos de utilização](#exemplos-práticos-de-utilização)
+      - [Contar o número total de ficheiros numa pasta](#contar-o-número-total-de-ficheiros-numa-pasta)  
+      - [Contar quantos ficheiros há de cada extensão](#contar-quantos-ficheiros-há-de-cada-extensão)
+      - [Procurar ficheiros com uma extensão específica](#procurar-ficheiros-com-uma-extensão-específica)
+      - [Procurar e listar ficheiros sem extensão](#procurar-e-listar-ficheiros-sem-extensão)
+      - [Procurar e listar todos os ficheiros](#procurar-e-listar-todos-os-ficheiros)
+      - [Outras funcionalidades](#outras-funcionalidades)
+  
+- **[Encontrou um bug ou tem uma sugestão?](#encontrou-um-bug-ou-tem-uma-sugestão)**
 
-## Documentation
-
-* [English](https://countfiles.readthedocs.io/en/latest/)
-* [Portugu&ecirc;s](https://github.com/victordomingos/Count-files/blob/master/docs/Documentation_PT.md)
-* [&#x420;&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md)
-* [&#x423;&#x43A;&#x440;&#x430;&#x457;&#x43D;&#x441;&#x44C;&#x43A;&#x430;](https://github.com/victordomingos/Count-files/blob/master/docs/README_UA.md)
 
 
-## Dependências:
-
-Para executar esta aplicação é necessária uma instalação do Python 3.6 ou superior.
-
-
-## Instalação
+## Instalação e dependências:
 
 ### Em sistemas operativos de secretária
 
-Count Files é uma aplicação multi-plataforma executada em Python e pode ser 
-instalada de forma muito simples, usando o [pip](https://pip.pypa.io/en/stable/quickstart/): 
+A atual versão de desenvolvimento pode ser instalada com o comando
+`pip install -e`, seguido do caminho para a pasta principal do projeto (a
+mesma pasta que contém o ficheiro `setup.py`). Para executar esta aplicação é
+necessária uma instalação do Python 3.6 ou superior. Procuramos manter no
+mínimo as dependências externas, de modo a manter a compatibilidade com
+diferentes plataformas, incluindo Pythonista em iOS. 
 
-```
-pip3 install count-files
-```
-
-Caso pretenda instalar a atual versão de desenvolvimento, basta clonar este 
-repositório git e instalá-lo usando `pip install -e`. De realçar, contudo, que 
-o código em fase de desenvolvimento é frequentemente instável e com 
-*bugs*, pelo simples motivo de que é um trabalho ainda em curso.
+Planeamos submeter esta aplicação ao PyPI tão brevemente quanto possível, para
+permitir oferecer uma forma de instalação e atualização mais simples.
+Enquanto isso não acontece, estejam à vontade para dar uma olhada na última
+secção e talvez considerar contribuir também para este projeto.
 
 
 ### Em iPhone ou iPad (na app Pythonista 3 para iOS)
 
-Também é possível utilizar esta aplicação em iOS (iPhone/iPad), usando a linha 
-de comandos da [StaSh](https://github.com/ywangd/stash), na alicação 
-[Pythonista 3](http://omz-software.com/pythonista/). Por favor, consulte a 
-[documentação]() para mais informações. 
+Primeiro, irá precisar de um ambiente Python e uma consola de linha de comandos
+compatível com Python 3. No momento presente, isto significa que precisa de ter
+instalada uma app chamada [Pythonista 3](http://omz-software.com/pythonista/)
+(que é, entre outras coisas, um excelente ambiente para desenvolvimento e
+execução de aplicações de Python puro em iOS). 
+
+Depois, precisará de instalar a
+[StaSh](https://github.com/ywangd/stash), que é uma consola de linha de
+comandos baseada em Python, concebida especificamente para correr no
+Pythonista. Irá permitir executar comandos bem úteis como `wget`, `git clone`,
+`pip install` e muitos outros. Merece realmente um atalho no ecrã principal do
+seu iPhone ou iPad. 
+
+Depois de seguir as instruções para a instalação da StaSh,
+poderá precisar de a atualizar para uma versão mais recente. Experimente este
+comando:
+
+```
+selfupdate.py -f bennr01:command_testing
+```
+
+De seguida, force o encerramento do Pythonista, reiniciando-o de seguida, e
+inicie novamente a StaSh. Deverá estar agora a correr em Python 3. Neste
+momento, pode tentar instalar esta aplicação, diretamente a partir deste
+repositório:
+
+```
+pip install victordomingos/Count-files
+```
+
+Se tudo correr bem, o comando acima deverá 
+colocar um pacote chamado `count_files` dentro da pasta
+`~/Documents/site-packages-3` e criar um *script* de execução chamado
+`count-files.py` em `stash_extensions/bin`. De seguida,
+force o encerramento do Pythonista, reinicie a app e inicie novamente a StaSh.
+Já deverá conseguir executar esta aplicação diretamente a partir da consola
+para contar quaisquer ficheiros que possa ter no ambiente do Pythonista.
 
 
 ## Como utilizar:
