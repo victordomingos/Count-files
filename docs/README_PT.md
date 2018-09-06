@@ -32,7 +32,7 @@ instalada de forma muito simples, usando o [pip](https://pip.pypa.io/en/stable/q
 pip3 install count-files
 ```
 
-Caso pretenda instalar a atual versão de desenvolvimento, basta clonar este 
+Caso tenha interesse na atual versão de desenvolvimento, poderá clonar este 
 repositório git e instalá-lo usando `pip install -e`. De realçar, contudo, que 
 o código em fase de desenvolvimento é frequentemente instável e com 
 *bugs*, pelo simples motivo de que é um trabalho ainda em curso.
@@ -48,73 +48,8 @@ de comandos da [StaSh](https://github.com/ywangd/stash), na alicação
 
 ## Como utilizar:
 
-### Argumentos da linha de comandos
-
-De um modo geral, podem ser indicados argumentos tanto na forma
-abreviada como na forma extensa. Por exemplo: `-a` ou `--all`.
-
-```
-usage: count-files [-h] [-v] [-st] [-a]
-                   [-c] [-nr] [-nf] [-t TOTAL]
-                   [-alpha] [-fe FILE_EXTENSION] [-fs]
-                   [-p] [-ps PREVIEW_SIZE] [path]
-```
-
-```
-usage: count-files [--help] [--version] [--supported-types] [--all]
-                   [--case-sensitive] [--no-recursion] [--no-feedback] [--total TOTAL]
-                   [--sort-alpha] [--file-extension FILE_EXTENSION] [--file-sizes]
-                   [--preview] [--preview-size PREVIEW_SIZE] [path]
-```
-
-A forma mais simples de utilização consiste na introdução de um comando
-simples na linha de comandos, sem quaisquer argumentos. Assim, para contar
-todos os ficheiros na pasta atual e em todas as suas subpastas, ignorando
-pastas e ficheiros escondidos:
-
-```
-count-files
-```
-
-Por predefinição, a aplicação contará os ficheiros recursivamente na pasta de
-trabalho atual e em todas as suas subpastas e apresentará no final uma tabela
-mostrando a frequência de cada extensão de ficheiro (p.ex.: .txt, .py, .html,
-.css) e o número total de ficheiros encontrados. Quaisquer pastas ou ficheiros
-escondidos serão ignorados por defeito.
-
-Uma outra funcionalidade principal da aplicação consiste na pesquisa de
-ficheiros pela sua extensão, que permite obter uma lista de todos os ficheiros
-encontrados ou, opcionalmente, apenas o numero de ficheiros.
-
-```
-count-files -fe txt
-````
-
-```
-count-files --file-extension txt
-```
-
-Opcionalmente, é possivel indicar um caminho para a pasta a processar. Se
-preferir, poderá deixar esse argumento vazio, e a aplicação irá contar os
-ficheiros da pasta atual. Para processar os ficheiros na sua pasta de 
-utilizador, poderá indicar o caminho ```~```. No caso de haver espaços nos 
-nomes de pastas ou ficheiros, o caminho deve ser especificado `"entre aspas"`. 
-
-Exemplo para Windows:
-
-```
-count-files "~\Ambiente de Trabalho\Nova pasta"
-```
-
-Os argumentos opcionais `-nr` ou `--no-recursion` dizem à aplicação para não
-percorrer de forma recursiva todas as subpastas (ou seja, pesquisar apenas na
-raiz da pasta indicada).
-
-
-### Obter ajuda sobre como usar esta aplicação:
-
 Para consultar a lista de opções disponíveis e o seu modo de funcionamento, 
-basta utilizar um dos seguintes comando:
+basta utilizar um dos seguintes comandos:
 
 ```
 count-files -h
@@ -124,328 +59,85 @@ count-files -h
 count-files --help
 ```
 
-  
-### Pastas e ficheiros escondidos
+Por predefinição, a aplicação contará os ficheiros recursivamente na pasta de
+trabalho atual e em todas as suas subpastas. Quaisquer pastas ou ficheiros
+escondidos serão ignorados por defeito. As extensões de ficheiros são tratadas 
+sem distinguir maiúsculas/minúsculas. Por exemplo, os resultados para `ini` e 
+`INI` serão iguais. 
 
-Por predefinição, serão ignorados ficheiros e pastas que é suposto estarem 
-escondidos, mas é possível acrescentar os argumentos opcionais `-a` ou `--all` 
-para incluir todos os ficheiros na contagem.
+Opcionalmente, é possivel indicar um caminho para a pasta a processar, optar 
+por contagem ou pesquisa não recursiva, processar as extensões de ficheiros com 
+distinção de maiúsculas/minúsculas e ativar a contagem ou pesquisa em pastas
+e ficheiros escondidos. Na documentação da aplicação poderá encontrar 
+informação completa sobre os 
+[argumentos de linha de comandos](https://github.com/victordomingos/Count-files/blob/master/docs/Documentation_PT.md#argumentos-da-linha-de-comandos).
 
-- Windows: ficheiros e pastas com em que o atributo FILE_ATTRIBUTE_HIDDEN é `True`.  
-- Linux, macOS: aqueles cujos nomes começam por "." (ponto).
-  
-
-### Sensibilidade a maiúsculas/minúsculas
-
-As extensões de ficheiros são tratadas sem distinguir maiúsculas/minúsculas.
-Por exemplo, os resultados para `ini` e `INI` serão iguais. Para distinguir
-maiúsculas/minúsculas, use a opção `-c` ou `--case-sensitive`.
-
-
-### Personalização da apresentação de resultados e feedback durante a operação
-
-Este utilitário pode ainda ser utilizado para procurar ficheiros que tenham no 
-seu nome uma determinada extensão (utilizando `-fe` ou `--file-extension`) e, 
-opcionalmente, apresentar uma pre-visualização breve (`-p`ou `--preview`) para 
-ficheiros de texto. O tamanho do texto de pre-visualização pode ser, de forma 
-opcional, personalizado através do argumento `-ps` ou `--preview-size` seguido 
-de um número inteiro indicando o número de caracteres.
-
-A lista de tipos de ficheiro para os quais está disponível a funcionalidade de 
-pre-visualização pode ser consultada com o argumento `-st` ou 
-`--supported-types`.
-
-Por predefinição, o resultado da pesquisa por uma determinada extensão é 
-apresentado sob a forma de uma lista com os caminhos completos dos ficheiros
-encontrados. Se necessitar de informação sobre o tamanho de cada ficheiro, 
-utilize o argumento `-fs` ou `--file-sizes`. Se pretender contar o número 
-total de ficheiros com uma determinada extensão, sem extensão ou 
-independentemente da extensão, utilize o argumento `-t` ou `--total`.
- 
-Durante a procura, o programa apresenta um indicador de operação, mostrando no 
-ecrã, sucessivamente e numa única linha, os nomes de ficheiro processados. Os 
-nomes de ficheiros não são contudo apresentados, ao buscar por uma determinada 
-extensão, caso não sejam encontrados ficheiros que obedeçam aos critérios 
-indicados nessa pasta, ou se os ficheiros estiverem escondidos e não tiver 
-sido especificado o argumento `--all`.
-
-Este mecanismo de feedback está ativo, de forma predefinida, ao contar 
-ficheiros por extensão (com tabela) e ao contar o número total de ficheiros. 
-A opção `-nf` ou `--no-feedback` desativa o feedback. A utilização da opção 
-`--no-feedback` pode permitir obter um processamento um pouco mais rápido.
- 
-Ao procurar ficheiros por extensão (usando `-fe` ou `--file-extension`), 
-o mecanismo de feedback apresentado é a própria lista de ficheiros.
-
-
-### Exemplos práticos de utilização:
-
-#### Contar o número total de ficheiros numa pasta
-
-Argumentos na forma abreviada:
-```
-usage: count-files [-a] [-c] [-nr] [-nf] [-t TOTAL] [path]
-```
-
-Argumentos na forma extensa:
-```
-usage: count-files [--all] [--case-sensitive] [--no-recursion] [--no-feedback] [--total TOTAL] [path]
-```
-
-Para contar o número total de ficheiros, deverá especificar a extensão de 
-ficheiro ou utilizar um ponto ```.``` para obter uma contagem dos ficheiros 
-que não têm extensão. Também poderá utilizar dois pontos sem espaços ```..``` 
-para obter uma contagem do número total de ficheiros com ou sem extensão.
-
-
-Contar de forma recursiva o número total de ficheiros com uma extensão 
-específica na pasta atual, incluindo subpastas e ficheiros escondidos:
-
-```
-count-files -a -t txt
-```
-
-```
-count-files --all --total txt
-```
-
-Contar de forma recursiva o número total de ficheiros com uma extensão 
-específica em maiúsculas:
-
-```
-count-files -t JPG -c
-```
-
-```
-count-files --total JPG --case-sensitive
-```
-
-Contar de forma recursiva o número total de ficheiros na pasta atual que não 
-têm extensão:
-
-```
-count-files -t .
-```
-
-```
-count-files --total .
-```
-
-Contar o número total de ficheiros na pasta atual, independentemente de terem 
-ou não uma extensão:
-
-```
-count-files -nr -t ..
-```
-
-```
-count-files --no-recursion --total ..
-```
-
-
-#### Contar quantos ficheiros há de cada extensão
-
-Argumentos na forma abreviada:
-```
-usage: count-files [-a] [-alpha] [-c] [-nr] [-nf] [path]
-```
-
-Argumentos na forma extensa:
-```
-usage: count-files [--all] [--sort-alpha] [--case-sensitive] [--no-recursion] [--no-feedback] [path]
-```
-
-Por predefinição, a tabela será ordenada pela frequência das extensões dos
-nomes de ficheiros. Se preferir visualizar resultados ordenados
-alfabeticamente, basta adicionar o argumento `-alpha` or `--sort-alpha`.
-
-Contar todos os ficheiros na pasta atual e em todas as suas subpastas, 
-ignorando pastas e ficheiros escondidos, sem distinção de 
-maiúsculas/minúsculas:
+A forma mais simples de utilização consiste na introdução de um comando
+simples na linha de comandos, sem quaisquer argumentos, o que permite obter 
+uma tabela com a frequência de cada extensão de ficheiro (p. ex.: .txt, .py, 
+.html, .css) e o número total de ficheiros.
 
 ```
 count-files
 ```
 
-Contar todos os ficheiros na pasta atual e em todas as suas subpastas, 
-ignorando pastas e ficheiros escondidos, com distinção de 
-maiúsculas/minúsculas:
-
-```
-count-files -c
-```
-
-```
-count-files --case-sensitive
-```
-
-Contar todos os ficheiros na pasta atual e em todas as suas subpastas, 
-incluindo pastas e ficheiros escondidos:
-
-```
-count-files -a
-```
-  
-```
-count-files --all
-```
 
 
-Contar todos os ficheiros na pasta atual, ignorando pastas e ficheiros 
-escondidos, mas sem percorrer as suas subpastas:
+Uma outra funcionalidade principal da aplicação consiste na pesquisa de
+ficheiros por uma dada extensão, que permite obter uma lista dos caminhos 
+completos para todos os ficheiros encontrados.
 
 ```
-count-files -nr
+count-files -fe txt [caminho]
+````
+
 ```
-  
+count-files --file-extension txt [caminho]
 ```
-count-files --no-recursion
+
+Também é possível contar o número total de ficheiros com uma certa extensão, 
+sem os listar.
+
+
+```
+count-files -t py [caminho]
 ```
 
 
-Contar todos os ficheiros numa determinada pasta e nas suas subpastas, 
-ignorando pastas e ficheiros escondidos:
-
 ```
-count-files ~/Documents
+count-files --total py [caminho]
 ```
 
-
-
-Contar todos os ficheiros numa determinada pasta, ignorando pastas e ficheiros 
-escondidos, sem percorrer as subpastas, e ordenar alfabeticamente a tabela:
-
+Para obter informação sobre ficheiros que não têm extensão no seu nome, basta 
+indicar um ponto no lugar da extensão:
+ 
 ```
-count-files -nr -alpha ~/Documents
-```  
-
+count-files -fe . [caminho]
 ```
-count-files --no-recursion --sort-alpha ~/Documents
 ```
-
-
-Contar todos os ficheiros numa determinada pasta e nas suas subpastas, 
-ignorando pastas e ficheiros escondidos, sem feedback relativo ao progresso da 
-operação:
-
+count-files --file-extension . [caminho]
 ```
-count-files -nf ~/Documents
-```  
-
 ```
-count-files --no-feedback ~/Documents
+count-files -t . [caminho]
+```
+```
+count-files --total . [caminho]
 ```
 
-
-#### Procurar ficheiros com uma extensão específica
-
-Argumentos na forma abreviada:
-```
-usage: count-files [-a] [-c] [-nr]
-                   [-fe FILE_EXTENSION] [-fs]
-                   [-p] [-ps PREVIEW_SIZE] [path]
-```
-
-Argumentos na forma extensa:
-```
-usage: count-files [--all] [--case-sensitive] [--no-recursion]
-                   [--file-extension FILE_EXTENSION] [--file-sizes]
-                   [--preview] [--preview-size PREVIEW_SIZE] [path]
-```
-
-Procurar recursivamente ficheiros que tenham a extensão `.txt`, numa 
-determinada pasta, incluindo pastas e ficheiros escondidos:
+Caso necessite de listar ou contar todos os ficheiros, independentemente da 
+sua extensão, especifique dois pontos no lugar da extensão:
 
 ```
-count-files -a -fe txt ~/Documents
+count-files -fe .. [caminho]
 ```
-
 ```
-count-files --all --file-extension txt ~/Documents
+count-files --file-extension .. [caminho]
 ```
-
-
-Procurar recursivamente ficheiros com a extensão `.css`, numa determinada pasta, 
-incluindo informação sobre o tamanho dos ficheiros:
-
 ```
-count-files -fe css -fs ~/Documents
-```  
-
+count-files -t .. [caminho]
 ```
-count-files --file-extension css --file-sizes ~/Documents
 ```
-
-
-Procurar recursivamente ficheiros que tenham a extensão `.py`, numa 
-determinada pasta, e apresentar uma pre-visualização de 500 caracteres para 
-cada um deles:
-
-```
-count-files -fe py -p -ps 500 ~/Documents
-```   
-
-```
-count-files --file-extension py --preview --preview-size 500 ~/Documents
-```
-
-
-#### Procurar e listar ficheiros sem extensão
-
-Utilize um único ponto ```.``` para procurar ficheiros que não tenham extensão. 
-Por exemplo, ficheiros com nomes como `.gitignore`, `Procfile`, `_netrc`.
-
-Procurar recursivamente ficheiros que não têm qualquer extensão no seu nome, 
-numa determinada pasta:
-
-```
-count-files -fe .  ~/Documents
-```  
-
-```
-count-files --file-extension . ~/Documents
-```
-
-
-#### Procurar e listar todos os ficheiros
-
-Utilize dois pontos ```..``` sem espaço entre eles para procurar todos os 
-ficheiros, independentemente de terem ou não extensão.
-
-Procurar recursivamente todos os ficheiros com ou sem extensão, numa dada 
-pasta (processo semelhante à contagem de ficheiros recursiva, mas aqui o 
-resultado é uma lista com os caminhos dos ficheiros encontrados):
-
-```
-count-files -fe ..  ~/Documents
-```
-  
-```
-count-files --file-extension .. ~/Documents
-```
-
-
-#### Outras funcionalidades
-
-Consultar o número da versão do programa:
-
-```
-count-files -v
-```
-
-```
-count-files --version
-```
-
-Consultar a lista dos tipos de ficheiro atualmente suportados para a
-funcionalidade de pre-visualização:
-
-```
-count-files -st
-```
-
-```
-count-files --supported-types
+count-files --total .. [caminho]
 ```
 
    

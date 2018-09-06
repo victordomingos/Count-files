@@ -10,6 +10,7 @@ a frequência de cada extensão de ficheiro (p.ex.: .txt, .py, .html, .css) e o
 número total de ficheiros encontrados.
 
 Sistemas operativos suportados: Linux, macOS, Windows. Pode ainda ser
+Sistemas operativos suportados: Linux, macOS, Windows. Pode ainda ser
 utilizado em iOS (iPhone/iPad) utilizando a linha de comandos [StaSh](https://github.com/ywangd/stash)
 na app Pythonista 3.
 
@@ -165,7 +166,7 @@ raiz da pasta indicada).
 ### Obter ajuda sobre como usar esta aplicação:
 
 Para consultar a lista de opções disponíveis e o seu modo de funcionamento, 
-basta utilizar um dos seguintes comando:
+basta utilizar um dos seguintes comandos:
 
 ```
 count-files -h
