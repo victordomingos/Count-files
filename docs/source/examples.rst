@@ -13,17 +13,17 @@ More about the common arguments:
 
 .. _count-label:
 
-File counting by extension: Sorted table
+File counting by extension: sorted table
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-Short form of arguments
+Arguments in short form:
 ::
 
    usage: count-files [-a] [-alpha] [-c]
                       [-nr] [-nf] [path]
 
-Long form of arguments
+Arguments in long form:
 ::
 
    usage: count-files [--all] [--sort-alpha] [--case-sensitive]
@@ -39,7 +39,8 @@ all of its subdirectories, and will display a table showing the frequency for
 each file extension (e.g.: .txt, .py, .html, .css) and the total number of
 files found.
 
-In this case, the file extensions in the table will be displayed in uppercase (default). Any hidden files or folders will be ignored.
+In this case, the file extensions in the table will be displayed in uppercase
+(default). Any hidden files or folders will be ignored.
 
 Example:
 
@@ -54,7 +55,8 @@ Example:
 
 | 
 
-If you prefer alphabetically sorted results, you just need to add the ``-alpha`` or ``--sort-alpha`` argument.
+If you prefer alphabetically sorted results, you just need to add the
+``-alpha`` or ``--sort-alpha`` argument.
 
 Example::
 
@@ -70,17 +72,17 @@ Example::
 
 .. _search-label:
 
-File searching by extension: List with file paths
+File searching by extension: list with file paths
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Short form of arguments
+Arguments in short form:
 ::
 
    usage: count-files [-a] [-c] [-nr]
                       [-fe FILE_EXTENSION] [-fs]
                       [-p] [-ps PREVIEW_SIZE] [path]
 
-Long form of arguments
+Arguments in long form:
 ::
 
    usage: count-files [--all] [--case-sensitive] [--no-recursion]
@@ -89,17 +91,19 @@ Long form of arguments
 
 |
 
-This utility can also be used to search for files that have a certain file extension
-(using ``-fe`` or ``--file-extension``) and, optionally, display a short preview (``-p`` or
-``--preview``) for text files. The size of the preview text sample can optionally be
-customized by using the ``-ps`` or ``--preview-size`` argument followed by an integer number
-specifying the number of characters to present.
+This utility can also be used to search for files that have a certain file
+extension (using ``-fe`` or ``--file-extension``) and, optionally, display a
+short preview (``-p`` or ``--preview``) for text files. The size of the
+preview text sample can optionally be customized by using the ``-ps`` or
+``--preview-size`` argument followed by an integer number specifying the
+number of characters to present.
 
 The list of file types for which preview is available can be viewed with
 the ``-st`` or ``--supported-types`` argument.
 
-By default, the result of a search by certain file extension is a list with
-the full paths of the files found. If you need information about the size of the files, use the ``-fs`` or ``--file-sizes`` argument.
+By default, the result of a search by a certain file extension is a list of
+the full paths of the files found. If you need information about the size of
+the files, use the ``-fs`` or ``--file-sizes`` argument.
 
 Searching for files with a specific extension
 """""""""""""""""""""""""""""""""""""""""""""
@@ -135,16 +139,18 @@ Example::
 Searching and listing files without extension
 """""""""""""""""""""""""""""""""""""""""""""
 
-Use a single dot ``.`` to search for files without any extension.
+Use a single dot ``.`` to search for files without any extension. Files with
+names such as ``.gitignore``, ``Procfile``, ``_netrc`` are considered to have
+no extension in their name.
 
-Note: files with names such as ``.gitignore``, ``Procfile``, ``_netrc``.
 
 Example: ``count-files --file-extension . ~/Documents``
 
 Searching and listing all files
 """""""""""""""""""""""""""""""
 
-Use two dots without spaces ``..`` to search for all files with or without the extension.
+Use two dots without spaces ``..`` to search for all files with or without
+file extensions in their names.
 
 Example: ``count-files --file-extension .. ~/Documents``
 
@@ -152,15 +158,15 @@ Example: ``count-files --file-extension .. ~/Documents``
 
 .. _total-label:
 
-Total counting of files: Total number
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Total number of files
+^^^^^^^^^^^^^^^^^^^^^
 
-Short form of arguments
+Arguments in short form:
 ::
 
    usage: count-files [-a] [-c] [-nr] [-nf] [-t TOTAL] [path]
 
-Long form of arguments
+Arguments in long form:
 ::
 
    usage: count-files [--all] [--case-sensitive] [--no-recursion]
@@ -168,13 +174,13 @@ Long form of arguments
 
 |
 
-If you only need the total number of all files, number of files with a certain extension or without it
-use the ``-t`` or ``--total`` argument.
+If you only need the total number of all files, or the number of files with a
+certain extension or without it, use the ``-t`` or ``--total`` argument.
 
 To count the total number of files, you must specify the name of the extension.
 
-Total counting of files with a specific extension
-"""""""""""""""""""""""""""""""""""""""""""""""""
+Total number of files: counting files with a specific extension
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 Example:
 
@@ -191,16 +197,18 @@ Example:
 
 |
 
-Total counting of files without extension
-"""""""""""""""""""""""""""""""""""""""""
+Total number of files: counting files without extension
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-Use a single dot ``.`` to get the total number of files without any extension.
+Use a single dot ``.`` to get the total number of files that don't have an
+extension.
 
 Example: ``count-files --total . ~/Documents``
 
-Total counting of all files
-"""""""""""""""""""""""""""
+Total number of files: counting all files
+"""""""""""""""""""""""""""""""""""""""""
 
-Use two dots without spaces ``..`` to get the total number of all files with or without the extension.
+Use two dots without spaces ``..`` to get the total number of files, with or
+without a file extension.
 
 Example: ``count-files --total .. ~/Documents``
