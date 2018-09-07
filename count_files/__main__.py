@@ -244,6 +244,12 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                                     case_sensitive=args.case_sensitive)
 
     # display the result as a table
+    
+    # if empty sequence
+    if not data:
+        print("Oops! We have no data to show...\n")
+        parser.exit(status=0)
+        
     total_occurrences = sum(data.values())
     max_word_width = max(map(len, data.keys()))
 
