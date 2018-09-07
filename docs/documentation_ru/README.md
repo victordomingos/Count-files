@@ -2,6 +2,12 @@
 
 Утилита командной строки (CLI), написанная на Python. C помощью этой CLI можно подсчитать или найти файлы с определенным расширением, без расширения или все файлы, независимо от расширения, в указанном каталоге.
 
+**Разделы документации:**
+
+- [Установка и зависимости](https://github.com/victordomingos/Count-files/tree/master/docs/documentation_ru/installation.md)
+- [Как использовать](https://github.com/victordomingos/Count-files/tree/master/docs/documentation_ru/howtouse.md)
+- [Примеры практического использования](https://github.com/victordomingos/Count-files/tree/master/docs/documentation_ru/examples.md)
+
 **Основные функции:**
 
 - подсчет файлов по расширению и сортировка результатов по частоте или по алфавиту;
@@ -38,13 +44,6 @@ Python 3.6 и более поздние.
 **Лицензия:** MIT
 
 **GitHub:** [Репозиторий проекта](https://github.com/victordomingos/Count-files)
-
-**Разделы документации:**
-
-- [Установка и зависимости](https://github.com/victordomingos/Count-files/tree/master/docs/documentation_ru/installation.md)
-- [Как использовать](https://github.com/victordomingos/Count-files/tree/master/docs/documentation_ru/howtouse.md)
-- [Примеры практического использования](https://github.com/victordomingos/Count-files/tree/master/docs/documentation_ru/examples.md)
-
 
 **Вы нашли ошибку или у Вас есть предложения по улучшению?**
 
