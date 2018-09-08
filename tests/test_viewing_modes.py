@@ -19,7 +19,7 @@ class TestViewingModes(unittest.TestCase):
             self.standard_file = self.get_locations('compare_tables', 'win_show_result_list.txt')
         elif sys.platform.startswith('linux'):
             self.standard_file = self.get_locations('compare_tables', 'linux_show_result_list.txt')
-        elif sys.platform.startswith('darwin'):
+        elif sys.platform.startswith('darwin') or sys.platform.startswith('ios'):
             self.standard_file = self.get_locations('compare_tables', 'darwin_show_result_list.txt')
 
     def get_locations(self, *args):
