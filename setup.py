@@ -34,7 +34,7 @@ setup(name='count-files',
       long_description=read_readme('README.md'),  # for PyPI
       long_description_content_type="text/markdown",
       license='MIT',
-      url='https://no-title.victordomingos/projects/count-files/',  # homepage
+      url='https://no-title.victordomingos.com/projects/count-files/',  # homepage
       python_requires='>=3.6',
 
       classifiers=[
