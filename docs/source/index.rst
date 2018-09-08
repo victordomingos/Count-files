@@ -45,7 +45,11 @@ Python 3.6 and later
 * Linux Mint 19 "Tara", Python 3.6.5
 * Windows 8.1 Professional, Python 3.6.0
 * macOS 10.13.6 High Sierra, Python 3.7.0
-* macOS 12.11 El Capitan, Python 3.7.0
+* macOS 10.13.6 High Sierra, Python 3.6.6
+* macOS 12.12.6 Sierra, Python 3.7.0
+* macOS 12.12.6 Sierra, Python 3.6.6
+* macOS 12.11.6 El Capitan, Python 3.7.0
+* macOS 12.11.6 El Capitan, Python 3.6.6
 * iOS 12.0 (Pythonista 3.2), Python 3.6.1
 
 
