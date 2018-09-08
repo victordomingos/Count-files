@@ -17,12 +17,13 @@ v.1.4 - 31/08/2018
  * Updated main functions:
     - with generators (`search_files()`);
     - with list comprehensions (`count_files_by_extension()`).
- * Added docs and readme in English, Portuguese and Russian.
+ * Added docs and readme in English, Portuguese, Russian and Ukrainian.
  * Added ReadTheDocs documentation.
- * Added support for search/count files without extension(.) or all files(..).
- * Optional display file sizes.
+ * Added support for search/count files without extension (.) or all files(..).
+ * Optional display of file sizes.
  * Updated ArgumentParser structure with groups and detailed help text.
  * Added checks: path exists, supported type, hidden file/folder in path.
+ * Other minor changes and fixes.
 
 ---
 v.1.3 - 07/05/2018
