@@ -8,6 +8,8 @@ logs/
 # ignore tests/compare_tables
 tests/compare_tables/test_show_result_list.txt
 tests/compare_tables/win_show_result_list.txt
+tests/compare_tables/darwin_show_result_list.txt
+tests/compare_tables/linux_show_result_list.txt
 
 ### PyCharm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
