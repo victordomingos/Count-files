@@ -125,14 +125,12 @@ class TestViewingModes(unittest.TestCase):
         Average file size: ... KiB (max: ... KiB, min: ... B).
         :return:
         """
-        if not os.path.exists(self.standard_file):
-            print('A standard file is generated.')
-            self.generate_standard_file()
+        self.generate_standard_file()
+        print('A standard file is generated.')
         data = search_files(dirpath=self.get_locations('data_for_tests'), extension='.',
                             include_hidden=False, recursive=True, case_sensitive=False)
-        with open(self.test_file, 'w') as f:
-            with redirect_stdout(f):
-                show_result_for_search_files(files=data, file_sizes=True)
+        params = {'files': data, 'file_sizes': True}
+        self.write_to_test_file(self.test_file, show_result_for_search_files, **params)
         self.assertEqual(filecmp.cmp(self.test_file, self.standard_file,
                                      shallow=False), True)
 
