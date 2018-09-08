@@ -192,7 +192,7 @@ def is_hidden_file_or_dir(filepath: str) -> bool:
         return False
     elif platform_name.startswith('linux'):
         return bool('/.' in filepath)
-    elif platform_name.startswith('darwin'):
+    elif platform_name.startswith('darwin') or platform_name.startswith('ios'):
         return bool('/.' in filepath)
 
 
