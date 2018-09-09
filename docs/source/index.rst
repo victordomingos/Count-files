@@ -51,6 +51,7 @@ Python 3.6 and later
 * macOS 12.11.6 El Capitan, Python 3.7.0
 * macOS 12.11.6 El Capitan, Python 3.6.6
 * iOS 12.0 (Pythonista 3.2), Python 3.6.1
+* iOS 9.3.5 (Pythonista 3.2), Python 3.6.1
 
 
 **License:** MIT
