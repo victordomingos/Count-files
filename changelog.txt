@@ -5,7 +5,7 @@ Version history:
 
 
 ---
-v.1.4 - 31/08/2018
+v.1.4 - 09/09/2018
 (Special thanks to Natalia Bondarenko)
  * Updated folder structure and refactored as package.
  * Updated preview for text files and added list of supported types.
