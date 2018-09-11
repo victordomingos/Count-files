@@ -21,8 +21,10 @@
 ```
 usage: count-files [-a] [-alpha] [-c]
                    [-nr] [-nf] [path]
+```
 
 Повна форма аргументів:
+
 ```
 usage: count-files [--all] [--sort-alpha] [--case-sensitive]
                    [--no-recursion] [--no-feedback] [path]
@@ -53,6 +55,7 @@ count-files
 ```
 count-files -alpha
 ```
+
 ```
 count-files --sort-alpha
 ```
@@ -90,16 +93,20 @@ usage: count-files [--all] [--case-sensitive] [--no-recursion]
 #### Пошук та отримання списку файлів з певним розширенням
 
 Приклад:
+
 ```
 count-files -fe txt
 ```
+
 ```
 count-files --file-extension txt
 ```
 Приклад:
+
 ```
 count-files -fe py -p -ps 100 -fs
 ```
+
 ```
 count-files --file-extension py --preview \
            --preview-size 100 --file-sizes
@@ -147,6 +154,7 @@ usage: count-files [--all] [--case-sensitive] [--no-recursion]
 ```
 count-files -t txt
 ```
+
 ```
 count-files --total txt
 ```
