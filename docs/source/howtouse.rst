@@ -127,7 +127,7 @@ argument.
 Customizing operation feedback
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-by default, the program displays an operating indicator that consists in
+By default, the program displays an operating indicator that consists in
 successively printing processed file names in a single line. File names are
 not displayed, however, when searching for a particular extension, if there
 are no such files in the folder or if the files are hidden, and the
@@ -188,7 +188,7 @@ Preview is available as an option when searching files using the ``-fe`` or
 ``--file-extension`` argument.
 
 The default text preview size depends on the terminal width settings. You can
-change this value by specifying the argument ``-p`` or ``--preview-size``
+change this value by specifying the argument ``-ps`` or ``--preview-size``
 followed by an integer (the number of characters to display from each file).
 
 Example: ``count-files --file-extension css --preview --preview-size 50``
