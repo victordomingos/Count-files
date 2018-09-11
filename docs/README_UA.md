@@ -11,6 +11,7 @@
 ## Документація
 
 - [Англійська](https://countfiles.readthedocs.io/en/latest/)
+- [Українська](https://github.com/victordomingos/Count-files/tree/master/docs/documentation_ua/README.md)
 
 ## Встановлення
 
