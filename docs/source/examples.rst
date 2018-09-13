@@ -58,13 +58,13 @@ Example:
 If you prefer alphabetically sorted results, you just need to add the
 ``-alpha`` or ``--sort-alpha`` argument.
 
-Example::
+Example with one of the common arguments::
 
-   count-files -c -alpha E:\Photo
+   count-files -c -alpha [path]
 
-   count-files --case-sensitive --sort-alpha E:\Photo
+   count-files --case-sensitive --sort-alpha [path]
 
-.. image:: _static/count_windows_case_alpha.png
+.. image:: _static/count_windows.png
    :align: center
    :alt: count windows case alpha
 
@@ -125,10 +125,10 @@ Example:
 
 Example::
 
-   count-files ~/Desktop/examples -fe py -p -ps 100 -fs
+   count-files -fe py -p -ps 100 -fs [path]
 
-   count-files ~/Desktop/examples --file-extension py --preview
-              --preview-size 100 --file-sizes
+   count-files --file-extension py --preview
+              --preview-size 100 --file-sizes [path]
 
 .. image:: _static/search_linux_mint_with_args.png
    :align: center
@@ -164,13 +164,13 @@ Total number of files
 Arguments in short form:
 ::
 
-   usage: count-files [-a] [-c] [-nr] [-nf] [-t TOTAL] [path]
+   usage: count-files [-a] [-c] [-nr] [-nf] [-t EXTENSION] [path]
 
 Arguments in long form:
 ::
 
    usage: count-files [--all] [--case-sensitive] [--no-recursion]
-                      [--no-feedback] [--total TOTAL] [path]
+                      [--no-feedback] [--total EXTENSION] [path]
 
 |
 
@@ -186,12 +186,12 @@ Example:
 
 ::
 
-   count-files D:\docs -t txt
+   count-files -t txt [path]
 
-   count-files D:\docs --total txt
+   count-files --total txt [path]
 
 
-.. image:: _static/total_with_ext_windows.png
+.. image:: _static/total_windows.png
    :align: center
    :alt: count total windows txt
 
