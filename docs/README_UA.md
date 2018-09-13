@@ -28,7 +28,7 @@ pip3 install count-files
 ### На iPhone чи iPad (в Pythonista 3 для iOS)
 
 Також може використовуватися на iOS (iPhone/iPad) з допомогою командного рядка [StaSh](https://github.com/ywangd/stash) у додатку Pythonista 3.  
-Більш детальний опис у [документації](https://countfiles.readthedocs.io/en/latest/installation.html) по встановленню. 
+Більш детальний опис у [документації](https://github.com/victordomingos/Count-files/tree/master/docs/documentation_ua/installation.md) по встановленню. 
 
 ## Залежності
 
@@ -51,7 +51,7 @@ count-files --help
 
 Ви маєте змогу вказати path до потрібної папки, обрати нерекурсивний підрахунок чи пошук, шукати файли враховуючи регістр розширення, включити підрахунок чи пошук у прихованих файлах та папках.  
 Також доступне отримання додаткової інформації про розмір кожного знайденого файлу та короткий попередній перегляд для текстових файлів.  
-Більш детально: [аргументи CLI](https://countfiles.readthedocs.io/en/latest/howtouse.html#cli-arguments).
+Більш детально: [аргументи CLI](https://github.com/victordomingos/Count-files/tree/master/docs/documentation_ua/howtouse.md).
 
 Найбільш простим способом використання є просто ввести команду без будь-яких додаткових аргументів. Результатом цього буде таблиця, що показує частоту для кожного розширення файлу (наприклад: .txt, .py, .html, .css) та загальну кількість знайдених файлів.
 
