@@ -47,18 +47,22 @@ usage: count-files [--all] [--sort-alpha] [--case-sensitive]
 count-files
 ```
 
+![count_linux_mint](https://user-images.githubusercontent.com/23127253/45508149-c1dbf880-b79c-11e8-9814-ba04f4c00b90.png)
+
 Якщо потрібно відсортувати розширення в таблиці за алфавітом 
 додайте аргумент `-alpha` або `--sort-alpha`.
 
-Приклад:
+Приклад з одним із загальних аргументів:
 
 ```
-count-files -alpha
+count-files -c -alpha [path]
 ```
 
 ```
-count-files --sort-alpha
+count-files --case-sensitive --sort-alpha [path]
 ```
+
+![count_windows](https://user-images.githubusercontent.com/23127253/45508316-2b5c0700-b79d-11e8-9e4d-8675fd1e3c0a.png)
 
 ### Пошук файлів за розширенням: список шляхів до файлів
 
@@ -101,16 +105,21 @@ count-files -fe txt
 ```
 count-files --file-extension txt
 ```
+
+![count_linux_mint_fe_txt](https://user-images.githubusercontent.com/23127253/45508325-36169c00-b79d-11e8-81e2-0d01b7e1ab70.png)
+
 Приклад:
 
 ```
-count-files -fe py -p -ps 100 -fs
+count-files -fe py -p -ps 100 -fs [path]
 ```
 
 ```
 count-files --file-extension py --preview \
-           --preview-size 100 --file-sizes
+           --preview-size 100 --file-sizes [path]
 ```
+
+![search_linux_mint_with_args](https://user-images.githubusercontent.com/23127253/45508392-60685980-b79d-11e8-95a6-95f068f14ce6.png)
 
 #### Пошук та отримання списку файлів без розширення
 
@@ -131,14 +140,14 @@ count-files --file-extension py --preview \
 Скорочена форма аргументів:
 
 ```
-usage: count-files [-a] [-c] [-nr] [-nf] [-t TOTAL] [path]
+usage: count-files [-a] [-c] [-nr] [-nf] [-t EXTENSION] [path]
 ```
 
 Повна форма аргументів:
 
 ```
 usage: count-files [--all] [--case-sensitive] [--no-recursion]
-                   [--no-feedback] [--total TOTAL] [path]
+                   [--no-feedback] [--total EXTENSION] [path]
 ```
 
 Для підрахунку тільки загальної кількості файлів, без списку, 
@@ -152,12 +161,14 @@ usage: count-files [--all] [--case-sensitive] [--no-recursion]
 Приклад:
 
 ```
-count-files -t txt
+count-files -t txt [path]
 ```
 
 ```
-count-files --total txt
+count-files --total txt [path]
 ```
+
+![total_windows](https://user-images.githubusercontent.com/23127253/45508405-6fe7a280-b79d-11e8-9db9-c81b0116ed1d.png)
 
 #### Підрахунок файлів без розширення
 
