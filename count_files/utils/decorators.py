@@ -9,7 +9,6 @@ def exceptions_decorator(func):
     """Registration and interception of the main exceptions.
 
     :param func: executable function
-    :param logger: the logging object
     :return:
     """
     @wraps(func)

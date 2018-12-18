@@ -34,7 +34,7 @@ from count_files.utils.viewing_modes import show_result_for_search_files
 from count_files.settings import not_supported_type_message, supported_type_info_message, \
     DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH
 
-# from count_files.utils.decorators import exceptions_decorator
+from count_files.utils.decorators import exceptions_decorator
 
 
 parser = ArgumentParser(
@@ -132,7 +132,7 @@ parser._optionals.title = parser._optionals.title.upper()
 argparse_namespace_object = TypeVar('argparse_namespace_object', bound=Namespace)
 
 
-# @exceptions_decorator
+@exceptions_decorator
 def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     """Main application function.
 
@@ -183,7 +183,6 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                    width=START_TEXT_WIDTH),
               end="\n\n"
               )
-
         if args.extension == '..':
             result = get_total(dirpath=location,
                                include_hidden=include_hidden,
