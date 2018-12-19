@@ -29,7 +29,7 @@ def get_locations(*args):
 if __name__ == "__main__":
 
     if sys.platform.startswith('win'):
-        location = get_locations('Desktop')
+        location = get_locations('Count-files')
     elif sys.platform.startswith('darwin'):
         # specify folder
         pass
@@ -54,8 +54,11 @@ if __name__ == "__main__":
                  sort='name')"""
 
     # total number of files
-    cProfile.run("main_flow([location, '-t', '..', '-a'])", sort='name')
+    # cProfile.run("main_flow([location, '-t', '..', '-a'])", sort='name')
 
     # lists
     # cProfile.run("main_flow([location, '-fe', '.', '-fs', '-a'])", sort='name')
     # cProfile.run("main_flow([location, '-fe', '.', '-a'])", sort='name')
+
+    # win optimization, skipping hidden root folders
+    cProfile.run("main_flow([location, '-fe', '.'])", sort='name')

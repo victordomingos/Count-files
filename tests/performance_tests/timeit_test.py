@@ -45,10 +45,15 @@ recursive=True)
 print('Result:', len(list(r)))
 """
 
+win_optim_test = """
+main_flow([location, '-fe', '.'])
+"""
+
+
 if __name__ == "__main__":
 
     if sys.platform.startswith('win'):
-        location = get_locations()
+        location = get_locations('Count-files')
     elif sys.platform.startswith('darwin'):
         # specify folder
         pass
@@ -56,8 +61,9 @@ if __name__ == "__main__":
         # specify folder
         pass
 
-    t = timeit.Timer(total, globals=globals())
-    print(total, t.repeat(repeat=3, number=1))
+    # win optimization, skipping hidden root folders
+    t = timeit.Timer(win_optim_test, globals=globals())
+    print(win_optim_test, t.repeat(repeat=3, number=1))
     # t = timeit.Timer(total_by_extension, globals=globals())
     # print(total_by_extension, t.repeat(repeat=3, number=1))
     # t = timeit.Timer(main_fe, globals=globals())
