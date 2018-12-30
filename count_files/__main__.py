@@ -33,7 +33,7 @@ from count_files.utils.viewing_modes import show_2columns, show_start_message
 from count_files.utils.viewing_modes import show_result_for_search_files
 from count_files.settings import not_supported_type_message, supported_type_info_message, \
     DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH
-
+from count_files.utils.help_system_extension import search_in_help
 from count_files.utils.decorators import exceptions_decorator
 
 
@@ -74,6 +74,13 @@ parser.add_argument('-nf', '--no-feedback', action='store_true', default=False,
                          'Feedback is available by default for counting files by extension '
                          '(table) and for counting the total number of files ("-t" or "--total"). '
                          'This option disables it.')
+
+parser.add_argument('-ah', '--args-help', type=str, dest='argument',
+                    help='Search in help by keyword - argument or group name(count, search, total). '
+                         'Show more detailed help text: count-files -ah docs. '
+                         'Show list of argument or group names: count-files -ah list. '
+                         'Usage: count-files -ah <keyword>.')
+
 
 total_group = parser.add_argument_group('Total number of files'.upper(),
                                         description='Displaying the number of files that either have a '
@@ -154,6 +161,10 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
 
     if args.supported_types:
         parser.exit(status=0, message=supported_type_info_message)
+
+    if args.argument:
+        search_in_help(args.argument)
+        parser.exit(status=0)
 
     if os.path.abspath(args.path) == os.getcwd():
         location = os.getcwd()
