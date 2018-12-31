@@ -350,17 +350,17 @@ indexes = {
     ('nf', 'no-feedback', 'no', 'feedback', 'common', 'optional'):
         [args['no-feedback']['name'], args['no-feedback']['short'], args['no-feedback']['long']],
 
-    ('total-group', 'groups', 'total', 'group', 'tg'):
+    ('total-group', 'groups', 'total', 'tg'):
         [args['total-group']['name'], args['total-group']['short'], args['total-group']['long']],
     ('t', 'total', 'extension', 'special', 'optional'):
         [args['total']['name'], args['total']['short'], args['total']['long']],
 
-    ('count-group', 'groups', 'count', 'group', 'cg'):
+    ('count-group', 'groups', 'count', 'cg'):
         [args['count-group']['name'], args['count-group']['short'], args['count-group']['long']],
     ('alpha', 'sort-alpha', 'count', 'special', 'optional'):
         [args['sort-alpha']['name'], args['sort-alpha']['short'], args['sort-alpha']['long']],
 
-    ('search-group', 'groups', 'search', 'group', 'sg'):
+    ('search-group', 'groups', 'search', 'sg'):
         [args['search-group']['name'], args['search-group']['short'], args['search-group']['long']],
     ('fe', 'file-extension', 'file', 'extension', 'search', 'special', 'optional'):
         [args['file-extension']['name'], args['file-extension']['short'], args['file-extension']['long']],
