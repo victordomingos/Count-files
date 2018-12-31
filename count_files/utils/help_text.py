@@ -14,7 +14,7 @@ Web Docs in English, Portuguese, Russian and Ukrainian:
 KEYWORD USAGE:
 
 Keyword - argument or group name, certain search words for sorting.
-    count-files --ah <keyword>
+    count-files -ah <keyword>
     count-files --args-help <keyword>
 Show short help text: Keyword must be in upper case or with one letter in upper case.
     count-files --args-help <keyword in upper case>
