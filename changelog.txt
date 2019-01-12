@@ -6,7 +6,7 @@ Version history:
 
 ---
 v.1.5 - ?
- (contributed by Natalia Bondarenko)
+ (Contributed by Natalia Bondarenko)
  * New integrated help system.
  * Skip hidden root folders on Windows, for better performance.
 
