@@ -3,6 +3,8 @@
 import shutil
 import platform
 
+
+DOCUMENTATION_URL = 'https://github.com/victordomingos/Count-files#documentation'
 BUG_REPORT_URL = 'https://github.com/victordomingos/Count-files/issues'
 
 TERM_WIDTH = shutil.get_terminal_size((80, 24)).columns

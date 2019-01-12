@@ -11,6 +11,7 @@ import os
 from count_files.utils.file_handlers import search_files, count_files_by_extension
 from count_files.__main__ import main_flow
 from count_files.utils.file_handlers import get_total, get_total_by_extension
+from count_files.utils.viewing_modes import show_2columns
 
 
 def get_locations(*args):
@@ -45,8 +46,12 @@ recursive=True)
 print('Result:', len(list(r)))
 """
 
-win_optim_test = """
-main_flow([location, '-fe', '.'])
+count_by_extension = """
+data = count_files_by_extension(dirpath=location, no_feedback=False, recursive=True, include_hidden=False)
+total_occurrences = sum(data.values())
+max_word_width = max(map(len, data.keys()))
+data = data.most_common()
+show_2columns(data, max_word_width, total_occurrences)
 """
 
 
@@ -61,10 +66,11 @@ if __name__ == "__main__":
         # specify folder
         pass
 
-    # win optimization, skipping hidden root folders
-    t = timeit.Timer(win_optim_test, globals=globals())
-    print(win_optim_test, t.repeat(repeat=3, number=1))
+    # t = timeit.Timer(count_by_extension, globals=globals())
+    # print(count_by_extension, t.repeat(repeat=3, number=1))
+
     # t = timeit.Timer(total_by_extension, globals=globals())
     # print(total_by_extension, t.repeat(repeat=3, number=1))
+
     # t = timeit.Timer(main_fe, globals=globals())
     # print(main_fe, t.repeat(repeat=3, number=1))
