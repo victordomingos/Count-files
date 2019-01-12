@@ -5,6 +5,11 @@ Version history:
 
 
 ---
+v.1.5 - ?
+ * New integrated help system (contributed by Natalia Bondarenko).
+ *
+
+---
 v.1.4 - 09/09/2018
 (Special thanks to Natalia Bondarenko)
  * Updated folder structure and refactored as package.
