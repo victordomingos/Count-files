@@ -103,13 +103,13 @@ search_words = [
 ]
 
 group_names = [
-    # certain group description
+    # cg, count-group - certain group description
+    # count - sorting by group, including group description
     'cg', 'count-group', 'count',
     'sg', 'search-group', 'search',
     'tg', 'total-group', 'total',
     # all group descriptions
     'group'
-    # sorting by group, including group description
 ]
 
 docs_text = f"""HELP SYSTEM EXTENSION DOCS.
@@ -128,6 +128,7 @@ Search by short/long argument name:
 Sorting arguments by group, including group description:
 (count, search or total)
     count-files --args-help count
+
 ADDITIONAL SECTIONS:
 Get a list of available topics for searching or sorting.
     count-files --args-help list
@@ -136,7 +137,8 @@ More about search by short/long argument name.
 More about sorting arguments by purpose or type.
     count-files --args-help sort
 More about sorting arguments by group.
-    count-files --args-help groups  
+    count-files --args-help groups
+ 
 ALSO USE:
 Get the standard argparse help with a brief description of all the arguments.
     count-files --help
