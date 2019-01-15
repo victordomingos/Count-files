@@ -34,6 +34,7 @@ from count_files.utils.viewing_modes import show_result_for_search_files
 from count_files.settings import not_supported_type_message, supported_type_info_message, \
     DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH
 from count_files.utils.help_system_extension import search_in_help
+from count_files.utils.help_text import topics
 from count_files.utils.decorators import exceptions_decorator
 
 
@@ -51,87 +52,54 @@ parser = ArgumentParser(
 parser.add_argument('-v', '--version', action='version', version=__import__('count_files').__version__)
 
 parser.add_argument('-st', '--supported-types', action='store_true',
-                    help='The list of currently supported file types for preview.')
+                    help=topics['supported-types']['short'])
 
 parser.add_argument('path', nargs='?', default=os.getcwd(), type=str,
-                    help='The path to the folder containing the files to be counted. '
-                         'If you leave this argument empty, it will scan the current working directory. '
-                         "To process files in the user's home directory, you can use ~ (tilde). "
-                         'For example: count-files ~/Documents')
+                    help=topics['path']['short'])
 
 parser.add_argument('-a', '--all', action='store_true', default=False,
-                    help='Include hidden files and directories. ')
+                    help=topics['all']['short'])
 
 parser.add_argument('-nr', '--no-recursion', action='store_true', default=False,
-                    help="Don't recurse through subdirectories.")
+                    help=topics['no-recursion']['short'])
 
 parser.add_argument('-c', '--case-sensitive', action='store_true', default=False,
-                    help='Treat file extensions with case sensitiveness.')
+                    help=topics['case-sensitive']['short'])
 
 parser.add_argument('-nf', '--no-feedback', action='store_true', default=False,
-                    help="Don't show the program's operating indicator "
-                         '(printing processed file names in one line). '
-                         'Feedback is available by default for counting files by extension '
-                         '(table) and for counting the total number of files ("-t" or "--total"). '
-                         'This option disables it.')
+                    help=topics['no-feedback']['short'])
 
-parser.add_argument('-ah', '--args-help', type=str, dest='argument',
-                    help='Search in help by keyword - argument or group name(count, search, total). '
-                         'Show more detailed help text: count-files -ah docs. '
-                         'Show list of argument or group names: count-files -ah list. '
-                         'Usage: count-files -ah <keyword>.')
+parser.add_argument('-ah', '--args-help', type=str, dest='topic',
+                    help=topics['args-help']['short'])
 
 
 total_group = parser.add_argument_group('Total number of files'.upper(),
-                                        description='Displaying the number of files that either have a '
-                                                    'certain extension or no extension at all. '
-                                                    'Usage: count-files [-a] [-c] [-nr] [-nf] [-t EXTENSION] [path]')
+                                        description=topics['total-group']['short'])
 
 total_group.add_argument('-t', '--total', dest="extension", type=str,
-                         help='Get the total number of files in the directory. '
-                              'Specify the file extension or '
-                              'use a single dot "." to get the total number of files that do not have any extension. '
-                              'Use two dots without spaces ".." to get the total number of all files '
-                              'with or without extension.')
+                         help=topics['total']['short'])
 
 
 count_group = parser.add_argument_group('File counting by extension'.upper(),
-                                        description='Counting all files in the specified '
-                                                    'directory, by file extension. '
-                                                    'By default, it displays some feedback '
-                                                    'while scanning and it presents a table with file '
-                                                    'extensions sorted by frequency. '
-                                                    'Usage: count-files [-a] [-alpha] [-c] [-nr] [-nf] [path]')
+                                        description=topics['count-group']['short'])
 
 count_group.add_argument('-alpha', '--sort-alpha', action='store_true', default=False,
-                         help='Sort the table alphabetically, by file extension.')
+                         help=topics['sort-alpha']['short'])
 
 search_group = parser.add_argument_group('File searching by extension'.upper(),
-                                         description='Searching for files that have a given extension. '
-                                                     'By default, it presents a simple list with full '
-                                                     'file paths. Optionally, it may also display a short '
-                                                     'text preview for each found file. '
-                                                     'Usage: count-files [-a] [-c] [-nr] [-fe FILE_EXTENSION] '
-                                                     '[-fs] [-p] [-ps PREVIEW_SIZE] [path]')
+                                         description=topics['search-group']['short'])
 
 search_group.add_argument('-fe', '--file-extension', type=str,
-                          help='Search files by file extension. '
-                               'You may use, instead, a single dot "." to search for files that don\'t have any extension, '
-                               'or two dots ".." to search for all files with or without extension.')
+                          help=topics['file-extension']['short'])
 
 search_group.add_argument('-p', '--preview', action='store_true', default=False,
-                          help='Display a short preview (only available for text files when '
-                               'using "-fe" or "--file_extension"). Default preview size: '
-                               f'{DEFAULT_PREVIEW_SIZE} characters (5 lines).')
+                          help=topics['preview']['short'])
 
 search_group.add_argument('-ps', '--preview-size', type=int, default=DEFAULT_PREVIEW_SIZE,
-                          help='Specify the number of characters to be displayed from each '
-                               'found file when using "-p" or "--preview".')
+                          help=topics['preview-size']['short'])
 
 search_group.add_argument('-fs', '--file-sizes', action='store_true', default=False,
-                          help='Show size info for each '
-                               'found file when using "-fe" or "--file_extension". '
-                               'Additional information: total combined size and average file size.')
+                          help=topics['file-sizes']['short'])
 
 parser._positionals.title = parser._positionals.title.upper()
 parser._optionals.title = parser._optionals.title.upper()
@@ -162,8 +130,8 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     if args.supported_types:
         parser.exit(status=0, message=supported_type_info_message)
 
-    if args.argument:
-        search_in_help(args.argument)
+    if args.topic:
+        search_in_help(args.topic)
         parser.exit(status=0)
 
     if os.path.abspath(args.path) == os.getcwd():
