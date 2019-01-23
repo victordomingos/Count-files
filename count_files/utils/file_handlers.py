@@ -240,13 +240,15 @@ def get_total_by_extension(dirpath: str, extension: str, case_sensitive: bool = 
         for f in files:
             if not no_feedback:
                 print("\r" + f[:TERM_WIDTH - 1].ljust(TERM_WIDTH - 1), end="")
+            # first check ext
+            if get_file_extension(f, case_sensitive) != ext:
+                continue
+            # then hidden/not hidden
             if include_hidden:
-                if get_file_extension(f, case_sensitive) == ext:
-                    yield f
+                yield f
             else:
                 if not is_hidden_file_or_dir(os.path.join(root, f)):
-                    if get_file_extension(f, case_sensitive) == ext:
-                        yield f
+                    yield f
         if not recursive:
             break
     if not no_feedback:
