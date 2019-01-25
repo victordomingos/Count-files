@@ -17,7 +17,7 @@ import cProfile
 import os
 import sys
 
-from count_files.utils.viewing_modes import show_result_for_search_files, show_2columns
+from count_files.utils.viewing_modes import show_result_for_search_files, show_2columns, show_result_for_total
 from count_files.utils.file_handlers import search_files, count_files_by_extension
 from count_files.__main__ import main_flow
 
@@ -37,11 +37,6 @@ if __name__ == "__main__":
         # specify folder
         pass
 
-    # count all files
-    # cProfile.run("main_flow([location, '-a'])", sort='name')
-    # if extension thread, search for txt extension
-    # cProfile.run("main_flow([location, '-a', '-fe', 'txt'])", sort='name')
-
     # Counter and count all files with all extensions, return table, feedback - file names
     """cProfile.run("data = count_files_by_extension("
                  "dirpath=location, no_feedback=False, recursive=True, include_hidden=False);"
@@ -50,16 +45,26 @@ if __name__ == "__main__":
                  "data = data.most_common();"
                  "show_2columns(data, max_word_width, total_occurrences)", sort='name')"""
 
-    # generator and search all files with all extensions, return list, feedback - list itself
+    # generator and search files, return list, feedback - list itself
     """cProfile.run("data = (f for f in search_files(dirpath=location, extension='..', "
                  "recursive=True, include_hidden=True, case_sensitive=False));"
                  "len_files = show_result_for_search_files(files=data, "
-                 "file_sizes=False, no_feedback=False, preview=False)",
+                 "file_sizes=False, preview=False)",
                  sort='name')"""
 
-    # total number of files
-    # cProfile.run("main_flow([location, '-t', '..', '-a'])", sort='name')
+    # generator and get total files, return list, feedback - file paths
+    """cProfile.run("data = search_files(dirpath=location, extension='..', "
+                 "recursive=True, include_hidden=True, case_sensitive=False);"
+                 "len_files = show_result_for_total(files=data, "
+                 "no_feedback=False)",
+                 sort='name')"""
 
-    # lists
-    # cProfile.run("main_flow([location, '-fe', '.', '-fs', '-a'])", sort='name')
-    # cProfile.run("main_flow([location, '-fe', '.', '-a'])", sort='name')
+    # count
+    # cProfile.run("main_flow([location])", sort='name')
+
+    # search
+    # cProfile.run("main_flow([location, '-fe', '..'])", sort='name')
+
+    # total
+    # cProfile.run("main_flow([location, '-t', '..'])", sort='name')
+

@@ -14,6 +14,7 @@ class TestViewingModes(unittest.TestCase):
     """Testing viewing_modes.py functions"""
 
     def setUp(self):
+        self.test_file_total = self.get_locations('compare_tables', 'test_show_result_total.txt')
         self.test_file = self.get_locations('compare_tables', 'test_show_result_list.txt')
         if sys.platform.startswith('win'):
             self.standard_file = self.get_locations('compare_tables', 'win_show_result_list.txt')
