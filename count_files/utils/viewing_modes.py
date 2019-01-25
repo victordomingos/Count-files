@@ -73,8 +73,9 @@ def show_result_for_search_files(files: Iterable[str],
     :param file_sizes: True -> show size info, False -> don't show size info
     :param preview: optional, args.preview, True or False
     :param preview_size: optional, args.preview_size, number
-    :return: len(files), print list with paths(default)
-                                  if file_sizes:
+    :return: len(files), print list with paths(default),
+    get preview and file_sizes if specified.
+
     full/path/to/file1.extension (... KiB)
     –––––––––––––––––––––––––––––––––––
     preview, if preview=True and supported type
@@ -158,3 +159,25 @@ def show_start_message(value: [None, str], case_sensitive: bool, recursive: bool
               f'{h if include_hidden else nh}, in {location}'
 
     return message
+
+
+def show_result_for_total(files: Iterable[str], no_feedback: bool) -> int:
+    """Print feedback and total number of all found file paths for Parser total_group.
+
+    :param files: object <class 'generator'> with full paths to all found files
+    :param no_feedback: True or False(default, prints processed file paths in one line)
+    :return: len(files), files amount
+    """
+    if not no_feedback:
+        files_amount = 0
+        for f in files:
+            files_amount += 1
+            print("\r" + f[:TERM_WIDTH - 1].ljust(TERM_WIDTH - 1), end="")
+        print("\r".ljust(TERM_WIDTH))  # Clean the feedback text before proceeding.
+    else:
+        files_amount = len(list(files))
+    if files_amount == 0:
+        print(f"No files were found in the specified directory.\n")
+    else:
+        print(f'   Found {files_amount} file(s).', end="\n\n")
+    return files_amount
