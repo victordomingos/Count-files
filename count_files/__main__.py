@@ -26,10 +26,9 @@ from typing import TypeVar, Union
 from pathlib import Path
 from textwrap import fill
 
-from count_files.utils.file_handlers import count_files_by_extension, search_files, \
-    get_total, get_total_by_extension
+from count_files.utils.file_handlers import count_files_by_extension, search_files
 from count_files.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
-from count_files.utils.viewing_modes import show_2columns, show_start_message
+from count_files.utils.viewing_modes import show_2columns, show_start_message, show_result_for_total
 from count_files.utils.viewing_modes import show_result_for_search_files
 from count_files.settings import not_supported_type_message, supported_type_info_message, \
     DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH
@@ -155,29 +154,19 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                                           f'Use the --all argument to include hidden files and folders.')
 
     # Parser total_group
-    # getting the total number of files for -fe .. (all extensions), -fe . and -fe extension_name
+    # getting the total number of files for -t .. (all extensions), -t . and -t extension_name
     print("")
     if args.extension:
-        print(fill(show_start_message(args.extension, args.case_sensitive, recursive, include_hidden, location, 'total'),
+        print(fill(show_start_message(args.extension, args.case_sensitive, recursive,
+                                      include_hidden, location, 'total'),
                    width=START_TEXT_WIDTH),
-              end="\n\n"
-              )
-        if args.extension == '..':
-            result = get_total(dirpath=location,
-                               include_hidden=include_hidden,
-                               no_feedback=args.no_feedback,
-                               recursive=recursive)
-        else:
-            result = get_total_by_extension(dirpath=location,
-                                            extension=args.extension,
-                                            case_sensitive=args.case_sensitive,
-                                            include_hidden=include_hidden,
-                                            no_feedback=args.no_feedback,
-                                            recursive=recursive)
-        # var for tests
-        total_result = len(list(result))
-        print(f'   Found {total_result} file(s).',
               end="\n\n")
+        data = search_files(dirpath=location,
+                            extension=args.extension,
+                            include_hidden=include_hidden,
+                            recursive=recursive,
+                            case_sensitive=args.case_sensitive)
+        total_result = show_result_for_total(data, args.no_feedback)
         return total_result
 
     # Parser search_group
