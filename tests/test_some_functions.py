@@ -5,8 +5,7 @@ import sys
 from collections import Counter
 
 from count_files.utils.file_handlers import get_file_extension,\
-    is_hidden_file_or_dir, search_files, count_files_by_extension,\
-    get_total, get_total_by_extension
+    is_hidden_file_or_dir, search_files, count_files_by_extension
 from count_files.utils.file_preview import generate_preview, generic_text_preview
 
 
@@ -67,22 +66,6 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(result, counter)
         self.assertEqual(result1, counter1)
 
-    def test_get_total_by_extension_case_sensitive(self):
-        """Testing def get_total_by_extension with case_sensitive param. For all OS.
-
-        Expected behavior: get the total number of all files with a certain extension or without it.
-        'data_for_tests' folder does not contain hidden folders and files.
-        :return:
-        """
-        result = get_total_by_extension(dirpath=self.get_locations('data_for_tests'),
-                                        extension='txt', case_sensitive=False,
-                                        include_hidden=False, no_feedback=True, recursive=True)
-        result_nr = get_total_by_extension(dirpath=self.get_locations('data_for_tests'),
-                                           extension='TXT', case_sensitive=True,
-                                           include_hidden=False, no_feedback=True, recursive=True)
-        self.assertEqual(len(list(result)), 3)
-        self.assertEqual(len(list(result_nr)), 1)
-
     # tests for is_hidden_file_or_dir()
     @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
     def test_is_hidden_file_or_dir_win(self):
@@ -122,21 +105,6 @@ class TestSomeFunctions(unittest.TestCase):
             self.get_locations('test_hidden_linux', 'not_hidden_folder', '.hidden_for_linux')), True)
         self.assertEqual(is_hidden_file_or_dir(
             self.get_locations('test_hidden_linux', '.ebookreader', 'not_hidden.txt')), True)
-
-    # delete?
-    def test_get_total(self):
-        """Testing def get_total with recursive param. For all OS.
-
-        Expected behavior: get the total number of all files in directory(all extensions '..').
-        'data_for_tests' folder does not contain hidden folders and files.
-        :return:
-        """
-        result = get_total(dirpath=self.get_locations('data_for_tests'), include_hidden=False,
-                           no_feedback=True, recursive=True)
-        result_nr = get_total(dirpath=self.get_locations('data_for_tests'), include_hidden=False,
-                              no_feedback=True, recursive=False)
-        self.assertEqual(len(list(result)), 16)
-        self.assertEqual(len(list(result_nr)), 6)
 
     # tests related to preview
     # TODO
@@ -264,95 +232,6 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(result_nr, counter2)
         self.assertEqual(result_nr_hidden, counter3)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
-    def test_get_total_win(self):
-        """Testing def get_total with include_hidden and recursive params.
-
-        Expected behavior: get the total number of all files in directory(all extensions '..').
-        :return:
-        """
-        result_r = get_total(dirpath=self.get_locations('test_hidden_windows'),
-                             include_hidden=False, no_feedback=True, recursive=True)
-        result_r_hidden = get_total(dirpath=self.get_locations('test_hidden_windows'),
-                                    include_hidden=True, no_feedback=True, recursive=True)
-        result_nr = get_total(dirpath=self.get_locations('test_hidden_windows'),
-                              include_hidden=False, no_feedback=True, recursive=False)
-        result_nr_hidden = get_total(dirpath=self.get_locations('test_hidden_windows'),
-                                     include_hidden=True, no_feedback=True, recursive=False)
-        self.assertEqual(len(list(result_r)), 2)
-        self.assertEqual(len(list(result_r_hidden)), 6)
-        self.assertEqual(len(list(result_nr)), 1)
-        self.assertEqual(len(list(result_nr_hidden)), 2)
-
-    @unittest.skipUnless(sys.platform.startswith('linux')
-                         or sys.platform.startswith('darwin'), 'for Linux, Mac OS')
-    def test_get_total_lin_mac(self):
-        """Testing def get_total with include_hidden and recursive params.
-
-        Expected behavior: get the total number of all files in directory(all extensions '..').
-        :return:
-        """
-        result_r = get_total(dirpath=self.get_locations('test_hidden_linux'),
-                             include_hidden=False, no_feedback=True, recursive=True)
-        result_r_hidden = get_total(dirpath=self.get_locations('test_hidden_linux'),
-                                    include_hidden=True, no_feedback=True, recursive=True)
-        result_nr = get_total(dirpath=self.get_locations('test_hidden_linux'),
-                              include_hidden=False, no_feedback=True, recursive=False)
-        result_nr_hidden = get_total(dirpath=self.get_locations('test_hidden_linux'),
-                                     include_hidden=True, no_feedback=True, recursive=False)
-        self.assertEqual(len(list(result_r)), 2)
-        self.assertEqual(len(list(result_r_hidden)), 6)
-        self.assertEqual(len(list(result_nr)), 1)
-        self.assertEqual(len(list(result_nr_hidden)), 2)
-
-    @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
-    def test_get_total_by_extension_win(self):
-        """Testing def get_total_by_extension with include_hidden and recursive params.
-
-        Expected behavior: get the total number of all files with a certain extension or without it.
-        :return:
-        """
-        result_r = get_total_by_extension(dirpath=self.get_locations('test_hidden_windows'),
-                                          extension='py', case_sensitive=False,
-                                          include_hidden=False, no_feedback=True, recursive=True)
-        result_r_hidden = get_total_by_extension(dirpath=self.get_locations('test_hidden_windows'),
-                                                 extension='py', case_sensitive=False,
-                                                 include_hidden=True, no_feedback=True, recursive=True)
-        result_nr = get_total_by_extension(dirpath=self.get_locations('test_hidden_windows'),
-                                           extension='txt', case_sensitive=False,
-                                           include_hidden=False, no_feedback=True, recursive=False)
-        result_nr_hidden = get_total_by_extension(dirpath=self.get_locations('test_hidden_windows'),
-                                                  extension='txt', case_sensitive=False,
-                                                  include_hidden=True, no_feedback=True, recursive=False)
-        self.assertEqual(len(list(result_r)), 0)
-        self.assertEqual(len(list(result_r_hidden)), 2)
-        self.assertEqual(len(list(result_nr)), 1)
-        self.assertEqual(len(list(result_nr_hidden)), 2)
-
-    @unittest.skipUnless(sys.platform.startswith('linux')
-                         or sys.platform.startswith('darwin'), 'for Linux, Mac OS')
-    def test_get_total_by_extension_lin_mac(self):
-        """Testing def get_total_by_extension with include_hidden and recursive params.
-
-        Expected behavior: get the total number of all files with a certain extension or without it.
-        :return:
-        """
-        result_r = get_total_by_extension(dirpath=self.get_locations('test_hidden_linux'),
-                                          extension='txt', case_sensitive=False,
-                                          include_hidden=False, no_feedback=True, recursive=True)
-        result_r_hidden = get_total_by_extension(dirpath=self.get_locations('test_hidden_linux'),
-                                                 extension='.', case_sensitive=False,
-                                                 include_hidden=True, no_feedback=True, recursive=True)
-        result_nr = get_total_by_extension(dirpath=self.get_locations('test_hidden_linux'),
-                                           extension='txt', case_sensitive=False,
-                                           include_hidden=False, no_feedback=True, recursive=False)
-        result_nr_hidden = get_total_by_extension(dirpath=self.get_locations('test_hidden_linux'),
-                                                  extension='txt', case_sensitive=False,
-                                                  include_hidden=True, no_feedback=True, recursive=False)
-        self.assertEqual(len(list(result_r)), 2)
-        self.assertEqual(len(list(result_r_hidden)), 3)
-        self.assertEqual(len(list(result_nr)), 1)
-        self.assertEqual(len(list(result_nr_hidden)), 1)
 
 # from root directory:
 

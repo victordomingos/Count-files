@@ -69,9 +69,9 @@ def search_files(dirpath: str, extension: str, recursive: bool = True,
     :param include_hidden: False -> exclude hidden, True -> include hidden, counting all files
     :param case_sensitive: False -> ignore case in extensions,
     True -> distinguish case variations in extensions
-    :return: object <class 'generator'>
+    :return: object <class 'generator'> with full paths to all found files
     """
-    # this part used for -fe .. (all extensions)
+    # this part used for -fe .. or -t .. (all extensions)
     if extension == '..':
         for root, dirs, files in os.walk(dirpath):
             for f in files:
@@ -82,15 +82,14 @@ def search_files(dirpath: str, extension: str, recursive: bool = True,
                     yield f_path
             if not recursive:
                 break
-    # this part used for -fe . and -fe extension_name
+    # this part used for: -fe . or -fe extension_name, -t . or -t extension_name
     else:
+        ext = extension if case_sensitive else extension.upper()
         for root, dirs, files in os.walk(dirpath):
             for f in files:
-                if not case_sensitive:
-                    extension = extension.upper()
                 f_path = os.path.join(root, f)
                 f_extension = get_file_extension(f_path, case_sensitive=case_sensitive)
-                if f_extension != extension or not os.path.isfile(f_path):
+                if f_extension != ext or not os.path.isfile(f_path):
                     continue
                 if include_hidden or not is_hidden_file_or_dir(f_path):
                     yield f_path
@@ -194,60 +193,3 @@ def is_hidden_file_or_dir(filepath: str) -> bool:
         return bool('/.' in filepath)
     elif platform_name.startswith('darwin') or platform_name.startswith('ios'):
         return bool('/.' in filepath)
-
-
-def get_total(dirpath: str, include_hidden: bool = False,
-              no_feedback: bool = False,
-              recursive: bool = True) -> Iterable[str]:
-    """Get the total number of all files in directory(all extensions '..').
-
-    :param dirpath: full/path/to/folder
-    :param recursive: True(default, recursive search/count) or False
-    :param include_hidden: False -> exclude hidden(default), True -> include hidden files and dirs
-    :param no_feedback: True or False(default, prints processed file names in one line)
-    :return: object <class 'generator'>
-    """
-    for root, dirs, files in os.walk(dirpath):
-        for f in files:
-            if not no_feedback:
-                print("\r" + f[:TERM_WIDTH - 1].ljust(TERM_WIDTH - 1), end="")
-            if include_hidden:
-                yield f
-            else:
-                if not is_hidden_file_or_dir(os.path.join(root, f)):
-                    yield f
-        if not recursive:
-            break
-    if not no_feedback:
-        print("\r".ljust(TERM_WIDTH - 1))  # Clean the feedback text before proceeding.
-
-
-def get_total_by_extension(dirpath: str, extension: str, case_sensitive: bool = False,
-                           include_hidden: bool = False, no_feedback: bool = False,
-                           recursive: bool = True) -> Iterable[str]:
-    """Get the total number of all files with a certain extension or without it.
-
-    :param dirpath: full/path/to/folder
-    :param extension: extension name (txt, py) or '.'(without extension)
-    :param recursive: True(default, recursive search/count) or False
-    :param include_hidden: False -> exclude hidden(default), True -> include hidden files and dirs
-    :param no_feedback: True or False(default, prints processed file names in one line)
-    :param case_sensitive: False -> ignore case in extensions, True -> distinguish case variations in extensions
-    :return: object <class 'generator'>
-    """
-    ext = extension if case_sensitive else extension.upper()
-    for root, dirs, files in os.walk(dirpath):
-        for f in files:
-            if not no_feedback:
-                print("\r" + f[:TERM_WIDTH - 1].ljust(TERM_WIDTH - 1), end="")
-            if include_hidden:
-                if get_file_extension(f, case_sensitive) == ext:
-                    yield f
-            else:
-                if not is_hidden_file_or_dir(os.path.join(root, f)):
-                    if get_file_extension(f, case_sensitive) == ext:
-                        yield f
-        if not recursive:
-            break
-    if not no_feedback:
-        print("\r".ljust(TERM_WIDTH - 1))  # Clean the feedback text before proceeding.
