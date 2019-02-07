@@ -9,6 +9,7 @@ v.1.5 - ?
  (Contributed by Natalia Bondarenko)
  * New integrated help system.
  * Skip hidden root folders on Windows, for better performance.
+ * Other minor internal changes.
 
 ---
 v.1.4 - 09/09/2018
