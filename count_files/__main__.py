@@ -16,7 +16,7 @@ enable or disable the search or counting in hidden files and folders;
 process the file extensions with case-sensitive or case-insensitive mode;
 enable or disable the program's operating indicator (feedback).
 
-© 2018 Victor Domingos & Nataliia Bondarenko
+© 2018-2019 Victor Domingos & Nataliia Bondarenko
 MIT License
 """
 import os

@@ -11,6 +11,43 @@ from count_files.settings import DEFAULT_EXTENSION_COL_WIDTH
 from count_files.settings import DEFAULT_FREQ_COL_WIDTH, MAX_TABLE_WIDTH
 
 
+def show_start_message(value: [None, str], case_sensitive: bool, recursive: bool, include_hidden: bool,
+                       location: str, group: str = None) -> str:
+    """Displays an information message before starting the CLI.
+
+    :param value: str for args.total or args.file_extension, for table - None.
+    :param case_sensitive: args.case_sensitive
+    :param recursive: args.no_recursion
+    :param include_hidden: args.all
+    :param location: path argument
+    :param group: for now 'total' or None
+    :return: prints information message
+    """
+    wi = 'or without it'
+    case = 'case-sensitive' if case_sensitive else 'case-insensitive'
+    all_e = ' without any extension'
+    h = ' including hidden files and directories'
+    nh = ' ignoring hidden files and directories'
+
+    if group == 'total':
+        r = f'Recursively counting total number of files'
+        nr = 'Counting total number of files'
+        e = f' with{" (" + case + ")" if value not in [".", ".."] else ""} ' \
+            f'extension {"." + value if value != ".." else wi}'
+    # count_group and search_group
+    else:
+        action = 'searching' if value else 'counting'
+        r = f'Recursively {action} all files'
+        nr = f'{action.title()} files'
+        e = f' with{" (" + case + ")" if value not in [".", ".."] else ""} ' \
+            f'extension {"." + value if value != ".." else wi}' if value else ''
+
+    message = f'{r if recursive else nr}{e if value != "." else all_e},' \
+              f'{h if include_hidden else nh}, in {location}'
+
+    return message
+
+
 def show_2columns(data: List[tuple],
                   max_word_width: int, total_occurrences: int,
                   term_width: int = TERM_WIDTH):
@@ -122,43 +159,6 @@ def show_result_for_search_files(files: Iterable[str],
     else:
         print("")
     return files_amount
-
-
-def show_start_message(value: [None, str], case_sensitive: bool, recursive: bool, include_hidden: bool,
-                       location: str, group: str = None) -> str:
-    """Displays an information message before starting the CLI.
-
-    :param value: str for args.total or args.file_extension, for table - None.
-    :param case_sensitive: args.case_sensitive
-    :param recursive: args.no_recursion
-    :param include_hidden: args.all
-    :param location: path argument
-    :param group: for now 'total' or None
-    :return: prints information message
-    """
-    wi = 'or without it'
-    case = 'case-sensitive' if case_sensitive else 'case-insensitive'
-    all_e = ' without any extension'
-    h = ' including hidden files and directories'
-    nh = ' ignoring hidden files and directories'
-
-    if group == 'total':
-        r = f'Recursively counting total number of files'
-        nr = 'Counting total number of files'
-        e = f' with{" (" + case + ")" if value not in [".", ".."] else ""} ' \
-            f'extension {"." + value if value != ".." else wi}'
-    # count_group and search_group
-    else:
-        action = 'searching' if value else 'counting'
-        r = f'Recursively {action} all files'
-        nr = f'{action.title()} files'
-        e = f' with{" (" + case + ")" if value not in [".", ".."] else ""} ' \
-            f'extension {"." + value if value != ".." else wi}' if value else ''
-
-    message = f'{r if recursive else nr}{e if value != "." else all_e},' \
-              f'{h if include_hidden else nh}, in {location}'
-
-    return message
 
 
 def show_result_for_total(files: Iterable[str], no_feedback: bool) -> int:
