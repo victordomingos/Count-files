@@ -10,7 +10,6 @@ import os
 
 from count_files.utils.file_handlers import search_files, count_files_by_extension
 from count_files.__main__ import main_flow
-from count_files.utils.file_handlers import get_total, get_total_by_extension
 from count_files.utils.viewing_modes import show_2columns, show_result_for_total, show_result_for_search_files
 
 
