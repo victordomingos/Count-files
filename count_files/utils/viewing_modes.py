@@ -155,7 +155,7 @@ def show_result_for_search_files(files: Iterable[str],
 
         print(f"   Total combined size: {h_total_size}.")
         print(f"   Average file size: {avg_size} (max: {h_max}, min: {h_min}).",
-                 end="\n\n")
+              end="\n\n")
     else:
         print("")
     return files_amount
@@ -181,3 +181,37 @@ def show_result_for_total(files: Iterable[str], no_feedback: bool) -> int:
     else:
         print(f'   Found {files_amount} file(s).', end="\n\n")
     return files_amount
+
+
+def show_help_columns(column_version: List[str], list_version: List[str],
+                      num_columns: int = 2, term_width: int = TERM_WIDTH) -> str:
+    """Displays a table with the specified number of columns.
+
+    Suitable for a list with short words.
+    If the words are very long and/or there are many columns
+    (the width of the table is greater than the width of the terminal),
+    then the data is displayed in a list.
+    When used in the help extension, the list is displayed using the textwrap fill().
+    For a table, the width of each column is equal
+    to the width of the longest word in the list.
+
+    :param column_version: list with words
+    The first in the list may be the names of the columns.
+    Example: column_version = ['LONG', 'SHORT',
+                               'path', 'path',
+                               'all', 'a',
+                               'args-help', 'ah']
+    :param list_version: list with words
+    :param num_columns: number of columns
+    :param term_width: width of the terminal; also required for testing
+    :return:
+    """
+    max_word_width = max(map(len, column_version))
+    if (max_word_width * num_columns + 3 * num_columns) > term_width:
+        return ', '.join(list_version)
+    text_table = " "
+    for count, item in enumerate(column_version, 1):
+        text_table += item.ljust(max_word_width + 3)
+        if count % num_columns == 0 or count == len(column_version):
+            text_table += "\n "
+    return text_table
