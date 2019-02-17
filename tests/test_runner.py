@@ -5,14 +5,13 @@ from tests.test_viewing_modes import TestViewingModes
 
 
 def suite():
-    """Run all tests except TestViewingModes.test_show_result_for_search_files.
+    """Run all tests except performance tests.
     :return:
     """
     test_suite = unittest.TestSuite()
     test_suite.addTest(unittest.makeSuite(TestArgumentParser))
     test_suite.addTest(unittest.makeSuite(TestSomeFunctions))
-    test_suite.addTest(TestViewingModes('test_show_2columns_usual'))
-    test_suite.addTest(TestViewingModes('test_show_2columns_long'))
+    test_suite.addTest(unittest.makeSuite(TestViewingModes))
     return test_suite
 
 

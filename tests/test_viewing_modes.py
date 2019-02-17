@@ -6,7 +6,8 @@ from contextlib import redirect_stdout
 import filecmp
 from collections import Counter
 
-from count_files.utils.viewing_modes import show_2columns, show_result_for_search_files, show_start_message
+from count_files.utils.viewing_modes import show_2columns, show_result_for_search_files, \
+    show_start_message, show_help_columns
 from count_files.utils.file_handlers import search_files
 
 
@@ -152,6 +153,15 @@ class TestViewingModes(unittest.TestCase):
                                  'ignoring hidden files and directories, in /some/path')
         self.assertEqual(total, 'Recursively counting total number of files with (case-sensitive) extension .TXT, '
                                 'including hidden files and directories, in /some/path')
+
+    def test_show_help_columns(self):
+        arguments = ['12345', '12345', '12345', '12345']
+        list_result = show_help_columns(column_version=arguments, list_version=arguments,
+                                        num_columns=2, term_width=10)
+        table_result = show_help_columns(column_version=arguments, list_version=arguments,
+                                         num_columns=2, term_width=50)
+        self.assertEqual(list_result, '12345, 12345, 12345, 12345')
+        self.assertEqual(table_result, ' 12345   12345   \n 12345   12345   \n ')
 
 # from root directory:
 # run all tests in test_viewing_modes.py

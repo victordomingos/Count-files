@@ -78,39 +78,8 @@ Web Docs in English, Portuguese, Russian and Ukrainian:
     https://github.com/victordomingos/Count-files#documentation
 """
 from count_files.settings import DOCUMENTATION_URL, DEFAULT_PREVIEW_SIZE
+from count_files.utils.viewing_modes import show_help_columns
 
-
-arguments = [
-    # common arguments(positional)
-    'path',
-    # service arguments(optional)
-    'h', 'help', 'ah', 'args-help', 'v', 'version', 'st', 'supported-types',
-    # common arguments(optional)
-    'a', 'all', 'c', 'case-sensitive',
-    'nr', 'no-recursion', 'nf', 'no-feedback',
-    # special arguments(optional)
-    'alpha', 'sort-alpha',
-    'fe', 'file-extension', 'fs', 'file-sizes',
-    'p', 'preview', 'ps', 'preview-size',
-    't', 'total',
-]
-
-search_words = [
-    # sorting by purpose
-    'service', 'common', 'special',
-    # sorting by argument type
-    'positional', 'optional'
-]
-
-group_names = [
-    # cg, count-group - certain group description
-    # count - sorting by group, including group description
-    'cg', 'count-group', 'count',
-    'sg', 'search-group', 'search',
-    'tg', 'total-group', 'total',
-    # all group descriptions
-    'group'
-]
 
 docs_text = f"""HELP SYSTEM EXTENSION DOCS.
 
@@ -146,10 +115,23 @@ Web Docs in English, Portuguese, Russian and Ukrainian:
     {DOCUMENTATION_URL}
 """
 
+arguments = [
+             # column titles
+             'LONG', 'SHORT',
+             # positional
+             'path', 'path',
+             # optional
+             'all', 'a', 'args-help', 'ah',
+             'case-sensitive', 'c', 'file-extension', 'fe', 'file-sizes', 'fs',
+             'help', 'h', 'no-feedback', 'nf', 'no-recursion', 'nr',
+             'preview', 'p', 'preview-size', 'ps',
+             'sort-alpha', 'alpha', 'supported-types', 'st', 'total', 't', 'version', 'v']
+
 docs_args_text = f"""HELP SYSTEM EXTENSION DOCS(ARGS).
 
 AVAILABLE ARGUMENT NAMES:
-{', '.join(arguments)}
+
+{show_help_columns(column_version=arguments, list_version=arguments[3:], num_columns=2)}
 
 SEARCH BY ARGUMENT NAME:
 Short argument name.
@@ -161,10 +143,18 @@ Partial argument name if it consists of two words.
     count-files --args-help types
 """
 
+sort_words = [
+    'SORT BY PURPOSE', 'SORT BY TYPE',
+    'service', 'positional',
+    'common', 'optional',
+    'special'
+]
+
 docs_sort_text = f"""HELP SYSTEM EXTENSION DOCS(SORT).
 
 AVAILABLE SORT WORDS:
-{', '.join(search_words)}
+
+{show_help_columns(column_version=sort_words, list_version=sorted(sort_words[2:]), num_columns=2)}
 
 SORTING ARGUMENTS BY PURPOSE:
 Service arguments: display of help, version of the program etc.
@@ -184,10 +174,22 @@ SORTING ARGUMENTS BY TYPE:
     count-files --args-help optional
 """
 
+group_names = [
+    'GROUP DESC', 'ARGS AND DESC',
+    # cg, count-group - certain group description
+    # count - sorting by group, including group description
+    'cg, count-group', 'count',
+    'sg, search-group', 'search',
+    'tg, total-group', 'total',
+    # all group descriptions
+    'group'
+]
+
 docs_groups_text = f"""HELP SYSTEM EXTENSION DOCS(GROUPS).
 
 AVAILABLE GROUP NAMES:
-{', '.join(group_names)}
+
+{show_help_columns(column_version=group_names, list_version=sorted(group_names[2:]), num_columns=2)}
 
 SORTING ARGUMENTS BY GROUP:
 Sorting arguments by group, including group description.
@@ -216,13 +218,16 @@ Web Docs in English, Portuguese, Russian and Ukrainian:
 docs_list_text = f"""HELP SYSTEM EXTENSION DOCS(LIST).
 
 AVAILABLE ARGUMENT NAMES:
-{', '.join(arguments)}
+
+{show_help_columns(column_version=arguments, list_version=arguments[3:], num_columns=2)}
 
 AVAILABLE SORT WORDS:
-{', '.join(search_words)}
+
+{show_help_columns(column_version=sort_words, list_version=sorted(sort_words[2:]), num_columns=2)}
 
 AVAILABLE GROUP NAMES:
-{', '.join(group_names)}
+
+{show_help_columns(column_version=group_names, list_version=sorted(group_names[2:]), num_columns=2)}
 
 {docs_general_text}
 """
