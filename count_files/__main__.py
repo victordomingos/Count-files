@@ -26,10 +26,10 @@ from typing import TypeVar, Union
 from pathlib import Path
 from textwrap import fill
 
-from count_files.utils.file_handlers import count_files_by_extension, search_files
-from count_files.utils.file_handlers import is_hidden_file_or_dir, is_supported_filetype
-from count_files.utils.viewing_modes import show_2columns, show_start_message, show_result_for_total
-from count_files.utils.viewing_modes import show_result_for_search_files
+from count_files.utils.file_handlers import is_supported_filetype
+from count_files.utils.viewing_modes import show_2columns, show_start_message, \
+    show_result_for_total, show_result_for_search_files
+from count_files.classes import get_current_os
 from count_files.settings import not_supported_type_message, supported_type_info_message, \
     DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH
 from count_files.utils.help_system_extension import search_in_help
@@ -125,6 +125,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     include_hidden = args.all
     sort_alpha = args.sort_alpha
     extension = args.file_extension
+    current_os = get_current_os()
 
     if args.supported_types:
         parser.exit(status=0, message=supported_type_info_message)
@@ -144,7 +145,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         parser.exit(status=1, message=f'The path {location} '
                                       f'does not exist, or there may be a typo in it.')
 
-    if not include_hidden and is_hidden_file_or_dir(location):
+    if not include_hidden and current_os.is_hidden_file_or_dir(location):
         # skip check if path is a local drive
         if platform.startswith('win') and len(Path(location).parents) == 0:
             pass
@@ -161,22 +162,22 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                                       include_hidden, location, 'total'),
                    width=START_TEXT_WIDTH),
               end="\n\n")
-        data = search_files(dirpath=location,
-                            extension=args.extension,
-                            include_hidden=include_hidden,
-                            recursive=recursive,
-                            case_sensitive=args.case_sensitive)
+
+        data = current_os.search_files(dirpath=location,
+                                       extension=args.extension,
+                                       include_hidden=include_hidden,
+                                       recursive=recursive,
+                                       case_sensitive=args.case_sensitive)
         total_result = show_result_for_total(data, args.no_feedback)
         return total_result
 
     # Parser search_group
     # search and list files by extension
     if extension:
-        print(
-            fill(show_start_message(extension, args.case_sensitive, recursive, include_hidden, location),
-                 width=START_TEXT_WIDTH),
-                 end="\n\n"
-        )
+        print(fill(show_start_message(extension, args.case_sensitive, recursive, include_hidden, location),
+                   width=START_TEXT_WIDTH),
+              end="\n\n")
+
         # list of all found file paths - enabled by default,
         # optional: information about file sizes, file preview, size specification for file preview
         if args.preview:
@@ -184,11 +185,11 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                 parser.exit(status=1, message=not_supported_type_message)
 
         # getting data list for -fe .. (all extensions), -fe . and -fe extension_name
-        data = (f for f in search_files(dirpath=location,
-                                        extension=extension,
-                                        include_hidden=include_hidden,
-                                        recursive=recursive,
-                                        case_sensitive=args.case_sensitive))
+        data = (f for f in current_os.search_files(dirpath=location,
+                                                   extension=extension,
+                                                   include_hidden=include_hidden,
+                                                   recursive=recursive,
+                                                   case_sensitive=args.case_sensitive))
 
         # display the result as a list
         len_files = show_result_for_search_files(files=data,
@@ -204,11 +205,11 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                width=START_TEXT_WIDTH),
           end="\n\n"
           )
-    data = count_files_by_extension(dirpath=location,
-                                    no_feedback=args.no_feedback,
-                                    include_hidden=include_hidden,
-                                    recursive=recursive,
-                                    case_sensitive=args.case_sensitive)
+    data = current_os.count_files_by_extension(dirpath=location,
+                                               no_feedback=args.no_feedback,
+                                               include_hidden=include_hidden,
+                                               recursive=recursive,
+                                               case_sensitive=args.case_sensitive)
 
     # display the result as a table
     
