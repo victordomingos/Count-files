@@ -44,9 +44,12 @@ parser = ArgumentParser(
                 'working directory and all of its subdirectories, and '
                 'will display a table showing the frequency for each file '
                 'extension (e.g.: .txt, .py, .html, .css) and the total '
-                'number of files found. Also by default, '
-                'any hidden files or folders are ignored, '
-                'and file extensions are treated with no case sensitiveness.')
+                'number of files found. For supported operating systems '
+                '(Linux, Mac OS, iOS, Windows), '
+                'any hidden files or folders are ignored by default. '
+                'For other operating systems this option is not available, '
+                'and as a result all existing files will be included. '
+                'Also by default file extensions are treated with no case sensitiveness.')
 
 parser.add_argument('-v', '--version', action='version', version=__import__('count_files').__version__)
 
@@ -126,6 +129,10 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     sort_alpha = args.sort_alpha
     extension = args.file_extension
     current_os = get_current_os()
+    if current_os.name == 'BaseOS':
+        # the default option to exclude hidden files and folders is not implemented for undefined OS,
+        # no need to call self.is_hidden_file_or_dir()
+        include_hidden = True
 
     if args.supported_types:
         parser.exit(status=0, message=supported_type_info_message)

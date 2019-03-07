@@ -26,6 +26,10 @@ class BaseOS(object):
     from counting or searching is not available.
     """
 
+    @property
+    def name(self):
+        return 'BaseOS'
+
     def is_hidden_file_or_dir(self, *args, **kwargs) -> bool:
         """The function determines whether the file or folder in filepath is hidden.
 
@@ -128,6 +132,10 @@ class BaseOS(object):
 class WinOS(BaseOS):
     """Subclass to work with Windows."""
 
+    @property
+    def name(self):
+        return 'WinOS'
+
     def is_hidden_file_or_dir(self, filepath: str) -> bool:
         """The function determines whether the file or folder in filepath is hidden.
 
@@ -165,6 +173,10 @@ class WinOS(BaseOS):
 
 class UnixOS(BaseOS):
     """Subclass to work with Unix-like systems."""
+
+    @property
+    def name(self):
+        return 'UnixOS'
 
     def is_hidden_file_or_dir(self, filepath: str) -> bool:
         """The function determines whether the file or folder in filepath is hidden.
