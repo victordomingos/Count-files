@@ -1,19 +1,54 @@
 #!/usr/bin/env python3
 # encoding: utf-8
+"""Functions designed to display the results of the program or CLI messages.
+
+CLI viewing modes:
+    count - def show_2columns
+table with file extensions sorted by frequency or alphabetically
+    search - def show_result_for_search_files
+list of all found file paths(with sizes),
+preview, total number of files and size info(summary)
+    total - def show_result_for_total
+total number of all found file paths
+    help extension - def show_help_columns
+table with the specified number of columns to display available help topics
+(argument or group name, sort words)
+
+CLI messages:
+def show_start_message
+    message with information about selected counting or searching CLI arguments
+
+Other utilities:
+def human_mem_size
+    return a human readable memory size in a string for os.path.getsize(file_path)
+"""
 import os
 from typing import Iterable, List
 from textwrap import wrap
 
-from count_files.utils.file_handlers import human_mem_size
 from count_files.utils.file_preview import generate_preview
 from count_files.settings import TERM_WIDTH, DEFAULT_PREVIEW_SIZE
 from count_files.settings import DEFAULT_EXTENSION_COL_WIDTH
 from count_files.settings import DEFAULT_FREQ_COL_WIDTH, MAX_TABLE_WIDTH
 
 
+def human_mem_size(num: int, suffix: str = 'B') -> str:
+    """Return a human readable memory size in a string.
+
+    Initially written by Fred Cirera, modified and shared by Sridhar Ratnakumar
+    (https://stackoverflow.com/a/1094933/6167478), edited by Victor Domingos.
+    """
+    for unit in ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi']:
+        if abs(num) < 1024.0:
+            return f"{num:3.1f} {unit}{suffix}"
+        num = num / 1024.0
+
+    return "%.1f%s%s" % (num, 'Yi', suffix)
+
+
 def show_start_message(value: [None, str], case_sensitive: bool, recursive: bool, include_hidden: bool,
                        location: str, group: str = None) -> str:
-    """Displays an information message before starting the CLI.
+    """Displays a message with information about selected counting or searching CLI arguments.
 
     :param value: str for args.total or args.file_extension, for table - None.
     :param case_sensitive: args.case_sensitive
