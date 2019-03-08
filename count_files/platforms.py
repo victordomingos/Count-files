@@ -26,8 +26,7 @@ class BaseOS(object):
     from counting or searching is not available.
     """
 
-    def __init__(self, name):
-        self.name = name
+    name = 'BaseOS'
 
     def is_hidden_file_or_dir(self, *args, **kwargs) -> bool:
         """The function determines whether the file or folder in filepath is hidden.
@@ -131,6 +130,8 @@ class BaseOS(object):
 class WinOS(BaseOS):
     """Subclass to work with Windows."""
 
+    name = 'WinOS'
+
     def is_hidden_file_or_dir(self, filepath: str) -> bool:
         """The function determines whether the file or folder in filepath is hidden.
 
@@ -169,6 +170,8 @@ class WinOS(BaseOS):
 class UnixOS(BaseOS):
     """Subclass to work with Unix-like systems."""
 
+    name = 'UnixOS'
+
     def is_hidden_file_or_dir(self, filepath: str) -> bool:
         """The function determines whether the file or folder in filepath is hidden.
 
@@ -193,11 +196,11 @@ def get_current_os():
     :return: an instance of the appropriate class to work with the current OS
     """
     if sys.platform.startswith('win'):
-        current_os = WinOS('WinOS')
+        current_os = WinOS()
     elif sys.platform.startswith('linux') or sys.platform.startswith('ios') \
             or sys.platform.startswith('darwin'):
-        current_os = UnixOS('UnixOS')
+        current_os = UnixOS()
     else:
         # undefined
-        current_os = BaseOS('BaseOS')
+        current_os = BaseOS()
     return current_os
