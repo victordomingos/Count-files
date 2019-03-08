@@ -4,9 +4,12 @@ import os
 import sys
 from collections import Counter
 
-from count_files.utils.file_handlers import get_file_extension,\
-    is_hidden_file_or_dir, search_files, count_files_by_extension
+from count_files.utils.file_handlers import get_file_extension
+from count_files.platforms import get_current_os
 from count_files.utils.file_preview import generate_preview, generic_text_preview
+
+
+current_os = get_current_os()
 
 
 class TestSomeFunctions(unittest.TestCase):
@@ -37,14 +40,18 @@ class TestSomeFunctions(unittest.TestCase):
         if not case_sensitive: returns a list with all found files(txt, TXT, Txt and so on).
         if case_sensitive: returns a list of files with extensions that exactly match the query.
         """
-        a = list(f for f in search_files(self.get_locations('data_for_tests'), 'txt', recursive=False,
-                                         include_hidden=False, case_sensitive=False))
-        b = list(f for f in search_files(self.get_locations('data_for_tests'), 'txt', recursive=False,
-                                         include_hidden=False, case_sensitive=True))
-        c = list(f for f in search_files(self.get_locations('data_for_tests'), 'TXT', recursive=False,
-                                         include_hidden=False, case_sensitive=True))
-        d = list(f for f in search_files(self.get_locations('data_for_tests'), 'Txt', recursive=False,
-                                         include_hidden=False, case_sensitive=False))
+        a = list(f for f in current_os.search_files(self.get_locations('data_for_tests'),
+                                                    'txt', recursive=False,
+                                                    include_hidden=False, case_sensitive=False))
+        b = list(f for f in current_os.search_files(self.get_locations('data_for_tests'),
+                                                    'txt', recursive=False,
+                                                    include_hidden=False, case_sensitive=True))
+        c = list(f for f in current_os.search_files(self.get_locations('data_for_tests'),
+                                                    'TXT', recursive=False,
+                                                    include_hidden=False, case_sensitive=True))
+        d = list(f for f in current_os.search_files(self.get_locations('data_for_tests'),
+                                                    'Txt', recursive=False,
+                                                    include_hidden=False, case_sensitive=False))
         self.assertEqual(len(a), 2)
         self.assertEqual(len(b), 1)
         self.assertEqual(len(c), 1)
@@ -59,10 +66,12 @@ class TestSomeFunctions(unittest.TestCase):
         counter = Counter({'TXT': 2, 'HTML': 1, 'MD': 1, '[no extension]': 1, 'PY': 1})
         counter1 = Counter({'gz': 3, 'txt': 2, 'md': 2, '[no extension]': 2, 'py': 2,
                            'TXT': 1, 'html': 1, 'json': 1, 'css': 1, 'woff': 1})
-        result = count_files_by_extension(self.get_locations('data_for_tests'), no_feedback=True,
-                                          recursive=False, include_hidden=False, case_sensitive=False)
-        result1 = count_files_by_extension(self.get_locations('data_for_tests'), no_feedback=True,
-                                           recursive=True, include_hidden=False, case_sensitive=True)
+        result = current_os.count_files_by_extension(self.get_locations('data_for_tests'),
+                                                     no_feedback=True, recursive=False,
+                                                     include_hidden=False, case_sensitive=False)
+        result1 = current_os.count_files_by_extension(self.get_locations('data_for_tests'),
+                                                      no_feedback=True, recursive=True,
+                                                      include_hidden=False, case_sensitive=True)
         self.assertEqual(result, counter)
         self.assertEqual(result1, counter1)
 
@@ -75,15 +84,15 @@ class TestSomeFunctions(unittest.TestCase):
         Expected behavior: if any part of filepath(parent folders, final file/folder) is hidden return True
         :return:
         """
-        self.assertEqual(is_hidden_file_or_dir(
+        self.assertEqual(current_os.is_hidden_file_or_dir(
             self.get_locations('test_hidden_windows', 'folder_hidden_for_win')), True)
-        self.assertEqual(is_hidden_file_or_dir(
+        self.assertEqual(current_os.is_hidden_file_or_dir(
             self.get_locations('test_hidden_windows', 'not_nidden_folder')), False)
-        self.assertEqual(is_hidden_file_or_dir(
+        self.assertEqual(current_os.is_hidden_file_or_dir(
             self.get_locations('test_hidden_windows', 'not_nidden_folder', 'hidden_for_win.xlsx')), True)
-        self.assertEqual(is_hidden_file_or_dir(
+        self.assertEqual(current_os.is_hidden_file_or_dir(
             self.get_locations('test_hidden_windows', 'folder_hidden_for_win', 'not_hidden.py')), True)
-        self.assertEqual(is_hidden_file_or_dir(
+        self.assertEqual(current_os.is_hidden_file_or_dir(
             self.get_locations('os_file', '0-NonPersonalRecommendations-https∺∯∯next-services.apps.microsoft.com'
                                           '∯search∯6.3.9600-0∯776∯ru-RU_en-US.en.uk.ru∯c∯UA∯cp∯10005001∯'
                                           'BrowseLists∯lts∯5.3.4∯cid∯0∯pc∯0∯pt∯x64∯af∯0∯lf∯1.dat')), False)
@@ -97,13 +106,13 @@ class TestSomeFunctions(unittest.TestCase):
         Expected behavior: if any part of filepath(parent folders, final file/folder) is hidden return True
         :return:
         """
-        self.assertEqual(is_hidden_file_or_dir(
+        self.assertEqual(current_os.is_hidden_file_or_dir(
             self.get_locations('test_hidden_linux', '.ebookreader')), True)
-        self.assertEqual(is_hidden_file_or_dir(
+        self.assertEqual(current_os.is_hidden_file_or_dir(
             self.get_locations('test_hidden_linux', 'not_hidden_folder')), False)
-        self.assertEqual(is_hidden_file_or_dir(
+        self.assertEqual(current_os.is_hidden_file_or_dir(
             self.get_locations('test_hidden_linux', 'not_hidden_folder', '.hidden_for_linux')), True)
-        self.assertEqual(is_hidden_file_or_dir(
+        self.assertEqual(current_os.is_hidden_file_or_dir(
             self.get_locations('test_hidden_linux', '.ebookreader', 'not_hidden.txt')), True)
 
     # tests related to preview
@@ -141,14 +150,18 @@ class TestSomeFunctions(unittest.TestCase):
         def search_files returns generator.
         Expected behavior: return list with strings(full paths to files)
         """
-        a = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=True,
-                                         include_hidden=True, case_sensitive=False))
-        b = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=False,
-                                         include_hidden=False, case_sensitive=False))
-        c = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=False,
-                                         include_hidden=True, case_sensitive=False))
-        d = list(f for f in search_files(self.get_locations('hidden_py'), 'py', recursive=True,
-                                         include_hidden=False, case_sensitive=False))
+        a = list(f for f in current_os.search_files(self.get_locations('hidden_py'),
+                                                    'py', recursive=True,
+                                                    include_hidden=True, case_sensitive=False))
+        b = list(f for f in current_os.search_files(self.get_locations('hidden_py'),
+                                                    'py', recursive=False,
+                                                    include_hidden=False, case_sensitive=False))
+        c = list(f for f in current_os.search_files(self.get_locations('hidden_py'),
+                                                    'py', recursive=False,
+                                                    include_hidden=True, case_sensitive=False))
+        d = list(f for f in current_os.search_files(self.get_locations('hidden_py'),
+                                                    'py', recursive=True,
+                                                    include_hidden=False, case_sensitive=False))
         self.assertEqual(len(a), 4)
         self.assertEqual(len(b), 1)
         self.assertEqual(len(c), 2)
@@ -162,14 +175,18 @@ class TestSomeFunctions(unittest.TestCase):
         def search_files returns generator.
         Expected behavior: return list with strings(full paths to files)
         """
-        a = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=True,
-                                         include_hidden=True, case_sensitive=False))
-        b = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=False,
-                                         include_hidden=False, case_sensitive=False))
-        c = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=False,
-                                         include_hidden=True, case_sensitive=False))
-        d = list(f for f in search_files(self.get_locations('test_hidden_linux'), '.', recursive=True,
-                                         include_hidden=False, case_sensitive=False))
+        a = list(f for f in current_os.search_files(self.get_locations('test_hidden_linux'),
+                                                    '.', recursive=True,
+                                                    include_hidden=True, case_sensitive=False))
+        b = list(f for f in current_os.search_files(self.get_locations('test_hidden_linux'),
+                                                    '.', recursive=False,
+                                                    include_hidden=False, case_sensitive=False))
+        c = list(f for f in current_os.search_files(self.get_locations('test_hidden_linux'),
+                                                    '.', recursive=False,
+                                                    include_hidden=True, case_sensitive=False))
+        d = list(f for f in current_os.search_files(self.get_locations('test_hidden_linux'),
+                                                    '.', recursive=True,
+                                                    include_hidden=False, case_sensitive=False))
         self.assertEqual(len(a), 3)
         self.assertEqual(len(b), 0)
         self.assertEqual(len(c), 1)
@@ -186,16 +203,16 @@ class TestSomeFunctions(unittest.TestCase):
         counter1 = Counter({'txt': 2, 'py': 2, 'xlsx': 2})
         counter2 = Counter({'TXT': 1})
         counter3 = Counter({'txt': 2})
-        result_r = count_files_by_extension(
+        result_r = current_os.count_files_by_extension(
             self.get_locations('test_hidden_windows'), no_feedback=True,
             recursive=True, include_hidden=False, case_sensitive=False)
-        result_r_hidden = count_files_by_extension(
+        result_r_hidden = current_os.count_files_by_extension(
             self.get_locations('test_hidden_windows'), no_feedback=True,
             recursive=True, include_hidden=True, case_sensitive=True)
-        result_nr = count_files_by_extension(
+        result_nr = current_os.count_files_by_extension(
             self.get_locations('test_hidden_windows'), no_feedback=True,
             recursive=False, include_hidden=False, case_sensitive=False)
-        result_nr_hidden = count_files_by_extension(
+        result_nr_hidden = current_os.count_files_by_extension(
             self.get_locations('test_hidden_windows'), no_feedback=True,
             recursive=False, include_hidden=True, case_sensitive=True)
         self.assertEqual(result_r, counter)
@@ -215,16 +232,16 @@ class TestSomeFunctions(unittest.TestCase):
         counter1 = Counter({'[no extension]': 3, 'TXT': 3})
         counter2 = Counter({'TXT': 1})
         counter3 = Counter({'[no extension]': 1, 'TXT': 1})
-        result_r = count_files_by_extension(
+        result_r = current_os.count_files_by_extension(
             self.get_locations('test_hidden_linux'), no_feedback=True,
             recursive=True, include_hidden=False, case_sensitive=False)
-        result_r_hidden = count_files_by_extension(
+        result_r_hidden = current_os.count_files_by_extension(
             self.get_locations('test_hidden_linux'), no_feedback=True,
             recursive=True, include_hidden=True, case_sensitive=False)
-        result_nr = count_files_by_extension(
+        result_nr = current_os.count_files_by_extension(
             self.get_locations('test_hidden_linux'), no_feedback=True,
             recursive=False, include_hidden=False, case_sensitive=False)
-        result_nr_hidden = count_files_by_extension(
+        result_nr_hidden = current_os.count_files_by_extension(
             self.get_locations('test_hidden_linux'), no_feedback=True,
             recursive=False, include_hidden=True, case_sensitive=False)
         self.assertEqual(result_r, counter)

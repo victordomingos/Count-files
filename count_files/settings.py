@@ -62,14 +62,14 @@ def simple_columns(text_input, num_columns=4):
     return text_table
 
 
-supported_type_info_message = f'\nThis is the list of currently supported file types for preview:\n\n' \
+SUPPORTED_TYPE_INFO_MESSAGE = f'\nThis is the list of currently supported file types for preview:\n\n' \
                               f'{simple_columns(SUPPORTED_TYPES["text"], num_columns=4)}\n' \
                               f'Previewing files without extension is not supported. ' \
                               f'You can use the "--preview" argument together with the search ' \
                               f'for all files regardless of the extension ("--file-extension .."). ' \
                               f'In this case, the preview will only be displayed for files with a supported extension.\n\n'
 
-not_supported_type_message = f'\nSorry, there is no preview available for this file type. ' \
+NOT_SUPPORTED_TYPE_MESSAGE = f'\nSorry, there is no preview available for this file type. ' \
                              f'You may want to try again without preview. ' \
                              f'This is the list of currently supported file types for preview:\n\n' \
                              f'{simple_columns(SUPPORTED_TYPES["text"], num_columns=4)}\n'

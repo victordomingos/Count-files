@@ -8,7 +8,7 @@ from collections import Counter
 
 from count_files.utils.viewing_modes import show_2columns, show_result_for_search_files, \
     show_start_message, show_help_columns
-from count_files.utils.file_handlers import search_files
+from count_files.platforms import get_current_os
 
 
 class TestViewingModes(unittest.TestCase):
@@ -23,6 +23,7 @@ class TestViewingModes(unittest.TestCase):
             self.standard_file = self.get_locations('compare_tables', 'linux_show_result_list.txt')
         elif sys.platform.startswith('darwin') or sys.platform.startswith('ios'):
             self.standard_file = self.get_locations('compare_tables', 'darwin_show_result_list.txt')
+        self.current_os = get_current_os()
 
     def get_locations(self, *args):
         return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
@@ -129,8 +130,8 @@ class TestViewingModes(unittest.TestCase):
         """
         self.generate_standard_file()
         print('A standard file is generated.')
-        data = search_files(dirpath=self.get_locations('data_for_tests'), extension='.',
-                            include_hidden=False, recursive=True, case_sensitive=False)
+        data = self.current_os.search_files(dirpath=self.get_locations('data_for_tests'), extension='.',
+                                            include_hidden=False, recursive=True, case_sensitive=False)
         params = {'files': data, 'file_sizes': True}
         self.write_to_test_file(self.test_file, show_result_for_search_files, **params)
         self.assertEqual(filecmp.cmp(self.test_file, self.standard_file,

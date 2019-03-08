@@ -18,8 +18,8 @@ import os
 import sys
 
 from count_files.utils.viewing_modes import show_result_for_search_files, show_2columns, show_result_for_total
-from count_files.utils.file_handlers import search_files, count_files_by_extension
 from count_files.__main__ import main_flow
+from count_files.platforms import get_current_os
 
 
 def get_locations(*args):
@@ -27,7 +27,7 @@ def get_locations(*args):
 
 
 if __name__ == "__main__":
-
+    current_os = get_current_os()
     if sys.platform.startswith('win'):
         location = get_locations('Count-files')
     elif sys.platform.startswith('darwin'):
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         pass
 
     # Counter and count all files with all extensions, return table, feedback - file names
-    """cProfile.run("data = count_files_by_extension("
+    """cProfile.run("data = current_os.count_files_by_extension("
                  "dirpath=location, no_feedback=False, recursive=True, include_hidden=False);"
                  "total_occurrences = sum(data.values());"
                  "max_word_width = max(map(len, data.keys()));"
@@ -46,14 +46,14 @@ if __name__ == "__main__":
                  "show_2columns(data, max_word_width, total_occurrences)", sort='name')"""
 
     # generator and search files, return list, feedback - list itself
-    """cProfile.run("data = (f for f in search_files(dirpath=location, extension='..', "
+    """cProfile.run("data = (f for f in current_os.search_files(dirpath=location, extension='..', "
                  "recursive=True, include_hidden=True, case_sensitive=False));"
                  "len_files = show_result_for_search_files(files=data, "
                  "file_sizes=False, preview=False)",
                  sort='name')"""
 
     # generator and get total files, return list, feedback - file paths
-    """cProfile.run("data = search_files(dirpath=location, extension='..', "
+    """cProfile.run("data = current_os.search_files(dirpath=location, extension='..', "
                  "recursive=True, include_hidden=True, case_sensitive=False);"
                  "len_files = show_result_for_total(files=data, "
                  "no_feedback=False)",
@@ -67,4 +67,3 @@ if __name__ == "__main__":
 
     # total
     # cProfile.run("main_flow([location, '-t', '..'])", sort='name')
-
