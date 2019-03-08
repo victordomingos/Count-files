@@ -29,7 +29,7 @@ from textwrap import fill
 from count_files.utils.file_handlers import is_supported_filetype
 from count_files.utils.viewing_modes import show_2columns, show_start_message, \
     show_result_for_total, show_result_for_search_files
-from count_files.classes import get_current_os
+from count_files.platforms import get_current_os
 from count_files.settings import not_supported_type_message, supported_type_info_message, \
     DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH
 from count_files.utils.help_system_extension import search_in_help

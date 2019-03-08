@@ -8,7 +8,7 @@ import timeit
 import sys
 import os
 
-from count_files.classes import get_current_os
+from count_files.platforms import get_current_os
 from count_files.__main__ import main_flow
 from count_files.utils.viewing_modes import show_2columns, \
     show_result_for_total, show_result_for_search_files

@@ -8,7 +8,7 @@ from collections import Counter
 
 from count_files.utils.viewing_modes import show_2columns, show_result_for_search_files, \
     show_start_message, show_help_columns
-from count_files.classes import get_current_os
+from count_files.platforms import get_current_os
 
 
 class TestViewingModes(unittest.TestCase):

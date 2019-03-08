@@ -5,7 +5,7 @@ import sys
 from collections import Counter
 
 from count_files.utils.file_handlers import get_file_extension
-from count_files.classes import get_current_os
+from count_files.platforms import get_current_os
 from count_files.utils.file_preview import generate_preview, generic_text_preview
 
 

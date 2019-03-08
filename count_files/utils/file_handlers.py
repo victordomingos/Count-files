@@ -12,7 +12,7 @@ def get_file_extension(filepath: str, case_sensitive: bool = False) -> str:
     Behavior:
     select2.3805311d5fc1.css.gz -> gz, .gitignore -> '.'
     Pipfile -> '.', .hidden_file.txt -> txt
-    Used in classes.py and file_preview.py
+    Used in platforms.py and file_preview.py
     :param filepath: full/path/to/file or filename
     :param case_sensitive: False -> ignore case in extensions,
     True -> distinguish case variations in extensions
