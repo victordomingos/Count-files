@@ -30,7 +30,7 @@ from count_files.utils.file_handlers import is_supported_filetype
 from count_files.utils.viewing_modes import show_2columns, show_start_message, \
     show_result_for_total, show_result_for_search_files
 from count_files.platforms import get_current_os
-from count_files.settings import not_supported_type_message, supported_type_info_message, \
+from count_files.settings import SUPPORTED_TYPE_INFO_MESSAGE, NOT_SUPPORTED_TYPE_MESSAGE, \
     DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH
 from count_files.utils.help_system_extension import search_in_help
 from count_files.utils.help_text import topics
@@ -135,7 +135,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         include_hidden = True
 
     if args.supported_types:
-        parser.exit(status=0, message=supported_type_info_message)
+        parser.exit(status=0, message=SUPPORTED_TYPE_INFO_MESSAGE)
 
     if args.topic:
         search_in_help(args.topic)
@@ -189,7 +189,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         # optional: information about file sizes, file preview, size specification for file preview
         if args.preview:
             if extension == '.' or not is_supported_filetype(extension.lower()):
-                parser.exit(status=1, message=not_supported_type_message)
+                parser.exit(status=1, message=NOT_SUPPORTED_TYPE_MESSAGE)
 
         # getting data list for -fe .. (all extensions), -fe . and -fe extension_name
         data = (f for f in current_os.search_files(dirpath=location,
