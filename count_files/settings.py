@@ -33,17 +33,19 @@ else:
 
 if device in ("iPad", "iPhone"):
     # Adapt for smaller screen sizes in iPhone and iPod touch
-    import ui
-    import console
-    if device == 'iPad':
-        font_size = IPAD_FONT_SIZE
-    else:
-        font_size = IPHONE_FONT_SIZE
-    console.set_font(IOS_FONT, font_size)
-    screen_width = ui.get_screen_size().width
-    char_width = ui.measure_string('.', font=(IOS_FONT, font_size)).width
-    TERM_WIDTH = int(screen_width / char_width - 1.5) - 1
-
+    try:
+        import ui
+        import console
+        if device == 'iPad':
+            font_size = IPAD_FONT_SIZE
+        else:
+            font_size = IPHONE_FONT_SIZE
+        console.set_font(IOS_FONT, font_size)
+        screen_width = ui.get_screen_size().width
+        char_width = ui.measure_string('.', font=(IOS_FONT, font_size)).width
+        TERM_WIDTH = int(screen_width / char_width - 1.5) - 1
+    except:
+        pass
 
 SUPPORTED_TYPES = {
     'all_extensions': ['..'],

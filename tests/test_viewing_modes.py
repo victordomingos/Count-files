@@ -19,7 +19,7 @@ class TestViewingModes(unittest.TestCase):
         self.test_file = self.get_locations('compare_tables', 'test_show_result_list.txt')
         if sys.platform.startswith('win'):
             self.standard_file = self.get_locations('compare_tables', 'win_show_result_list.txt')
-        elif sys.platform.startswith('linux'):
+        elif sys.platform.startswith('linux') or sys.platform.startswith('haiku'):
             self.standard_file = self.get_locations('compare_tables', 'linux_show_result_list.txt')
         elif sys.platform.startswith('darwin') or sys.platform.startswith('ios'):
             self.standard_file = self.get_locations('compare_tables', 'darwin_show_result_list.txt')

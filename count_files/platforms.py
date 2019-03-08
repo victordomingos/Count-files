@@ -198,7 +198,7 @@ def get_current_os():
     if sys.platform.startswith('win'):
         current_os = WinOS()
     elif sys.platform.startswith('linux') or sys.platform.startswith('ios') \
-            or sys.platform.startswith('darwin'):
+            or sys.platform.startswith('darwin') or sys.platform.startswith('haiku'):
         current_os = UnixOS()
     else:
         # undefined

@@ -98,7 +98,7 @@ class TestSomeFunctions(unittest.TestCase):
                                           'BrowseLists∯lts∯5.3.4∯cid∯0∯pc∯0∯pt∯x64∯af∯0∯lf∯1.dat')), False)
 
     @unittest.skipUnless(sys.platform.startswith('linux')
-                         or sys.platform.startswith('darwin'), 'for Linux, Mac OS')
+                         or sys.platform.startswith('darwin') or sys.platform.startswith('haiku'), 'for Linux, Mac OS')
     def test_is_hidden_file_or_dir_lin_mac(self):
         """Testing def is_hidden_file_or_dir.
 
@@ -168,7 +168,7 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(len(d), 1)
 
     @unittest.skipUnless(sys.platform.startswith('linux')
-                         or sys.platform.startswith('darwin'), 'for Linux, Mac OS')
+                         or sys.platform.startswith('darwin') or sys.platform.startswith('haiku'), 'for Linux, Mac OS')
     def test_search_files_lin_mac(self):
         """Testing def search_files, include_hidden and recursive params.
 
@@ -221,7 +221,7 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(result_nr_hidden, counter3)
 
     @unittest.skipUnless(sys.platform.startswith('linux')
-                         or sys.platform.startswith('darwin'), 'for Linux, Mac OS')
+                         or sys.platform.startswith('darwin') or sys.platform.startswith('haiku'), 'for Linux, Mac OS')
     def test_count_files_by_extension_lin_mac(self):
         """Testing def count_files_by_extension, include_hidden and recursive params.
 
