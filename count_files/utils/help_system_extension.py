@@ -14,7 +14,7 @@ class HelpCmd(cmd.Cmd):
     """Count Files Help. Search in help text by topic.
 
     Start this interactive help: count-files --help-cmd
-    help> cmd
+    help> help
     basic usage examples, this HelpCmd examples
     help> list
     available arguments, group_names, search_words
@@ -31,11 +31,11 @@ class HelpCmd(cmd.Cmd):
         cmd.Cmd.__init__(self)
         self.intro = 'Welcome to Count Files Help! Type "help" or "?" to list commands.\n' \
                      'Enter the name of the argument or group to get help text.\n' \
-                     'More about this utility usage, type "cmd". To quit, just type "quit".\n'
+                     'To quit, just type "quit".\n'
         self.prompt = 'help> '
 
-    def do_cmd(self, arg):
-        """More about Count Files Help usage, type "cmd"."""
+    def do_help(self, arg):
+        """More about Count Files Help usage, type "help"."""
         self.print_help_text(docs_text)
 
     def do_quit(self, arg):

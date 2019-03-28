@@ -8,7 +8,10 @@ docs_text = f"""COUNT FILES HELP.
 Search in help text by topic.
 Start this interactive help:
     count-files --help-cmd
-To quit this utility, just type "quit".
+Commands:
+More about Count Files Help usage(this section)
+    help> help
+To quit this utility, just type "quit"
     help> quit
 
 BASIC USAGE EXAMPLES:
