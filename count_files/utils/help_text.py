@@ -1,112 +1,42 @@
-"""HELP SYSTEM EXTENSION DOCS.
-
-BASIC USAGE:
-Topic - argument or group name, certain words for search or sorting.
-    count-files -ah <topic>
-    count-files --args-help <topic>
-Show short help text: Topic must be in upper case or with one letter in upper case.
-    count-files --args-help <topic in upper case>
-Show more detailed help text: Topic must be in lower case.
-    count-files --args-help <topic in lower case>
-
-Search by short/long argument name:
-Short argument name.
-    count-files --args-help st
-Long argument name.
-    count-files --args-help supported-types
-Partial argument name if it consists of two words.
-    count-files --args-help supported
-    count-files --args-help types
-
-Sorting arguments by purpose:
-Service arguments: display of help, version of the program etc.
-(h or help, ah or args-help, v or version, st or supported-types)
-All service arguments.
-    count-files --args-help service
-Get by name.
-    count-files --args-help help
-
-Common arguments: directory path and sorting settings that are common to search and count.
-(path, a or all, c or case-sensitive, nr or no-recursion, nf or no-feedback)
-All common arguments.
-    count-files --args-help common
-Get by name.
-    count-files --args-help no-recursion
-
-Special arguments: arguments for counting or searching files.
-Count by extension: alpha or sort-alpha;
-Total number of files: t or total;
-Search by extension: fe or file-extension, fs or file-sizes, p or preview, ps or preview-size.
-All special arguments.
-    count-files --args-help special
-Get by name.
-    count-files --args-help file-extension
-
-Sorting arguments by type:
-    count-files --args-help positional
-    count-files --args-help optional
-
-Sorting arguments by group, including group description:
-    count-files --args-help count
-    count-files --args-help search
-    count-files --args-help total
-
-Get group description:
-(count-group or cg, search-group or sg, total-group or tg)
-    count-files --args-help count-group
-    count-files --args-help tg
-
-Get all group descriptions:
-    count-files --args-help groups
-
-ADDITIONAL SECTIONS:
-Get this help system extension basic usage examples.
-    count-files --args-help docs
-Get a list of available topics for searching or sorting.
-    count-files --args-help list
-More about search by short/long argument name.
-    count-files --args-help args
-More about sorting arguments by purpose or type.
-    count-files --args-help sort
-More about sorting arguments by group.
-    count-files --args-help groups
-
-ALSO USE:
-Get the standard argparse help with a brief description of all the arguments.
-    count-files --help
-Web Docs in English, Portuguese, Russian and Ukrainian:
-    https://github.com/victordomingos/Count-files#documentation
-"""
+"""HELP SYSTEM EXTENSION TEXT."""
 from count_files.settings import DOCUMENTATION_URL, DEFAULT_PREVIEW_SIZE
 from count_files.utils.viewing_modes import show_help_columns
 
 
-docs_text = f"""HELP SYSTEM EXTENSION DOCS.
+docs_text = f"""COUNT FILES HELP.
+
+Search in help text by topic.
+Start this interactive help:
+    count-files --help-cmd
+Commands:
+More about Count Files Help usage(this section)
+    help> help
+To quit this utility, just type "quit"
+    help> quit
 
 BASIC USAGE EXAMPLES:
 Topic - argument or group name, certain words for searching or sorting.
-    count-files -ah <topic>
-    count-files --args-help <topic>
+    help> topic
 Show short help text: Topic must be in upper case or with one letter in upper case.
-    count-files --args-help <topic in upper case>
+    help> TOPIC in upper case
 Show more detailed help text: Topic must be in lower case.
-    count-files --args-help <topic in lower case>
+    help> topic in lower case
 Search by short/long argument name:
-    count-files --args-help st
-    count-files --args-help supported-types
+    help> st
+    help> supported-types
 Sorting arguments by group, including group description:
 (count, search or total)
-    count-files --args-help count
+    help> count
 
 ADDITIONAL SECTIONS:
 Get a list of available topics for searching or sorting.
-    count-files --args-help list
+    help> list
 More about search by short/long argument name.
-    count-files --args-help args
+    help> args
 More about sorting arguments by purpose or type.
-    count-files --args-help sort
+    help> sort
 More about sorting arguments by group.
-    count-files --args-help groups
+    help> groups
  
 ALSO USE:
 Get the standard argparse help with a brief description of all the arguments.
@@ -121,13 +51,14 @@ arguments = [
              # positional
              'path', 'path',
              # optional
-             'all', 'a', 'args-help', 'ah',
-             'case-sensitive', 'c', 'file-extension', 'fe', 'file-sizes', 'fs',
-             'help', 'h', 'no-feedback', 'nf', 'no-recursion', 'nr',
+             'all', 'a', 'case-sensitive', 'c',
+             'file-extension', 'fe', 'file-sizes', 'fs',
+             'help', 'h', 'help-cmd', 'hc',
+             'no-feedback', 'nf', 'no-recursion', 'nr',
              'preview', 'p', 'preview-size', 'ps',
              'sort-alpha', 'alpha', 'supported-types', 'st', 'total', 't', 'version', 'v']
 
-docs_args_text = f"""HELP SYSTEM EXTENSION DOCS(ARGS).
+docs_args_text = f"""COUNT FILES HELP(ARGS).
 
 AVAILABLE ARGUMENT NAMES:
 
@@ -135,12 +66,16 @@ AVAILABLE ARGUMENT NAMES:
 
 SEARCH BY ARGUMENT NAME:
 Short argument name.
-    count-files --args-help st
+    help> st
 Long argument name.
-    count-files --args-help supported-types
+    help> supported-types
 Partial argument name if it consists of two words.
-    count-files --args-help supported
-    count-files --args-help types
+    help> supported
+    help> types
+Get help text about --help argument. Use short argument name:
+    help> h
+Get help text about --help-cmd argument. Use short argument name:
+    help> hc
 """
 
 sort_words = [
@@ -150,7 +85,7 @@ sort_words = [
     'special'
 ]
 
-docs_sort_text = f"""HELP SYSTEM EXTENSION DOCS(SORT).
+docs_sort_text = f"""COUNT FILES HELP(SORT).
 
 AVAILABLE SORT WORDS:
 
@@ -159,19 +94,19 @@ AVAILABLE SORT WORDS:
 SORTING ARGUMENTS BY PURPOSE:
 Service arguments: display of help, version of the program etc.
 (h or help, ah or args-help, v or version, st or supported-types)
-    count-files --args-help service
+    help> service
 Common arguments: directory path and sorting settings that are common to search and count.
 (path, a or all, c or case-sensitive, nr or no-recursion, nf or no-feedback)
-    count-files --args-help common
+    help> common
 Special arguments: arguments for counting or searching files.
 Count by extension: alpha or sort-alpha;
 Total number of files: t or total;
 Search by extension: fe or file-extension, fs or file-sizes, p or preview, ps or preview-size.
-    count-files --args-help special
+    help> special
 
 SORTING ARGUMENTS BY TYPE:
-    count-files --args-help positional
-    count-files --args-help optional
+    help> positional
+    help> optional
 """
 
 group_names = [
@@ -185,7 +120,7 @@ group_names = [
     'group'
 ]
 
-docs_groups_text = f"""HELP SYSTEM EXTENSION DOCS(GROUPS).
+docs_groups_text = f"""COUNT FILES HELP(GROUPS).
 
 AVAILABLE GROUP NAMES:
 
@@ -193,29 +128,29 @@ AVAILABLE GROUP NAMES:
 
 SORTING ARGUMENTS BY GROUP:
 Sorting arguments by group, including group description.
-    count-files --args-help count
-    count-files --args-help search
-    count-files --args-help total
+    help> count
+    help> search
+    help> total
 Get group description.
 (count-group or cg, search-group or sg, total-group or tg)
-    count-files --args-help count-group
-    count-files --args-help tg
+    help> count-group
+    help> tg
 Get all group descriptions.
-    count-files --args-help group
+    help> group
 """
 
 docs_general_text = f"""ALSO USE:
 Get the standard argparse help with a brief description of all the arguments.
     count-files --help
-Get this help system extension usage examples.
-    count-files --args-help docs
+Get this Count Files Help usage examples.
+    help> cmd
 Get a list of available topics for searching or sorting.
-    count-files --args-help list
+    help> list
 Web Docs in English, Portuguese, Russian and Ukrainian:
     {DOCUMENTATION_URL}
 """
 
-docs_list_text = f"""HELP SYSTEM EXTENSION DOCS(LIST).
+docs_list_text = f"""COUNT FILES HELP(LIST).
 
 AVAILABLE ARGUMENT NAMES:
 
@@ -242,14 +177,12 @@ topics = {
                 'Show help message and exit. '
                 'Usage: count-files -h or count-files --help.'
     },
-    'args-help': {
-        'name': '-ah TOPIC, --args-help TOPIC',
+    'help-cmd': {
+        'name': '-hc, --help-cmd',
         'short': 'Search in help by topic - argument or group name(count, search, total). '
-                 'Show more detailed help text: count-files -ah docs.',
+                 'Start interactive help.',
         'long': 'Search in help by topic - argument or group name(count, search, total). '
-                 'Show more detailed help text: count-files -ah docs. '
-                 'Show list of available topics: count-files -ah list. '
-                 'Usage: count-files -ah <topic>.'
+                'Start interactive help. Usage: count-files -hc or count-files --help-cmd.'
     },
     'version': {
         'name': '-v, --version',
@@ -438,8 +371,8 @@ topics = {
 indexes = {
     ('h', 'help', 'service', 'optional'):
         [topics['help']['name'], topics['help']['short'], topics['help']['long']],
-    ('ah', 'args-help', 'args', 'help', 'service', 'optional'):
-        [topics['args-help']['name'], topics['args-help']['short'], topics['args-help']['long']],
+    ('hc', 'help-cmd', 'service', 'optional'):
+        [topics['help-cmd']['name'], topics['help-cmd']['short'], topics['help-cmd']['long']],
     ('v', 'version', 'service', 'optional'):
         [topics['version']['name'], topics['version']['short'], topics['version']['long']],
     ('st', 'supported-types', 'supported', 'types', 'service', 'optional'):

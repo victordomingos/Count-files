@@ -32,7 +32,7 @@ from count_files.utils.viewing_modes import show_2columns, show_start_message, \
 from count_files.platforms import get_current_os
 from count_files.settings import SUPPORTED_TYPE_INFO_MESSAGE, NOT_SUPPORTED_TYPE_MESSAGE, \
     DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH
-from count_files.utils.help_system_extension import search_in_help
+from count_files.utils.help_system_extension import HelpCmd
 from count_files.utils.help_text import topics
 from count_files.utils.decorators import exceptions_decorator
 
@@ -71,8 +71,8 @@ parser.add_argument('-c', '--case-sensitive', action='store_true', default=False
 parser.add_argument('-nf', '--no-feedback', action='store_true', default=False,
                     help=topics['no-feedback']['short'])
 
-parser.add_argument('-ah', '--args-help', type=str, dest='topic',
-                    help=topics['args-help']['short'])
+parser.add_argument('-hc', '--help-cmd', action='store_true', default=False,
+                    help=topics['help-cmd']['short'])
 
 
 total_group = parser.add_argument_group('Total number of files'.upper(),
@@ -137,8 +137,9 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     if args.supported_types:
         parser.exit(status=0, message=SUPPORTED_TYPE_INFO_MESSAGE)
 
-    if args.topic:
-        search_in_help(args.topic)
+    if args.help_cmd:
+        hc = HelpCmd()
+        hc.cmdloop()
         parser.exit(status=0)
 
     if os.path.abspath(args.path) == os.getcwd():
