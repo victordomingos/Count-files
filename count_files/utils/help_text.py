@@ -18,9 +18,9 @@ BASIC USAGE EXAMPLES:
 Topic - argument or group name, certain words for searching or sorting.
     help> topic
 Show short help text: Topic must be in upper case or with one letter in upper case.
-    help> TOPIC in upper case
+    help> TOPIC
 Show more detailed help text: Topic must be in lower case.
-    help> topic in lower case
+    help> topic
 Search by short/long argument name:
     help> st
     help> supported-types
@@ -142,8 +142,8 @@ Get all group descriptions.
 docs_general_text = f"""ALSO USE:
 Get the standard argparse help with a brief description of all the arguments.
     count-files --help
-Get this Count Files Help usage examples.
-    help> cmd
+Get this Count Files Help.
+    help> help
 Get a list of available topics for searching or sorting.
     help> list
 Web Docs in English, Portuguese, Russian and Ukrainian:
