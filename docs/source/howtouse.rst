@@ -8,16 +8,18 @@ CLI arguments
 Arguments can be specified in both short and long form. For example: ``-a`` or ``--all``.
 ::
 
-   usage: count-files [-h] [-v] [-st] [-a]
+   usage: count-files [-h] [-v] [-st]
+                      [-a] [-hc]
                       [-c] [-nr] [-nf]
-                      [-t TOTAL] [-alpha]
+                      [-t EXTENSION] [-alpha]
                       [-fe FILE_EXTENSION] [-fs]
                       [-p] [-ps PREVIEW_SIZE] [path]
 
 
-   usage: count-files [--help] [--version] [--supported-types] [--all]
+   usage: count-files [--help] [--version] [--supported-types]
+                      [--all] [--help-cmd]
                       [--case-sensitive] [--no-recursion] [--no-feedback]
-                      [--total TOTAL] [--sort-alpha]
+                      [--total EXTENSION] [--sort-alpha]
                       [--file-extension FILE_EXTENSION] [--file-sizes]
                       [--preview] [--preview-size PREVIEW_SIZE] [path]
 
@@ -47,6 +49,12 @@ one of the following commands::
    count-files -h
 
    count-files --help
+
+Search in help by topic - argument or group name(count, search, total)::
+
+   count-files -hc
+   
+   count-files --help-cmd
 
 Check the version number of the program::
 
@@ -86,9 +94,10 @@ application not to scan recursively through the subdirectories.
 Hidden files and directories
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-By default, it will ignore files and directories that are supposed to be
-hidden, but you can add the ``-a`` or ``--all`` optional
+For supported operating systems (Linux, macOS, iOS, Windows), any hidden files or folders are ignored by default. But you can add the ``-a`` or ``--all`` optional
 switch argument to make it count or search for all files.
+
+For other operating systems in which Python can be run, this option to include/exclude hidden files is not available. And as a result, all existing files will be included.
 
 In Windows, files and directories considered hidden by this application are
 those for which the ``FILE_ATTRIBUTE_HIDDEN`` attribute is set to true.
@@ -114,13 +123,12 @@ argument.
 
 * File searching by extension (using ``-fe`` or ``--file-extension``):
 
-   The result of the search will be a list with paths to files with an
-   extension in the corresponding register.
+   The result of the search will be a list with paths to files with an extension in the corresponding register.
 
 * Total number of files (using ``-t`` or ``--total``):
 
    For total counting of files with a specific extension, this option is also
-   available.
+   available. The result of the counting will be a total number of files with an extension in the corresponding register.
 
 .. _feedback-label:
 
