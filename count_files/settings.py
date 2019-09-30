@@ -3,6 +3,7 @@
 import shutil
 import platform
 
+from count_files.utils.text_extensions import text_extensions_and_mime_types
 
 DOCUMENTATION_URL = 'https://github.com/victordomingos/Count-files#documentation'
 BUG_REPORT_URL = 'https://github.com/victordomingos/Count-files/issues'
@@ -50,7 +51,7 @@ if device in ("iPad", "iPhone"):
 SUPPORTED_TYPES = {
     'all_extensions': ['..'],
     'no_extension': ['.'],
-    'text': ['py', 'txt', 'html', 'css', 'js', 'c', 'md', 'json'],
+    'text_expected': text_extensions_and_mime_types.keys()
 }
 
 
@@ -65,13 +66,14 @@ def simple_columns(text_input, num_columns=4):
 
 
 SUPPORTED_TYPE_INFO_MESSAGE = f'\nThis is the list of currently supported file types for preview:\n\n' \
-                              f'{simple_columns(SUPPORTED_TYPES["text"], num_columns=4)}\n' \
+                              f'{simple_columns(SUPPORTED_TYPES["text_expected"], num_columns=4)}\n' \
                               f'Previewing files without extension is not supported. ' \
                               f'You can use the "--preview" argument together with the search ' \
                               f'for all files regardless of the extension ("--file-extension .."). ' \
-                              f'In this case, the preview will only be displayed for files with a supported extension.\n\n'
+                              f'In this case, the preview will only be displayed for files ' \
+                              f'with a supported extension.\n\n'
 
 NOT_SUPPORTED_TYPE_MESSAGE = f'\nSorry, there is no preview available for this file type. ' \
-                             f'You may want to try again without preview. ' \
-                             f'This is the list of currently supported file types for preview:\n\n' \
-                             f'{simple_columns(SUPPORTED_TYPES["text"], num_columns=4)}\n'
+                             f'You may want to try again without preview.\n' \
+                             f'Get the list of currently supported file types for preview: ' \
+                             f'count-files --supported-types\n'

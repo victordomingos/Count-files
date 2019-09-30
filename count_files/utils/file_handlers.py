@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 import os
-from itertools import chain
 
 from count_files.settings import SUPPORTED_TYPES
 
@@ -35,4 +34,4 @@ def is_supported_filetype(extension: str) -> bool:
     :param extension: extension name (txt, py), '.'(without extension) or '..' (all extensions)
     :return: True if we have a preview procedure for the given file type, False otherwise.
     """
-    return extension in list(chain.from_iterable(SUPPORTED_TYPES.values()))
+    return extension in SUPPORTED_TYPES['text_expected']
