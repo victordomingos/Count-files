@@ -14,7 +14,7 @@ def generic_text_preview(filepath: str, max_size: int) -> str:
     :return: a string with the text preview or error message
     """
     try:
-        p = Path(filepath)
+        p = Path(filepath)  # TODO: do we need a Path() here? Path vs. built-in open()
         with p.open(mode='r') as f:
             return str(f.read(max_size)).replace('\n', ' ')
     except Exception as e:
@@ -54,7 +54,7 @@ def generate_preview(filepath: str, max_size: int = 390) -> str:
     """
     extension = get_file_extension(filepath, case_sensitive=False).lower()
 
-    if extension in SUPPORTED_TYPES['text']:
+    if extension in SUPPORTED_TYPES['text_expected']:
         excerpt = generic_text_preview(filepath, max_size)
         if excerpt:
             # return excerpt or error string
@@ -64,5 +64,3 @@ def generate_preview(filepath: str, max_size: int = 390) -> str:
     else:
         # skip the extension if it is not supported
         return "[A preview of this file type is not yet implemented.]"
-
-
