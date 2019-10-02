@@ -11,9 +11,12 @@ and not registered types
 text_extensions_and_mime_types = {
     'py': '',  # Python Script, application/x-python-code, text/x-python, text/plain
     'pyw': '',  # Windows Python GUI Source File
+    'pyt': '',  # Python Toolbox, text/plain
+    'rpy': '',  # Python Script, Ren'Py Script - text/plain, may be Touhou Project Replay File
     'php': '',  # PHP, application/x-httpd-php, text/php, application/php, magnus-internal/shellcgi, application/x-php
     'bat': '',  # DOS Batch File, text/plain
     'cmd': '',  # Windows Command File, Files similar in functionality to BAT file format, text/plain
+    'sh': '',  # Bash Shell Script - text/plain, or Unix Shell Archive(Compressed Files, .shar)
     'vbs': '',  # VBScript File
     'cs': '',  # C# Source Code File
     'erl': '',  # Erlang Source Code File
@@ -33,6 +36,7 @@ text_extensions_and_mime_types = {
     'yaml': '',  # YAML Document application/x-yaml
     'latex': '',  # LaTeX Document
     'ltx': '',  # LaTeX Document
+    'cfg': '',  # Configuration/Settings Files, may be saved in a text format, Windows and Macintosh systems
     'qss': '',  # Qt Style Sheet
 
     # http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=markup
@@ -53,7 +57,7 @@ text_extensions_and_mime_types = {
     'n3': 'text/n3',
     'txt': 'text/plain',
     'text': 'text/plain',
-    'conf': 'text/plain',
+    'conf': 'text/plain',  # Configuration/Settings Files, may be saved in a text format, Unix and Linux based systems
     'def': 'text/plain',
     'list': 'text/plain',
     'log': 'text/plain',
@@ -109,30 +113,32 @@ text_extensions_and_mime_types = {
     'uu': 'text/x-uuencode',
     'vcs': 'text/x-vcalendar',
     'vcf': 'text/x-vcard',
-}  # 95
+}  # 99
 
 """
-Python Software Foundation:
+Python related extensions:
 py   Python Script, python.exe
-pyc  Python Compiled File
+pyc  Python Compiled File, Python byte code
 pyw  Windows Python GUI Source File, pythonw.exe
-pyo  Python Optimized Code
+pyo  Python Optimized Code, Compiled Python File, Python byte code
 pyz  Python Archive File, application/x-zip-compressed
 pyzw Python Archive File, application/x-zip-compressed
-pyt  Python declaration data
-npy	 Python NumPy Array File	
-pyd	 Python Dynamic Module
-rpy  Python Script
+pyt  Python declaration data, Python Toolbox
+npy  Python NumPy Array File
+pyd  Python Dynamic Module, an equivalent of DLL format (dynamic link library), Binary
+rpy  Python Script, Ren'Py Script
 whl  Python Wheel Package, Compressed Files
 oog  related to Object Oriented Graphics (OOG) in PyGraph -  Python Graphics Interface
 p4a  Python script, optimized for Google Android system and apps
 pil  Python Image Library font
-pth  Python path configuration
+pth  Python path configuration, also: common PyTorch convention is to save models using either a .pt or .pth file
 pym  Python preprocessor macro
-ssdf Simple Structured Data Format, scientific data Python or Matlab
-pickle Python Pickle data
-egg
-egg-info
+ssdf  Simple Structured Data Format, scientific data Python or Matlab
+pickle  Python Pickle data, application/octet-stream, also *.pck, *.pcl, *.pkl(in Python 2)
+ipy  IPython script
+ipynb  IPython notebook, Jupyter Notebook
+egg  Python egg metadata, regenerated from source files by setuptools
+egg-info  Python egg metadata, regenerated from source files by setuptools
 """
 
 """
