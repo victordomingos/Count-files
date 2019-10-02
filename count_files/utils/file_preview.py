@@ -54,7 +54,7 @@ def generate_preview(filepath: str, max_size: int = 390) -> str:
     """
     extension = get_file_extension(filepath, case_sensitive=False).lower()
 
-    if extension in SUPPORTED_TYPES['text_expected']:
+    if extension in SUPPORTED_TYPES['text']:
         excerpt = generic_text_preview(filepath, max_size)
         if excerpt:
             # return excerpt or error string
