@@ -51,7 +51,7 @@ if device in ("iPad", "iPhone"):
 SUPPORTED_TYPES = {
     'all_extensions': ['..'],
     'no_extension': ['.'],
-    'text_expected': text_extensions_and_mime_types.keys()
+    'text': text_extensions_and_mime_types.keys()
 }
 
 
@@ -66,7 +66,7 @@ def simple_columns(text_input, num_columns=4):
 
 
 SUPPORTED_TYPE_INFO_MESSAGE = f'\nThis is the list of currently supported file types for preview:\n\n' \
-                              f'{simple_columns(SUPPORTED_TYPES["text_expected"], num_columns=4)}\n' \
+                              f'{simple_columns(SUPPORTED_TYPES["text"], num_columns=4)}\n' \
                               f'Previewing files without extension is not supported. ' \
                               f'You can use the "--preview" argument together with the search ' \
                               f'for all files regardless of the extension ("--file-extension .."). ' \
