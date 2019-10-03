@@ -55,8 +55,8 @@ arguments = [
              'file-extension', 'fe', 'file-sizes', 'fs',
              'help', 'h', 'help-cmd', 'hc',
              'no-feedback', 'nf', 'no-recursion', 'nr',
-             'preview', 'p', 'preview-size', 'ps',
-             'sort-alpha', 'alpha', 'supported-types', 'st', 'total', 't', 'version', 'v']
+             'preview', 'p', 'preview-size', 'ps', 'show-folders', 'sf',
+             'sort-alpha', 'alpha', 'supported-types', 'st', 'total', 't', 'total-size', 'ts', 'version', 'v']
 
 docs_args_text = f"""COUNT FILES HELP(ARGS).
 
@@ -255,7 +255,8 @@ topics = {
                 'you can use the -t or --total argument and specify the name of the extension. '
                 'Usage: count-files [-a, --all] [-c, --case-sensitive] '
                 '[-nr, --no-recursion] [-nf, --no-feedback] '
-                '[-t EXTENSION, --total EXTENSION] [path].'
+                '[-t EXTENSION, --total EXTENSION] [-sf, --show-folders] '
+                '[-ts, --total-size] [path].'
     },
     'total': {
         'name': '-t EXTENSION, --total EXTENSION',
@@ -271,6 +272,24 @@ topics = {
                 'Example: count-files --total . ~/Documents <arguments>. '
                 'Use two dots without spaces ".." to get the total number of files, with or without a file extension. '
                 'Example: count-files --total .. ~/Documents <arguments>. '
+    },
+    'show-folders': {
+        'name': '-sf, --show-folders',
+        'short': 'Show the list of folders in which the found files are located, '
+                 'and the number of found files in each folder.',
+        'long': 'Show the list of folders in which the found files are located. '
+                'In addition, the number of found files in each folder is displayed. '
+                'When recursively counting all files(--total ..) and using the --show-folders argument, '
+                'all folders containing files are displayed. '
+                'To include hidden folders, also add the --all argument. '
+                'Example: count-files --total py --show-folders ~/Documents <arguments>.'
+    },
+    'total-size': {
+        'name': '-ts, --total-size',
+        'short': 'Show the total combined size of files found using the -t or --total argument.',
+        'long': 'Show the total combined size of files found using the -t or --total argument. '
+                'Additional information: average, minimum and maximum file size. '
+                'Example: count-files --total txt --total-size ~/Documents <arguments>.'
     },
     'count-group': {
         'name': 'File counting by extension',
@@ -393,6 +412,10 @@ indexes = {
         [topics['total-group']['name'], topics['total-group']['short'], topics['total-group']['long']],
     ('t', 'total', 'extension', 'special', 'optional'):
         [topics['total']['name'], topics['total']['short'], topics['total']['long']],
+    ('sf', 'show-folders', 'show', 'folders', 'total', 'special', 'optional'):
+        [topics['show-folders']['name'], topics['show-folders']['short'], topics['show-folders']['long']],
+    ('ts', 'total-size', 'total', 'size', 'special', 'optional'):
+        [topics['total-size']['name'], topics['total-size']['short'], topics['total-size']['long']],
 
     ('count-group', 'group', 'count', 'cg'):
         [topics['count-group']['name'], topics['count-group']['short'], topics['count-group']['long']],
