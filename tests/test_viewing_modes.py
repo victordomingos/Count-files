@@ -7,7 +7,7 @@ import filecmp
 from collections import Counter
 
 from count_files.utils.viewing_modes import show_2columns, show_result_for_search_files, \
-    show_start_message, show_help_columns
+    show_start_message, show_help_columns, show_result_for_total
 from count_files.platforms import get_current_os
 
 
@@ -15,14 +15,22 @@ class TestViewingModes(unittest.TestCase):
     """Testing viewing_modes.py functions"""
 
     def setUp(self):
+        # result of def show_result_for_search_files()/def show_result_for_total()
         self.test_file_total = self.get_locations('compare_tables', 'test_show_result_total.txt')
         self.test_file = self.get_locations('compare_tables', 'test_show_result_list.txt')
+        # files generated in def generate_standard_file()/def generate_standard_file_for_total()
         if sys.platform.startswith('win'):
             self.standard_file = self.get_locations('compare_tables', 'win_show_result_list.txt')
+            self.standard_file_total = self.get_locations('compare_tables', 'win_show_result_total.txt')
         elif sys.platform.startswith('linux') or sys.platform.startswith('haiku'):
             self.standard_file = self.get_locations('compare_tables', 'linux_show_result_list.txt')
+            self.standard_file_total = self.get_locations('compare_tables', 'linux_show_result_total.txt')
         elif sys.platform.startswith('darwin') or sys.platform.startswith('ios'):
             self.standard_file = self.get_locations('compare_tables', 'darwin_show_result_list.txt')
+            self.standard_file_total = self.get_locations('compare_tables', 'darwin_show_result_total.txt')
+        else:
+            self.standard_file = self.get_locations('compare_tables', 'baseos_show_result_list.txt')
+            self.standard_file_total = self.get_locations('compare_tables', 'baseos_show_result_total.txt')
         self.current_os = get_current_os()
 
     def get_locations(self, *args):
@@ -36,6 +44,20 @@ class TestViewingModes(unittest.TestCase):
             f.write('   Found 2 file(s).\n')
             f.write('   Total combined size: 49.0 B.\n')
             f.write('   Average file size: 24.0 B (max: 49.0 B, min: 0.0 B).\n\n')
+        return
+
+    def generate_standard_file_for_total(self):
+        with open(self.standard_file_total, 'w') as f:
+            p = ['data_for_tests', 'django_staticfiles_for_test', 'admin', 'css', 'vendor', 'select2']
+            f.write('File(s) found in the following folder(s):\n')
+            f.write('–––––––––––––––––––––––––––––––––––-----\n')
+            f.write(f"{self.get_locations('data_for_tests')} (1 file)\n")
+            f.write(f"{self.get_locations(*p)} (1 file)\n")
+            f.write('–––––––––––––––––––––––––––––––––––-----\n')
+            f.write('\n')
+            f.write('   Found 2 file(s).\n')
+            f.write('   Total combined size of files found: 1.1 KiB.\n')
+            f.write('   Average file size: 567.0 B (max: 1.1 KiB, min: 10.0 B).\n\n')
         return
 
     def write_to_test_file(self, filename, func, **kwargs):
@@ -129,7 +151,7 @@ class TestViewingModes(unittest.TestCase):
         :return:
         """
         self.generate_standard_file()
-        print('A standard file is generated.')
+        print('A standard file for search is generated.')
         data = self.current_os.search_files(dirpath=self.get_locations('data_for_tests'), extension='.',
                                             include_hidden=False, recursive=True, case_sensitive=False)
         params = {'files': data, 'file_sizes': True}
@@ -163,6 +185,20 @@ class TestViewingModes(unittest.TestCase):
                                          num_columns=2, term_width=50)
         self.assertEqual(list_result, '12345, 12345, 12345, 12345')
         self.assertEqual(table_result, ' 12345   12345   \n 12345   12345   \n ')
+
+    def test_show_result_for_total(self):
+        self.generate_standard_file_for_total()
+        print('A standard file for total is generated.')
+        # count-files -t md -sf -ts ~\Count-files\tests\data_for_tests
+        data = self.current_os.search_files(dirpath=self.get_locations('data_for_tests'), extension='md',
+                                            include_hidden=False, recursive=True, case_sensitive=False)
+        # files: Iterable[str], show_folders: bool = False, total_size: bool = False,
+        # no_feedback: bool = False, recursive: bool = True
+        params = {'files': data, 'show_folders': True, 'total_size': True,
+                  'no_feedback': True, 'recursive': True}
+        self.write_to_test_file(self.test_file_total, show_result_for_total, **params)
+        self.assertEqual(filecmp.cmp(self.test_file_total, self.standard_file_total,
+                                     shallow=False), True)
 
 # from root directory:
 # run all tests in test_viewing_modes.py

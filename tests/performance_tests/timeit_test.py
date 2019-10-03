@@ -49,8 +49,9 @@ show_2columns(data, max_word_width, total_occurrences)
 
 total_and_extension = """
 data = current_os.search_files(dirpath=location, extension='..',
-recursive=True, include_hidden=True, case_sensitive=False)
-len_files = show_result_for_total(files=data, no_feedback=False)
+recursive=True, include_hidden=False, case_sensitive=False)
+len_files = show_result_for_total(files=data, show_folders=True, 
+total_size=True, no_feedback=False, recursive=True)
 """
 
 
