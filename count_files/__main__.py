@@ -81,6 +81,12 @@ total_group = parser.add_argument_group('Total number of files'.upper(),
 total_group.add_argument('-t', '--total', dest="extension", type=str,
                          help=topics['total']['short'])
 
+total_group.add_argument('-sf', '--show-folders', action='store_true', default=False,
+                         help=topics['show-folders']['short'])
+
+total_group.add_argument('-ts', '--total-size', action='store_true', default=False,
+                         help=topics['total-size']['short'])
+
 
 count_group = parser.add_argument_group('File counting by extension'.upper(),
                                         description=topics['count-group']['short'])
@@ -176,7 +182,10 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                                        include_hidden=include_hidden,
                                        recursive=recursive,
                                        case_sensitive=args.case_sensitive)
-        total_result = show_result_for_total(data, args.no_feedback)
+        total_result = show_result_for_total(data, total_size=args.total_size,
+                                             show_folders=args.show_folders,
+                                             no_feedback=args.no_feedback,
+                                             recursive=recursive)
         return total_result
 
     # Parser search_group
