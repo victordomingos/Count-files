@@ -196,25 +196,93 @@ def show_result_for_search_files(files: Iterable[str],
     return files_amount
 
 
-def show_result_for_total(files: Iterable[str], no_feedback: bool) -> int:
-    """Print feedback and total number of all found file paths for Parser total_group.
+def show_result_for_total(files: Iterable[str], show_folders: bool = False,
+                          total_size: bool = False, no_feedback: bool = False,
+                          recursive: bool = True) -> int:
+    """Prints feedback and the total number of all files found for Parser total_group.
+
+    Prints a list of folders in which the found files are located,
+    the number of found files in each folder
+    and the total combined size of the found files (if specified).
+    When recursively counting all files(--total ..) and using the --show-folders argument,
+    all folders containing files are displayed.
 
     :param files: object <class 'generator'> with full paths to all found files
-    :param no_feedback: True or False(default, prints processed file paths in one line)
-    :return: len(files), files amount
+    :param show_folders: optional, args.show_folders
+    True - show the list of folders in which the found files are located,
+    and the number of found files in each folder,
+    False(default) - don't show
+    :param total_size: optional, args.total_size
+    True - show the total combined size of files found, average, minimum and maximum file size
+    False(default) - don't show
+    :param no_feedback: optional, args.no_feedback
+    True - disable feedback
+    False(default) - prints processed file paths in one line
+    :param recursive: default recursive search or count if args.no_recursion is not selected
+    :return: files amount - Found ... file(s).
+    print list with folder paths if show_folders, and total combined size of files found if specified.
+
+    File(s) found in the following folder(s):
+    –––––––––––––––––––––––––––––––––––-----
+    full/path/to/folder1 (2 files)
+    full/path/to/folder2 (1 file)
+    ...
+    –––––––––––––––––––––––––––––––––––-----
+
+    Found ... file(s).
+    Total combined size of files found: ... KiB.
+    Average file size: ... KiB (max: ... KiB, min: ... B).
     """
-    if not no_feedback:
-        files_amount = 0
-        for f in files:
+    files_amount = 0
+    sizes = []
+    folders = {}
+    try:
+        for f_path in files:
+            if not no_feedback:
+                print("\r" + f_path[:TERM_WIDTH - 1].ljust(TERM_WIDTH - 1), end="")
             files_amount += 1
-            print("\r" + f[:TERM_WIDTH - 1].ljust(TERM_WIDTH - 1), end="")
-        print("\r".ljust(TERM_WIDTH))  # Clean the feedback text before proceeding.
-    else:
-        files_amount = len(list(files))
+            if total_size:
+                file_size = os.path.getsize(f_path)
+                sizes.append(file_size)
+            if show_folders and recursive:
+                root, filename = str(f_path).strip("\r").rsplit(os.sep, maxsplit=1)
+                if root not in folders.keys():
+                    folders.update({root: 1})
+                else:
+                    folders[root] += 1
+            else:
+                pass
+        if not no_feedback:
+            print("\r".ljust(TERM_WIDTH))  # Clean the feedback text before proceeding.
+    except StopIteration:
+        print(f"\nNo files were found in the specified directory.\n")
+        return 0
     if files_amount == 0:
-        print(f"No files were found in the specified directory.\n")
+        print(f"\nNo files were found in the specified directory.\n")
+        return 0
+    if show_folders:
+        if recursive:
+            print('File(s) found in the following folder(s):')
+            print('–––––––––––––––––––––––––––––––––––-----')
+            for folder, f in folders.items():
+                print(f'{folder} ({f} {"file" if f == 1 else "files"})')
+            print('–––––––––––––––––––––––––––––––––––-----')
+        else:
+            pass  # count/search in one folder
+    print(f"\n   Found {files_amount} file(s).", end="\n")
+    if total_size:
+        total_fsize = sum(sizes)
+        h_total_size = human_mem_size(total_fsize)
+        avg_size = human_mem_size(int(total_fsize / files_amount))
+
+        h_max = human_mem_size(max(sizes))
+        h_min = human_mem_size(min(sizes))
+
+        print(f"   Total combined size of files found: {h_total_size}.")
+        print(f"   Average file size: {avg_size} (max: {h_max}, min: {h_min}).",
+              end="\n\n")
     else:
-        print(f'   Found {files_amount} file(s).', end="\n\n")
+        print("")
     return files_amount
 
 
