@@ -8,6 +8,7 @@ Version history:
 v.1.6 - ?
  (Contributed by Natalia Bondarenko)
  * New arguments for the Total group: show folders and total size.
+ * Added new text file extensions to the list of currently supported file types for preview.
  * Other minor internal changes.
 
 ---
