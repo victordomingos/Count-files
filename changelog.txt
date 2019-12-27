@@ -14,7 +14,6 @@ v.1.6 - ?
 v.1.5 - 09/08/2019
  (Contributed by Natalia Bondarenko)
  * New integrated help system.
- * Skip hidden root folders on Windows, for better performance.
  * Other minor internal changes.
 
 ---
