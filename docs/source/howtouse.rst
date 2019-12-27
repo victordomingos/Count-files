@@ -236,6 +236,6 @@ searching files using the ``-fe`` or ``--file-extension`` argument.
 
 Example: ``count-files --file-extension js --file-sizes``
 
-When counting the total number of files (using `--total` argument) you can also get the total combined size of found files.
+When counting the total number of files (using ``--total`` argument) you can also get the total combined size of found files.
 
 Example: ``count-files --total py --total-size``
