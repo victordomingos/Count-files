@@ -140,14 +140,16 @@ count-files --file-extension py --preview \
 Скорочена форма аргументів:
 
 ```
-usage: count-files [-a] [-c] [-nr] [-nf] [-t EXTENSION] [path]
+usage: count-files [-a] [-c] [-nr] [-nf] [-t EXTENSION] 
+                   [-sf] [-ts] [path]
 ```
 
 Повна форма аргументів:
 
 ```
 usage: count-files [--all] [--case-sensitive] [--no-recursion]
-                   [--no-feedback] [--total EXTENSION] [path]
+                   [--no-feedback] [--total EXTENSION] 
+                   [--show-folders] [--total-size] [path]
 ```
 
 Для підрахунку тільки загальної кількості файлів, без списку, 
