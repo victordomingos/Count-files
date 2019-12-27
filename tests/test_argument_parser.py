@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import unittest
 import os
-import sys
 
 from count_files.__main__ import main_flow
+from count_files.platforms import get_current_os
 
 
 class TestArgumentParser(unittest.TestCase):
@@ -66,33 +66,42 @@ class TestArgumentParser(unittest.TestCase):
             with self.subTest(k=k, v=v):
                 self.assertEqual(main_flow([location, '-fe', f'{k}', '-p', '-ps', '5']), v)
 
-    # tests for hidden files, Linux and Mac OS
-    @unittest.skipIf(sys.platform.startswith("win"), "not for Windows")
+    # tests for hidden files: Windows, Linux, Mac OS, iOS, Haiku; skip: BaseOS
     def test_for_hidden(self):
         """Testing def main_flow.
 
         Equivalent to
-        "python __main__.py ~/.../tests/data_for_tests -nr -t .."
-        and "python __main__.py ~/.../tests/data_for_tests -nr -a -t .."
+        "count-files ~/.../tests/data_for_tests -nr -t .."
+        and "count-files ~/.../tests/data_for_tests -nr -a -t .."
         :return:
         """
-        self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-t', '..']), 1)
-        self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-t', '..', '-a']), 2)
+        current_os = get_current_os()
+        if current_os.name == 'WinOS':
+            self.assertEqual(main_flow([self.get_locations('test_hidden_windows'), '-nr', '-t', '..']), 1)
+            self.assertEqual(main_flow([self.get_locations('test_hidden_windows'), '-nr', '-t', '..', '-a']), 2)
+        elif current_os.name == 'UnixOS':
+            self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-t', '..']), 1)
+            self.assertEqual(main_flow([self.get_locations('test_hidden_linux'), '-nr', '-t', '..', '-a']), 2)
+        else:
+            # raise unittest exception
+            self.skipTest('For BaseOS, hidden file detection is currently not available.')
 
-    # tests for hidden files, Windows
-    @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
-    def test_for_hidden_win(self):
-        """Testing def main_flow.
+    # SystemExit, parser.exit(status=0). No files were found.
+    def test_parser_exit_no_data(self):
+        """Testing def main_flow. Count group.
 
-        Equivalent to
-        "python __main__.py ~/.../tests/data_for_tests -nr -t .."
-        and "python __main__.py ~/.../tests/data_for_tests -nr -a -t .."
+        No files were found in the specified directory.
         :return:
         """
-        self.assertEqual(main_flow([self.get_locations('test_hidden_windows'), '-nr', '-t', '..']), 1)
-        self.assertEqual(main_flow([self.get_locations('test_hidden_windows'), '-nr', '-t', '..', '-a']), 2)
+        try:
+            # count group, if not data
+            location = self.get_locations('data_for_tests', 'django_staticfiles_for_test', 'admin', 'css')
+            main_flow([location, '-nr'])
+        except SystemExit as e:
+            # not error, the folder is empty
+            self.assertEqual(e.code, 0)
 
-    # SystemExit, parser.exit tests, Negative cases
+    # SystemExit, parser.exit(status=1). The path does not exist, Preview for an unsupported file type.
     def test_parser_exit(self):
         """Check if all checks are performed in CLI.
 
@@ -122,8 +131,8 @@ class TestArgumentParser(unittest.TestCase):
                     # main_flow return len(files) for -fe .. if check is not effected in CLI
                     self.fail('SystemExit not raised')
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'for Windows')
-    def test_parser_exit_for_hidden_win(self):
+    # SystemExit, parser.exit(status=1). Not counting any files, because location include hidden folders.
+    def test_parser_exit_for_hidden(self):
         """Check if all checks are performed in CLI.
 
         If include_hidden=False and hidden folder in path:
@@ -134,41 +143,20 @@ class TestArgumentParser(unittest.TestCase):
         You can count files in Documents, not_hidden_subfolder and not count them in a hidden_folder.
         :return:
         """
+        current_os = get_current_os()
         # if not include_hidden and current_os.is_hidden_file_or_dir(location)
-        args_dict = {(self.get_locations('test_hidden_windows', 'folder_hidden_for_win'),): 1,
-                     (self.get_locations('test_hidden_windows', 'folder_hidden_for_win'), '-t', 'txt'): 1,
-                     (self.get_locations('test_hidden_windows', 'folder_hidden_for_win'), '-fe', '..'): 1}
-        for k, v in args_dict.items():
-            with self.subTest(k=k, v=v):
-                try:
-                    main_flow(k)
-                # should return parser.exit(status=1)
-                except SystemExit as se:
-                    # main_flow return parser.exit(status=0) for count_group if check is not effected in CLI
-                    self.assertEqual(se.code, v)
-                except Exception as e:
-                    self.fail(f'Unexpected exception raised: {e}')
-                else:
-                    # main_flow return total_result for --total if check is not effected in CLI
-                    # main_flow return len(files) for -fe .. if check is not effected in CLI
-                    self.fail('SystemExit not raised')
+        if current_os.name == 'WinOS':
+            args_dict = {(self.get_locations('test_hidden_windows', 'folder_hidden_for_win'),): 1,
+                         (self.get_locations('test_hidden_windows', 'folder_hidden_for_win'), '-t', 'txt'): 1,
+                         (self.get_locations('test_hidden_windows', 'folder_hidden_for_win'), '-fe', '..'): 1}
+        elif current_os.name == 'UnixOS':
+            args_dict = {(self.get_locations('test_hidden_linux', '.ebookreader'),): 1,
+                         (self.get_locations('test_hidden_linux', '.ebookreader'), '-t', 'txt'): 1,
+                         (self.get_locations('test_hidden_linux', '.ebookreader'), '-fe', '..'): 1}
+        else:
+            # raise unittest exception
+            self.skipTest('For BaseOS, hidden file detection is currently not available.')
 
-    @unittest.skipIf(sys.platform.startswith("win"), "not for Windows")
-    def test_parser_exit_for_hidden_unix(self):
-        """Check if all checks are performed in CLI.
-
-        If include_hidden=False and hidden folder in path:
-        In this case, the hidden folder is skipped(default settings)
-        and, accordingly, the files are not count at all.
-        TODO: revise the check for cases when:
-        count-files ~/Documents/not_hidden_subfolder/hidden_folder
-        You can count files in Documents, not_hidden_subfolder and not count them in a hidden_folder.
-        :return:
-        """
-        # if not include_hidden and current_os.is_hidden_file_or_dir(location)
-        args_dict = {(self.get_locations('test_hidden_linux', '.ebookreader'),): 1,
-                     (self.get_locations('test_hidden_linux', '.ebookreader'), '-t', 'txt'): 1,
-                     (self.get_locations('test_hidden_linux', '.ebookreader'), '-fe', '..'): 1}
         for k, v in args_dict.items():
             with self.subTest(k=k, v=v):
                 try:
