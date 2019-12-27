@@ -164,13 +164,15 @@ Total number of files
 Arguments in short form:
 ::
 
-   usage: count-files [-a] [-c] [-nr] [-nf] [-t EXTENSION] [path]
+   usage: count-files [-a] [-c] [-nr] [-nf] [-t EXTENSION] 
+                      [-sf] [-ts] [path]
 
 Arguments in long form:
 ::
 
    usage: count-files [--all] [--case-sensitive] [--no-recursion]
-                      [--no-feedback] [--total EXTENSION] [path]
+                      [--no-feedback] [--total EXTENSION] 
+                      [--show-folders] [--total-size] [path]
 
 |
 

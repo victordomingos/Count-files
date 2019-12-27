@@ -8,20 +8,28 @@ CLI arguments
 Arguments can be specified in both short and long form. For example: ``-a`` or ``--all``.
 ::
 
-   usage: count-files [-h] [-v] [-st]
-                      [-a] [-hc]
-                      [-c] [-nr] [-nf]
-                      [-t EXTENSION] [-alpha]
+   usage: count-files [-h] [-hc]
+                      [-v] [-st]
+                      [-a] [-c]
+                      [-nr] [-nf]
+                      [-alpha]
+                      [-t EXTENSION]
+                      [-sf] [-ts]
                       [-fe FILE_EXTENSION] [-fs]
-                      [-p] [-ps PREVIEW_SIZE] [path]
+                      [-p] [-ps PREVIEW_SIZE]
+                      [path]
 
 
-   usage: count-files [--help] [--version] [--supported-types]
-                      [--all] [--help-cmd]
-                      [--case-sensitive] [--no-recursion] [--no-feedback]
-                      [--total EXTENSION] [--sort-alpha]
+   usage: count-files [--help] [--help-cmd]
+                      [--version] [--supported-types]
+                      [--all] [--case-sensitive]
+                      [--no-recursion] [--no-feedback]
+                      [--sort-alpha]
+                      [--total EXTENSION]
+                      [--show-folders] [--total-size]
                       [--file-extension FILE_EXTENSION] [--file-sizes]
-                      [--preview] [--preview-size PREVIEW_SIZE] [path]
+                      [--preview] [--preview-size PREVIEW_SIZE]
+                      [path]
 
 Common arguments
 """"""""""""""""
@@ -38,7 +46,7 @@ Special arguments
    ``--file-extension``, ``--file-sizes``, ``--preview``, ``--preview-size``
 
 * Total number of files (number):
-   ``--total``
+   ``--total``, ``--show-folders``, ``--total-size``
 
 Getting help
 ^^^^^^^^^^^^
@@ -157,7 +165,9 @@ File counting by extension
 To count all files by extension, you can simply use the command
 ``count-files`` and, if necessary, specify one or more of the common
 arguments: ``path``, ``--all``, ``case-sensitive``, ``--no-recursion``,
-``--no-feedback``.
+``--no-feedback``. You can sort the extensions in the table alphabetically using the ``--sort-alpha`` argument.
+
+Example: ``count-files``
 
 .. seealso:: :ref:`count-label`
 
@@ -169,6 +179,8 @@ file extensions found and displays the frequency for each file extension. To
 sort the extensions alphabetically, use the ``-alpha`` or ``--sort-alpha``
 argument.
 
+Example: ``count-files --sort-alpha``
+
 File searching by extension
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -176,7 +188,12 @@ Another main feature of this application consists in searching files by a
 given extension, which presents to the user a list of all found files.
 
 Using ``-fe`` or ``--file-extension`` argument, you can find all the files
-that have the specified extension.
+that have the specified extension. You can get additional information about the size of each found file and see a short preview for text files (``--file-sizes``, ``--preview``, ``--preview-size`` optional arguments).
+
+If necessary, specify one or more of the common
+arguments: ``path``, ``--all``, ``case-sensitive``, ``--no-recursion``.
+
+Example: ``count-files --file-extension txt``
 
 .. seealso:: :ref:`search-label`
 
@@ -186,6 +203,15 @@ Total counting of files
 To count the total number of files, the number of files with a specific
 extension or the number of files without any extension you can use the ``-t``
 or ``--total`` argument and specify the name of the extension.
+
+You can also get a list of folders in which the found files are located, the number of found files in each folder and the total combined size of these files (``--show-folders`` and ``--total-size`` optional arguments). 
+When recursively counting all files(``--total ..``) and using the ``--show-folders`` argument, all folders containing files are displayed.
+
+If necessary, specify one or more of the common
+arguments: ``path``, ``--all``, ``case-sensitive``, ``--no-recursion``,
+``--no-feedback``.
+
+Example: ``count-files --total json``
 
 .. seealso:: :ref:`total-label`
 
@@ -210,3 +236,6 @@ searching files using the ``-fe`` or ``--file-extension`` argument.
 
 Example: ``count-files --file-extension js --file-sizes``
 
+When counting the total number of files (using `--total` argument) you can also get the total combined size of found files.
+
+Example: ``count-files --total py --total-size``

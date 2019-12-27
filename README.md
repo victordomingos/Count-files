@@ -53,12 +53,17 @@ count-files -h
 count-files --help
 ```
 
-By default, the program counts or searches for files recursively in current working directory and all of its subdirectories. Any hidden files or folders will be ignored.
-The names of extensions are case insensitive by default. The results for `ini` and `INI` will be the same.
-
+By default, the program counts or searches for files recursively in current working directory and all of its subdirectories.  
+For fully supported operating systems (Linux, macOS, iOS, Windows), any hidden files or folders are ignored by default. For other operating systems in which Python can be run, this option to include/exclude hidden files is not available. And as a result, all existing files will be included.  
+The names of extensions are case insensitive by default. The results for `ini` and `INI` will be the same.  
 Optionally, you can pass it a path to the directory to scan, choose non-recursive counting or searching, process the file extensions with case-sensitive mode and enable search or counting in hidden files and folders.  
+When counting all files by extension (default table):  
+You can sort the extensions alphabetically.  
+When searching for files by extension (using `--file-extension` argument):  
 You can get additional information about the size of each found file and see a short preview for text files.  
-See more about [CLI arguments](https://countfiles.readthedocs.io/en/latest/howtouse.html#cli-arguments).
+When counting the total number of files (using `--total` argument):  
+You can also get a list of folders in which the found files are located, the number of found files in each folder and the total combined size of these files.  
+See more about CLI arguments [EN](https://countfiles.readthedocs.io/en/latest/howtouse.html#cli-arguments) [PT](https://github.com/victordomingos/Count-files/blob/master/docs/Documentation_PT.md#argumentos-da-linha-de-comandos) [RU](https://github.com/victordomingos/Count-files/blob/master/docs/documentation_ru/howtouse.md#аргументы-cli) [UA](https://github.com/victordomingos/Count-files/blob/master/docs/documentation_ua/howtouse.md#аргументи-cli)
 
 The most simple form of usage is to type a simple command in the shell, without 
 any arguments. It will display a table showing the frequency for 
