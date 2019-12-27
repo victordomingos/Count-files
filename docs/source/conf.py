@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Count Files'
-copyright = '2018, Victor Domingos & Nataliia Bondarenko'
+copyright = '2018-2019, Victor Domingos & Nataliia Bondarenko'
 author = 'Victor Domingos & Nataliia Bondarenko'
 
 # The short X.Y version
