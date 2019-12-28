@@ -106,17 +106,28 @@ De um modo geral, podem ser indicados argumentos tanto na forma
 abreviada como na forma extensa. Por exemplo: `-a` ou `--all`.
 
 ```
-usage: count-files [-h] [-v] [-st] [-a]
-                   [-c] [-nr] [-nf] [-t TOTAL]
-                   [-alpha] [-fe FILE_EXTENSION] [-fs]
-                   [-p] [-ps PREVIEW_SIZE] [path]
-```
+usage: count-files [-h] [-hc]
+                   [-v] [-st]
+                   [-a] [-c]
+                   [-nr] [-nf]
+                   [-alpha]
+                   [-t EXTENSION]
+                   [-sf] [-ts]
+                   [-fe FILE_EXTENSION] [-fs]
+                   [-p] [-ps PREVIEW_SIZE]
+                   [path]
 
-```
-usage: count-files [--help] [--version] [--supported-types] [--all]
-                   [--case-sensitive] [--no-recursion] [--no-feedback] [--total TOTAL]
-                   [--sort-alpha] [--file-extension FILE_EXTENSION] [--file-sizes]
-                   [--preview] [--preview-size PREVIEW_SIZE] [path]
+
+usage: count-files [--help] [--help-cmd]
+                   [--version] [--supported-types]
+                   [--all] [--case-sensitive]
+                   [--no-recursion] [--no-feedback]
+                   [--sort-alpha]
+                   [--total EXTENSION]
+                   [--show-folders] [--total-size]
+                   [--file-extension FILE_EXTENSION] [--file-sizes]
+                   [--preview] [--preview-size PREVIEW_SIZE]
+                   [path]
 ```
 
 A forma mais simples de utilização consiste na introdução de um comando
@@ -236,12 +247,13 @@ o mecanismo de feedback apresentado é a própria lista de ficheiros.
 
 Argumentos na forma abreviada:
 ```
-usage: count-files [-a] [-c] [-nr] [-nf] [-t TOTAL] [path]
+usage: count-files [-a] [-c] [-nr] [-nf] [-t TOTAL] [-sf] [-ts] [path]
 ```
 
 Argumentos na forma extensa:
 ```
-usage: count-files [--all] [--case-sensitive] [--no-recursion] [--no-feedback] [--total TOTAL] [path]
+usage: count-files [--all] [--case-sensitive] [--no-recursion] [--no-feedback]
+                   [--total TOTAL] [--show-folders] [--total-size] [path]
 ```
 
 Para contar o número total de ficheiros, deverá especificar a extensão de 

@@ -232,8 +232,7 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
     
     # if empty sequence
     if not data:
-        print("Oops! We have no data to show...\n")
-        parser.exit(status=0)
+        parser.exit(status=0, message='No files were found in the specified directory.\n')
         
     total_occurrences = sum(data.values())
     max_word_width = max(map(len, data.keys()))

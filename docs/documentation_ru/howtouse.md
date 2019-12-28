@@ -22,17 +22,29 @@
 Например: `-a` или `--all`.
 
 ```
-usage: count-files [-h] [-v] [-st] [-a]
-                   [-c] [-nr] [-nf] [-t EXTENSION]
-                   [-alpha] [-fe FILE_EXTENSION] [-fs]
-                   [-p] [-ps PREVIEW_SIZE] [path]
+usage: count-files [-h] [-hc]
+                   [-v] [-st]
+                   [-a] [-c]
+                   [-nr] [-nf]
+                   [-alpha]
+                   [-t EXTENSION]
+                   [-sf] [-ts]
+                   [-fe FILE_EXTENSION] [-fs]
+                   [-p] [-ps PREVIEW_SIZE]
+                   [path]
 ```
 
 ```
-usage: count-files [--help] [--version] [--supported-types] [--all]
-                   [--case-sensitive] [--no-recursion] [--no-feedback] [--total EXTENSION]
-                   [--sort-alpha] [--file-extension FILE_EXTENSION] [--file-sizes]
-                   [--preview] [--preview-size PREVIEW_SIZE] [path]
+usage: count-files [--help] [--help-cmd]
+                   [--version] [--supported-types]
+                   [--all] [--case-sensitive]
+                   [--no-recursion] [--no-feedback]
+                   [--sort-alpha]
+                   [--total EXTENSION]
+                   [--show-folders] [--total-size]
+                   [--file-extension FILE_EXTENSION] [--file-sizes]
+                   [--preview] [--preview-size PREVIEW_SIZE]
+                   [path]
 ```
 
 #### Общие аргументы
@@ -48,7 +60,7 @@ usage: count-files [--help] [--version] [--supported-types] [--all]
   `--file-extension`, `--file-sizes`, `--preview`, `--preview-size`
 
 - Общее количество файлов (число):  
-  `--total`
+  `--total`, `--show-folders`, `--total-size`
 
 #### Получение справки
 
@@ -105,6 +117,11 @@ count-files --supported-types
 
 По умолчанию скрытые файлы и папки игнорируются. 
 Для их обработки используйте необязательный аргумент `-a` или `--all`.  
+Для полностью поддерживаемых операционных систем (Linux, macOS, iOS, Windows) 
+любые скрытые файлы или папки по умолчанию игнорируются. 
+Для других операционных систем, в которых можно запускать Python, 
+возможность включения/исключения скрытых файлов на данный момент недоступна. 
+И в результате все файлы будут включены.  
 В Windows, файлы и каталоги 
 для которых установлен атрибут `FILE_ATTRIBUTE_HIDDEN`, 
 считаются этим приложением скрытыми.  
@@ -152,7 +169,8 @@ count-files --supported-types
 Для того чтобы подсчитать все файлы по расширениям 
 достаточно просто ввести команду `count-files`, и, 
 при необходимости, указать один или несколько общих аргументов: 
-`path`, `--all`, `case-sensitive`, `--no-recursion`, `--no-feedback`.
+`path`, `--all`, `case-sensitive`, `--no-recursion`, `--no-feedback`.  
+Пример: `count-files`
 
 См. также [Подсчет файлов по расширению: сортированная таблица](https://github.com/victordomingos/Count-files/tree/master/docs/documentation_ru/examples.md#Подсчет-файлов-по-расширению-сортированная-таблица)
 
@@ -162,7 +180,8 @@ count-files --supported-types
 показывающая частоту для каждого расширения файла 
 (например: .txt, .py, .html, .css). 
 Для сортировки результатов по алфавиту 
-используйте аргумент `-alpha` или `--sort-alpha`.
+используйте аргумент `-alpha` или `--sort-alpha`.  
+Пример: `count-files --sort-alpha`
 
 #### Поиск файлов по расширению
 
@@ -170,7 +189,11 @@ count-files --supported-types
 заключается в поиске файлов с определенным расширением. 
 Результат поиска - список с полными путями ко всем найденным файлам.  
 Используя аргумент `-fe` или `-file-extension`, 
-вы можете найти все файлы которые имеют указанное расширение.
+вы можете найти все файлы которые имеют указанное расширение.  
+Для поиска файлов по расширению доступно получение дополнительной информации о размере каждого найденного файла и короткий предварительный просмотр для текстовых файлов (аргументы `--file-sizes`, `--preview`, `--preview-size`).  
+При необходимости, можно указать один или несколько общих аргументов: 
+`path`, `--all`, `case-sensitive`, `--no-recursion`.  
+Пример: `count-files --file-extension txt`
 
 См. также [Поиск файлов по расширению: список путей к файлам](https://github.com/victordomingos/Count-files/tree/master/docs/documentation_ru/examples.md#Поиск-файлов-по-расширению-список-путей-к-файлам)
 
@@ -179,7 +202,12 @@ count-files --supported-types
 Для подсчета общего количества всех файлов, 
 общего количества файлов с определенным расширением или без него, 
 можно использовать аргумент `-t` или ` --total` 
-и указать название расширения.
+и указать название расширения.  
+Вы также можете получить список папок, в которых находятся найденные файлы, количество найденных файлов в каждой папке и общий суммарный размер этих файлов (`--show-folders` и `--total-size`).
+При рекурсивном подсчете всех файлов (`--total ..`) и использовании аргумента `--show-folders` отображаются все папки, которые содержат файлы.  
+При необходимости, можно указать один или несколько общих аргументов: 
+`path`, `--all`, `case-sensitive`, `--no-recursion`, `--no-feedback`.  
+Пример: `count-files --total json`
 
 См. также [Общее количество файлов](https://github.com/victordomingos/Count-files/tree/master/docs/documentation_ru/examples.md#Общее-количество-файлов)
 
@@ -203,3 +231,5 @@ count-files --supported-types
 (используя `-fe` или `--file-extension`).  
 Пример: `count-files --file-extension js --file-sizes`
 
+При подсчете общего количества файлов (аргумент `--total`) вы также можете получить общий объединенный размер найденных файлов.  
+Пример: `count-files --total py --total-size`

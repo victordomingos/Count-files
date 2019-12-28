@@ -13,6 +13,14 @@ text_extensions_and_mime_types = {
     'pyw': '',  # Windows Python GUI Source File
     'pyt': '',  # Python Toolbox, text/plain
     'rpy': '',  # Python Script, Ren'Py Script - text/plain, may be Touhou Project Replay File
+    'pyx': '',  # Cython, Pyrex Source Code File, text/plain
+    'pxd': '',  # Cython, Pyrex Definition File, text/plain
+    'pyi': '',  # Stub Files, text/plain
+    'ipy': '',  # IPython Script, text/plain
+    'ipynb': '',  # Jupyter Notebook Files, text/plain, actually json-based
+    'go': '',  # Go Source Code File, text/plain
+    'dart': '',  # Dart Source Code File, text/plain
+    'lisp': '',  # Lisp Source Code File, text/plain
     'php': '',  # PHP, application/x-httpd-php, text/php, application/php, magnus-internal/shellcgi, application/x-php
     'bat': '',  # DOS Batch File, text/plain
     'cmd': '',  # Windows Command File, Files similar in functionality to BAT file format, text/plain
@@ -113,7 +121,7 @@ text_extensions_and_mime_types = {
     'uu': 'text/x-uuencode',
     'vcs': 'text/x-vcalendar',
     'vcf': 'text/x-vcard',
-}  # 99
+}  # 107
 
 """
 Python related extensions:
@@ -139,6 +147,10 @@ ipy  IPython script
 ipynb  IPython notebook, Jupyter Notebook
 egg  Python egg metadata, regenerated from source files by setuptools
 egg-info  Python egg metadata, regenerated from source files by setuptools
+pyx  Cython, Pyrex Source Code File
+pxd  Cython, Pyrex Definition File(like C/C++ header) or Pixlr Layered Image(binary)
+pyi  Stub Files, https://www.python.org/dev/peps/pep-0561/#stub-only-packages,
+     files containing only type information(Type Hints, mypy), empty of runtime code
 """
 
 """

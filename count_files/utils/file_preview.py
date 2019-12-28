@@ -14,9 +14,8 @@ def generic_text_preview(filepath: str, max_size: int) -> str:
     :return: a string with the text preview or error message
     """
     try:
-        p = Path(filepath)  # TODO: do we need a Path() here? Path vs. built-in open()
-        with p.open(mode='r') as f:
-            return str(f.read(max_size)).replace('\n', ' ')
+        with open(filepath, mode='r') as f:
+            return f.read(max_size).replace('\n', ' ')
     except Exception as e:
         # DEBUG OSError
         return f"TEXT_PREVIEW_ERROR: {e}"
@@ -30,7 +29,7 @@ def generic_binary_preview(filepath: str, max_size: int) -> bytes or str:
     :param max_size: max number of characters to be read from file
     :return: a string with the text preview (without newline characters)
     """
-    p = Path(filepath)
+    p = Path(filepath)  # TODO: do we need a Path() here? Path vs. built-in open()
     try:
         with p.open(mode='rb') as f:
             return f.read(max_size)
