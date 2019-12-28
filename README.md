@@ -58,16 +58,7 @@ For fully supported operating systems (Linux, macOS, iOS, Windows), any hidden f
 The names of extensions are case insensitive by default. The results for `ini` and `INI` will be the same.  
 Optionally, you can pass it a path to the directory to scan, choose non-recursive counting or searching, process the file extensions with case-sensitive mode and enable search or counting in hidden files and folders.  
 
-When counting all files by extension (default table):  
-- you can sort the extensions alphabetically.  
-
-When searching for files by extension (using `--file-extension` argument):  
-- you can get additional information about the size of each found file and see a short preview for text files.  
-
-When counting the total number of files (using `--total` argument):  
-- you can also get a list of folders in which the found files are located, the number of found files in each folder and the total combined size of these files.  
-
-See more about CLI arguments in [English](https://countfiles.readthedocs.io/en/latest/howtouse.html#cli-arguments), [Portuguese](https://github.com/victordomingos/Count-files/blob/master/docs/Documentation_PT.md#argumentos-da-linha-de-comandos), [Russian](https://github.com/victordomingos/Count-files/blob/master/docs/documentation_ru/howtouse.md#&#x430;&#x440;&#x433;&#x443;&#x43C;&#x435;&#x43D;&#x442;&#x44B;-cli), [Ukrainian](https://github.com/victordomingos/Count-files/blob/master/docs/documentation_ua/howtouse.md#&#x430;&#x440;&#x433;&#x443;&#x43C;&#x435;&#x43D;&#x442;&#x438;-cli)
+See more about CLI arguments in [English](https://countfiles.readthedocs.io/en/latest/howtouse.html#cli-arguments), [Portuguese](https://github.com/victordomingos/Count-files/blob/master/docs/Documentation_PT.md#argumentos-da-linha-de-comandos), [Russian](https://github.com/victordomingos/Count-files/blob/master/docs/documentation_ru/howtouse.md#&#x430;&#x440;&#x433;&#x443;&#x43C;&#x435;&#x43D;&#x442;&#x44B;-cli), [Ukrainian](https://github.com/victordomingos/Count-files/blob/master/docs/documentation_ua/howtouse.md#&#x430;&#x440;&#x433;&#x443;&#x43C;&#x435;&#x43D;&#x442;&#x438;-cli).
 
 The most simple form of usage is to type a simple command in the shell, without 
 any arguments. It will display a table showing the frequency for 
