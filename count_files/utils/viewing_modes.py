@@ -50,12 +50,12 @@ def show_start_message(value: [None, str], case_sensitive: bool, recursive: bool
                        location: str, group: str = None) -> str:
     """Displays a message with information about selected counting or searching CLI arguments.
 
-    :param value: str for args.total or args.file_extension, for table - None.
+    :param value: for args.pattern, args.total or args.file_extension - string, for table - None.
     :param case_sensitive: args.case_sensitive
     :param recursive: args.no_recursion
     :param include_hidden: args.all
     :param location: path argument
-    :param group: for now 'total' or None
+    :param group: 'pattern'(search_group -fm), 'total' or None(count_group and search_group -fe)
     :return: prints information message
     """
     wi = 'or without it'
@@ -64,22 +64,28 @@ def show_start_message(value: [None, str], case_sensitive: bool, recursive: bool
     h = ' including hidden files and directories'
     nh = ' ignoring hidden files and directories'
 
-    if group == 'total':
-        r = f'Recursively counting total number of files'
-        nr = 'Counting total number of files'
-        e = f' with{" (" + case + ")" if value not in [".", ".."] else ""} ' \
-            f'extension {"." + value if value != ".." else wi}'
-    # count_group and search_group
+    if group == 'pattern':  # search_group --filename-match [pattern]
+        r = f'Recursively searching for files'
+        nr = f'Searching for files'
+        message = f'{r if recursive else nr} with{" (" + case + ") pattern"} {value},' \
+                  f'{h if include_hidden else nh}, in {location}'
+
     else:
-        action = 'searching' if value else 'counting'
-        r = f'Recursively {action} all files'
-        nr = f'{action.title()} files'
-        e = f' with{" (" + case + ")" if value not in [".", ".."] else ""} ' \
-            f'extension {"." + value if value != ".." else wi}' if value else ''
+        if group == 'total':
+            r = f'Recursively counting total number of files'
+            nr = 'Counting total number of files'
+            e = f' with{" (" + case + ")" if value not in [".", ".."] else ""} ' \
+                f'extension {"." + value if value != ".." else wi}'
+        else:
+            # count_group and search_group -fe
+            action = 'searching' if value else 'counting'
+            r = f'Recursively {action} all files'
+            nr = f'{action.title()} files'
+            e = f' with{" (" + case + ")" if value not in [".", ".."] else ""} ' \
+                f'extension {"." + value if value != ".." else wi}' if value else ''
 
-    message = f'{r if recursive else nr}{e if value != "." else all_e},' \
-              f'{h if include_hidden else nh}, in {location}'
-
+        message = f'{r if recursive else nr}{e if value != "." else all_e},' \
+                  f'{h if include_hidden else nh}, in {location}'
     return message
 
 
