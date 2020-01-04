@@ -150,12 +150,14 @@ class BaseOS(object):
         if True - distinguish case variations in extensions
         :return: object <class 'generator'> with full paths to all found files
         """
+        pattern = pattern if case_sensitive else pattern.lower()
         for root, dirs, files in os.walk(dirpath):
             for f in files:
                 f_path = os.path.join(root, f)
                 if not os.path.isfile(f_path):
                     continue
-                result = fnmatch.fnmatchcase(f, pattern) if case_sensitive else fnmatch.fnmatch(f, pattern)
+                result = fnmatch.fnmatchcase(f, pattern) if case_sensitive \
+                    else fnmatch.fnmatch(f.lower(), pattern)
                 if result:
                     if include_hidden or not self.is_hidden_file_or_dir(f_path):
                         yield f_path

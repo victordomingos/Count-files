@@ -276,9 +276,25 @@ class TestSomeFunctions(unittest.TestCase):
         case_result = list(current_os.search_files_by_pattern(dirpath=self.get_locations('data_for_tests'),
                                                               pattern='LICENSE*', recursive=True,
                                                               include_hidden=False, case_sensitive=True))
+        partial_case_result = list(current_os.search_files_by_pattern(dirpath=self.get_locations('data_for_tests'),
+                                                                      pattern='*.Md', recursive=True,
+                                                                      include_hidden=False, case_sensitive=True))
+        partial_case_result1 = list(current_os.search_files_by_pattern(dirpath=self.get_locations('data_for_tests'),
+                                                                       pattern='*.Md', recursive=True,
+                                                                       include_hidden=False, case_sensitive=False))
+        upper_case_result = list(current_os.search_files_by_pattern(dirpath=self.get_locations('data_for_tests'),
+                                                                    pattern='*.MD', recursive=True,
+                                                                    include_hidden=False, case_sensitive=False))
+        upper_case_result1 = list(current_os.search_files_by_pattern(dirpath=self.get_locations('data_for_tests'),
+                                                                     pattern='*.MD', recursive=True,
+                                                                     include_hidden=False, case_sensitive=True))
         self.assertEqual(len(ext_result), 3)
         self.assertEqual(len(word_result), 3)
         self.assertEqual(len(case_result), 4)
+        self.assertEqual(len(partial_case_result), 0)
+        self.assertEqual(len(partial_case_result1), 2)
+        self.assertEqual(len(upper_case_result), 2)
+        self.assertEqual(len(upper_case_result1), 0)
 
 
 # from root directory:
