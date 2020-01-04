@@ -1,5 +1,6 @@
 import os
 import sys
+import fnmatch
 from pathlib import Path
 from typing import Iterable
 from collections import Counter
@@ -125,6 +126,43 @@ class BaseOS(object):
         if not no_feedback:
             print("\r".ljust(TERM_WIDTH - 1))  # Clean the feedback text before proceeding.
         return counters
+
+    def search_files_by_pattern(self, dirpath: str, pattern: str,
+                                recursive: bool = True, include_hidden: bool = False,
+                                case_sensitive: bool = False) -> Iterable[str]:
+        """Search for file names matching given pattern(including extension).
+
+        Used Unix shell-style wildcards: https://docs.python.org/3/library/fnmatch.html
+        * - matches everything, ? - matches any single character
+        [seq] - matches any character in seq, [!seq] - matches any character not in seq
+        For a literal match, wrap the meta-characters in brackets.
+        For example, '[?]' matches the character '?'.
+        Note that the filename separator ('/' on Unix) is not special to this module.
+        Similarly, filenames starting with a period are not special for this module,
+        and are matched by the * and ? patterns.
+
+        :param dirpath: full/path/to/folder
+        :param pattern: string with *, ?, [seq], [!seq] or only string(exact filename match)
+        :param recursive: recursive(default) or non-recursive search
+        :param include_hidden: if False, exclude hidden files(default),
+        if True - include hidden files
+        :param case_sensitive: if False, ignore case in extensions(default),
+        if True - distinguish case variations in extensions
+        :return: object <class 'generator'> with full paths to all found files
+        """
+        for root, dirs, files in os.walk(dirpath):
+            for f in files:
+                f_path = os.path.join(root, f)
+                if not os.path.isfile(f_path):
+                    continue
+                result = fnmatch.fnmatchcase(f, pattern) if case_sensitive else fnmatch.fnmatch(f, pattern)
+                if result:
+                    if include_hidden or not self.is_hidden_file_or_dir(f_path):
+                        yield f_path
+                else:
+                    continue
+            if not recursive:
+                break
 
 
 class WinOS(BaseOS):

@@ -69,7 +69,8 @@ SUPPORTED_TYPE_INFO_MESSAGE = f'\nThis is the list of currently supported file t
                               f'{simple_columns(SUPPORTED_TYPES["text"], num_columns=4)}\n' \
                               f'Previewing files without extension is not supported. ' \
                               f'You can use the "--preview" argument together with the search ' \
-                              f'for all files regardless of the extension ("--file-extension .."). ' \
+                              f'for all files regardless of the extension ("--file-extension ..") ' \
+                              f'or with the search by pattern ("--filename-match"). ' \
                               f'In this case, the preview will only be displayed for files ' \
                               f'with a supported extension.\n\n'
 

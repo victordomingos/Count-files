@@ -249,6 +249,37 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(result_nr, counter2)
         self.assertEqual(result_nr_hidden, counter3)
 
+    def test_search_files_by_pattern(self):
+        """Testing def search_files_by_pattern.
+
+        Search for file names matching given pattern(including extension).
+        https://docs.python.org/3/library/fnmatch.html
+        Unix shell-style wildcards: *, ?, [seq], [!seq]
+        * - matches everything, ? - matches any single character
+        [seq] - matches any character in seq, [!seq] - matches any character not in seq
+        For a literal match, wrap the meta-characters in brackets.
+        For example, '[?]' matches the character '?'.
+        Note that the filename separator ('/' on Unix) is not special to this module.
+        Similarly, filenames starting with a period are not special for this module,
+        and are matched by the * and ? patterns.
+        :return:
+        """
+        # extensions: html, json, woff
+        ext_result = list(current_os.search_files_by_pattern(dirpath=self.get_locations('data_for_tests'),
+                                                             pattern='*.????', recursive=True,
+                                                             include_hidden=False, case_sensitive=False))
+        # word in filename
+        word_result = list(current_os.search_files_by_pattern(dirpath=self.get_locations('data_for_tests'),
+                                                              pattern='*test*', recursive=True,
+                                                              include_hidden=False, case_sensitive=False))
+        # case-sensitive
+        case_result = list(current_os.search_files_by_pattern(dirpath=self.get_locations('data_for_tests'),
+                                                              pattern='LICENSE*', recursive=True,
+                                                              include_hidden=False, case_sensitive=True))
+        self.assertEqual(len(ext_result), 3)
+        self.assertEqual(len(word_result), 3)
+        self.assertEqual(len(case_result), 4)
+
 
 # from root directory:
 

@@ -52,7 +52,7 @@ arguments = [
              'path', 'path',
              # optional
              'all', 'a', 'case-sensitive', 'c',
-             'file-extension', 'fe', 'file-sizes', 'fs',
+             'file-extension', 'fe', 'filename-match', 'fm', 'file-sizes', 'fs',
              'help', 'h', 'help-cmd', 'hc',
              'no-feedback', 'nf', 'no-recursion', 'nr',
              'preview', 'p', 'preview-size', 'ps', 'show-folders', 'sf',
@@ -100,8 +100,8 @@ Common arguments: directory path and sorting settings that are common to search 
     help> common
 Special arguments: arguments for counting or searching files.
 Count by extension: alpha or sort-alpha;
-Total number of files: t or total;
-Search by extension: fe or file-extension, fs or file-sizes, p or preview, ps or preview-size.
+Total number of files: t or total, sf or show-folders, ts or total-size;
+Search by extension: fe or file-extension, fm or filename-match, fs or file-sizes, p or preview, ps or preview-size.
     help> special
 
 SORTING ARGUMENTS BY TYPE:
@@ -315,23 +315,29 @@ topics = {
                 'Example: count-files ---sort-alpha ~/Documents <arguments>.'
     },
     'search-group': {
-        'name': 'File searching by extension',
-        'short': 'Searching for files that have a given extension. '
-                 'By default, it presents a simple list with full file paths. '
-                 'Optionally, it may also display a short text preview for each found file.',
-        'long': 'Searching for files that have a given extension. '
+        'name': 'File searching by extension or by pattern',
+        'short': 'Search for files with a given extension or files matching a specific pattern. '
+                 'By default, it presents a simple list with full file paths.',
+        'long': 'Searching for files that have a given extension or files matching a specific pattern. '
                 'This utility can be used to search for files that have a certain file extension '
-                '(using -fe or --file-extension) and, optionally, '
-                'display a short preview (-p or --preview) for text files. '
+                '(using -fe or --file-extension). '
+                'You can also search for files using Unix shell-style wildcards: *, ?, [seq], [!seq] '
+                '(-fm or --filename-match argument). '
+                '* - matches everything (zero or more occurrences of any character), '
+                '? - matches any single character, '
+                '[seq] - matches any character in seq, [!seq] - matches any character not in seq. '
+                'For a literal match, wrap the meta-characters in brackets. '
+                'For example, "[?]" matches the character "?". '
+                'Optionally, you can get a short preview for text files(-p or --preview). '
                 'The size of the preview text sample can be customized '
                 'by using the -ps or --preview-size argument '
                 'followed by an integer number specifying the number of characters to present. '
-                'By default, the result of a search by a certain file extension '
-                'is a list of the full paths of the files found. '
+                'By default, the result of a search is a list of the full paths of the files found. '
                 'If you need information about the size of the files, '
                 'use the -fs or --file-sizes argument. '
                 'Usage: count-files [-a, --all] [-c, --case-sensitive] '
                 '[-nr, --no-recursion] [-fe FILE_EXTENSION, --file-extension FILE_EXTENSION] '
+                '[-fm PATTERN, --filename-match PATTERN] '
                 '[-fs, --file-sizes] [-p, --preview] [-ps PREVIEW_SIZE, --preview-size PREVIEW_SIZE] [path].'
     },
     'file-extension': {
@@ -349,13 +355,29 @@ topics = {
                 'with or without file extensions in their names. '
                 'Example: count-files --file-extension .. ~/Documents <arguments>. '
     },
+    'filename-match': {
+        'name': '-fm PATTERN, --filename-match PATTERN',
+        'short': 'Searching and listing files matching a specific pattern, '
+                 'using Unix shell-style wildcards: *, ?, [seq], [!seq].',
+        'long': 'Searching and listing files matching a specific pattern, '
+                'using Unix shell-style wildcards: *, ?, [seq], [!seq]. '
+                '* - matches everything (zero or more occurrences of any character), '
+                '? - matches any single character, '
+                '[seq] - matches any character in seq, [!seq] - matches any character not in seq. '
+                'For a literal match, wrap the meta-characters in brackets. '
+                'For example, "[?]" matches the character "?". '
+                'Example for .pyc, .pyo and similar files: '
+                'count-files --filename-match *.py? ~/Documents <arguments>. '
+                'Example for file names containing the word "test": '
+                'count-files --filename-match *test* ~/Documents <arguments>.'
+    },
     'preview': {
         'name': '-p, --preview',
         'short': 'Display a short preview (only available for text files when '
-                 'using -fe or --file_extension).',
+                 'using --file-extension or --filename-match arguments).',
         'long': 'Display a short preview (only for text files). '
                 'Preview is available as an option when searching files '
-                'using the -fe or --file-extension argument. '
+                'using --file-extension or --filename-match arguments. '
                 'The default text preview size depends on the terminal width settings. '
                 'You can change this value by specifying the argument -ps or --preview-size. '
                 'Example: count-files --file-extension txt --preview ~/Documents <arguments>.'
@@ -366,7 +388,7 @@ topics = {
                  'when using -p or --preview.',
         'long': 'Specify the number of characters to be displayed from each found file. '
                 'Preview text files is available as an option when searching files '
-                'using the --file-extension and --preview argument. '
+                'using the --file-extension or --filename-match arguments with --preview argument. '
                 f'Default preview size: {DEFAULT_PREVIEW_SIZE} characters (5 lines). '
                 'The default text preview size depends on the terminal width settings. '
                 'You can change this value by specifying the argument -ps or --preview-size '
@@ -377,9 +399,9 @@ topics = {
     'file-sizes': {
         'name': '-fs, --file-sizes',
         'short': 'Show size info for each '
-                 'found file when using -fe or --file_extension.',
+                 'found file when using --file-extension or --filename-match arguments.',
         'long': 'Show size info for each '
-                'found file when using -fe or --file_extension. '
+                'found file when using --file-extension or --filename-match arguments. '
                 'Additional information: total combined size and average file size. '
                 'Example: count-files --file-extension txt --file-sizes ~/Documents <arguments>.'
     }
@@ -426,6 +448,8 @@ indexes = {
         [topics['search-group']['name'], topics['search-group']['short'], topics['search-group']['long']],
     ('fe', 'file-extension', 'file', 'extension', 'search', 'special', 'optional'):
         [topics['file-extension']['name'], topics['file-extension']['short'], topics['file-extension']['long']],
+    ('fm', 'filename-match', 'filename', 'match', 'pattern', 'search', 'special', 'optional'):
+        [topics['filename-match']['name'], topics['filename-match']['short'], topics['filename-match']['long']],
     ('p', 'preview', 'search', 'special', 'optional'):
         [topics['preview']['name'], topics['preview']['short'], topics['preview']['long']],
     ('ps', 'preview-size', 'preview', 'size', 'search', 'special', 'optional'):
