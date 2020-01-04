@@ -155,7 +155,8 @@ class BaseOS(object):
                 f_path = os.path.join(root, f)
                 if not os.path.isfile(f_path):
                     continue
-                result = fnmatch.fnmatchcase(f, pattern) if case_sensitive else fnmatch.fnmatch(f, pattern)
+                result = fnmatch.fnmatchcase(f, pattern) if case_sensitive \
+                    else fnmatch.fnmatch(f.lower(), pattern.lower())
                 if result:
                     if include_hidden or not self.is_hidden_file_or_dir(f_path):
                         yield f_path
