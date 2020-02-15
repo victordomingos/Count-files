@@ -140,7 +140,7 @@ count-files -t .. [caminho]
 count-files --total .. [caminho]
 ```
 
-Procure por arquivos, usando wildcards: `*`, `?`, `[seq]`, `[!seq]`.
+Procure por ficheiros, usando wildcards: `*`, `?`, `[seq]`, `[!seq]`.
 
 ```
 count-files -fm *.py? [caminho]
