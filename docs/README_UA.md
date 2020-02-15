@@ -117,6 +117,15 @@ count-files -t .. [path]
 count-files --total .. [path]
 ```
 
+Ви також можете шукати файли за шаблоном з використанням метасимволів: `*`, `?`, `[seq]`, `[!seq]`.
+
+```
+count-files -fm *.py? [path]
+```
+```
+count-files --filename-match *.py? [path]
+```
+
 ## Ви знайшли помилку чи маєте пропозиції щодо вдосконалення?
 
 Будь ласка, поставте питання в розділі Issues або відкрийте pull request у [репозиторії](https://github.com/victordomingos/Count-files).

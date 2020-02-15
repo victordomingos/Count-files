@@ -119,6 +119,15 @@ count-files -t .. [path]
 count-files --total .. [path]
 ```
 
+Вы также можете искать файлы по шаблону, с использованием символов подстановки:  `*`, `?`, `[seq]`, `[!seq]`.
+
+```
+count-files -fm *.py? [path]
+```
+```
+count-files --filename-match *.py? [path]
+```
+
 ## Вы нашли ошибку или у Вас есть предложения по улучшению?
 
 Пожалуйста, задайте вопрос в разделе Issues или откройте pull request в [репозитории](https://github.com/victordomingos/Count-files).
