@@ -156,6 +156,75 @@ Example: ``count-files --file-extension .. ~/Documents``
 
 |
 
+.. _pattern-label:
+
+File searching by pattern: list with file paths
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Arguments in short form:
+::
+
+   usage: count-files [-a] [-c] [-nr]
+                      [-fm PATTERN] [-fs]
+                      [-p] [-ps PREVIEW_SIZE] [path]
+
+Arguments in long form:
+::
+
+   usage: count-files [--all] [--case-sensitive] [--no-recursion]
+                      [--filename-match PATTERN] [--file-sizes]
+                      [--preview] [--preview-size PREVIEW_SIZE] [path]
+
+|
+
+Search for files using Unix shell-style wildcards: ``*``, ``?``, ``[seq]``, ``[!seq]``.
+
+``*`` - matches everything (zero or more occurrences of any character), ``?`` - matches any single character,
+``[seq]`` - matches any character in seq, ``[!seq]`` - matches any character not in seq.
+For a literal match, wrap the meta-characters in brackets. For example, "[?]" matches the character "?".
+
+Optionally, you can get a short preview for text files (``-p`` or ``--preview argument``).
+The size of the preview text sample can be customized by using the ``-ps`` or ``--preview-size`` argument.
+The list of file types for which preview is available can be viewed with the ``-st`` or ``--supported-types`` argument.
+If the pattern matches both supported and unsupported file extensions,
+then a preview of unsupported files will be skipped.
+
+If you need information about the size of the files, use the ``-fs`` or ``--file-sizes`` argument.
+
+Example:
+
+::
+
+   count-files -fm *.*.gz [path]
+
+   count-files --filename-match *.*.gz [path]
+
+
+.. image:: _static/windows_filename_match.png
+   :align: center
+   :alt: windows filename match gz
+
+Other examples with wildcards
+"""""""""""""""""""""""""""""
+
+Example for .pyc, .pyo, .pyd and similar files::
+
+   count-files --filename-match *.py? [path]
+
+Example for file names containing the word "test"::
+
+   count-files --filename-match *test* [path]
+
+Example for file names starting with the word "LICENSE" in uppercase::
+
+   count-files --filename-match LICENSE* --case-sensitive [path]
+
+Example for exact match of the file name::
+
+   count-files --filename-match setup.py [path]
+
+|
+
 .. _total-label:
 
 Total number of files
@@ -188,12 +257,12 @@ Example:
 
 ::
 
-   count-files -t txt [path]
+   count-files -t txt -sf -ts [path]
 
-   count-files --total txt [path]
+   count-files --total txt --show-folders --total-size [path]
 
 
-.. image:: _static/total_windows.png
+.. image:: _static/windows_total.png
    :align: center
    :alt: count total windows txt
 

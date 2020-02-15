@@ -15,7 +15,8 @@ Arguments can be specified in both short and long form. For example: ``-a`` or `
                       [-alpha]
                       [-t EXTENSION]
                       [-sf] [-ts]
-                      [-fe FILE_EXTENSION] [-fs]
+                      [-fe FILE_EXTENSION]
+                      [-fm PATTERN][-fs]
                       [-p] [-ps PREVIEW_SIZE]
                       [path]
 
@@ -27,7 +28,8 @@ Arguments can be specified in both short and long form. For example: ``-a`` or `
                       [--sort-alpha]
                       [--total EXTENSION]
                       [--show-folders] [--total-size]
-                      [--file-extension FILE_EXTENSION] [--file-sizes]
+                      [--file-extension FILE_EXTENSION]
+                      [--filename-match PATTERN] [--file-sizes]
                       [--preview] [--preview-size PREVIEW_SIZE]
                       [path]
 
@@ -44,6 +46,9 @@ Special arguments
 
 * File searching by extension (list with file paths):
    ``--file-extension``, ``--file-sizes``, ``--preview``, ``--preview-size``
+
+* File searching by pattern (list with file paths):
+   ``--filename-match``, ``--file-sizes``, ``--preview``, ``--preview-size``
 
 * Total number of files (number):
    ``--total``, ``--show-folders``, ``--total-size``
@@ -133,6 +138,10 @@ argument.
 
    The result of the search will be a list with paths to files with an extension in the corresponding register.
 
+* File searching by pattern (using ``-fm`` or ``--filename-match``):
+
+   The search result will be a list of file paths with file names that exactly match the case-sensitive pattern.
+
 * Total number of files (using ``-t`` or ``--total``):
 
    For total counting of files with a specific extension, this option is also
@@ -156,8 +165,7 @@ optional ``-nf`` or ``--no-feedback`` switch argument disables it.
 Using the ``--no-feedback`` argument allows you to speed up a little the
 processing of a large amount of files/folders.
 
-When searching for files by extension (using ``-fe`` or ``--file-extension``)
-the feedback mechanism is the list of file paths itself.
+When searching for files by extension or by pattern(using ``--file-extension`` or ``--filename-match``) the feedback mechanism is the list of file paths itself.
 
 File counting by extension
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -197,6 +205,20 @@ Example: ``count-files --file-extension txt``
 
 .. seealso:: :ref:`search-label`
 
+File searching by pattern
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can also search for files using Unix shell-style wildcards: ``*``, ``?``, ``[seq]``, ``[!seq]`` (with ``-fm`` or ``--filename-match`` argument).
+``*`` - matches everything (zero or more occurrences of any character), ``?`` - matches any single character,
+``[seq]`` - matches any character in seq, ``[!seq]`` - matches any character not in seq.
+
+Some optional arguments are also available (``--file-sizes``, ``--preview``, ``--preview-size`` arguments). If necessary, specify one or more of the common
+arguments: ``path``, ``--all``, ``case-sensitive``, ``--no-recursion``.
+
+Example: ``count-files --filename-match *.????``
+
+.. seealso:: :ref:`pattern-label`
+
 Total counting of files
 ^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -218,8 +240,8 @@ Example: ``count-files --total json``
 Preview text files
 ^^^^^^^^^^^^^^^^^^
 
-Preview is available as an option when searching files using the ``-fe`` or
-``--file-extension`` argument.
+Preview is available as an option when searching files using the ``--filename-match`` or
+``--file-extension`` arguments.
 
 The default text preview size depends on the terminal width settings. You can
 change this value by specifying the argument ``-ps`` or ``--preview-size``
@@ -232,7 +254,7 @@ File sizes
 
 You can get additional information about the size of each file using the
 ``-fs`` or ``--file-sizes`` argument. This option is only available when
-searching files using the ``-fe`` or ``--file-extension`` argument.
+searching files using the ``--filename-match`` or ``--file-extension`` arguments.
 
 Example: ``count-files --file-extension js --file-sizes``
 

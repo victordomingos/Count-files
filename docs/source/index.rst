@@ -18,7 +18,8 @@ and will display a table showing the frequency for each file extension (e.g.:
 
 * counting files by extension and sorting results by frequency or alphabetically;
 * file searching by extension, additionally: file sizes, preview for text files;
-* total counting of all files or files with a specific extension.
+* file searching by pattern, additionally: file sizes, preview for text files;
+* total counting of all files or files with a specific extension, optional: list of folders in which found files are located, number and total combined size of files found.
 
 **Features:**
 
