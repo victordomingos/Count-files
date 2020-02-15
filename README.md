@@ -121,6 +121,15 @@ count-files -t .. [path]
 count-files --total .. [path]
 ```
 
+You can also search for files using Unix shell-style wildcards: `*`, `?`, `[seq]`, `[!seq]`.
+
+```
+count-files -fm *.py? [path]
+```
+```
+count-files --filename-match *.py? [path]
+```
+
 ## Did you find a bug or do you have a suggestion?
 
 Please, open a new issue or a pull request to the [repository](https://github.com/victordomingos/Count-files).

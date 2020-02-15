@@ -24,9 +24,9 @@ copyright = '2018-2020, Victor Domingos & Nataliia Bondarenko'
 author = 'Victor Domingos & Nataliia Bondarenko'
 
 # The short X.Y version
-version = ''
+version = '1.6'
 # The full version, including alpha/beta/rc tags
-release = '1.4'
+release = '1.6.0'
 
 
 # -- General configuration ---------------------------------------------------

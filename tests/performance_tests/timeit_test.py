@@ -32,6 +32,10 @@ main_t = """
 main_flow([location, '-t', 'txt'])
 """
 
+main_fm = """
+main_flow([location, '-fm', '*'])
+"""
+
 search_by_extension = """
 data = (f for f in current_os.search_files(dirpath=location, extension='..',
 recursive=True, include_hidden=False, case_sensitive=False))
@@ -54,6 +58,12 @@ len_files = show_result_for_total(files=data, show_folders=True,
 total_size=True, no_feedback=False, recursive=True)
 """
 
+search_by_pattern = """
+data = current_os.search_files_by_pattern(dirpath=location, pattern='*',
+recursive=True, include_hidden=False, case_sensitive=False)
+len_files = show_result_for_search_files(files=data, file_sizes=False, preview=False)
+"""
+
 
 if __name__ == "__main__":
 
@@ -69,6 +79,9 @@ if __name__ == "__main__":
     # t = timeit.Timer(main_t, globals=globals())
     # print(main_t, t.repeat(repeat=3, number=1))
 
+    # t = timeit.Timer(main_fm, globals=globals())
+    # print(main_fm, t.repeat(repeat=3, number=1))
+
     # t = timeit.Timer(search_by_extension, globals=globals())
     # print(search_by_extension, t.repeat(repeat=3, number=1))
 
@@ -77,3 +90,6 @@ if __name__ == "__main__":
 
     # t = timeit.Timer(total_and_extension, globals=globals())
     # print(total_and_extension, t.repeat(repeat=3, number=1))
+
+    # t = timeit.Timer(search_by_pattern, globals=globals())
+    # print(search_by_pattern, t.repeat(repeat=3, number=1))
