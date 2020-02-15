@@ -193,7 +193,6 @@ class WinOS(BaseOS):
         # list with full paths of all parents in filepath except drive
         list_for_check = list(Path(filepath).parents)[:-1]
         list_for_check.append(Path(filepath))
-        response = []
         for some_path in list_for_check:
             try:
                 attrs = ctypes.windll.kernel32.GetFileAttributesW(str(some_path))
@@ -201,9 +200,8 @@ class WinOS(BaseOS):
                 result = bool(attrs & 2)
             except (AttributeError, AssertionError):
                 result = False
-            response.append(result)
-        if any(response):
-            return True
+            if result:
+                return True  # if hidden, exit the loop, otherwise go to the next path
         return False
 
 
