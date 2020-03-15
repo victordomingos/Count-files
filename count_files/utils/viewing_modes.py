@@ -112,6 +112,10 @@ def show_2columns(data: List[tuple],
                         max_word_width,
                         MAX_TABLE_WIDTH)
 
+    if term_width < (max_word_width + freq_col_width + 5):
+        print("Oops! There isn't enough horizontal space to display the frequency table. \n")
+        return
+
     header = f" {'EXTENSION'.ljust(ext_col_width)} | {'FREQ.'.ljust(freq_col_width)} "
     sep_left = (ext_col_width + 2) * '-'
     sep_center = "+"
