@@ -5,40 +5,38 @@ from count_files.utils.viewing_modes import show_help_columns
 
 docs_text = f"""COUNT FILES HELP.
 
-Search in help text by topic.
-Start this interactive help:
-    count-files --help-cmd
-Commands:
 More about Count Files Help usage(this section)
     help> help
 To quit this utility, just type "quit"
     help> quit
-
-BASIC USAGE EXAMPLES:
-Topic - argument or group name, certain words for searching or sorting.
+    
+SEARCH FOR ARGUMENTS:
+Search in help text by topic. Topic - argument or group name.
+Show more detailed help text: Topic must be in lower case.
     help> topic
 Show short help text: Topic must be in upper case or with one letter in upper case.
     help> TOPIC
-Show more detailed help text: Topic must be in lower case.
-    help> topic
 Search by short/long argument name:
     help> st
     help> supported-types
-Sorting arguments by group, including group description:
-(count, search or total)
+  
+SORTING ARGUMENTS:
+Get all count arguments and group description:
     help> count
+All certain words for sorting:
+Sorting arguments by group, including group description - count, search or total.
+Get only group description - count-group or cg, search-group or sg, total-group or tg.
+Get all group descriptions - groups.
+Sorting arguments by purpose - service, common, special.
+Sorting arguments by type - positional or optional
 
-ADDITIONAL SECTIONS:
+ALSO USE:
 Get a list of available topics for searching or sorting.
     help> list
 More about search by short/long argument name.
     help> args
 More about sorting arguments by purpose or type.
     help> sort
-More about sorting arguments by group.
-    help> groups
- 
-ALSO USE:
 Get the standard argparse help with a brief description of all the arguments.
     count-files --help
 Web Docs in English, Portuguese, Russian and Ukrainian:
@@ -53,7 +51,7 @@ arguments = [
              # optional
              'all', 'a', 'case-sensitive', 'c',
              'file-extension', 'fe', 'filename-match', 'fm', 'file-sizes', 'fs',
-             'help', 'h', 'help-cmd', 'hc',
+             'group', 'g', 'help', 'h', 'help-cmd', 'hc',
              'no-feedback', 'nf', 'no-recursion', 'nr',
              'preview', 'p', 'preview-size', 'ps', 'show-folders', 'sf',
              'sort-alpha', 'alpha', 'supported-types', 'st', 'total', 't', 'total-size', 'ts', 'version', 'v']
@@ -99,7 +97,7 @@ Common arguments: directory path and sorting settings that are common to search 
 (path, a or all, c or case-sensitive, nr or no-recursion, nf or no-feedback)
     help> common
 Special arguments: arguments for counting or searching files.
-Count by extension: alpha or sort-alpha;
+Count by extension: alpha or sort-alpha, g or group;
 Total number of files: t or total, sf or show-folders, ts or total-size;
 Search by extension: fe or file-extension, fm or filename-match, fs or file-sizes, p or preview, ps or preview-size.
     help> special
@@ -116,28 +114,9 @@ group_names = [
     'cg, count-group', 'count',
     'sg, search-group', 'search',
     'tg, total-group', 'total',
-    # all group descriptions
-    'group'
+    # all groups
+    'groups'
 ]
-
-docs_groups_text = f"""COUNT FILES HELP(GROUPS).
-
-AVAILABLE GROUP NAMES:
-
-{show_help_columns(column_version=group_names, list_version=sorted(group_names[2:]), num_columns=2)}
-
-SORTING ARGUMENTS BY GROUP:
-Sorting arguments by group, including group description.
-    help> count
-    help> search
-    help> total
-Get group description.
-(count-group or cg, search-group or sg, total-group or tg)
-    help> count-group
-    help> tg
-Get all group descriptions.
-    help> group
-"""
 
 docs_general_text = f"""ALSO USE:
 Get the standard argparse help with a brief description of all the arguments.
@@ -302,7 +281,7 @@ topics = {
                 '(e.g.: .txt, .py, .html, .css) and the total number of files found. '
                 'All file extensions in the table will be displayed in uppercase (default). '
                 'Example: count-files <arguments>. '
-                'Usage: count-files [-a, --all] [-alpha, --sort-alpha] '
+                'Usage: count-files [-a, --all] [-alpha, --sort-alpha] [-g, --group] '
                 '[-c, --case-sensitive] [-nr, --no-recursion] [-nf, --no-feedback] [path].'
     },
     'sort-alpha': {
@@ -314,6 +293,12 @@ topics = {
                 'To sort the extensions alphabetically, use the -alpha or --sort-alpha argument. '
                 'Example: count-files ---sort-alpha ~/Documents <arguments>.'
     },
+    'group': {
+        'name': '-g, --group',
+        'short': 'Group file extensions by type (e.g. images, videos).',
+        'long': 'Group file extensions by type: archives, audio, videos, data, documents, '
+                'executables, fonts, images, Python related extensions, videos, and other files. '
+                'Example: count-files --group ~/Documents <optional arguments>.'},
     'search-group': {
         'name': 'File searching by extension or by pattern',
         'short': 'Search for files with a given extension or files matching a specific pattern. '
@@ -430,7 +415,7 @@ indexes = {
     ('nf', 'no-feedback', 'no', 'feedback', 'common', 'optional'):
         [topics['no-feedback']['name'], topics['no-feedback']['short'], topics['no-feedback']['long']],
 
-    ('total-group', 'group', 'total', 'tg'):
+    ('total-group', 'groups', 'total', 'tg'):
         [topics['total-group']['name'], topics['total-group']['short'], topics['total-group']['long']],
     ('t', 'total', 'extension', 'special', 'optional'):
         [topics['total']['name'], topics['total']['short'], topics['total']['long']],
@@ -439,12 +424,14 @@ indexes = {
     ('ts', 'total-size', 'total', 'size', 'special', 'optional'):
         [topics['total-size']['name'], topics['total-size']['short'], topics['total-size']['long']],
 
-    ('count-group', 'group', 'count', 'cg'):
+    ('count-group', 'groups', 'count', 'cg'):
         [topics['count-group']['name'], topics['count-group']['short'], topics['count-group']['long']],
     ('alpha', 'sort-alpha', 'count', 'special', 'optional'):
         [topics['sort-alpha']['name'], topics['sort-alpha']['short'], topics['sort-alpha']['long']],
+    ('g', 'group', 'count', 'special', 'optional'):
+        [topics['group']['name'], topics['group']['short'], topics['group']['long']],
 
-    ('search-group', 'group', 'search', 'sg'):
+    ('search-group', 'groups', 'search', 'sg'):
         [topics['search-group']['name'], topics['search-group']['short'], topics['search-group']['long']],
     ('fe', 'file-extension', 'file', 'extension', 'search', 'special', 'optional'):
         [topics['file-extension']['name'], topics['file-extension']['short'], topics['file-extension']['long']],
