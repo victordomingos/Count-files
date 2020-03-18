@@ -3,16 +3,21 @@
 """Functions designed to display the results of the program or CLI messages.
 
 CLI viewing modes:
-    count - def show_2columns
-table with file extensions sorted by frequency or alphabetically
-    search - def show_result_for_search_files
-list of all found file paths(with sizes),
-preview, total number of files and size info(summary)
-    total - def show_result_for_total
-total number of all found file paths
-    help extension - def show_help_columns
-table with the specified number of columns to display available help topics
-(argument or group name, sort words)
+count - def show_2columns
+    table with file extensions sorted by frequency or alphabetically
+count - def show_ext_grouped_by_type
+    displays a two column list with file extensions and its frequency
+    sorted by type and by frequency (inside each type group)
+count - def show_group_ext_and_freq
+    displays one type group with header and file extensions and its frequency
+search - def show_result_for_search_files
+    list of all found file paths(with sizes),
+    preview, total number of files and size info(summary)
+total - def show_result_for_total
+    total number of all found file paths
+help extension - def show_help_columns
+    table with the specified number of columns to display available help topics
+    (argument or group name, sort words)
 
 CLI messages:
 def show_start_message
@@ -23,13 +28,76 @@ def human_mem_size
     return a human readable memory size in a string for os.path.getsize(file_path)
 """
 import os
-from typing import Iterable, List
+from typing import Iterable, List, Tuple, Dict
 from textwrap import wrap
 
 from count_files.utils.file_preview import generate_preview
+from count_files.utils.file_handlers import group_ext_by_type
 from count_files.settings import TERM_WIDTH, DEFAULT_PREVIEW_SIZE
 from count_files.settings import DEFAULT_EXTENSION_COL_WIDTH
 from count_files.settings import DEFAULT_FREQ_COL_WIDTH, MAX_TABLE_WIDTH
+
+
+def show_group_ext_and_freq(data: List[Tuple[str, int]], header: str,
+                            term_width: int = TERM_WIDTH, end_message: str = None):
+    """Displays one type group with header and file extensions and its frequency.
+     A list of two columns that adjusts to the width of the terminal.
+    :param data: : [('png', 8), ('jpg', 5),...]
+    :param header: group name, for example, 'images'
+    :param term_width: terminal width
+    :param end_message: total_occurrences
+    :return: the processed data as text to the screen
+    """
+    # with def show_ext_grouped_by_type:
+    # "+", 1 indentation spaces before header, header, "(", number, ")"
+    # 3 indentation spaces before ext, ext, 1 separator ":", 1 space before freq, freq
+    # with def show_2columns:
+    # header '+ EXTENSION: FREQ.'
+    # 3 indentation spaces before ext, ext, 1 separator ":", 1 space before freq, freq
+    if len(header) <= term_width:
+        print(header)
+    else:
+        # if greater than terminal width
+        header = wrap(header,
+                      width=term_width, initial_indent='', subsequent_indent=' ' * 2)
+        for line in header:
+            print(line)
+    for (ext, freq) in data:
+        ext_and_freq = f'   {ext}: {freq}'
+        if len(ext_and_freq) <= term_width:
+            print(ext_and_freq)
+        else:
+            # if greater than terminal width
+            w = wrap(f'   {ext}: {freq}',
+                     width=term_width, initial_indent='', subsequent_indent=' ' * 3)
+            for line in w:
+                print(line)
+    if end_message:
+        print(end_message)
+    return
+
+
+def show_ext_grouped_by_type(data: List[tuple], ext_and_group: Dict[str, str],
+                             term_width: int = TERM_WIDTH) -> Dict[str, List[Tuple[str, int]]]:
+    """Displays a two column list with file extensions and its frequency.
+     Extensions sorted by type (e.g.: images, videos, documents)
+     and by frequency (inside each type group).
+    :param data: Counter.most_common(), list with tuples sorted by frequency
+    default in uppercase: [('TXT', 24), ('PY', 17), ('PYC', 13), ...]
+    with --case-sensitive as is: [('txt', 23), ('py', 17), ('pyc', 13), ('JPG', 9), ...]
+    :param ext_and_group: dict with items like {'png': 'image', 'txt': documents, ...}
+    :param term_width: the size of the terminal window
+    :return: the processed data as text to the screen
+    sorted_data - dict with items like {'images': [('png', 8), ...], 'documents': [('txt', 25), ...], ...}
+    """
+    sorted_data: dict = group_ext_by_type(data=data, ext_and_group=ext_and_group)
+    for k, v in sorted_data.items():
+        # if value list is not empty
+        if v:
+            total_v_occurrences = sum([x[1] for x in v])
+            header = f"+ {k.upper()}({total_v_occurrences})"
+            show_group_ext_and_freq(v, header, term_width)
+    return sorted_data
 
 
 def human_mem_size(num: int, suffix: str = 'B') -> str:
