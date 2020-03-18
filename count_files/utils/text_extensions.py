@@ -9,43 +9,53 @@ and not registered types
 
 
 text_extensions_and_mime_types = {
-    'py': '',  # Python Script, application/x-python-code, text/x-python, text/plain
-    'pyw': '',  # Windows Python GUI Source File
-    'pyt': '',  # Python Toolbox, text/plain
-    'rpy': '',  # Python Script, Ren'Py Script - text/plain, may be Touhou Project Replay File
-    'pyx': '',  # Cython, Pyrex Source Code File, text/plain
-    'pxd': '',  # Cython, Pyrex Definition File, text/plain
-    'pyi': '',  # Stub Files, text/plain
     'ipy': '',  # IPython Script, text/plain
     'ipynb': '',  # Jupyter Notebook Files, text/plain, actually json-based
-    'go': '',  # Go Source Code File, text/plain
-    'dart': '',  # Dart Source Code File, text/plain
-    'lisp': '',  # Lisp Source Code File, text/plain
-    'php': '',  # PHP, application/x-httpd-php, text/php, application/php, magnus-internal/shellcgi, application/x-php
+    'pxd': '',  # Cython, Pyrex Definition File, text/plain
+    'pxi': '',
+    'py': '',  # Python Script, application/x-python-code, text/x-python, text/plain
+    'py3': '',  # Python Script
+    'py3tb': '',
+    'pyde': '',
+    'pyi': '',  # Stub Files, text/plain
+    'pyp': '',
+    'pyproj': '',  # Microsoft Visual Studio Python project(xml)
+    'pyt': '',  # Python Toolbox, text/plain
+    'pytb': '',
+    'pyw': '',  # Windows Python GUI Source File
+    'pyx': '',  # Cython, Pyrex Source Code File, text/plain
+    'rpy': '',  # Python Script, Ren'Py Script - text/plain, may be Touhou Project Replay File
+
     'bat': '',  # DOS Batch File, text/plain
+    'cfg': '',  # Configuration/Settings Files, may be saved in a text format, Windows and Macintosh systems
     'cmd': '',  # Windows Command File, Files similar in functionality to BAT file format, text/plain
-    'sh': '',  # Bash Shell Script - text/plain, or Unix Shell Archive(Compressed Files, .shar)
-    'vbs': '',  # VBScript File
     'cs': '',  # C# Source Code File
-    'erl': '',  # Erlang Source Code File
-    'lua': '',  # Lua Source File
+    'dart': '',  # Dart Source Code File, text/plain
     'ejs': '',  # application/javascript Embedded Java Script
-    'mjs': '',  # application/javascript Node.js ES Module File
+    'erl': '',  # Erlang Source Code File
+    'go': '',  # Go Source Code File, text/plain
     # Windows Initialization File: text/plain, application/textedit, zz-application/zz-winassoc-ini
     # Finale Preferences File, Symbian OS Configuration File, Gravis UltraSound Bank Setup File
     'ini': '',  # text/plain
-    'xml': '',  # Extensible Markup Language
-    'md': '',  # Text Markdown or some binary media files
-    'mdown': '',  # text/markdown
+    'latex': '',  # LaTeX Document
+    'lisp': '',  # Lisp Source Code File, text/plain
+    'ltx': '',  # LaTeX Document
+    'lua': '',  # Lua Source File
     'markdn': '',  # text/markdown
     'markdown': '',  # text/markdown
-    'rst': '',  # reStructuredText File
-    'yml': '',  # YAML Document application/x-yaml
-    'yaml': '',  # YAML Document application/x-yaml
-    'latex': '',  # LaTeX Document
-    'ltx': '',  # LaTeX Document
-    'cfg': '',  # Configuration/Settings Files, may be saved in a text format, Windows and Macintosh systems
+    'md': '',  # Text Markdown or some binary media files
+    'mdown': '',  # text/markdown
+    'mjs': '',  # application/javascript Node.js ES Module File
+    'nim': '',  # Nim Source File
+    'nimble': '',  # Nim Package File
+    'php': '',  # PHP, application/x-httpd-php, text/php, application/php, magnus-internal/shellcgi, application/x-php
     'qss': '',  # Qt Style Sheet
+    'rst': '',  # reStructuredText File
+    'sh': '',  # Bash Shell Script - text/plain, or Unix Shell Archive(Compressed Files, .shar)
+    'vbs': '',  # VBScript File
+    'xml': '',  # Extensible Markup Language
+    'yaml': '',  # YAML Document application/x-yaml
+    'yml': '',  # YAML Document application/x-yaml
 
     # http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=markup
     # Fri Sep 29 15:10:29 2017 UTC
@@ -121,36 +131,53 @@ text_extensions_and_mime_types = {
     'uu': 'text/x-uuencode',
     'vcs': 'text/x-vcalendar',
     'vcf': 'text/x-vcard',
-}  # 107
+}  # 116
 
 """
 Python related extensions:
-py   Python Script, python.exe
-pyc  Python Compiled File, Python byte code
-pyw  Windows Python GUI Source File, pythonw.exe
-pyo  Python Optimized Code, Compiled Python File, Python byte code
-pyz  Python Archive File, application/x-zip-compressed
-pyzw Python Archive File, application/x-zip-compressed
-pyt  Python declaration data, Python Toolbox
-npy  Python NumPy Array File
-pyd  Python Dynamic Module, an equivalent of DLL format (dynamic link library), Binary
-rpy  Python Script, Ren'Py Script
-whl  Python Wheel Package, Compressed Files
-oog  related to Object Oriented Graphics (OOG) in PyGraph -  Python Graphics Interface
-p4a  Python script, optimized for Google Android system and apps
-pil  Python Image Library font
-pth  Python path configuration, also: common PyTorch convention is to save models using either a .pt or .pth file
-pym  Python preprocessor macro
-ssdf  Simple Structured Data Format, scientific data Python or Matlab
-pickle  Python Pickle data, application/octet-stream, also *.pck, *.pcl, *.pkl(in Python 2)
-ipy  IPython script
-ipynb  IPython notebook, Jupyter Notebook
-egg  Python egg metadata, regenerated from source files by setuptools
-egg-info  Python egg metadata, regenerated from source files by setuptools
-pyx  Cython, Pyrex Source Code File
-pxd  Cython, Pyrex Definition File(like C/C++ header) or Pixlr Layered Image(binary)
-pyi  Stub Files, https://www.python.org/dev/peps/pep-0561/#stub-only-packages,
-     files containing only type information(Type Hints, mypy), empty of runtime code
+py_ext = {
+    'egg': 'Python egg metadata, regenerated from source files by setuptools',
+    'egg-info': 'Python egg metadata, regenerated from source files by setuptools',
+    'egg-link': 'Python Egg Link',
+    'epp': 'Python Egg data',
+    'ipy': 'IPython script',
+    'ipynb': 'IPython notebook, Jupyter Notebook',
+    'npy': 'Python NumPy Array File, binary',
+    'npz': 'A .npz file is a zip file containing multiple .npy files, one for each array (zipped archive).',
+    'oog': 'related to Object Oriented Graphics (OOG) in PyGraph -  Python Graphics Interface',
+    'p': 'Python module, that is converted by process called "picking"',
+    'p4a': 'Python script, optimized for Google Android system and apps',
+    'pickle': 'Python Pickle data, application/octet-stream, also *.pck, *.pcl, *.pkl(in Python 2)',
+    'pil': 'Python Image Library font',
+    'pth': 'Python path configuration, '
+           'also: common PyTorch convention is to save models using either a .pt or .pth file',
+    'pxd': 'Cython, Pyrex Definition File(like C/C++ header) or Pixlr Layered Image(binary)',
+    'pxi': 'Pyrex header',
+    'py': 'Python Script, python.exe',
+    'py2': 'text',
+    'py3': 'text',
+    'py3tb': 'Python traceback, text',
+    'pyc': 'Python Compiled File, Python byte code',
+    'pyd': 'Python Dynamic Module, an equivalent of DLL format (dynamic link library), Binary',
+    'pyde': 'text',
+    'pyi': 'Stub Files, https://www.python.org/dev/peps/pep-0561/#stub-only-packages, '
+           'files containing only type information(Type Hints, mypy), empty of runtime code',
+    'pym': 'Python preprocessor macro',
+    'pyo': 'Python Optimized Code, Compiled Python File, Python byte code',
+    'pyp': 'AllPlan PythonParts, xml file',
+    'pyproj': 'Microsoft Visual Studio Python project(xml)',
+    'pyt': 'Python declaration data, Python Toolbox',
+    'pytb': 'Python traceback, text',
+    'pyw': 'Windows Python GUI Source File, pythonw.exe',
+    'pyx': 'Cython, Pyrex Source Code File',
+    'pyz': 'Python Archive File, application/x-zip-compressed',
+    'pyzw': 'Python Archive File, application/x-zip-compressed',
+    're': 'Python Regular Expressions source code',
+    'rpy': "Python Script, Ren'Py Script",
+    'ssdf': 'Simple Structured Data Format, scientific data Python or Matlab',
+    'whl': 'Python Wheel Package, Compressed Files'
+}
+https://setuptools.readthedocs.io/en/latest/formats.html
 """
 
 """
