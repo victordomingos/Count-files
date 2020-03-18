@@ -20,6 +20,8 @@ tests/compare_tables/test_show_group_ext_and_freq.txt
 tests/compare_tables/show_group_ext_and_freq.txt
 tests/compare_tables/test_show_ext_grouped_by_type.txt
 tests/compare_tables/show_ext_grouped_by_type.txt
+tests/compare_tables/test_show_group_ext_and_freq_table.txt
+tests/compare_tables/show_group_ext_and_freq_table.txt
 
 ### PyCharm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
