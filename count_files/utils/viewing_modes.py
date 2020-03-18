@@ -73,7 +73,16 @@ def show_group_ext_and_freq(data: List[Tuple[str, int]], header: str,
             for line in w:
                 print(line)
     if end_message:
-        print(end_message)
+        if len(end_message) <= term_width:
+            print()
+            print(end_message)
+        else:
+            # if greater than terminal width
+            end_message = wrap(end_message,
+                               width=term_width, initial_indent='', subsequent_indent=' ' * 2)
+            print()
+            for line in end_message:
+                print(line)
     return
 
 
@@ -180,9 +189,13 @@ def show_2columns(data: List[tuple],
                         max_word_width,
                         MAX_TABLE_WIDTH)
 
-    if term_width < (max_word_width + freq_col_width + 5):
-        print("Oops! There isn't enough horizontal space to display the frequency table. \n")
-        return
+    # handle the extreme case when (term_width - freq_col_width - 5) becomes 0 or a negative value
+    # focus on freq and total_occurferences, long extensions are handled with textwrap wrap() below
+    if (term_width - freq_col_width - 5) <= 0:
+        header = '+ EXTENSION: FREQ.'
+        total = f'  Found {total_occurrences} file(s).'
+        return show_group_ext_and_freq(data=data, header=header,
+                                       term_width=term_width, end_message=total)
 
     header = f" {'EXTENSION'.ljust(ext_col_width)} | {'FREQ.'.ljust(freq_col_width)} "
     sep_left = (ext_col_width + 2) * '-'
