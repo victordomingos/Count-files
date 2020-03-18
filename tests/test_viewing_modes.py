@@ -21,8 +21,10 @@ class TestViewingModes(unittest.TestCase):
         self.test_file = self.get_locations('compare_tables', 'test_show_result_list.txt')
         self.test_file_groups = self.get_locations('compare_tables', 'test_show_group_ext_and_freq.txt')
         self.test_file_groups_long = self.get_locations('compare_tables', 'test_show_ext_grouped_by_type.txt')
+        self.test_file_groups_table = self.get_locations('compare_tables', 'test_show_group_ext_and_freq_table.txt')
         self.standard_file_groups = self.get_locations('compare_tables', 'show_group_ext_and_freq.txt')
         self.standard_file_groups_long = self.get_locations('compare_tables', 'show_ext_grouped_by_type.txt')
+        self.standard_file_groups_table = self.get_locations('compare_tables', 'show_group_ext_and_freq_table.txt')
 
         # files generated in def generate_standard_file()/def generate_standard_file_for_total()
         if sys.platform.startswith('win'):
@@ -72,6 +74,19 @@ class TestViewingModes(unittest.TestCase):
                 f.write('documents\n')
                 f.write('   TXT: 3\n')
                 f.write('   MD: 2\n')
+        elif kind == 'table':
+            # term_width = 30, len(total_occurrences) = 30
+            with open(self.standard_file_groups_table, 'w') as f:
+                f.write('+ EXTENSION: FREQ.\n')
+                f.write('   LONG_FREQ:\n')
+                f.write('   100000000000000000000000000\n')
+                f.write('   000\n')
+                f.write('   TXT: 3\n')
+                f.write('   MD: 2\n')
+                f.write('\n')
+                f.write('  Found\n')
+                f.write('  1000000000000000000000000000\n')
+                f.write('  05 file(s).\n')
         elif kind == 'sections':
             # term_width = 30, len(total_occurrences) = 30
             with open(self.standard_file_groups_long, 'w') as f:
@@ -264,6 +279,17 @@ class TestViewingModes(unittest.TestCase):
         params = {'data': data, 'ext_and_group': ext_and_group_dict, 'term_width': 30}
         self.write_to_test_file(self.test_file_groups_long, show_ext_grouped_by_type, **params)
         self.assertEqual(filecmp.cmp(self.test_file_groups_long, self.standard_file_groups_long,
+                                     shallow=False), True)
+
+    def test_show_group_ext_and_freq_table(self):
+        self.generate_standard_file_for_groups(kind='table')
+        data = Counter({'LONG_FREQ': 100000000000000000000000000000, 'TXT': 3, 'MD': 2})
+        total_occurrences = sum(data.values())
+        max_word_width = max(map(len, data.keys()))
+        params = {'data': data.most_common(), 'max_word_width': max_word_width,
+                  'total_occurrences': total_occurrences, 'term_width': 30}
+        self.write_to_test_file(self.test_file_groups_table, show_2columns, **params)
+        self.assertEqual(filecmp.cmp(self.test_file_groups_table, self.standard_file_groups_table,
                                      shallow=False), True)
 
 
