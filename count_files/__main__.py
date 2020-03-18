@@ -31,10 +31,10 @@ from textwrap import fill
 
 from count_files.utils.file_handlers import is_supported_filetype
 from count_files.utils.viewing_modes import show_2columns, show_start_message, \
-    show_result_for_total, show_result_for_search_files, show_ext_grouped_by_type, show_group_ext_and_freq
+    show_result_for_total, show_result_for_search_files, show_ext_grouped_by_type
 from count_files.platforms import get_current_os
 from count_files.settings import SUPPORTED_TYPE_INFO_MESSAGE, NOT_SUPPORTED_TYPE_MESSAGE, \
-    DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH, TERM_WIDTH, DEFAULT_FREQ_COL_WIDTH
+    DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH
 from count_files.utils.help_system_extension import HelpCmd
 from count_files.utils.help_text import topics
 from count_files.utils.decorators import exceptions_decorator
