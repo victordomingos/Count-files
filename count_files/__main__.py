@@ -31,13 +31,14 @@ from textwrap import fill
 
 from count_files.utils.file_handlers import is_supported_filetype
 from count_files.utils.viewing_modes import show_2columns, show_start_message, \
-    show_result_for_total, show_result_for_search_files
+    show_result_for_total, show_result_for_search_files, show_ext_grouped_by_type
 from count_files.platforms import get_current_os
 from count_files.settings import SUPPORTED_TYPE_INFO_MESSAGE, NOT_SUPPORTED_TYPE_MESSAGE, \
     DEFAULT_PREVIEW_SIZE, START_TEXT_WIDTH
 from count_files.utils.help_system_extension import HelpCmd
 from count_files.utils.help_text import topics
 from count_files.utils.decorators import exceptions_decorator
+from count_files.utils.group_extensions import ext_and_group_dict
 
 
 parser = ArgumentParser(
@@ -96,6 +97,9 @@ count_group = parser.add_argument_group('File counting by extension'.upper(),
 
 count_group.add_argument('-alpha', '--sort-alpha', action='store_true', default=False,
                          help=topics['sort-alpha']['short'])
+
+count_group.add_argument('-g', '--group', action='store_true', default=False,
+                         help=topics['group']['short'])
 
 search_group = parser.add_argument_group('File searching by extension or by pattern'.upper(),
                                          description=topics['search-group']['short'])
@@ -258,16 +262,22 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
         
     total_occurrences = sum(data.values())
     max_word_width = max(map(len, data.keys()))
-
-    if sort_alpha:
+    if args.group:
+        # sort extensions by group and by frequency in each group
+        show_ext_grouped_by_type(data=data.most_common(), ext_and_group=ext_and_group_dict)
+        print(f'\n  Found {total_occurrences} file(s).')
+        parser.exit(status=0)
+    elif sort_alpha:
         # sort extensions alphabetically, with uppercase versions on top
         sort_key = lambda data: (data[0].casefold(), data[0])
         data = sorted(data.items(), key=sort_key)
+        show_2columns(data, max_word_width, total_occurrences)
+        parser.exit(status=0)
     else:
         # sort extensions by frequency for each file extension
         data = data.most_common()
-    show_2columns(data, max_word_width, total_occurrences)
-    parser.exit(status=0)
+        show_2columns(data, max_word_width, total_occurrences)
+        parser.exit(status=0)
 
 
 if __name__ == "__main__":

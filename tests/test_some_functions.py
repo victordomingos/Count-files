@@ -4,7 +4,7 @@ import os
 import sys
 from collections import Counter
 
-from count_files.utils.file_handlers import get_file_extension
+from count_files.utils.file_handlers import get_file_extension, group_ext_by_type
 from count_files.platforms import get_current_os
 from count_files.utils.file_preview import generate_preview, generic_text_preview
 
@@ -13,6 +13,9 @@ current_os = get_current_os()
 
 
 class TestSomeFunctions(unittest.TestCase):
+
+    def setUp(self):
+        self.maxDiff = None
 
     def get_locations(self, *args):
         return os.path.normpath(os.path.join(os.path.dirname(__file__), *args))
@@ -295,6 +298,45 @@ class TestSomeFunctions(unittest.TestCase):
         self.assertEqual(len(partial_case_result1), 2)
         self.assertEqual(len(upper_case_result), 2)
         self.assertEqual(len(upper_case_result1), 0)
+
+    def test_group_ext_by_type_default(self):
+        from count_files.utils.group_extensions import ext_and_group_dict
+        counter0 = Counter({'PYC': 42, 'TXT': 27, 'PY': 24, 'MD': 15, '[no extension]': 9,
+                           'PNG': 8, 'MP4': 5, 'FLV': 5, 'RST': 4, 'GZ': 3, 'BAT': 1,
+                            'MP3': 1, 'JSON': 1, 'WOFF': 1})
+        result0 = {'archives': [('GZ', 3)], 'audio': [('MP3', 1)], 'audio/video': [('MP4', 5)],
+                   'data': [('JSON', 1)], 'documents': [('TXT', 27), ('MD', 15), ('RST', 4)],
+                   'executables': [('BAT', 1)], 'fonts': [('WOFF', 1)], 'images': [('PNG', 8)],
+                   'python': [('PYC', 42), ('PY', 24)], 'videos': [('FLV', 5)],
+                   'other': [('[no extension]', 9)]}
+        storage0 = group_ext_by_type(data=counter0.most_common(), ext_and_group=ext_and_group_dict)
+
+        counter1 = Counter({'pyc': 42, 'txt': 26, 'py': 24, 'md': 15, '[no extension]': 9,
+                            'TXT': 1, 'html': 1})
+        result1 = {'archives': [], 'audio': [], 'audio/video': [], 'data': [],
+                   'documents': [('txt', 26), ('md', 15), ('TXT', 1)],
+                   'executables': [], 'fonts': [], 'images': [],
+                   'python': [('pyc', 42), ('py', 24)], 'videos': [],
+                   'other': [('[no extension]', 9), ('html', 1)]}
+        storage1 = group_ext_by_type(data=counter1.most_common(), ext_and_group=ext_and_group_dict)
+
+        self.assertDictEqual(storage0, result0)
+        self.assertDictEqual(storage1, result1)
+
+    def test_group_ext_by_type_arbitrary(self):
+        ext_and_group_dict = {'mp3': 'media', 'mp4': 'media',  'png': 'media',
+                              'md': 'markup', 'rst': 'markup',
+                              'sqlite3': 'databases', 'sqlitedb': 'databases'}
+        counter0 = Counter({'PYC': 42, 'TXT': 27, 'PY': 24, 'MD': 15, '[no extension]': 9,
+                           'PNG': 8, 'MP4': 5, 'FLV': 5, 'RST': 4, 'GZ': 3, 'BAT': 1,
+                            'MP3': 1, 'JSON': 1, 'WOFF': 1})
+        result0 = {'databases': [],
+                   'markup': [('MD', 15), ('RST', 4)],
+                   'media': [('PNG', 8), ('MP4', 5), ('MP3', 1)],
+                   'other': [('PYC', 42), ('TXT', 27), ('PY', 24), ('[no extension]', 9),
+                             ('FLV', 5), ('GZ', 3), ('BAT', 1), ('JSON', 1), ('WOFF', 1)]}
+        storage0 = group_ext_by_type(data=counter0.most_common(), ext_and_group=ext_and_group_dict)
+        self.assertDictEqual(storage0, result0)
 
 
 # from root directory:

@@ -7,7 +7,8 @@ import filecmp
 from collections import Counter
 
 from count_files.utils.viewing_modes import show_2columns, show_result_for_search_files, \
-    show_start_message, show_help_columns, show_result_for_total
+    show_start_message, show_help_columns, show_result_for_total, show_group_ext_and_freq, \
+    show_ext_grouped_by_type
 from count_files.platforms import get_current_os
 
 
@@ -18,6 +19,13 @@ class TestViewingModes(unittest.TestCase):
         # result of def show_result_for_search_files()/def show_result_for_total()
         self.test_file_total = self.get_locations('compare_tables', 'test_show_result_total.txt')
         self.test_file = self.get_locations('compare_tables', 'test_show_result_list.txt')
+        self.test_file_groups = self.get_locations('compare_tables', 'test_show_group_ext_and_freq.txt')
+        self.test_file_groups_long = self.get_locations('compare_tables', 'test_show_ext_grouped_by_type.txt')
+        self.test_file_groups_table = self.get_locations('compare_tables', 'test_show_group_ext_and_freq_table.txt')
+        self.standard_file_groups = self.get_locations('compare_tables', 'show_group_ext_and_freq.txt')
+        self.standard_file_groups_long = self.get_locations('compare_tables', 'show_ext_grouped_by_type.txt')
+        self.standard_file_groups_table = self.get_locations('compare_tables', 'show_group_ext_and_freq_table.txt')
+
         # files generated in def generate_standard_file()/def generate_standard_file_for_total()
         if sys.platform.startswith('win'):
             self.standard_file = self.get_locations('compare_tables', 'win_show_result_list.txt')
@@ -58,6 +66,56 @@ class TestViewingModes(unittest.TestCase):
             f.write('   Found 2 file(s).\n')
             f.write('   Total combined size of files found: 1.1 KiB.\n')
             f.write('   Average file size: 567.0 B (max: 1.1 KiB, min: 10.0 B).\n\n')
+        return
+
+    def generate_standard_file_for_groups(self, kind: str):
+        if kind == 'section':
+            with open(self.standard_file_groups, 'w') as f:
+                f.write('documents\n')
+                f.write('   TXT: 3\n')
+                f.write('   MD: 2\n')
+        elif kind == 'table':
+            # term_width = 30, len(total_occurrences) = 30
+            with open(self.standard_file_groups_table, 'w') as f:
+                f.write('+ EXTENSION: FREQ.\n')
+                f.write('   LONG_FREQ:\n')
+                f.write('   100000000000000000000000000\n')
+                f.write('   000\n')
+                f.write('   TXT: 3\n')
+                f.write('   MD: 2\n')
+                f.write('\n')
+                f.write('  Found\n')
+                f.write('  1000000000000000000000000000\n')
+                f.write('  05 file(s).\n')
+        elif kind == 'sections':
+            # term_width = 30, len(total_occurrences) = 30
+            with open(self.standard_file_groups_long, 'w') as f:
+                text = """+ ARCHIVES(1)
+   7Z: 1
++ AUDIO(1)
+   MP3: 1
++ DOCUMENTS(2)
+   MD: 2
++ PYTHON(2)
+   PY: 2
++ OTHER(2000000000000000000000
+  00000003)
+   INCREDIBLE_LONG_FILE_EXTENS
+   ION_INCREDIBLE_LONG_FILE_EX
+   TENSION_INCREDIBLE_LONG: 10
+   000000000000000000000000000
+   0
+   LONG_FREQ:
+   100000000000000000000000000
+   000
+   HTML: 1
+   0674532431: 1
+   INCREDIBLE_LONG_FILE_EXTENS
+   ION_INCREDIBLE_LONG_FILE_EX
+   TENSION_INCREDIBLE_LONG_FIL
+   E_EXTENSION: 1
+"""
+                f.write(text)
         return
 
     def write_to_test_file(self, filename, func, **kwargs):
@@ -199,6 +257,41 @@ class TestViewingModes(unittest.TestCase):
         self.write_to_test_file(self.test_file_total, show_result_for_total, **params)
         self.assertEqual(filecmp.cmp(self.test_file_total, self.standard_file_total,
                                      shallow=False), True)
+
+    def test_show_group_ext_and_freq(self):
+        self.generate_standard_file_for_groups(kind='section')
+        params = {'data': [('TXT', 3), ('MD', 2)], 'header': 'documents', 'term_width': 200}
+        self.write_to_test_file(self.test_file_groups, show_group_ext_and_freq, **params)
+        self.assertEqual(filecmp.cmp(self.test_file_groups, self.standard_file_groups,
+                                     shallow=False), True)
+
+    def test_show_ext_grouped_by_type(self):
+        from count_files.utils.group_extensions import ext_and_group_dict
+        self.generate_standard_file_for_groups(kind='sections')
+        counter = Counter({'INCREDIBLE_LONG_FILE_EXTENSION_INCREDIBLE_LONG_FILE_EXTENSION_'
+                           'INCREDIBLE_LONG': 100000000000000000000000000000,
+                           'LONG_FREQ': 100000000000000000000000000000,
+                           'MD': 2, 'PY': 2, 'HTML': 1, '0674532431': 1,
+                           'INCREDIBLE_LONG_FILE_EXTENSION_INCREDIBLE_LONG_FILE_EXTENSION_'
+                           'INCREDIBLE_LONG_FILE_EXTENSION': 1,
+                           'MP3': 1, '7Z': 1})
+        data = counter.most_common()
+        params = {'data': data, 'ext_and_group': ext_and_group_dict, 'term_width': 30}
+        self.write_to_test_file(self.test_file_groups_long, show_ext_grouped_by_type, **params)
+        self.assertEqual(filecmp.cmp(self.test_file_groups_long, self.standard_file_groups_long,
+                                     shallow=False), True)
+
+    def test_show_group_ext_and_freq_table(self):
+        self.generate_standard_file_for_groups(kind='table')
+        data = Counter({'LONG_FREQ': 100000000000000000000000000000, 'TXT': 3, 'MD': 2})
+        total_occurrences = sum(data.values())
+        max_word_width = max(map(len, data.keys()))
+        params = {'data': data.most_common(), 'max_word_width': max_word_width,
+                  'total_occurrences': total_occurrences, 'term_width': 30}
+        self.write_to_test_file(self.test_file_groups_table, show_2columns, **params)
+        self.assertEqual(filecmp.cmp(self.test_file_groups_table, self.standard_file_groups_table,
+                                     shallow=False), True)
+
 
 # from root directory:
 # run all tests in test_viewing_modes.py
