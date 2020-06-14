@@ -10,6 +10,8 @@ v.1.6 - ?
  * Added search for file names(including extension) using Unix shell-style wildcards.
  * New arguments for the Total group: show folders and total size.
  * Added new text file extensions to the list of currently supported file types for preview.
+ * Added the ability to group extensions by type (-g/--group). 
+ * Improved handling of short terminal widths.
  * Other minor internal changes.
 
 ---
