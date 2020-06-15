@@ -254,19 +254,26 @@ def main_flow(*args: [argparse_namespace_object, Union[bytes, str]]):
                                                recursive=recursive,
                                                case_sensitive=args.case_sensitive)
 
-    # display the result as a table
-    
     # if empty sequence
     if not data:
         parser.exit(status=0, message='No files were found in the specified directory.\n')
         
     total_occurrences = sum(data.values())
     max_word_width = max(map(len, data.keys()))
+
+    # display the result as a list of two columns
     if args.group:
-        # sort extensions by group and by frequency in each group
-        show_ext_grouped_by_type(data=data.most_common(), ext_and_group=ext_and_group_dict)
+        if sort_alpha:
+            # sort extensions alphabetically, with uppercase versions on top
+            sort_key = lambda data: (data[0].casefold(), data[0])
+            data = sorted(data.items(), key=sort_key)
+            show_ext_grouped_by_type(data=data, ext_and_group=ext_and_group_dict)
+        else:
+            # sort extensions by group and by frequency in each group
+            show_ext_grouped_by_type(data=data.most_common(), ext_and_group=ext_and_group_dict)
         print(f'\n  Found {total_occurrences} file(s).')
         parser.exit(status=0)
+    # display the result as a table
     elif sort_alpha:
         # sort extensions alphabetically, with uppercase versions on top
         sort_key = lambda data: (data[0].casefold(), data[0])
