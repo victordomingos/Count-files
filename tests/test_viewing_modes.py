@@ -21,9 +21,11 @@ class TestViewingModes(unittest.TestCase):
         self.test_file = self.get_locations('compare_tables', 'test_show_result_list.txt')
         self.test_file_groups = self.get_locations('compare_tables', 'test_show_group_ext_and_freq.txt')
         self.test_file_groups_long = self.get_locations('compare_tables', 'test_show_ext_grouped_by_type.txt')
+        self.test_file_groups_alpha = self.get_locations('compare_tables', 'test_show_ext_grouped_by_type_alpha.txt')
         self.test_file_groups_table = self.get_locations('compare_tables', 'test_show_group_ext_and_freq_table.txt')
         self.standard_file_groups = self.get_locations('compare_tables', 'show_group_ext_and_freq.txt')
         self.standard_file_groups_long = self.get_locations('compare_tables', 'show_ext_grouped_by_type.txt')
+        self.standard_file_groups_alpha = self.get_locations('compare_tables', 'show_ext_grouped_by_type_alpha.txt')
         self.standard_file_groups_table = self.get_locations('compare_tables', 'show_group_ext_and_freq_table.txt')
 
         # files generated in def generate_standard_file()/def generate_standard_file_for_total()
@@ -114,6 +116,21 @@ class TestViewingModes(unittest.TestCase):
    ION_INCREDIBLE_LONG_FILE_EX
    TENSION_INCREDIBLE_LONG_FIL
    E_EXTENSION: 1
+"""
+                f.write(text)
+        elif kind == 'alpha':
+            # term_width = 30
+            with open(self.standard_file_groups_alpha, 'w') as f:
+                text = """+ DOCUMENTS(1012)
+   doc: 1
+   md: 1
+   TXT: 10
+   txt: 1000
++ IMAGES(103)
+   gif: 1
+   JPG: 1
+   jpg: 100
+   png: 1
 """
                 f.write(text)
         return
@@ -279,6 +296,23 @@ class TestViewingModes(unittest.TestCase):
         params = {'data': data, 'ext_and_group': ext_and_group_dict, 'term_width': 30}
         self.write_to_test_file(self.test_file_groups_long, show_ext_grouped_by_type, **params)
         self.assertEqual(filecmp.cmp(self.test_file_groups_long, self.standard_file_groups_long,
+                                     shallow=False), True)
+
+    def test_show_ext_grouped_by_type_alpha(self):
+        # test alpha and case
+        # sort extensions alphabetically, with uppercase versions on top
+        from count_files.utils.group_extensions import ext_and_group_dict
+        self.generate_standard_file_for_groups(kind='alpha')
+        counter = Counter({'txt': 1000,
+                           'jpg': 100,
+                           'TXT': 10,
+                           'JPG': 1,
+                           'png': 1, 'md': 1, 'gif': 1, 'doc': 1})
+        sort_key = lambda data: (data[0].casefold(), data[0])
+        data = sorted(counter.items(), key=sort_key)
+        params = {'data': data, 'ext_and_group': ext_and_group_dict, 'term_width': 30}
+        self.write_to_test_file(self.test_file_groups_alpha, show_ext_grouped_by_type, **params)
+        self.assertEqual(filecmp.cmp(self.test_file_groups_alpha, self.standard_file_groups_alpha,
                                      shallow=False), True)
 
     def test_show_group_ext_and_freq_table(self):
