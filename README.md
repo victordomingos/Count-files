@@ -2,6 +2,7 @@
   
   
 # Count Files [![Github commits (since latest release)](https://img.shields.io/github/commits-since/victordomingos/Count-files/latest.svg)](https://github.com/victordomingos/Count-files) ![PyPI](https://img.shields.io/pypi/v/count-files) ![PyPI - Downloads](https://img.shields.io/pypi/dm/count-files)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvictordomingos%2FCount-files.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvictordomingos%2FCount-files?ref=badge_shield)
 
 A command-line interface (CLI) utility written in Python to help you
 counting or searching files with a specific extension, files without an extension or all files regardless of the extension, in the specified directory.
@@ -133,3 +134,7 @@ count-files --filename-match *.py? [path]
 ## Did you find a bug or do you have a suggestion?
 
 Please, open a new issue or a pull request to the [repository](https://github.com/victordomingos/Count-files).
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvictordomingos%2FCount-files.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvictordomingos%2FCount-files?ref=badge_large)
