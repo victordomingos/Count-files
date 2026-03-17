@@ -1,8 +1,8 @@
 **[English](https://github.com/victordomingos/Count-files/blob/master/README.md)** | [Portugu&ecirc;s](https://github.com/victordomingos/Count-files/blob/master/docs/README_PT.md) | [&#x420;&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;](https://github.com/victordomingos/Count-files/blob/master/docs/README_RU.md) | [&#x423;&#x43A;&#x440;&#x430;&#x457;&#x43D;&#x441;&#x44C;&#x43A;&#x430;](https://github.com/victordomingos/Count-files/blob/master/docs/README_UA.md)
   
   
-# Count Files [![Github commits (since latest release)](https://img.shields.io/github/commits-since/victordomingos/Count-files/latest.svg)](https://github.com/victordomingos/Count-files) ![PyPI](https://img.shields.io/pypi/v/count-files) ![PyPI - Downloads](https://img.shields.io/pypi/dm/count-files)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvictordomingos%2FCount-files.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvictordomingos%2FCount-files?ref=badge_shield)
+# Count Files 
+[![Github commits (since latest release)](https://img.shields.io/github/commits-since/victordomingos/Count-files/latest.svg)](https://github.com/victordomingos/Count-files) ![PyPI](https://img.shields.io/pypi/v/count-files) [![PyPI Python Versions](https://img.shields.io/pypi/pyversions/count-files.svg)](https://pypi.org/project/Count-files/) [![PyPI Downloads](https://static.pepy.tech/personalized-badge/Count-files?period=monthly&units=NONE&left_color=GREY&right_color=ORANGE&left_text=monthly+downloads)](https://pepy.tech/projects/count-files) [![GitHub License](https://img.shields.io/github/license/victordomingos/Count-files.svg)](https://github.com/victordomingos/Count-files/blob/master/LICENSE) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fvictordomingos%2FCount-files.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fvictordomingos%2FCount-files?ref=badge_shield) 
 
 A command-line interface (CLI) utility written in Python to help you
 counting or searching files with a specific extension, files without an extension or all files regardless of the extension, in the specified directory.
